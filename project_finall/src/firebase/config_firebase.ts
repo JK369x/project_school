@@ -1,10 +1,11 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-
+import {getFirestore} from 'firebase/firestore'
+import { getStorage } from "firebase/storage";
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-const firebaseConfig = initializeApp( {
+export const firebaseConfig = ( {
     apiKey: "AIzaSyA1Avy8dyn7c_vN-gf8MOd9FNOqX-K2J8w",
     authDomain: "react-auth-e2d95.firebaseapp.com",
     projectId: "react-auth-e2d95",
@@ -16,8 +17,11 @@ const firebaseConfig = initializeApp( {
   });
   
 
+  const app = initializeApp(firebaseConfig)
+  export const auth = getAuth(app);
+  export const db = getFirestore(app)
+  export const storage = getStorage(app)
 
-  const auth = getAuth(firebaseConfig);
-
-  await signInWithEmailAndPassword(auth, email, password)
+  export default app
+  
   

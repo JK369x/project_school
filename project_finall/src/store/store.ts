@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import userSilice from "./slices/userSilice";
+
 export const store = configureStore({
   reducer:{
     userStoreTest:userSilice,

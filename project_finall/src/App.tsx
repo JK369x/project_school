@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import { Routes, Route} from 'react-router-dom';
 import "./App.css";
+import Registor from "./pages/Registor";
 
 
 
@@ -18,6 +19,7 @@ export default function App({}: Props) {
         <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<SignUp/>} />
+        <Route path="/registor" element={<Registor/>} />
      
 
     </Routes>
