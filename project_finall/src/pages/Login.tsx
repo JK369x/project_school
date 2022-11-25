@@ -20,16 +20,21 @@ interface IFormInput {
 type Props = {}
 
 const Login = (props: Props) => {
+  //route
   const navigate = useNavigate()
   const onClickRegistor = () =>{
     navigate('/registor')
   }
+
+  //react-form
   const { register, handleSubmit } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
 
+  //redux
   const {userStoreTest} = useAppSelector((state)=>state)
-  
   console.log(userStoreTest)
+
+  
   return (
     <>
     <Navbar/>
