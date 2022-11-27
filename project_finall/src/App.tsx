@@ -7,7 +7,7 @@ import SignUp from './pages/SignUp'
 import Nextregistor from './pages/Nextregistor'
 import { Routes, Route} from 'react-router-dom';
 import "./App.css";
-import Registor from "./pages/Registor";
+import Registor from "./pages/register/Register";
 
 
 
