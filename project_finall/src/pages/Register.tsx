@@ -27,12 +27,13 @@ interface IFormInput {
   job: String
   birthday: String | Number
   address: String | Number
-  province: String
+  province: any
   district: String
   parish: String
   zipCode: Number
   agency: String | Number
   status: String
+  
 }
 
 const Register = (props: Props) => {
@@ -86,7 +87,12 @@ const Register = (props: Props) => {
 
   console.log('complet', completedSteps())
   console.log('total', totalSteps())
-  const myForm = useForm<IFormInput>()
+  const myForm = useForm<IFormInput>({
+    mode:'onChange',
+    defaultValues:{
+      province:null,
+    }
+  })
   const { handleSubmit } = myForm
 
   const onSubmit: SubmitHandler<IFormInput> = data => {

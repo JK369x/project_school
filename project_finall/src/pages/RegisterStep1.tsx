@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { FC } from 'react'
 // /* Importing the type of the object returned by the useForm hook. */
 import { UseFormReturn } from "react-hook-form";
-import {useHookProvince} from '../Hook/useHookProvince'
+import { useHookProvince } from '../Hook/useHookProvince'
 interface Props {
     handleNext: () => void
     myForm: UseFormReturn<any, object>
     handleComplete: () => void
     handleBack: () => void
     activeStep: number
-   
+
 }
 export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {
 
@@ -73,59 +73,97 @@ export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, h
 
 export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {
     const { register } = myForm
-    const {data,setData} = useHookProvince()
+    const { data, setData } = useHookProvince()
     const [amphure, setAmpure] = useState<any[]>([])
-    console.log('asdad',amphure)
-    const District = () =>{
+    const [tambon, setTambon] = useState<any[]>([])
+    const [zipcode, setZipCode] = useState<number | string>('')
+    console.log('A', amphure)
+    console.log('t', tambon)
+    console.log('x', zipcode)
 
-    }
-    const onChangeProvince = (id:string|number) =>{
+    const onChangeTambon = (id: string | number) => {
+
         console.log(id)
-        data.map((item,index)=>{
-            if( item.id == id){
-                setAmpure(item.amphure)
-            }else{
+        tambon.map((item, index) => {
+            if (item.id == id) {
+                console.log('pass')
+                setZipCode(item.zip_code)
+            } else {
                 console.log('false')
             }
         })
-    }   
-    const onChangeAmphure = (id:string|number) =>{
-        data.map((item,index)=>{
-
-        })
- 
     }
-    
+    const onChangeProvince = (id: string | number) => {
+
+        data.map((item, index) => {
+            if (item.id == id) {
+                setAmpure(item.amphure)
+
+            } else {
+                console.log('false')
+            }
+        })
+    }
+    const onChangeAmphure = (id: string | number) => {
+        console.log(id)
+        amphure.map((item, index) => {
+            if (item.id == id) {
+                console.log('pass')
+                setTambon(item.tambon)
+
+
+            } else {
+                console.log('false')
+            }
+        })
+
+    }
+
     return (
         <>
             <section>
                 <label>Address</label>
                 <input type='text' {...register('address',)} />
                 <label>Province</label>
-                <input type='text' {...register('province',)} />
-                <select onChange={(e)=>onChangeProvince(e.target.value)}>
-                    {data.map((item,index)=>
-                        <option 
-                        key={index} 
-                        value={item.id}>
+
+                <select {...register('province')}  onChange={(e) => onChangeProvince(e.target.value)}>
+                    {data.map((item, index) =>
+                        <option
+                            key={index}
+                            value={item.id}>
                             {item.name_th}
                         </option>
+                        
                     )}
+                    
                 </select>
+
                 <label>District</label>
-                <select onChange={(e)=>onChangeAmphure(e.target.value)}>
-                    {amphure.map((item,index)=>
-                        <option 
-                        key={index} 
-                        value={item.id}>
+                <select name='district' onChange={(e) => onChangeAmphure(e.target.value)}>
+                    {amphure.map((item, index) =>
+                        <option
+                            key={index}
+                            value={item.id}>
                             {item.name_th}
                         </option>
                     )}
                 </select>
                 <label>Parish</label>
-                <input type='text' {...register('parish',)} />
+                <select name='parish' onChange={(e) => onChangeTambon(e.target.value)}>
+                    {tambon.map((item, index) =>
+                        <option
+                            key={index}
+                            value={item.id}>
+                            {item.name_th}
+                        </option>
+                    )}
+                </select>
                 <label>Zip Code</label>
-                <input type='text' {...register('zipCode',)} />
+                <select name='zipCode'>
+                    <option>
+                        {zipcode}
+                    </option>
+                </select>
             </section>
             <Button type="button"
                 color="inherit"
