@@ -4,13 +4,15 @@ import { FC } from 'react'
 // /* Importing the type of the object returned by the useForm hook. */
 import { UseFormReturn } from "react-hook-form";
 import { useHookProvince } from '../Hook/useHookProvince'
+// Lookup
+import {lookUpProvince} from './Register'
 interface Props {
     handleNext: () => void
     myForm: UseFormReturn<any, object>
     handleComplete: () => void
     handleBack: () => void
     activeStep: number
-
+   
 }
 export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {
 
@@ -82,12 +84,12 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
     console.log('x', zipcode)
 
     const onChangeTambon = (id: string | number) => {
-
         console.log(id)
         tambon.map((item, index) => {
             if (item.id == id) {
                 console.log('pass')
                 setZipCode(item.zip_code)
+                
             } else {
                 console.log('false')
             }
@@ -126,7 +128,8 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 <input type='text' {...register('address',)} />
                 <label>Province</label>
 
-                <select {...register('province')}  onChange={(e) => onChangeProvince(e.target.value)}>
+                <select  {...register('province')}  onChange={(e) => onChangeProvince(e.target.value)}>
+                    <option value=''>-- Select Province --</option>
                     {data.map((item, index) =>
                         <option
                             key={index}
@@ -139,7 +142,8 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 </select>
 
                 <label>District</label>
-                <select name='district' onChange={(e) => onChangeAmphure(e.target.value)}>
+                <select {...register('district')}  onChange={(e) => onChangeAmphure(e.target.value)}>
+                <option value=''>-- Select District --</option>
                     {amphure.map((item, index) =>
                         <option
                             key={index}
@@ -149,7 +153,8 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     )}
                 </select>
                 <label>Parish</label>
-                <select name='parish' onChange={(e) => onChangeTambon(e.target.value)}>
+                <select {...register('parish')}  onChange={(e) => onChangeTambon(e.target.value)}>
+                <option value=''>-- Select Parish --</option>
                     {tambon.map((item, index) =>
                         <option
                             key={index}
@@ -159,8 +164,9 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     )}
                 </select>
                 <label>Zip Code</label>
-                <select name='zipCode'>
-                    <option>
+                <select {...register('zipCode')} >
+                <option value=''>-- Zip Code --</option>
+                    <option value= {zipcode}>
                         {zipcode}
                     </option>
                 </select>
@@ -170,11 +176,17 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
-            >
+            > 
+            
+
                 Back
             </Button>
             <Button type="button" onClick={handleNext} sx={{ mr: 1 }}>Next</Button>
-            <Button type="submit">Finish</Button>
+            <Button type="button" onClick={handleComplete}>Complete Step</Button>
+            {/* <Button type="submit">Finish</Button>  */}
+
+      
         </>
+
     )
 }
