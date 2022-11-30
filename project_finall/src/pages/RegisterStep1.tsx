@@ -5,14 +5,15 @@ import { FC } from 'react'
 import { UseFormReturn } from "react-hook-form";
 import { useHookProvince } from '../Hook/useHookProvince'
 // Lookup
-import {lookUpProvince} from './Register'
+import { lookUpProvince } from './Register'
 import Grid from '@mui/material/Grid';
-import  {
+import {
     LabelAndData,
     TextField,
     ControllerTextField,
- } 
- from '../framework/control';
+}
+    from '../framework/control';
+import { Girl } from '@mui/icons-material';
 
 interface Props {
     handleNext: () => void
@@ -20,38 +21,39 @@ interface Props {
     handleComplete: () => void
     handleBack: () => void
     activeStep: number
-   
+
 }
 export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {
 
     const { register } = myForm
     return (
         <>
-            <Grid container justifyContent={"center"}>
-                <Grid  >
-                <TextField label={'Email'}/>
-                
+            <Grid container justifyContent={'center'} style={{ padding: '10px', border: 'solid red' }}>
+                <Grid item xs={12}>
+                    <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
                 </Grid>
-                <Grid>
-                <TextField label={'Password'} /> 
+                <Grid item xs={12}>
+                    <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
                 </Grid>
-                {/* <input type='email' {...register('email',)} />
-                <label>Password</label>
-                <input type='password' {...register('password',)} />
-                <label>ConfirmPassowrd</label>
-                <input type='password' {...register('confirmPassword',)} />
-                */}
+                <Grid item xs={12}>
+                    <ControllerTextField fullWidth formprop={myForm} name={"password"} label={'Password'} />
+                </Grid>
+                <Grid item xs={12}>
+                    <ControllerTextField fullWidth formprop={myForm} name={"confirmPassword"} label={'ConfirmPassowrd'} />
+                </Grid>
             </Grid>
-            <Button type="button"
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-            >
-                Back
-            </Button>
-            <Button type="button" onClick={handleNext} sx={{ mr: 1 }}>Next</Button>
-            <Button type="button" onClick={handleComplete}>Complete Step</Button>
+            <Grid container justifyContent={'Right'} >
+                <Button type="button"
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                >
+                    Back
+                </Button>
+                <Button type="button" onClick={handleNext} sx={{ mr: 1 }}>Next</Button>
+                <Button type="button" onClick={handleComplete}>Complete Step</Button>
+            </Grid>
         </>
     )
 }
@@ -59,8 +61,8 @@ export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, h
 export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {
     const { register } = myForm
     return (
-        <>
-            <section>
+        <Girl container >
+            {/* <section>
                 <label>FirstName</label>
                 <input type='text' {...register('firstName',)} />
                 <label>LastName</label>
@@ -73,7 +75,7 @@ export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 <input type='text' {...register('agency',)} />
                 <label>Status</label>
                 <input type='text' {...register('status',)} />
-            </section>
+            </section> */}
             <Button type="button"
                 color="inherit"
                 disabled={activeStep === 0}
@@ -84,7 +86,7 @@ export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, h
             </Button>
             <Button type="button" onClick={handleNext} sx={{ mr: 1 }}>Next</Button>
             <Button type="button" onClick={handleComplete}>Complete Step</Button>
-        </>
+        </Girl>
     )
 }
 
@@ -104,7 +106,7 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
             if (item.id == id) {
                 console.log('pass')
                 setZipCode(item.zip_code)
-                
+
             } else {
                 console.log('false')
             }
@@ -143,7 +145,7 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 <input type='text' {...register('address',)} />
                 <label>Province</label>
 
-                <select  {...register('province')}  onChange={(e) => onChangeProvince(e.target.value)}>
+                <select  {...register('province')} onChange={(e) => onChangeProvince(e.target.value)}>
                     <option value=''>-- Select Province --</option>
                     {data.map((item, index) =>
                         <option
@@ -151,14 +153,14 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                             value={item.id}>
                             {item.name_th}
                         </option>
-                        
+
                     )}
-                    
+
                 </select>
 
                 <label>District</label>
-                <select {...register('district')}  onChange={(e) => onChangeAmphure(e.target.value)}>
-                <option value=''>-- Select District --</option>
+                <select {...register('district')} onChange={(e) => onChangeAmphure(e.target.value)}>
+                    <option value=''>-- Select District --</option>
                     {amphure.map((item, index) =>
                         <option
                             key={index}
@@ -168,8 +170,8 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     )}
                 </select>
                 <label>Parish</label>
-                <select {...register('parish')}  onChange={(e) => onChangeTambon(e.target.value)}>
-                <option value=''>-- Select Parish --</option>
+                <select {...register('parish')} onChange={(e) => onChangeTambon(e.target.value)}>
+                    <option value=''>-- Select Parish --</option>
                     {tambon.map((item, index) =>
                         <option
                             key={index}
@@ -180,8 +182,8 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 </select>
                 <label>Zip Code</label>
                 <select {...register('zipCode')} >
-                <option value=''>-- Zip Code --</option>
-                    <option value= {zipcode}>
+                    <option value=''>-- Zip Code --</option>
+                    <option value={zipcode}>
                         {zipcode}
                     </option>
                 </select>
@@ -191,8 +193,8 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
-            > 
-            
+            >
+
 
                 Back
             </Button>
@@ -200,7 +202,7 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
             <Button type="button" onClick={handleComplete}>Complete Step</Button>
             {/* <Button type="submit">Finish</Button>  */}
 
-      
+
         </>
 
     )

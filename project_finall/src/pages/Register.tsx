@@ -10,13 +10,15 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import Typography from '@mui/material/Typography';
 import { Lookup } from "../types/type";
-import Grid2 from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import { ControllerTextField } from '../framework/control/TextField/Controller'
 import Button from "../framework/control/Button/Button";
 import { ControllerAutocomplete } from '../framework/control/Autocomplete/Controller'
+import { border, width } from "@mui/system";
+
 type Props = {}
 
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+const steps = ['Step 1', 'Step 2 ', 'Finish'];
 
 export const lookUpProvince: Lookup[] = [{
   id: '1',
@@ -132,68 +134,73 @@ const Register = (props: Props) => {
     console.log(data)
   }
   return (
-    <>
-      <Grid2 container alignItems={'center'} justifyContent={'center'}>
-        <Grid2 xs={8} md={6}>
-          <Box sx={{ width: '100%' }}>
-            <Stepper nonLinear activeStep={activeStep}>
-              {steps.map((label, index) => (
-                <Step key={label} completed={completed[index]}>
-                  <StepButton color="inherit" onClick={handleStep(index)}>
-                    {label}
-                  </StepButton>
-                </Step>
-              ))}
-            </Stepper>
-            <div>
+    <Grid container  justifyContent={'center'} sx={{mt:15}}>
+      <Grid item xs={6}>
+        <Typography variant="h1" align="center" >
+          ลงทะเบียน
+        </Typography>
+        <Box sx={{ width: '100%' }}>
 
-              {allStepsCompleted() ? (
-                <React.Fragment>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
-                      All steps completed - you&apos;re finished
-                    </Typography>
-                    <Box>
-                      <Button primary type={"submit"} label={'Finish'} />
-                    </Box>
-                   </form>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* //?component={'span'} variant={'body2'} */}
-                    <Typography component={'span'} variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
-                      <div className="head-top" >
-                        ลงทะเบียน
-                      </div>
-                      {activeStep === 0 && (
-                        <RegisterStep1 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
-                      )
+          <Stepper nonLinear activeStep={activeStep}>
+            {steps.map((label, index) => (
+              <Step key={label} completed={completed[index]}>
+                <StepButton color="inherit" onClick={handleStep(index)}>
+                  {label}
+                </StepButton>
+              </Step>
+            ))}
+          </Stepper>
 
-                      }{activeStep === 1 && (
-                        <RegisterStep2 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
-                      )
 
-                      }{activeStep === 2 && (
-                        <RegisterStep3 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
+          <div>
+
+            {allStepsCompleted() ? (
+              <React.Fragment>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <Typography sx={{ mt: 2, mb: 1 }}>
+                    All steps completed - you&apos;re finished
+                  </Typography>
+                  <Box>
+                    <Button primary type={"submit"} label={'Finish'} />
+                  </Box>
+                </form>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  {/* //?component={'span'} variant={'body2'} */}
+
+                  <Typography component={'span'} variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
+
+                    {activeStep === 0 && (
+                      <RegisterStep1 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
+                    )
+
+                    }{activeStep === 1 && (
+                      <RegisterStep2 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
+                    )
+
+                    }{activeStep === 2 && (
+                      <RegisterStep3 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
+                    )}
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                    {activeStep !== steps.length &&
+                      (completed[activeStep] &&
+                        <Typography variant="caption" sx={{ display: 'inline-block' }}>
+                          {activeStep + 1} already completed
+                        </Typography>
                       )}
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                      {activeStep !== steps.length &&
-                        (completed[activeStep] &&
-                          <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                            {activeStep + 1} already completed
-                          </Typography>
-                        )}
-                    </Box>
-                  </form>
-                </React.Fragment>
-              )}
-            </div>
-          </Box>
-        </Grid2>
-      </Grid2>
-    </>
+                  </Box>
+
+                </form>
+              </React.Fragment>
+            )}
+          </div>
+        </Box>
+
+      </Grid>
+    </Grid>
 
   )
 }
