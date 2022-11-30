@@ -133,7 +133,7 @@ const Register = (props: Props) => {
   }
   return (
     <>
-      <Grid2 container justifyContent={'center'}>
+      <Grid2 container alignItems={'center'} justifyContent={'center'}>
         <Grid2 xs={8} md={6}>
           <Box sx={{ width: '100%' }}>
             <Stepper nonLinear activeStep={activeStep}>

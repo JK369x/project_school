@@ -6,6 +6,14 @@ import { UseFormReturn } from "react-hook-form";
 import { useHookProvince } from '../Hook/useHookProvince'
 // Lookup
 import {lookUpProvince} from './Register'
+import Grid from '@mui/material/Grid';
+import  {
+    LabelAndData,
+    TextField,
+    ControllerTextField,
+ } 
+ from '../framework/control';
+
 interface Props {
     handleNext: () => void
     myForm: UseFormReturn<any, object>
@@ -19,14 +27,21 @@ export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, h
     const { register } = myForm
     return (
         <>
-            <section>
-                <label>Email</label>
-                <input type='email' {...register('email',)} />
+            <Grid container justifyContent={"center"}>
+                <Grid  >
+                <TextField label={'Email'}/>
+                
+                </Grid>
+                <Grid>
+                <TextField label={'Password'} /> 
+                </Grid>
+                {/* <input type='email' {...register('email',)} />
                 <label>Password</label>
                 <input type='password' {...register('password',)} />
                 <label>ConfirmPassowrd</label>
                 <input type='password' {...register('confirmPassword',)} />
-            </section>
+                */}
+            </Grid>
             <Button type="button"
                 color="inherit"
                 disabled={activeStep === 0}

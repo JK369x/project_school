@@ -1,5 +1,5 @@
 import { FC, Fragment, useState, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
+// import { useTranslation } from 'react-i18next'
 
 // mui & control
 import { Grid, List, ListItem, ListItemButton, Typography, Divider, MenuList, MenuItem } from '@mui/material'
@@ -28,7 +28,7 @@ interface ContextMenuStateType {
 	children: any
 }
 export const FileManageControl: FC<FileManageControlProps> = ({ dataSource }) => {
-	const { t } = useTranslation()
+	// const { t } = useTranslation()
 	const headButtonRef = useRef(null)
 	const [contextMenuState, setContextMenuState] = useState<ContextMenuStateType>({
 		open: true,
@@ -68,7 +68,7 @@ export const FileManageControl: FC<FileManageControlProps> = ({ dataSource }) =>
 						}}
 					>
 						<ListItemButton sx={{ height: '36px', borderRadius: '10px', pr: 0.2 }}>
-							<Typography variant="subtitle1">{t('myIot')}</Typography>
+							{/* <Typography variant="subtitle1">{t('myIot')}</Typography> */}
 							<ArrowDropDownRoundedIcon fontSize="large" sx={{ pt: 0.5 }} />
 						</ListItemButton>
 					</ListItem>

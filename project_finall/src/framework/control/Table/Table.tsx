@@ -16,7 +16,7 @@ import {
     IconButton,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { fmtMoney, fmtDate } from "../../../utils/format";
+// import { fmtMoney, fmtDate } from "../../../utils/format";
 
 // future
 /**
@@ -388,7 +388,7 @@ export const Table: FC<ControlTableProps> = (props) => {
                                                                     colorData
                                                                 }
                                                             >
-                                                                {format ===
+                                                                {/* {format ===
                                                                 "money"
                                                                     ? fmtMoney(
                                                                           valueData
@@ -399,7 +399,7 @@ export const Table: FC<ControlTableProps> = (props) => {
                                                                           valueData
                                                                       )
                                                                     : valueData}
-                                                                {unit ?? ""}
+                                                                {unit ?? ""} */}
                                                             </Typography>
                                                         )}
                                                     </TableCell>

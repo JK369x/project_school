@@ -1,7 +1,7 @@
 // root
-import { Loading } from "./Loading/Loading";
-import { Dialog } from "./Dialog/Dialog";
-import { Alert } from "./Alert/Alert";
+// import { Loading } from "./Loading/Loading";
+// import { Dialog } from "./Dialog/Dialog";
+// import { Alert } from "./Alert/Alert";
 
 // container
 import { MainContainer } from "./ContainerPage/MainContainer";
@@ -20,9 +20,9 @@ import {
 import { LabelAndData } from "./LabelAndData/LabelAndData";
 import { Item } from "./Item/Item";
 import { Gauge } from "./Gauge/Gauge";
-import { ChartBar } from "./Chart/ChartBar";
-import { ChartPie } from "./Chart/ChartPie";
-import { ChartLine } from "./Chart/ChartLine";
+// import { ChartBar } from "./Chart/ChartBar";
+// import { ChartPie } from "./Chart/ChartPie";
+// import { ChartLine } from "./Chart/ChartLine";
 
 // button
 import { Button } from "./Button/Button";
@@ -38,9 +38,9 @@ import { Popover } from "./Popover/Popover";
 
 export {
     // root
-    Loading,
-    Dialog,
-    Alert,
+    // Loading,
+    // Dialog,
+    // Alert,
     // Container
     MainContainer,
     PageHeader,
@@ -60,9 +60,9 @@ export {
     Item,
     LabelAndData,
     Gauge,
-    ChartBar,
-    ChartPie,
-    ChartLine,
+    // ChartBar,
+    // ChartPie,
+    // ChartLine,
     // List & Table
     List,
     Table,

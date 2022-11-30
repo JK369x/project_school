@@ -2,7 +2,7 @@ import { FC, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 // modules
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 
 // mui & control
 import {
@@ -35,7 +35,7 @@ export const List: FC<ListProps> = ({ dataSource }) => {
                 return (
                     <ListItem
                         disablePadding
-                        key={`${uuid()}-${text}-${index}`}
+                        // key={`${uuid()}-${text}-${index}`}
                         onClick={(event) => {
                             if (onClick) {
                                 onClick(event, {
