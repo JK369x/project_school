@@ -1,11 +1,14 @@
 import React from 'react'
-import { useForm,SubmitHandler } from 'react-hook-form';
-import {Navbar} from '../components/Navbar'
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { Navbar } from '../components/Navbar'
 // redux
-import {useAppSelector} from '../store/useHooksStore'
+import { useAppSelector } from '../store/useHooksStore'
 //react-dom
 import { useNavigate } from 'react-router-dom'
-
+import Grid from '@mui/material/Grid';
+import { ControllerTextField } from '../framework/control/TextField/Controller';
+import { Button } from '@mui/material';
+import { Typography } from '@mui/material';
 enum GenderEnum {
   female = "female",
   male = "male",
@@ -15,42 +18,45 @@ enum GenderEnum {
 interface IFormInput {
   firstName: String;
   password: String | Number
-  gender: GenderEnum;
 }
 type Props = {}
 
 const Login = (props: Props) => {
   //route
   const navigate = useNavigate()
-  const onClickRegistor = () =>{
+  const onClickRegistor = () => {
     navigate('/registor')
   }
-
+  const myForm = useForm<IFormInput>()
   //react-form
   const { register, handleSubmit } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
 
   //redux
-  const {userStoreTest} = useAppSelector((state)=>state)
+  const { userStoreTest } = useAppSelector((state) => state)
   console.log(userStoreTest)
 
-  
+
   return (
     <>
-    <Navbar/>
-    {/* store:{userStoreTest.value} */}
-    <h1>Login</h1>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("firstName")} />
-      <input type='password'{...register("password")} />
-      <select {...register("gender")}>
-        <option value="female">female</option>
-        <option value="male">male</option>
-        <option value="other">other</option>
-      </select>
-      <input type="submit" />
-    </form>
-    <a href='#' onClick={onClickRegistor}>Registor</a>
+      <Navbar />
+      <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
+        <Grid item xs={6}>
+          <Typography variant="h1" align="center" >
+            เข้าสู่ระบบ
+          </Typography>
+          <Grid item xs={12}>
+            <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
+          </Grid>
+          <Grid item xs={12}>
+            <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
+          </Grid>
+          <Grid container justifyContent={'Right'}>
+          <Button type="button" onClick={onClickRegistor} sx={{ mr: 1, m: 1, }}>Registor</Button>
+            <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   )
 }

@@ -5,7 +5,7 @@ import { Autocomplete as MuiAutocomplete } from "@mui/material";
 import { TextField } from "../TextField/TextField";
 
 export type ControllerAutocompleteProps = {
-    formprop: UseFormReturn<any>;
+    formprop: UseFormReturn<any,any>;
     name: string;
 } & AutocompleteProps;
 

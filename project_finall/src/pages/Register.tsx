@@ -15,45 +15,29 @@ import { ControllerTextField } from '../framework/control/TextField/Controller'
 import Button from "../framework/control/Button/Button";
 import { ControllerAutocomplete } from '../framework/control/Autocomplete/Controller'
 import { border, width } from "@mui/system";
+import { Navbar } from "../components/Navbar";
 
 type Props = {}
 
 const steps = ['Step 1', 'Step 2 ', 'Finish'];
 
-export const lookUpProvince: Lookup[] = [{
+export const sex: Lookup[] = [{
   id: '1',
-  label: 'กทม',
+  label: 'ชาย',
 }, {
   id: '2',
-  label: 'ลพบุรี',
-}]
+  label: 'หญิง',
 
-export const lookUpAumphure: Lookup[] = [{
-  id: '11',
-  label: 'อำเภอกทม',
-}, {
-  id: '12',
-  label: 'อำเภอ2',
-}]
-
-export const lookUpTumbon: Lookup[] = [{
-  id: '123',
-  label: 'ตำบล',
-}, {
-  id: '124',
-  label: 'ตำบล2',
-}]
-
-export const lookUpZipCode: Lookup[] = [{
-  id: '1234',
-  label: '10392',
-}, {
-  id: '1235',
-  label: '18190',
-}]
+},{
+  id: '3',
+  label: 'อื่นๆ'
+}
+]
 
 
-interface IFormInput {
+
+
+export interface IFormInput {
   email: String | Number
   password: String | Number
   confirmPassword: String | Number
@@ -63,11 +47,11 @@ interface IFormInput {
   birthday: String | Number
   address: String | Number
   province: Lookup | null
-  district: String
-  parish: String
-  zipCode: Number
+  amphure: Lookup | null 
+  tambon: Lookup | null 
+  zipCode: Lookup | null 
   agency: String | Number
-  status: String
+  status: Lookup | null 
 
 }
 
@@ -134,6 +118,8 @@ const Register = (props: Props) => {
     console.log(data)
   }
   return (
+    <>
+    <Navbar />
     <Grid container  justifyContent={'center'} sx={{mt:15}}>
       <Grid item xs={6}>
         <Typography variant="h1" align="center" >
@@ -173,6 +159,7 @@ const Register = (props: Props) => {
                   <Typography component={'span'} variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
 
                     {activeStep === 0 && (
+                      
                       <RegisterStep1 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
                     )
 
@@ -201,7 +188,7 @@ const Register = (props: Props) => {
 
       </Grid>
     </Grid>
-
+</>
   )
 }
 
