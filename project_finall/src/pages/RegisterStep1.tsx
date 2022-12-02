@@ -1,11 +1,13 @@
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FC } from 'react'
 // /* Importing the type of the object returned by the useForm hook. */
 import { UseFormReturn } from "react-hook-form";
 import { useLocationLookup } from '../Hook/useLocationLookup';
 // Lookup
 import { sex } from './Register'
+import { IFormInput } from './Register';
+//MUI
 import Grid from '@mui/material/Grid';
 import {
     ControllerAutocomplete,
@@ -13,9 +15,8 @@ import {
 
 }
     from '../framework/control';
-
-import { IFormInput } from './Register';
-
+// firebase
+import { db} from '../firebase/config_firebase';
 interface Props {
     handleNext: () => void
     myForm: UseFormReturn<IFormInput, object>
@@ -96,7 +97,7 @@ export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, h
 
 export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {
     const { watch } = myForm
-    const { province, amphure, getAmphure, tambon, getTambon,zipcode, getZipcode } = useLocationLookup()
+    const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
 
     const changeProvince = watch('province')
     const changeAmphure = watch('amphure')
@@ -157,7 +158,7 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 />
             </Grid>
 
-            <Grid>
+            <Grid container justifyContent={'right'}>
                 <Button type="button"
                     color="inherit"
                     disabled={activeStep === 0}

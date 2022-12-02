@@ -11,12 +11,12 @@ import StepButton from '@mui/material/StepButton';
 import Typography from '@mui/material/Typography';
 import { Lookup } from "../types/type";
 import Grid from '@mui/material/Grid';
-import { ControllerTextField } from '../framework/control/TextField/Controller'
 import Button from "../framework/control/Button/Button";
-import { ControllerAutocomplete } from '../framework/control/Autocomplete/Controller'
-import { border, width } from "@mui/system";
 import { Navbar } from "../components/Navbar";
-
+//HOOK
+import {useCreateAcc} from '../Hook/useCreateAcc'
+import { getValue } from "@mui/system";
+import {IFormInput } from '../Hook/useCreateAcc'
 type Props = {}
 
 const steps = ['Step 1', 'Step 2 ', 'Finish'];
@@ -37,23 +37,7 @@ export const sex: Lookup[] = [{
 
 
 
-export interface IFormInput {
-  email: String | Number
-  password: String | Number
-  confirmPassword: String | Number
-  firstName: String
-  lastName: String
-  job: String
-  birthday: String | Number
-  address: String | Number
-  province: Lookup | null
-  amphure: Lookup | null 
-  tambon: Lookup | null 
-  zipCode: Lookup | null 
-  agency: String | Number
-  status: Lookup | null 
 
-}
 
 const Register = (props: Props) => {
 
@@ -111,11 +95,24 @@ const Register = (props: Props) => {
 
 
   })
-  const { handleSubmit } = myForm
 
-  const onSubmit: SubmitHandler<IFormInput> = data => {
+  const {addUser} = useCreateAcc()
+
+
+
+  const { handleSubmit,getValues } = myForm
+
+  const onSubmit: SubmitHandler<IFormInput> = async () => {
     handleComplete()
-    console.log(data)
+    console.log(getValues())
+    if(getValues()){
+      if (await addUser(getValue())){
+        console.log('true') 
+      }else{
+        console.log('error')
+      }
+    }
+    
   }
   return (
     <>

@@ -1,1 +1,0 @@
-import app from '../firebase/config_firebase'
