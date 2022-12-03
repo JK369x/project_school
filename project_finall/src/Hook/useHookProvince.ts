@@ -25,7 +25,5 @@ export const useHookProvince = () => {
                 console.log(err)
             })
     }
-
-    
     return {data,setData}
 }

@@ -29,8 +29,10 @@ const Login = (props: Props) => {
   }
   const myForm = useForm<IFormInput>()
   //react-form
-  const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
+  const { register, handleSubmit,getValues } = myForm;
+  const onSubmit = async () =>{
+    console.log(getValues())
+  }
 
   //redux
   const { userStoreTest } = useAppSelector((state) => state)
@@ -40,6 +42,7 @@ const Login = (props: Props) => {
   return (
     <>
       <Navbar />
+      <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
         <Grid item xs={6}>
           <Typography variant="h1" align="center" >
@@ -49,7 +52,7 @@ const Login = (props: Props) => {
             <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
           </Grid>
           <Grid item xs={12}>
-            <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
+            <ControllerTextField fullWidth formprop={myForm} name={"passowrd"} label={'Password'} />
           </Grid>
           <Grid container justifyContent={'Right'}>
           <Button type="button" onClick={onClickRegistor} sx={{ mr: 1, m: 1, }}>Registor</Button>
@@ -57,6 +60,7 @@ const Login = (props: Props) => {
           </Grid>
         </Grid>
       </Grid>
+      </form>
     </>
   )
 }

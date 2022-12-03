@@ -6,7 +6,7 @@ import { UseFormReturn } from "react-hook-form";
 import { useLocationLookup } from '../Hook/useLocationLookup';
 // Lookup
 import { sex } from './Register'
-import { IFormInput } from './Register';
+import { IFormInput } from '../Hook/useCreateAcc';
 //MUI
 import Grid from '@mui/material/Grid';
 import {
@@ -16,7 +16,6 @@ import {
 }
     from '../framework/control';
 // firebase
-import { db} from '../firebase/config_firebase';
 interface Props {
     handleNext: () => void
     myForm: UseFormReturn<IFormInput, object>
@@ -55,7 +54,7 @@ export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 <Button type="button" onClick={handleComplete}>Complete Step</Button>
             </Grid>
         </>
-    )
+   )
 }
 
 export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {
@@ -149,9 +148,10 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     options={tambon} // load options
                     fullWidth
                 />
+                {/* //! property name must same params */}
                 <ControllerAutocomplete
                     formprop={myForm}
-                    name={'zipcode'}
+                    name={'zipCode'}
                     label={'รหัสไปรษณีย์'}
                     options={zipcode} // load options
                     fullWidth

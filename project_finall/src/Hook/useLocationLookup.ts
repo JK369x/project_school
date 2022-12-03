@@ -65,7 +65,6 @@ export const useLocationLookup = () => {
 		//! find return {}
 		//! filter return [{}]
 		console.log('test',filltertambon)
-		// setZipcode(filltertambon.map((e:any)=>({id: e.id, label:e.zip_code})))
 		setZipcode(fillterzipcode)
 		console.log('rwe',zipcode)
 	}

@@ -15,7 +15,6 @@ import Button from "../framework/control/Button/Button";
 import { Navbar } from "../components/Navbar";
 //HOOK
 import {useCreateAcc} from '../Hook/useCreateAcc'
-import { getValue } from "@mui/system";
 import {IFormInput } from '../Hook/useCreateAcc'
 type Props = {}
 
@@ -92,9 +91,10 @@ const Register = (props: Props) => {
   console.log('total', totalSteps())
   const myForm = useForm<IFormInput>({
     //! can useDefault onChange
-
+    
 
   })
+  
 
   const {addUser} = useCreateAcc()
 
@@ -102,11 +102,11 @@ const Register = (props: Props) => {
 
   const { handleSubmit,getValues } = myForm
 
-  const onSubmit: SubmitHandler<IFormInput> = async () => {
+  const onSubmit = async () => {
     handleComplete()
-    console.log(getValues())
+    console.log('getvalues',getValues())
     if(getValues()){
-      if (await addUser(getValue())){
+      if (await addUser(getValues())){
         console.log('true') 
       }else{
         console.log('error')

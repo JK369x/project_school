@@ -1,5 +1,5 @@
 import { db} from '../firebase/config_firebase';
-import { addDoc, doc } from "firebase/firestore";
+import { addDoc,setDoc } from "firebase/firestore";
 import {AccountCollection} from '../firebase/createCollection'
 import { Lookup } from "../types/type";
 
@@ -11,7 +11,7 @@ export interface IFormInput {
     lastName: String
     job: String
     birthday: String | Number
-    address: String | Number
+    address: String 
     province: Lookup | null
     amphure: Lookup | null 
     tambon: Lookup | null 
@@ -22,6 +22,7 @@ export interface IFormInput {
   }
 export const useCreateAcc= ()=>{
     const addUser = async (params: IFormInput) =>{
+        console.log('params',params.zipCode)
         try{
             await addDoc(AccountCollection,{
                 ...params,
@@ -35,7 +36,7 @@ export const useCreateAcc= ()=>{
                 province: params.province,
                 amphure: params.amphure,
                 tambon:params.tambon,
-                zipCode:params.zipCode,
+                zipcode:params.zipCode,
                 agency:params.agency,
                 status:params.status,
             })

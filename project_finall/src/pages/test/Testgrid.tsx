@@ -1,12 +1,15 @@
-import * as React from "react";
+import { TextField } from '@mui/material'
+import React from 'react'
 
-import Grid from '@mui/material/Grid';
-type Props = {}
-
-const Testgrid = (props: Props) => {
+const Testgrid = () => {
   return (
-    <Grid>
-        
-    </Grid>
+    <div><TextField
+    helperText="Please enter your name"
+    id="demo-helper-text-misaligned"
+    label="Name"
+  />
+  <TextField id="demo-helper-text-misaligned-no-helper" label="Name" /></div>
   )
 }
+
+export default Testgrid
