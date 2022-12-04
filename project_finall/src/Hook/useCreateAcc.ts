@@ -4,19 +4,19 @@ import {AccountCollection} from '../firebase/createCollection'
 import { Lookup } from "../types/type";
 
 export interface IFormInput {
-    email: String | Number
-    password: String | Number
-    confirmPassword: String | Number
-    firstName: String
-    lastName: String
-    job: String
-    birthday: String | Number
-    address: String 
+    email: string
+    password: string 
+    confirmPassword: string 
+    firstName: string
+    lastName: string
+    job: string
+    birthday: string | number 
+    address: string 
     province: Lookup | null
     amphure: Lookup | null 
     tambon: Lookup | null 
     zipCode: Lookup | null 
-    agency: String | Number
+    agency: string | number
     status: Lookup | null 
   
   }

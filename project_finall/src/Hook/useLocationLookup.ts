@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { Lookup } from '../types/type'
 import axios from 'axios'
 
-// import { useAppDispacth } from '../store/useHooksStore'
-// // import { isShowLoading, isCloseLoading } from '../../store/loadingSlice'
+import { useAppDispacth } from '../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../store/slices/loadingSlice'
 
 interface LocationDatatype {
 	amphure: {
@@ -22,7 +22,7 @@ interface LocationDatatype {
 }
 
 export const useLocationLookup = () => {
-	// const dispatch = useAppDispacth()
+	const dispatch = useAppDispacth()
 	const [data, setData] = useState<LocationDatatype[]>([])
 	const [province, setProvince] = useState<Lookup[]>([])
 	const [amphure, setAmphure] = useState<Lookup[]>([])
@@ -35,7 +35,7 @@ export const useLocationLookup = () => {
 
 	const getData = async () => {
 		try {
-			// dispatch(isShowLoading())
+			dispatch(isShowLoading())
 			const result = await axios.get(
 				'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json',
 			)
@@ -44,7 +44,7 @@ export const useLocationLookup = () => {
 		} catch (error) {
 			console.log(error)
 		} finally {
-			// dispatch(isCloseLoading())
+			dispatch(isCloseLoading())
 		}
 	}
 

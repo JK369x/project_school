@@ -1,14 +1,23 @@
 import React from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form';
+// react hook form
+import { useForm, } from 'react-hook-form';
 import { Navbar } from '../components/Navbar'
 // redux
-import { useAppSelector } from '../store/useHooksStore'
+import { useAppDispacth, useAppSelector } from '../store/useHooksStore'
 //react-dom
 import { useNavigate } from 'react-router-dom'
+//MUI
 import Grid from '@mui/material/Grid';
 import { ControllerTextField } from '../framework/control/TextField/Controller';
-import { Button } from '@mui/material';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+//firebase
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase/config_firebase'
+import { isCloseLoading, isShowLoading } from '../store/slices/loadingSlice';
+
+
+
+
 enum GenderEnum {
   female = "female",
   male = "male",
@@ -16,8 +25,8 @@ enum GenderEnum {
 }
 
 interface IFormInput {
-  firstName: String;
-  password: String | Number
+  email: string;
+  password: string 
 }
 type Props = {}
 
@@ -27,39 +36,52 @@ const Login = (props: Props) => {
   const onClickRegistor = () => {
     navigate('/registor')
   }
+  const dispatch = useAppDispacth()
   const myForm = useForm<IFormInput>()
   //react-form
-  const { register, handleSubmit,getValues } = myForm;
-  const onSubmit = async () =>{
+  const {  handleSubmit, getValues } = myForm;
+  const onSubmit = async () => {
     console.log(getValues())
-  }
+    
+    const email = getValues("email")
+    const password = getValues("password")
+    try{
+      dispatch(isShowLoading())
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    console.log('user',userCredential)
+    const user = userCredential.user
+    }catch(error){
+      console.log(error)
+    }finally{
+      dispatch(isCloseLoading())
 
+    }
+  }
   //redux
-  const { userStoreTest } = useAppSelector((state) => state)
-  console.log(userStoreTest)
+  
 
 
   return (
     <>
       <Navbar />
       <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
-        <Grid item xs={6}>
-          <Typography variant="h1" align="center" >
-            เข้าสู่ระบบ
-          </Typography>
-          <Grid item xs={12}>
-            <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
-          </Grid>
-          <Grid item xs={12}>
-            <ControllerTextField fullWidth formprop={myForm} name={"passowrd"} label={'Password'} />
-          </Grid>
-          <Grid container justifyContent={'Right'}>
-          <Button type="button" onClick={onClickRegistor} sx={{ mr: 1, m: 1, }}>Registor</Button>
-            <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
+        <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
+          <Grid item xs={6}>
+            <Typography variant="h1" align="center" >
+              เข้าสู่ระบบ
+            </Typography>
+            <Grid item xs={12}>
+              <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
+            </Grid>
+            <Grid item xs={12}>
+              <ControllerTextField fullWidth formprop={myForm} type='password'  name={"passowrd"} label={'Password'} />
+            </Grid>
+            <Grid container justifyContent={'Right'}>
+              <Button type="button" onClick={onClickRegistor} sx={{ mr: 1, m: 1, }}>Registor</Button>
+              <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
       </form>
     </>
   )
