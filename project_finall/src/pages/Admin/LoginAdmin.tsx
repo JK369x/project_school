@@ -30,7 +30,7 @@ const LoginAdmin = () => {
             const {
                 user: { uid },
             } = await signInWithEmailAndPassword(auth, email, password)
-            
+        
             const docSnap = await getDoc(doc(AccountCollection, uid)) 
             console.log('123123',docSnap.exists())
             if (docSnap.exists()) {
@@ -53,7 +53,7 @@ const LoginAdmin = () => {
             <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
                 <Grid item xs={6}>
                     <Typography variant="h1" align="center" >
-                        เข้าสู่ระบบ Admin
+                        เข้าสู่ระบบ Admins
                     </Typography>
                     <Grid item xs={12}>
                         <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
