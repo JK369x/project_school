@@ -3,7 +3,7 @@ import React from 'react'
 import { useForm, } from 'react-hook-form';
 import { Navbar } from '../components/Navbar'
 // redux
-import { useAppDispacth, useAppSelector } from '../store/useHooksStore'
+import { useAppDispacth, } from '../store/useHooksStore'
 //react-dom
 import { useNavigate } from 'react-router-dom'
 //MUI
@@ -14,51 +14,77 @@ import { Button, Typography } from '@mui/material';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/config_firebase'
 import { isCloseLoading, isShowLoading } from '../store/slices/loadingSlice';
-
-
-
-
-enum GenderEnum {
-  female = "female",
-  male = "male",
-  other = "other"
-}
+import { setAuthStore } from '../store/slices/authSlice';
+import { AccountCollection } from '../firebase/createCollection'
+import { doc, getDoc } from 'firebase/firestore';
+//google
+import GoogleButton from 'react-google-button'
+import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
+import { async } from '@firebase/util';
+import { Footer } from '../components/Footer';
 
 interface IFormInput {
   email: string;
-  password: string 
+  password: string
 }
 type Props = {}
 
 const Login = (props: Props) => {
   //route
   const navigate = useNavigate()
+  const dispatch = useAppDispacth()
+  const myForm = useForm<IFormInput>()
+  const { handleSubmit, getValues } = myForm;
+
   const onClickRegistor = () => {
     navigate('/registor')
   }
-  const dispatch = useAppDispacth()
-  const myForm = useForm<IFormInput>()
-  //react-form
-  const {  handleSubmit, getValues } = myForm;
+ 
   const onSubmit = async () => {
     console.log(getValues())
-    
-    const email = getValues("email")
-    const password = getValues("password")
-    try{
+    const { email, password } = getValues()
+    try {
       dispatch(isShowLoading())
-    const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    console.log('user',userCredential)
-    const user = userCredential.user
-    }catch(error){
-      console.log(error)
-    }finally{
-      dispatch(isCloseLoading())
+      const {
+        user: { uid },
+      } = await signInWithEmailAndPassword(auth, email, password)
 
+      const docSnap = await getDoc(doc(AccountCollection, uid))
+      console.log('123123', docSnap.exists())
+      if (docSnap.exists()) {
+        const { displayName, photoURL, status } = docSnap.data() as any
+        console.log(docSnap.data())
+        //! status = role user 
+        dispatch(setAuthStore({ uid, displayName, photoURL, status }))
+        navigate('/')
+      } else {
+        console.log('error data')
+        // handle error
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch(isCloseLoading())
     }
   }
-  //redux
   
+//  const onClickLoginGoogle = async () =>{
+//   const provider = new GoogleAuthProvider();
+//     try{
+//       dispatch(isShowLoading())
+//       const result = await signInWithPopup(auth, provider)
+//       const credential = GoogleAuthProvider.credentialFromResult(result) as any
+//       const token = credential.accessToken;
+//     // The signed-in user info. 
+//       const user = result.user;
+//       console.log(user)
+      
+//     }catch (error){
+//       console.log(error)
+//     } finally{
+//       dispatch(isCloseLoading())
+//     }
+//  }
 
 
   return (
@@ -74,8 +100,11 @@ const Login = (props: Props) => {
               <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
             </Grid>
             <Grid item xs={12}>
-              <ControllerTextField fullWidth formprop={myForm} type='password'  name={"passowrd"} label={'Password'} />
+              <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
             </Grid>
+            {/* <Grid>
+              <GoogleButton onClick={onClickLoginGoogle}/>
+            </Grid> */}
             <Grid container justifyContent={'Right'}>
               <Button type="button" onClick={onClickRegistor} sx={{ mr: 1, m: 1, }}>Registor</Button>
               <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
@@ -83,6 +112,7 @@ const Login = (props: Props) => {
           </Grid>
         </Grid>
       </form>
+      <Footer/>
     </>
   )
 }

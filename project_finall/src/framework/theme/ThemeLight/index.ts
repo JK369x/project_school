@@ -6,9 +6,9 @@ const ThemeLight = createTheme({
     palette: {
         mode: "light",
         primary: {
-            main: "#f8a",
+            main: "#a436f1",
             light: "#f9b",
-            dark: "#f79",
+            dark: "#8c37f1",
         },
         secondary: {
             main: "#2df",

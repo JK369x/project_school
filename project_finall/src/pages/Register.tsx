@@ -18,11 +18,15 @@ import { Navbar } from "../components/Navbar";
 import { useCreateAcc } from '../Hook/useCreateAcc'
 import { IFormInput } from '../Hook/useCreateAcc'
 //firebase
-import {  createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/config_firebase'
 import { useAppDispacth } from "../store/useHooksStore";
 import { isCloseLoading, isShowLoading } from "../store/slices/loadingSlice";
 //redux
+import { useNavigate } from "react-router-dom";
+import { Footer } from "../components/Footer";
+
 
 
 
@@ -30,17 +34,20 @@ type Props = {}
 
 const steps = ['Step 1', 'Step 2 ', 'Finish'];
 
-export const sex: Lookup[] = [{
+export const role: Lookup[] = [{
   id: '1',
-  label: 'ชาย',
+  label: 'บุคคลทั่วไป',
 }, {
   id: '2',
-  label: 'หญิง',
+  label: 'นักศึกษา (มทร.ธัญบุรี)',
 
 }, {
   id: '3',
-  label: 'อื่นๆ'
-}
+  label: 'ศิษย์เก่า (มทร.ธัญบุรี)'
+},{
+  id: '4',
+  label: 'อาจารย์',
+},
 ]
 
 
@@ -106,7 +113,7 @@ const Register = (props: Props) => {
 
   const { addUser } = useCreateAcc()
   const { handleSubmit, getValues } = myForm
-
+  const navigate = useNavigate()
   const onSubmit = async () => {
     handleComplete()
     const email = getValues('email')
@@ -114,27 +121,21 @@ const Register = (props: Props) => {
     const password = getValues('password')
 
     if (getValues()) {
-      if (await addUser(getValues())) {
-        try {
-          dispatch(isShowLoading())
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      try {
+        dispatch(isShowLoading())
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+        const uid = userCredential.user.uid
+        addUser(getValues(), uid)
+        console.log(user)
+        navigate('/login')
+      } catch (error) {
+        console.log(error)
 
-          const user = userCredential.user
-          console.log(user)
-
-        } catch (error) {
-          console.log(error)
-
-        }finally{
-          dispatch(isCloseLoading())
-        }
-
-
-      } else {
-        console.log('error')
+      } finally {
+        dispatch(isCloseLoading())
       }
     }
-
   }
   return (
     <>
@@ -207,6 +208,7 @@ const Register = (props: Props) => {
 
         </Grid>
       </Grid>
+      <Footer/>
     </>
   )
 }

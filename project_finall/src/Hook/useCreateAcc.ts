@@ -1,5 +1,6 @@
 import { db} from '../firebase/config_firebase';
-import { addDoc,setDoc } from "firebase/firestore";
+import { addDoc,setDoc,doc, deleteDoc, } from "firebase/firestore";
+
 import {AccountCollection} from '../firebase/createCollection'
 import { Lookup } from "../types/type";
 
@@ -18,27 +19,19 @@ export interface IFormInput {
     zipCode: Lookup | null 
     agency: string | number
     status: Lookup | null 
+    
   
   }
 export const useCreateAcc= ()=>{
-    const addUser = async (params: IFormInput) =>{
-        console.log('params',params.zipCode)
+    const addUser = async (params: IFormInput,uid:string) =>{ 
         try{
-            await addDoc(AccountCollection,{
-                ...params,
-                email: params.email,
-                password: params.password,
-                confirmPassword: params.confirmPassword,
-                firstName:params.firstName,
-                lastName: params.lastName,
-                job:params.job,
-                address: params.address,
-                province: params.province,
-                amphure: params.amphure,
-                tambon:params.tambon,
-                zipcode:params.zipCode,
-                agency:params.agency,
-                status:params.status,
+            let newdata:any = params
+            delete newdata.password
+            delete newdata.confirmPassword
+            await setDoc(doc(AccountCollection,uid),{
+                ...newdata, //! ค่าเหมือนกันใช้ต่อได้เลยไม่ต้อง set ใหม่  
+                uid,
+        
             })
             return true
         } catch (err){

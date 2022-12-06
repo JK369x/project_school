@@ -5,7 +5,7 @@ import { FC } from 'react'
 import { UseFormReturn } from "react-hook-form";
 import { useLocationLookup } from '../Hook/useLocationLookup';
 // Lookup
-import { sex } from './Register'
+import { role } from './Register'
 import { IFormInput } from '../Hook/useCreateAcc';
 //MUI
 import Grid from '@mui/material/Grid';
@@ -75,7 +75,7 @@ export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     <ControllerTextField fullWidth formprop={myForm} name={"agency"} label={'Agency'} />
                 </Grid>
                 <Grid item xs={12}>
-                    <ControllerAutocomplete fullWidth options={sex} formprop={myForm} name={'status'} label={'Status'} />
+                    <ControllerAutocomplete fullWidth options={role} formprop={myForm} name={'status'} label={'Status'} />
                 </Grid>
             </Grid>
             <Grid container justifyContent={'Right'}>
