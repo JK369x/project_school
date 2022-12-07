@@ -1,0 +1,44 @@
+import { useState, useEffect } from 'react'
+import { useAppDispatch } from '../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../store/slices/loadingSlice'
+import { getDocs, query, where, orderBy, limit } from "firebase/firestore";
+import { IFormInput } from '../Hook/useCreateAcc'
+import {AccountCollection} from '../firebase/createCollection'
+export type UserListsType = {
+    id: string
+} & IFormInput
+
+//! uid คืออะไรที่เกี่ยวข้องกับตัวเอง
+
+export const useGetUserLists = () =>{
+    const dispatch = useAppDispatch();
+    const [userLists, setUserLists] = useState<UserListsType[]>([])
+    useEffect(()=>{
+        getUserLists()
+    },[])
+    
+    const getUserLists = async () =>{
+        dispatch(isShowLoading());
+        try{
+            const result =  await getDocs(
+                query(
+                AccountCollection,
+                orderBy("createdate", "desc"),
+                )
+            )
+            setUserLists(
+                result.docs.map((e) =>{
+                return {
+                    ...e.data(),
+                    id: e.id,
+                }
+                }) as UserListsType[]
+            )
+        }catch(error){
+            console.log(error)
+        }finally{
+            dispatch(isCloseLoading())
+        }
+    }
+}
+

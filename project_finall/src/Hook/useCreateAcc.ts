@@ -31,7 +31,7 @@ export const useCreateAcc= ()=>{
             await setDoc(doc(AccountCollection,uid),{
                 ...newdata, //! ค่าเหมือนกันใช้ต่อได้เลยไม่ต้อง set ใหม่  
                 uid,
-        
+                createdate: new Date(),
             })
             return true
         } catch (err){

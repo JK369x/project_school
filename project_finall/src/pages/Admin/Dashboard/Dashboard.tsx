@@ -1,13 +1,8 @@
 import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
 import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
-import './Home.scss'
-// import Widget from '../../components/widgets/Widget'
-// import Featured from '../../components/featured/Featured'
-// import  Chart  from '../../components/chart/Chart'
-import { Tab } from '@mui/material'
-// import Table from '../../components/table/Table'
+import './Dashboard.scss'
 
-const  Home= () => {
+const  Dashboard= () => {
   return (
     <div className='home'>
       <Sidebar/> 
@@ -25,7 +20,7 @@ const  Home= () => {
         </div>
         <div className="listContainer">
           <div className="listTitle">
-            Latest Transactions
+           Dashboard 
           </div>
           {/* <Table/> */}
         </div>
@@ -35,4 +30,4 @@ const  Home= () => {
   )
 }
 
-export default Home
+export default Dashboard

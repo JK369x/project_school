@@ -11,8 +11,21 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
+//react dom 
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export const Sidebar = () => {
+  const [activerouter, setActiveRouter] = useState<any>('')
+  const navigate = useNavigate()
+  const onClickUser =  () =>{
+    navigate('/users')
+    setActiveRouter('users')
+    console.log(activerouter)
+  }
+  const onClickDashboard =  () =>{
+    navigate('/dashboard')
+  }
   return (
     <div className='sidebar'>
       <div className="top">
@@ -24,13 +37,13 @@ export const Sidebar = () => {
           <p className="title">MAIN</p>
           <li>
             <DashboardIcon className='icon'/>
-            <span>Dashboard</span>
+            <span onClick={onClickDashboard}>Dashboard</span>
           </li>
           <p className="title">List</p>
 
           <li>
             <PersonOutlineIcon className='icon' />
-            <span>Users</span>
+            <span onClick={onClickUser}>Users</span>
           </li>
           <li>
             <StoreIcon className='icon'/>

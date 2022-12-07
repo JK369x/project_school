@@ -3,7 +3,7 @@ import React from 'react'
 import { useForm, } from 'react-hook-form';
 import { Navbar } from '../components/Navbar'
 // redux
-import { useAppDispacth, } from '../store/useHooksStore'
+import { useAppDispatch, } from '../store/useHooksStore'
 //react-dom
 import { useNavigate } from 'react-router-dom'
 //MUI
@@ -32,7 +32,7 @@ type Props = {}
 const Login = (props: Props) => {
   //route
   const navigate = useNavigate()
-  const dispatch = useAppDispacth()
+  const dispatch = useAppDispatch()
   const myForm = useForm<IFormInput>()
   const { handleSubmit, getValues } = myForm;
 
