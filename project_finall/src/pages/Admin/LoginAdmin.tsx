@@ -6,7 +6,7 @@ import { auth } from '../../firebase/config_firebase';
 import { AccountCollection } from '../../firebase/createCollection';
 import { setAuthStore } from '../../store/slices/authSlice';
 import { isCloseLoading, isShowLoading } from '../../store/slices/loadingSlice';
-import { useAppDispacth } from '../../store/useHooksStore';
+import { useAppDispatch } from '../../store/useHooksStore';
 import { useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import { Button, Typography } from '@mui/material';
@@ -18,7 +18,7 @@ interface IFormInput {
   }
 const LoginAdmin = () => {
     const navigator = useNavigate()
-    const dispatch = useAppDispacth()
+    const dispatch = useAppDispatch()
     const myForm = useForm<IFormInput>()
     //react-form
     const { handleSubmit, getValues } = myForm;
@@ -37,7 +37,7 @@ const LoginAdmin = () => {
                 const { displayName, photoURL,status } = docSnap.data() as any
                 console.log(docSnap.data())
                 dispatch(setAuthStore({ uid, displayName, photoURL,status }))
-                navigator('/admindashboard')
+                navigator('/dashboard')
             } else {
                 console.log('error data')
                 // handle error

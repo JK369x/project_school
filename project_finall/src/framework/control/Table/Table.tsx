@@ -37,7 +37,7 @@ import { fmtMoney, fmtDate } from '../../../utils/format'
 interface ControlTableProps {
 	densePadding?: true
 }
-
+//!gernerlic type ใส่มาทีหลังได้
 const descendingComparator = <T,>(a: T, b: T, orderBy: keyof T): number => {
 	if (b[orderBy] < a[orderBy]) {
 		return -1

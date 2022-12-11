@@ -2,12 +2,12 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 import NavbarAdmin from '../../components/componentsAdmin/NavbarAdmin'
 import NavigatebarAdmin from '../../components/componentsAdmin/NavigatebarAdmin'
-import Home from './Home/HomeAdmin'
+import Dashboard from './Home/HomeAdmin'
 
 const DashboardAdmin = () => {
   return (
     <div>
-        <Home/>
+     <Dashboard/>
     </div>
   )
 }

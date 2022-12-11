@@ -18,6 +18,7 @@ export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
+		//! เป็น type ของ action 
 		setAuthStore: (state, { payload: { uid, displayName, photoURL,status, } }: PayloadAction<AuthState>) => {
 			state.uid = uid
 			state.displayName = displayName

@@ -16,12 +16,12 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export const Sidebar = () => {
-  const [activerouter, setActiveRouter] = useState<any>('')
+  // const [activerouter, setActiveRouter] = useState<any>('')
   const navigate = useNavigate()
   const onClickUser =  () =>{
     navigate('/users')
-    setActiveRouter('users')
-    console.log(activerouter)
+    // setActiveRouter('users')
+    // console.log(activerouter)
   }
   const onClickDashboard =  () =>{
     navigate('/dashboard')

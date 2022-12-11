@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Lookup } from '../types/type'
 import axios from 'axios'
 
-import { useAppDispacth } from '../store/useHooksStore'
+import { useAppDispatch } from '../store/useHooksStore'
 import { isShowLoading, isCloseLoading } from '../store/slices/loadingSlice'
 
 interface LocationDatatype {
@@ -22,7 +22,7 @@ interface LocationDatatype {
 }
 
 export const useLocationLookup = () => {
-	const dispatch = useAppDispacth()
+	const dispatch = useAppDispatch()
 	const [data, setData] = useState<LocationDatatype[]>([])
 	const [province, setProvince] = useState<Lookup[]>([])
 	const [amphure, setAmphure] = useState<Lookup[]>([])

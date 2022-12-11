@@ -21,7 +21,7 @@ import { IFormInput } from '../Hook/useCreateAcc'
 import { addDoc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/config_firebase'
-import { useAppDispacth } from "../store/useHooksStore";
+import { useAppDispatch } from "../store/useHooksStore";
 import { isCloseLoading, isShowLoading } from "../store/slices/loadingSlice";
 //redux
 import { useNavigate } from "react-router-dom";
@@ -109,7 +109,7 @@ const Register = (props: Props) => {
 
   })
   //redux
-  const dispatch = useAppDispacth()
+  const dispatch = useAppDispatch()
 
   const { addUser } = useCreateAcc()
   const { handleSubmit, getValues } = myForm
