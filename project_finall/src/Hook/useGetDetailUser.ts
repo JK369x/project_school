@@ -5,17 +5,8 @@ import { db } from '../firebase/config_firebase'
 import { AccountCollection } from '../firebase/createCollection'
 import { useAppDispatch, useAppSelector } from "../store/useHooksStore";
 import { isCloseLoading, isShowLoading } from "../store/slices/loadingSlice";
-
-
-// export interface DetailUserType {
-//     id: string
-//     firstName: string
-//     lastName: string
-//     email: string
-//     birthday?: number
-//     agency: string
-//     description: string
-// }
+import { UserListsType } from "./useGetUserLists";
+import { lookup } from "dns";
 
 
 export const useGetDetailUser = () =>{
@@ -23,7 +14,26 @@ export const useGetDetailUser = () =>{
     const dispatch = useAppDispatch()
     // const uid = useAppSelector(({ auth: { uid } }) => uid)
     const { id } = useParams<{ id: string }>();
-    const [state, setState] = useState<any>({})
+    const [state, setState] = useState<UserListsType>({
+        email: "",
+        password:  "",
+        confirmPassword: "" ,
+        firstName: "",
+        lastName: "",
+        job: "",
+        birthday: ""  ,
+        address: "" ,
+        province: null,
+        amphure: null,
+        tambon: null ,
+        zipCode: null ,
+        agency: "",
+        status:null ,
+        id:"",
+    })
+
+
+
     
     useEffect(() => {
         if (id) {

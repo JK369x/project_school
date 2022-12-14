@@ -21,6 +21,7 @@ import Alert from "./framework/control/Alert/Alert";
 import {Dialog}  from "./framework/control/Dialog/Dialog";
 import Loading from "./framework/control/Loading/Loading";
 import DetailUser from './pages/Admin/Users/detailuser/DetailUser'
+import EditUser from "./pages/Admin/Users/edituser/EditUser";
 
 type Props = {};
 
@@ -43,7 +44,7 @@ export default function App({ }: Props) {
         <Route path="/users" element={<User />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/detailuser/:id" element={<DetailUser />} />
-
+        <Route path="/editUser/:id" element={<EditUser />} />
       </Routes>
     </ThemeProvider>
   );

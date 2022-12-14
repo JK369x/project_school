@@ -15,6 +15,7 @@ import { useDeleteUser } from '../../../Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
+import { Typography } from '@mui/material'
 
 
 const User: FC = () => {
@@ -45,11 +46,15 @@ const User: FC = () => {
   }
 
   const columnOptions: TableColumnOptions[] = [
+    
     {
+      alignHeader: 'left',
+      alignValue: 'left', 
       label: 'ID',
       value: 'countID',
     },
     {
+      
       label: 'User',
       value: 'firstName',
     },
@@ -58,12 +63,14 @@ const User: FC = () => {
       value: 'email',
     },
     {
+      alignValue: 'left',
+      alignHeader: 'left',
       label: 'Status',
       value: 'status.label',
     },
     {
-      alignValue: 'left',
-      alignHeader: 'left',
+      alignValue: 'right',
+      alignHeader: 'center',
       label: 'Action',
       value: 'delitem',
 
@@ -86,10 +93,21 @@ const User: FC = () => {
         <div className="listContainer">
           <div className="listTitle">
             <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid container justifyContent={'space-between'} alignItems={'center'} >
+
+              <Typography variant="h1" component="h2" ml={3}>
+                Users
+              </Typography>
+              <Button sx={{width:'80px', height:'40px',mr:3}}  color='success'>
+                + ADD
+              </Button>
+              </Grid>
               <Grid item xs={12}>
                 <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
                   return {
-                    ...e, countID: index + 1, delitem: <>
+                    ...e, 
+                    countID:index + 1,
+                     delitem: <>
                       <Button sx={{ mr: 1 }} color='success' onClick={() => {
                         viewDetailUser(e)
                       }}>View</Button>
@@ -102,7 +120,6 @@ const User: FC = () => {
               </Grid>
             </Grid>
           </div>
-
         </div>
       </div>
     </div>
