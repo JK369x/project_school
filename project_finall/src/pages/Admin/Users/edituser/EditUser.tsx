@@ -16,28 +16,14 @@ import { useForm } from "react-hook-form";
 import { UserListsType } from "../../../../Hook/useGetUserLists";
 import { useGetDetailUser } from '../../../../Hook/useGetDetailUser'
 import { useLocationLookup } from '../../../../Hook/useLocationLookup'
-
-// email: "",
-// password:  "",
-// confirmPassword: "" ,
-// firstName: "",
-// lastName: "",
-// job: "",
-// birthday: ""  ,
-// address: "" ,
-// province: null,
-// amphure: null,
-// tambon: null ,
-// zipCode: null ,
-// agency: "",
-// status:null ,
-// id:"",
+import { useUpdateUser } from '../../../../Hook/useUpdateUser'
+import { doc, updateDoc } from "firebase/firestore";
 
 
 const EditUser: FC = () => {
 
     const { state } = useGetDetailUser()
-
+    const {updateUser} = useUpdateUser()
     useEffect(() => {
         myForm.setValue('data', state
         )
@@ -47,11 +33,19 @@ const EditUser: FC = () => {
     console.log("🚀 ~ file: EditUser.tsx:46 ~ myForm", myForm.getValues())
 
     const onClickSubmitEdit = () => {
-
+        if(getValues()){
+            try{
+                const id = myForm.getValues().data.id
+                updateUser(getValues().data,id)
+            }catch (error){
+                console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
+                
+            }
+        }
     }
 
 
-    const { watch, handleSubmit } = myForm
+    const { watch, handleSubmit,getValues } = myForm
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
 
     const changeProvince = watch('data.province')
@@ -107,7 +101,7 @@ const EditUser: FC = () => {
                                                 </Grid>
                                                 <Grid>
 
-                                                    <ControllerTextField formprop={myForm} name={"data.firstName"} label={'FirstName'} />
+                                                    <ControllerTextField formprop={myForm} name={"data.lastName"} label={'LastName'} />
                                                 </Grid>
                                             </Grid>
                                             <Grid item container spacing={2} xs={6} mt={0}>

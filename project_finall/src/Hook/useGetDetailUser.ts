@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../store/useHooksStore";
 import { isCloseLoading, isShowLoading } from "../store/slices/loadingSlice";
 import { UserListsType } from "./useGetUserLists";
 import { lookup } from "dns";
-
+import {IFormInput} from "../Hook/useCreateAcc"
 
 export const useGetDetailUser = () =>{
     
@@ -30,6 +30,7 @@ export const useGetDetailUser = () =>{
         agency: "",
         status:null ,
         id:"",
+        about:"",
     })
 
 

@@ -6,6 +6,7 @@ import { IFormInput } from '../Hook/useCreateAcc'
 import { AccountCollection } from '../firebase/createCollection'
 export type UserListsType = {
     id: string
+    
 } & IFormInput
 //! & เพิ่ม id form input
 

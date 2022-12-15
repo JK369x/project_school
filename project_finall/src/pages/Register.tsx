@@ -114,6 +114,7 @@ const Register = (props: Props) => {
   const { addUser } = useCreateAcc()
   const { handleSubmit, getValues } = myForm
   const navigate = useNavigate()
+  
   const onSubmit = async () => {
     handleComplete()
     const email = getValues('email')
