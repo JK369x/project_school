@@ -25,12 +25,17 @@ import EditUser from "./pages/Admin/Users/edituser/EditUser";
 import Course from "./pages/Admin/Courses/Couse";
 import AddCourse from "./pages/Admin/Courses/AddCourse";
 
+
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 type Props = {};
 
 export default function App({ }: Props) {
   return (
 
     <ThemeProvider theme={ThemeLight}>
+      <LocalizationProvider dateAdapter={AdapterMoment}>
       <CssBaseline/>
       <Dialog />
       <Loading />
@@ -50,6 +55,8 @@ export default function App({ }: Props) {
         <Route path="/courses" element={<Course />} />
         <Route path="/addcourses" element={<AddCourse />} />
       </Routes>
+      </LocalizationProvider>
     </ThemeProvider>
+
   );
 }

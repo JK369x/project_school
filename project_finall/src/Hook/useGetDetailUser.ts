@@ -12,7 +12,7 @@ import {IFormInput} from "../Hook/useCreateAcc"
 export const useGetDetailUser = () =>{
     
     const dispatch = useAppDispatch()
-    // const uid = useAppSelector(({ auth: { uid } }) => uid)
+    const uid = useAppSelector(({ auth: { uid } }) => uid)
     const { id } = useParams<{ id: string }>();
     const [state, setState] = useState<UserListsType>({
         email: "",

@@ -1,7 +1,7 @@
 import React from 'react'
 import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
 import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
-import { ControllerAutocomplete, ControllerTextField, Table } from '../../../framework/control'
+import { Button, ControllerAutocomplete, ControllerTextField, Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
 import { IFormInput } from '../../../Hook/useCreateAcc'
@@ -12,7 +12,7 @@ import { useGetUserLists } from '../../../Hook/useGetUserLists'
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
 import { useDeleteUser } from '../../../Hook/useDeleteUser'
-import { Button } from '@mui/material'
+
 //react dom 
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
@@ -20,16 +20,27 @@ import './Course.scss'
 import { useForm } from 'react-hook-form'
 //date MUI
 import dayjs, { Dayjs } from 'dayjs';
-dayjs.locale('th')
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+// dayjs.locale('th')
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Lookup } from '../../../types/type'
-import { Label } from '@mui/icons-material'
 import moment from 'moment'
-
+import { DateTimePicker } from '@mui/x-date-pickers'
+import ImageInput from '../../../framework/control/InputImage/ImageInput'
+//firebase image 
+import {
+    deleteObject,
+    getDownloadURL,
+    listAll,
+    ref, uploadBytesResumable,
+} from "firebase/storage"
+import { storage } from '../../../firebase/config_firebase'
+import { useAppSelector } from '../../../store/useHooksStore'
 
 const roleCategory: Lookup[] = [{
     id: '1',
@@ -69,14 +80,24 @@ interface TypeCourses {
     subtitle: string,
     description: string,
     category?: string,
-    start_register?: Dayjs | null,
+    start_register?: Date | null,
     start_register_time?: Dayjs | null,
     start_course?: string,
     end_couse?: string,
     course_date?: string,
     coruse_date_time?: string,
-    what_will_student_learn_in_your_course: string,
-    the_course_consists: string,
+    what_will_student_learn_in_your_course?: {
+        input_0: string,
+        input_1: string,
+        input_2?: string,
+        input_3?: string,
+    },
+    the_course_consists?: {
+        input_0: string,
+        input_1: string,
+        input_2?: string,
+        input_3?: string,
+    },
     who_is_this_course: string,
     linkteammeeting?: string,
     whataretherequirement: string,
@@ -86,26 +107,48 @@ interface TypeCourses {
 }
 
 const AddCourse = () => {
-    const [valueDate, setValuesDate] = useState<Dayjs | null>(null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [value, setValues] = useState<Date>(new Date());
+    const [valueDate, setValuesDate] = useState<Date | null>(null);
     const [valueTime, setValueTime] = useState<Dayjs | null>(null);
-    console.log("🚀 ~ file: AddCourse.tsx:51 ~ AddCourse ~ value", valueDate)
+    const [image, setImage] = useState<any>(null);
+    console.log("🚀 ~ file: AddCourse.tsx:115 ~ AddCourse ~ image", image)
+    const imageListRef = ref(storage, "img/")
+    const uid = useAppSelector(({ auth: { uid } }) => uid)
+    console.log("asdasdd", new Date(value))
     const myForm = useForm<TypeCourses>({
         //! can useDefault onChange
 
 
     })
+    const renderInput = (props: any) => {
+        return <TextField {...props} />;
+    };
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
-        setValue('start_register', valueDate)
+        setValue('start_register', value)
         setValue('start_register_time', valueTime)
-        valueDate.moment(new Date(dayjs)).format(YYYY-MM-DD)
-        moment(new Date(dayjs)).format(YYYY-MM-DD)
         getValues()
-
-        console.log("🚀 ~ file: AddCourse.tsx:59 ~ onSubmit ~ getValues()", getValues())
-
+        console.log("🚀 ~ file: AddCourse.tsx:118 ~ onSubmit ~  getValues()", getValues())
     }
 
+
+    const onClickUpload = () => {
+        const imageRef = ref(storage, `img/${image.name + uid}`)
+        const uploadFile = uploadBytesResumable(imageRef, image);
+        console.log("🚀 ~ file: AddCourse.tsx:134 ~ handleChange ~ e", image)
+
+        uploadFile.on('state_changed', (snapshot) => {
+
+        }, (err) => {
+
+        }, () => {
+
+
+
+            alert("File uploaded Successfully :)👌")
+        });
+    }
     return (
         <div className='home'>
             <Sidebar />
@@ -118,115 +161,97 @@ const AddCourse = () => {
                                 <Typography variant="h1" component="h2" ml={3}>
                                     Add Course
                                 </Typography>
+                                <ImageInput label="Select an image" onChange={(event) => {
+                                    setImage(event.target.files[0])
+                                }}/>
+                                <Button label='Upload' onClick={onClickUpload} />
                                 <ControllerTextField formprop={myForm} name={"title"} label={'Title'} />
                                 <ControllerTextField formprop={myForm} name={"subtitle"} label={'subtitle'} />
                                 <ControllerTextField formprop={myForm} name={"description"} label={'description'} />
                                 <Grid>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DatePicker
-                                            label="register"
-                                            value={valueDate}
-                                            onChange={(newValue) => {
-                                                setValuesDate(newValue);
-                                            }}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <TimePicker
-                                            label="time register"
-                                            value={valueTime}
-                                            onChange={(newValue) => {
-                                                setValueTime(newValue);
-                                            }}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
+                                    <DateTimePicker
+                                        renderInput={(props) => <TextField {...props} />}
+                                        label="Start Registration"
+                                        value={value}
+                                        onChange={(newValue: any) => {
+                                            setValues(newValue);
+                                        }}
+                                    />
                                 </Grid>
                                 <Grid>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DatePicker
-                                            label="start-course"
-                                            value={valueDate}
-                                            onChange={(newValue) => {
-                                                setValuesDate(newValue);
-                                            }}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DatePicker
-                                            label="end-course"
-                                            value={valueDate}
-                                            onChange={(newValue) => {
-                                                setValuesDate(newValue);
-                                            }}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
+                                    <DatePicker
+                                        label="start-course"
+                                        value={valueDate}
+                                        onChange={(newValue) => {
+                                            setValuesDate(newValue);
+                                        }}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
+                                    <DatePicker
+                                        label="end-course"
+                                        value={selectedDate}
+                                        onChange={(newValue) => {
+                                            setSelectedDate(newValue);
+                                        }}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
                                 </Grid>
                                 <Grid >
                                     <ControllerAutocomplete
-
                                         formprop={myForm}
                                         name={''}
                                         label={'Category'}
                                         options={roleCategory} // load options
-
                                     />
                                 </Grid>
                                 <Grid>
                                     <ControllerAutocomplete
-
                                         formprop={myForm}
                                         name={''}
                                         label={'Course date'}
                                         options={roleWeek} // load options
-
                                     />
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <TimePicker
-                                            label="time register"
-                                            value={valueTime}
-                                            onChange={(newValue) => {
-                                                setValueTime(newValue);
-                                            }}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
+                                    <TimePicker
+                                        label="time register"
+                                        value={valueTime}
+                                        onChange={(newValue) => {
+                                            setValueTime(newValue);
+                                        }}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
                                 </Grid>
                                 <Grid container>
                                     <Grid item>
                                         <Grid item>
-                                            <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course"} label={'What will student learn in your course'} />
+                                            <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course.input_0"} label={'What will student learn in your course'} />
                                         </Grid>
                                         <Grid>
 
-                                            <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course"} label={''} />
+                                            <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course.input_1"} label={''} />
                                         </Grid>
                                         <Grid>
 
-                                            <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course"} label={''} />
+                                            <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course.input_2"} label={''} />
                                         </Grid>
                                         <Grid>
-                                            <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course"} label={''} />
+                                            <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course.input_3"} label={''} />
 
                                         </Grid>
                                     </Grid>
                                     <Grid>
                                         <Grid>
-                                            <ControllerTextField formprop={myForm} name={"the_course_consists"} label={'The Course consists'} />
+                                            <ControllerTextField formprop={myForm} name={"the_course_consists.input_0"} label={'The Course consists'} />
                                         </Grid>
                                         <Grid>
 
-                                            <ControllerTextField formprop={myForm} name={"the_course_consists"} label={''} />
+                                            <ControllerTextField formprop={myForm} name={"the_course_consists.input_1"} label={''} />
                                         </Grid>
                                         <Grid>
 
-                                            <ControllerTextField formprop={myForm} name={"the_course_consists"} label={''} />
+                                            <ControllerTextField formprop={myForm} name={"the_course_consists.input_2"} label={''} />
                                         </Grid>
                                         <Grid>
-                                            <ControllerTextField formprop={myForm} name={"the_course_consists"} label={''} />
+                                            <ControllerTextField formprop={myForm} name={"the_course_consists.input_3"} label={''} />
 
                                         </Grid>
                                     </Grid>
@@ -249,12 +274,7 @@ const AddCourse = () => {
                                     <ControllerTextField formprop={myForm} name={"teaching_assistant"} label={'Add teaching assistant'} />
 
                                 </Grid>
-                                <Grid>
-
-                                </Grid>
-
-
-                                <Button type='submit'>Submit</Button>
+                                <Button type='submit' label='Submit'/>
                             </form>
                         </Grid>
                     </div>
