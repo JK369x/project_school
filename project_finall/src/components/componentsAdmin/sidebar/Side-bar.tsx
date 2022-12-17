@@ -16,16 +16,20 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export const Sidebar = () => {
-  // const [activerouter, setActiveRouter] = useState<any>('')
   const navigate = useNavigate()
   const onClickUser =  () =>{
     navigate('/users')
-    // setActiveRouter('users')
-    // console.log(activerouter)
+  
   }
   const onClickDashboard =  () =>{
     navigate('/dashboard')
   }
+
+  const onClickCourse =  () =>{
+  
+    navigate('/courses')
+  }
+
   return (
     <div className='sidebar'>
       <div className="top">
@@ -47,7 +51,7 @@ export const Sidebar = () => {
           </li>
           <li>
             <StoreIcon className='icon'/>
-            <span>Products</span>
+            <span onClick={onClickCourse}>Course</span>
           </li>
           <li>
             <CreditCardIcon className='icon'/>

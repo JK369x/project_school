@@ -22,6 +22,8 @@ import {Dialog}  from "./framework/control/Dialog/Dialog";
 import Loading from "./framework/control/Loading/Loading";
 import DetailUser from './pages/Admin/Users/detailuser/DetailUser'
 import EditUser from "./pages/Admin/Users/edituser/EditUser";
+import Course from "./pages/Admin/Courses/Couse";
+import AddCourse from "./pages/Admin/Courses/AddCourse";
 
 type Props = {};
 
@@ -45,6 +47,8 @@ export default function App({ }: Props) {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/detailuser/:id" element={<DetailUser />} />
         <Route path="/editUser/:id" element={<EditUser />} />
+        <Route path="/courses" element={<Course />} />
+        <Route path="/addcourses" element={<AddCourse />} />
       </Routes>
     </ThemeProvider>
   );
