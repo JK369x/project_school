@@ -40,7 +40,12 @@ import {
     ref, uploadBytesResumable,
 } from "firebase/storage"
 import { storage } from '../../../firebase/config_firebase'
-import { useAppSelector } from '../../../store/useHooksStore'
+import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
+import { CourseCollection } from '../../../firebase/createCollection'
+import { TypeCourses } from '../../../Hook/useCreateCourse'
+import {UseCreateCourse} from '../../../Hook/useCreateCourse'
+import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
+
 
 const roleCategory: Lookup[] = [{
     id: '1',
@@ -75,50 +80,26 @@ const roleWeek: Lookup[] = [{
 },
 ]
 
-interface TypeCourses {
-    title: string,
-    subtitle: string,
-    description: string,
-    category?: string,
-    start_register?: Date | null,
-    start_register_time?: Dayjs | null,
-    start_course?: string,
-    end_couse?: string,
-    course_date?: string,
-    coruse_date_time?: string,
-    what_will_student_learn_in_your_course?: {
-        input_0: string,
-        input_1: string,
-        input_2?: string,
-        input_3?: string,
-    },
-    the_course_consists?: {
-        input_0: string,
-        input_1: string,
-        input_2?: string,
-        input_3?: string,
-    },
-    who_is_this_course: string,
-    linkteammeeting?: string,
-    whataretherequirement: string,
-    image: string,
-    teaching_assistant?: string,
-    Pricing: string,
-}
+
 
 const AddCourse = () => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [selectedDate, setSelectedDate] = useState<Date >(new Date());
     const [value, setValues] = useState<Date>(new Date());
-    const [valueDate, setValuesDate] = useState<Date | null>(null);
-    const [valueTime, setValueTime] = useState<Dayjs | null>(null);
+    const [valueDate, setValuesDate] = useState<Date >(new Date());
+    const [valueTime, setValueTime] = useState<Date>(new Date());
     const [image, setImage] = useState<any>(null);
     console.log("🚀 ~ file: AddCourse.tsx:115 ~ AddCourse ~ image", image)
     const imageListRef = ref(storage, "img/")
+    const {addCourse} = UseCreateCourse()
     const uid = useAppSelector(({ auth: { uid } }) => uid)
     console.log("asdasdd", new Date(value))
+    const navigate = useNavigate()
+
+    const dispatch = useAppDispatch()
+
+
     const myForm = useForm<TypeCourses>({
         //! can useDefault onChange
-
 
     })
     const renderInput = (props: any) => {
@@ -126,26 +107,37 @@ const AddCourse = () => {
     };
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
-        setValue('start_register', value)
-        setValue('start_register_time', valueTime)
-        getValues()
-        console.log("🚀 ~ file: AddCourse.tsx:118 ~ onSubmit ~  getValues()", getValues())
+        setValue('start_register', new Date(value))
+        setValue('start_register_time', new Date(valueTime))
+        setValue('start_course', new Date(valueDate))
+        setValue('end_couse', new Date(selectedDate))
+
+        if(getValues()){
+            try{
+                dispatch(isShowLoading())
+                addCourse(getValues())
+                console.log("🚀 ~ file: AddCourse.tsx:125 ~ onSubmit ~ getValues", getValues)
+            }catch (err){
+            console.log("🚀 ~ file: AddCourse.tsx:113 ~ onSubmit ~ err", err)
+
+            }finally{
+                dispatch(isCloseLoading())
+            }
+        }
+       
     }
 
 
     const onClickUpload = () => {
-        const imageRef = ref(storage, `img/${image.name + uid}`)
+        const imageRef = ref(storage, `img/${image.name}`)
         const uploadFile = uploadBytesResumable(imageRef, image);
-        console.log("🚀 ~ file: AddCourse.tsx:134 ~ handleChange ~ e", image)
-
+        console.log("🚀 ~ file: AddCourse.tsx:138 ~ onClickUpload ~ uid", uid)
+        console.log("🚀 ~ file: AddCourse.tsx:139 ~ onClickUpload ~ imageRef", imageRef)
+        console.log("🚀 ~ file: AddCourse.tsx:140 ~ handleChange ~ e", image)
         uploadFile.on('state_changed', (snapshot) => {
-
         }, (err) => {
-
+            throw(err)
         }, () => {
-
-
-
             alert("File uploaded Successfully :)👌")
         });
     }
@@ -182,7 +174,7 @@ const AddCourse = () => {
                                     <DatePicker
                                         label="start-course"
                                         value={valueDate}
-                                        onChange={(newValue) => {
+                                        onChange={(newValue: any) => {
                                             setValuesDate(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
@@ -190,7 +182,7 @@ const AddCourse = () => {
                                     <DatePicker
                                         label="end-course"
                                         value={selectedDate}
-                                        onChange={(newValue) => {
+                                        onChange={(newValue: any) => {
                                             setSelectedDate(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
@@ -214,7 +206,7 @@ const AddCourse = () => {
                                     <TimePicker
                                         label="time register"
                                         value={valueTime}
-                                        onChange={(newValue) => {
+                                        onChange={(newValue:any) => {
                                             setValueTime(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
@@ -235,7 +227,6 @@ const AddCourse = () => {
                                         </Grid>
                                         <Grid>
                                             <ControllerTextField formprop={myForm} name={"what_will_student_learn_in_your_course.input_3"} label={''} />
-
                                         </Grid>
                                     </Grid>
                                     <Grid>
@@ -243,42 +234,34 @@ const AddCourse = () => {
                                             <ControllerTextField formprop={myForm} name={"the_course_consists.input_0"} label={'The Course consists'} />
                                         </Grid>
                                         <Grid>
-
                                             <ControllerTextField formprop={myForm} name={"the_course_consists.input_1"} label={''} />
                                         </Grid>
                                         <Grid>
-
                                             <ControllerTextField formprop={myForm} name={"the_course_consists.input_2"} label={''} />
                                         </Grid>
                                         <Grid>
                                             <ControllerTextField formprop={myForm} name={"the_course_consists.input_3"} label={''} />
-
                                         </Grid>
                                     </Grid>
                                 </Grid>
                                 <Grid container  >
                                     <Grid >
-
                                         <ControllerTextField formprop={myForm} name={"who_is_this_course"} label={'Who is this course for ?'} />
                                     </Grid>
                                     <Grid >
                                         <ControllerTextField formprop={myForm} name={"linkteammeeting"} label={'Link team meeting'} />
-
                                     </Grid>
                                 </Grid>
                                 <Grid >
                                     <ControllerTextField formprop={myForm} name={"whataretherequirement"} label={'What are the requirement or prerequisites for taking your course?'} />
-
                                 </Grid>
                                 <Grid >
                                     <ControllerTextField formprop={myForm} name={"teaching_assistant"} label={'Add teaching assistant'} />
-
                                 </Grid>
                                 <Button type='submit' label='Submit'/>
                             </form>
                         </Grid>
                     </div>
-
                 </div>
             </div>
         </div>

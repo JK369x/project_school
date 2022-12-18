@@ -7,5 +7,5 @@ const createCollection = (collectionName: string) => {
 
 
 
-
+export const CourseCollection = createCollection("Course");
 export const AccountCollection = createCollection("Account");
