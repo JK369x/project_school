@@ -56,7 +56,7 @@ const Login = (props: Props) => {
         console.log(docSnap.data())
         //! status = role user 
         dispatch(setAuthStore({ uid, displayName, photoURL, status }))
-        navigate('/')
+        navigate('/page')
       } else {
         console.log('error data')
         // handle error

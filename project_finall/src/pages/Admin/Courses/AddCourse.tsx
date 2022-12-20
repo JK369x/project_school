@@ -43,7 +43,7 @@ import { storage } from '../../../firebase/config_firebase'
 import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
 import { CourseCollection } from '../../../firebase/createCollection'
 import { TypeCourses } from '../../../Hook/useCreateCourse'
-import {UseCreateCourse} from '../../../Hook/useCreateCourse'
+import { UseCreateCourse } from '../../../Hook/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 
 
@@ -83,14 +83,14 @@ const roleWeek: Lookup[] = [{
 
 
 const AddCourse = () => {
-    const [selectedDate, setSelectedDate] = useState<Date >(new Date());
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [value, setValues] = useState<Date>(new Date());
-    const [valueDate, setValuesDate] = useState<Date >(new Date());
+    const [valueDate, setValuesDate] = useState<Date>(new Date());
     const [valueTime, setValueTime] = useState<Date>(new Date());
     const [image, setImage] = useState<any>(null);
     console.log("🚀 ~ file: AddCourse.tsx:115 ~ AddCourse ~ image", image)
     const imageListRef = ref(storage, "img/")
-    const {addCourse} = UseCreateCourse()
+    const { addCourse } = UseCreateCourse()
     const uid = useAppSelector(({ auth: { uid } }) => uid)
     console.log("asdasdd", new Date(value))
     const navigate = useNavigate()
@@ -102,45 +102,56 @@ const AddCourse = () => {
         //! can useDefault onChange
 
     })
-    const renderInput = (props: any) => {
-        return <TextField {...props} />;
-    };
+    
+    
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
+        const imageRef = ref(storage, `img/${image.name}`)
+        const uploadFile = uploadBytesResumable(imageRef, image);
         setValue('start_register', new Date(value))
         setValue('start_register_time', new Date(valueTime))
         setValue('start_course', new Date(valueDate))
         setValue('end_couse', new Date(selectedDate))
+        setValue('image', `img/${image.name}`)
 
-        if(getValues()){
-            try{
+        if (getValues()) {
+            try {
                 dispatch(isShowLoading())
                 addCourse(getValues())
+                console.log("🚀 ~ file: AddCourse.tsx:138 ~ onClickUpload ~ uid", uid)
+                console.log("🚀 ~ file: AddCourse.tsx:139 ~ onClickUpload ~ imageRef", imageRef)
+                console.log("🚀 ~ file: AddCourse.tsx:140 ~ handleChange ~ e", image)
+                uploadFile.on('state_changed', (snapshot) => {
+                }, (err) => {
+                    throw (err)
+                }, () => {
+                    alert("File uploaded Successfully :)👌")
+                });
                 console.log("🚀 ~ file: AddCourse.tsx:125 ~ onSubmit ~ getValues", getValues)
-            }catch (err){
-            console.log("🚀 ~ file: AddCourse.tsx:113 ~ onSubmit ~ err", err)
+            } catch (err) {
+                console.log("🚀 ~ file: AddCourse.tsx:113 ~ onSubmit ~ err", err)
 
-            }finally{
+            } finally {
                 dispatch(isCloseLoading())
             }
         }
-       
+
     }
 
 
-    const onClickUpload = () => {
-        const imageRef = ref(storage, `img/${image.name}`)
-        const uploadFile = uploadBytesResumable(imageRef, image);
-        console.log("🚀 ~ file: AddCourse.tsx:138 ~ onClickUpload ~ uid", uid)
-        console.log("🚀 ~ file: AddCourse.tsx:139 ~ onClickUpload ~ imageRef", imageRef)
-        console.log("🚀 ~ file: AddCourse.tsx:140 ~ handleChange ~ e", image)
-        uploadFile.on('state_changed', (snapshot) => {
-        }, (err) => {
-            throw(err)
-        }, () => {
-            alert("File uploaded Successfully :)👌")
-        });
-    }
+    // const onClickUpload = () => {
+    //     const imageRef = ref(storage, `img/${image.name}`)
+    //     const uploadFile = uploadBytesResumable(imageRef, image);
+    //     console.log("🚀 ~ file: AddCourse.tsx:138 ~ onClickUpload ~ uid", uid)
+    //     console.log("🚀 ~ file: AddCourse.tsx:139 ~ onClickUpload ~ imageRef", imageRef)
+    //     console.log("🚀 ~ file: AddCourse.tsx:140 ~ handleChange ~ e", image)
+    //     uploadFile.on('state_changed', (snapshot) => {
+    //     }, (err) => {
+    //         throw(err)
+    //     }, () => {
+    //         alert("File uploaded Successfully :)👌")
+    //     });
+    // }
     return (
         <div className='home'>
             <Sidebar />
@@ -155,8 +166,7 @@ const AddCourse = () => {
                                 </Typography>
                                 <ImageInput label="Select an image" onChange={(event) => {
                                     setImage(event.target.files[0])
-                                }}/>
-                                <Button label='Upload' onClick={onClickUpload} />
+                                }} />
                                 <ControllerTextField formprop={myForm} name={"title"} label={'Title'} />
                                 <ControllerTextField formprop={myForm} name={"subtitle"} label={'subtitle'} />
                                 <ControllerTextField formprop={myForm} name={"description"} label={'description'} />
@@ -206,7 +216,7 @@ const AddCourse = () => {
                                     <TimePicker
                                         label="time register"
                                         value={valueTime}
-                                        onChange={(newValue:any) => {
+                                        onChange={(newValue: any) => {
                                             setValueTime(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
@@ -258,7 +268,7 @@ const AddCourse = () => {
                                 <Grid >
                                     <ControllerTextField formprop={myForm} name={"teaching_assistant"} label={'Add teaching assistant'} />
                                 </Grid>
-                                <Button type='submit' label='Submit'/>
+                                <Button type='submit' label='Submit' />
                             </form>
                         </Grid>
                     </div>

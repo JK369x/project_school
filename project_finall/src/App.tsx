@@ -28,6 +28,7 @@ import AddCourse from "./pages/Admin/Courses/AddCourse";
 
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import Page from "./pages/page";
 
 type Props = {};
 
@@ -54,6 +55,7 @@ export default function App({ }: Props) {
         <Route path="/editUser/:id" element={<EditUser />} />
         <Route path="/courses" element={<Course />} />
         <Route path="/addcourses" element={<AddCourse />} />
+        <Route path="/page" element={<Page />} />
       </Routes>
       </LocalizationProvider>
     </ThemeProvider>
