@@ -45,6 +45,9 @@ import { CourseCollection } from '../../../firebase/createCollection'
 import { TypeCourses } from '../../../Hook/useCreateCourse'
 import { UseCreateCourse } from '../../../Hook/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
+import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
+
+
 
 
 const roleCategory: Lookup[] = [{
@@ -83,86 +86,64 @@ const roleWeek: Lookup[] = [{
 
 
 const AddCourse = () => {
+    const [image, setImage] = useState<any>(null);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [value, setValues] = useState<Date>(new Date());
     const [valueDate, setValuesDate] = useState<Date>(new Date());
     const [valueTime, setValueTime] = useState<Date>(new Date());
-    const [image, setImage] = useState<any>(null);
-    // const [imageURL, setImageURL] = useState<any>(null);
-    const imageListRef = ref(storage, "img/")
+    const [imageURL, setImageURL] = useState<any>(null);
+
+    //*Hook
     const { addCourse } = UseCreateCourse()
+
     const uid = useAppSelector(({ auth: { uid } }) => uid)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-
-
-    console.log("asdasdd", new Date(value))
-    console.log("🚀 ~ file: AddCourse.tsx:115 ~ AddCourse ~ image", image)
+    
+    
+    //? waiting set Default value form
     const myForm = useForm<TypeCourses>({
         //! can useDefault onChange
-
+        
     })
-
-
-
+    
+    
+    
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
+        //*images on firebase
         const imageRef = ref(storage, `img/${image.name}`)
         const uploadFile = uploadBytesResumable(imageRef, image);
-        // getDownloadURL(imageRef).then((url) => {
-        //     setImageURL(url)
-        // }).catch((error) => {
-        //     // A full list of error codes is available at
-        //     // https://firebase.google.com/docs/storage/web/handle-errors
-        //     switch (error.code) {
-        //         case 'storage/object-not-found':
-        //             // File doesn't exist
-        //             break;
-        //         case 'storage/unauthorized':
-        //             // User doesn't have permission to access the object
-        //             break;
-        //         case 'storage/canceled':
-        //             // User canceled the upload
-        //             break;
-
-        //         // ...
-
-        //         case 'storage/unknown':
-        //             // Unknown error occurred, inspect the server response
-        //             break;
-        //     }
-        // });
+        getDownloadURL(imageRef).then((url) => {
+            setImageURL(url)
+            console.log("🚀 ~ file: AddCourse.tsx:96 ~ AddCourse ~ imageURL", imageURL)
+        }).catch((error) => {
+            console.log("🚀 ~ file: AddCourse.tsx:121 ~ getDownloadURL ~ error", error) 
+        });
         setValue('start_register', new Date(value))
-
         setValue('start_register_time', new Date(valueTime))
         setValue('start_course', new Date(valueDate))
         setValue('end_couse', new Date(selectedDate))
-        setValue('image', `${image.name}`)
-
+        setValue('image', imageURL)
         if (getValues()) {
             console.log("🚀 ~ file: AddCourse.tsx:144 ~ onSubmit ~ getValues", getValues)
             try {
                 dispatch(isShowLoading())
                 addCourse(getValues())
-                console.log("🚀 ~ file: AddCourse.tsx:138 ~ onClickUpload ~ uid", uid)
-                console.log("🚀 ~ file: AddCourse.tsx:139 ~ onClickUpload ~ imageRef", imageRef)
-                console.log("🚀 ~ file: AddCourse.tsx:140 ~ handleChange ~ e", image)
                 uploadFile.on('state_changed', (snapshot) => {
                 }, (err) => {
                     throw (err)
                 }, () => {
-                    alert("File uploaded Successfully :)👌")
-                });
-                console.log("🚀 ~ file: AddCourse.tsx:125 ~ onSubmit ~ getValues", getValues)
+                    dispatch(openAlertSuccess('addCourseSuccess'))
+                }); 
             } catch (err) {
+                dispatch(openAlertError('addCourseError'))
                 console.log("🚀 ~ file: AddCourse.tsx:113 ~ onSubmit ~ err", err)
-
             } finally {
                 dispatch(isCloseLoading())
             }
         }
-
     }
 
 
@@ -290,6 +271,7 @@ const AddCourse = () => {
                 </div>
             </div>
         </div>
+
     )
 }
 

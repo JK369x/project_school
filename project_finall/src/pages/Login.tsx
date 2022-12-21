@@ -22,6 +22,7 @@ import GoogleButton from 'react-google-button'
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
 import { async } from '@firebase/util';
 import { Footer } from '../components/Footer';
+import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice';
 
 interface IFormInput {
   email: string;
@@ -56,8 +57,10 @@ const Login = (props: Props) => {
         console.log(docSnap.data())
         //! status = role user 
         dispatch(setAuthStore({ uid, displayName, photoURL, status }))
+        dispatch(openAlertSuccess('LoginSuccess'))
         navigate('/page')
       } else {
+        dispatch(openAlertError('Login fail'))
         console.log('error data')
         // handle error
       }
