@@ -2,12 +2,9 @@ import React from 'react'
 import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
 import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
 import { Button, ControllerAutocomplete, ControllerTextField, Table } from '../../../framework/control'
-import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
-import { IFormInput } from '../../../Hook/useCreateAcc'
 import { FC, useEffect, useState } from 'react'
-import { UserListsType } from '../../../Hook/useGetUserLists'
-import { useGetUserLists } from '../../../Hook/useGetUserLists'
+
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
@@ -16,16 +13,13 @@ import { useDeleteUser } from '../../../Hook/useDeleteUser'
 //react dom 
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
-import './Course.scss'
+import '../Dashboard/Dashboard.scss'
 import { useForm } from 'react-hook-form'
 //date MUI
-import dayjs, { Dayjs } from 'dayjs';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 
 // dayjs.locale('th')
 import TextField from '@mui/material/TextField';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Lookup } from '../../../types/type'
@@ -37,7 +31,7 @@ import {
     deleteObject,
     getDownloadURL,
     listAll,
-    ref, uploadBytesResumable,
+    ref, uploadBytesResumable, getStorage, UploadTaskSnapshot, TaskEvent
 } from "firebase/storage"
 import { storage } from '../../../firebase/config_firebase'
 import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
@@ -86,12 +80,11 @@ const roleWeek: Lookup[] = [{
 
 
 const AddCourse = () => {
-    const [image, setImage] = useState<any>(null);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [value, setValues] = useState<Date>(new Date());
     const [valueDate, setValuesDate] = useState<Date>(new Date());
     const [valueTime, setValueTime] = useState<Date>(new Date());
-    const [imageURL, setImageURL] = useState<any>(null);
+    const [image, setImage] = useState<any>(null);
 
     //*Hook
     const { addCourse } = UseCreateCourse()
@@ -100,50 +93,84 @@ const AddCourse = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-    
-    
+
+
     //? waiting set Default value form
     const myForm = useForm<TypeCourses>({
         //! can useDefault onChange
-        
+
     })
-    
-    
-    
+
+
+    const handleChange = (e: any) => {
+        if (e.target.files[0])
+            setImage(e.target.files[0]);
+    }
+
+   
+
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
-        //*images on firebase
-        const imageRef = ref(storage, `img/${image.name}`)
-        const uploadFile = uploadBytesResumable(imageRef, image);
-        getDownloadURL(imageRef).then((url) => {
-            setImageURL(url)
-            console.log("🚀 ~ file: AddCourse.tsx:96 ~ AddCourse ~ imageURL", imageURL)
-        }).catch((error) => {
-            console.log("🚀 ~ file: AddCourse.tsx:121 ~ getDownloadURL ~ error", error) 
-        });
-        setValue('start_register', new Date(value))
-        setValue('start_register_time', new Date(valueTime))
-        setValue('start_course', new Date(valueDate))
-        setValue('end_couse', new Date(selectedDate))
-        setValue('image', imageURL)
-        if (getValues()) {
-            console.log("🚀 ~ file: AddCourse.tsx:144 ~ onSubmit ~ getValues", getValues)
-            try {
-                dispatch(isShowLoading())
-                addCourse(getValues())
-                uploadFile.on('state_changed', (snapshot) => {
-                }, (err) => {
-                    throw (err)
-                }, () => {
-                    dispatch(openAlertSuccess('addCourseSuccess'))
-                }); 
-            } catch (err) {
-                dispatch(openAlertError('addCourseError'))
-                console.log("🚀 ~ file: AddCourse.tsx:113 ~ onSubmit ~ err", err)
-            } finally {
-                dispatch(isCloseLoading())
-            }
+        if (image) {
+            const imageRef =  ref(storage, `img/${image.name}`);
+            const uploadTask =  uploadBytesResumable(imageRef, image)
+            uploadTask.on('state_changed',
+                (snapshot:UploadTaskSnapshot) => {
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                        case 'running':
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+
+                (error) => {
+                    // Handle unsuccessful uploads
+                    console.log("🚀 ~ file: AddCourse.tsx:157 ~ onSubmit ~ error", error)
+                },
+                () => {
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                  
+                        //! can use url don't have useSate 
+                        console.log('File available at', url);
+                   
+                        
+                        setValue('start_register', new Date(value))
+                        setValue('start_register_time', new Date(valueTime))
+                        setValue('start_course', new Date(valueDate))
+                        setValue('end_couse', new Date(selectedDate))
+                        setValue('image', url)
+                
+                
+                        if (getValues()) {
+                            console.log("🚀 ~ file: AddCourse.tsx:165 ~ onSubmit ~ getValues")
+                            try {
+                                dispatch(isShowLoading())
+                                addCourse(getValues())
+                                dispatch(openAlertSuccess('addCourseSuccess'))
+                            } catch (err) {
+                                dispatch(openAlertError('addCourseError'))
+                                console.log("🚀 ~ file: AddCourse.tsx:113 ~ onSubmit ~ err", err)
+                            } finally {
+                                dispatch(isCloseLoading())
+                            }
+                        }
+                    });
+                }
+                
+            );
+        } else {
+            console.log('File not found')
         }
+
     }
 
 
@@ -160,9 +187,11 @@ const AddCourse = () => {
                                 <Typography variant="h1" component="h2" ml={3}>
                                     Add Course
                                 </Typography>
-                                <ImageInput label="Select an image" onChange={(event) => {
+                                {/* <ImageInput label="Select an image" onChange={(event) => {
                                     setImage(event.target.files[0])
-                                }} />
+                                }} /> */}
+                                <ImageInput label="Select an image" onChange={
+                                    handleChange} />
                                 <ControllerTextField formprop={myForm} name={"title"} label={'Title'} />
                                 <ControllerTextField formprop={myForm} name={"subtitle"} label={'subtitle'} />
                                 <ControllerTextField formprop={myForm} name={"description"} label={'description'} />

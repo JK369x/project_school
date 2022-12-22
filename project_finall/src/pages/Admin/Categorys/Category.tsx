@@ -1,6 +1,6 @@
 import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
 import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
-import '../Dashboard/Dashboard.scss'
+
 import { Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
@@ -11,38 +11,44 @@ import { useGetUserLists } from '../../../Hook/useGetUserLists'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/useDeleteUser'
+import { useDeleteCourse } from '../../../Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
+import '../Dashboard/Dashboard.scss'
+import { CourseListsType, useGetCourseLists } from '../../../Hook/useGetCourse'
 
-
-const User: FC = () => {
-  const { userLists, getUserLists } = useGetUserLists()
-  const data = userLists
+const  Category:FC = () => {
+  
+  const { CourseLists, getCourseLists } = useGetCourseLists()
+  const data = CourseLists
   const { openConfirmDialog } = useDialog()
-  const { deleteUser } = useDeleteUser()
+  const { deleteCourse } = useDeleteCourse()
   const navigate = useNavigate()
   //  const [detailUser, setDetailUser] = useState<UserListsType>()
   console.log("🚀 ~ file: User.tsx:20 ~ data", data)
 
 
-  const delItem = (data: UserListsType) => {
+  const delItem = (data: CourseListsType) => {
     openConfirmDialog({
       textContent: 'deleteUser',
       onConfirm: async () => {
-        await deleteUser(data.id)
-        getUserLists()
+        await deleteCourse(data.id)
+        getCourseLists()
       },
     })
   }
 
-  const viewDetailUser = (data: UserListsType) => {
+  const viewDetailUser = (data: CourseListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
     // setDetailUser(data)
     navigate(`/detailuser/${data.id}`)
 
+  }
+
+  const onClickAddCategory = () =>{
+    navigate('/addcategory')
   }
 
   const columnOptions: TableColumnOptions[] = [
@@ -55,18 +61,18 @@ const User: FC = () => {
     },
     {
       
-      label: 'User',
-      value: 'firstName',
+      label: 'Course',
+      value: 'title',
     },
     {
-      label: 'Email',
-      value: 'email',
+      label: 'Category',
+      value: 'subtitle',
     },
     {
       alignValue: 'left',
       alignHeader: 'left',
       label: 'Status',
-      value: 'status.label',
+      value: 'subtitle',
     },
     {
       alignValue: 'right',
@@ -81,26 +87,23 @@ const User: FC = () => {
 
   return (
     <div className='home'>
-      <Sidebar />
-      <div className="homeContainer">
-        <Navbar />
+      <Sidebar/> 
+      <div className="homeContainer"> 
+        <Navbar/>
         <div className="widgets">
-
+   
         </div>
         <div className="charts">
-
         </div>
         <div className="listContainer">
           <div className="listTitle">
-            <Grid container spacing={2} sx={{ mt: 2 }}>
+          <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
 
               <Typography variant="h1" component="h2" ml={3}>
-                Users
+                Categorys
               </Typography>
-              <Button sx={{width:'80px', height:'40px',mr:3}}  color='success'>
-                + ADD
-              </Button>
+              <Button sx={{width:'140px', height:'40px',mr:3}}  color='success' onClick={()=>onClickAddCategory()} >+Add course</Button>
               </Grid>
               <Grid item xs={12}>
                 <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
@@ -114,19 +117,18 @@ const User: FC = () => {
                       <Button sx={{ mr: 0 }} color='error' onClick={() => {
                         delItem(e)
                       }}>Delete</Button>
-                    </>
+                    </>,
                   }
                 })} defaultRowsPerPage={10} />
               </Grid>
             </Grid>
           </div>
+      
         </div>
-      </div>
+      </div> 
     </div>
 
   )
 }
 
-export default User
-
-
+export default Category

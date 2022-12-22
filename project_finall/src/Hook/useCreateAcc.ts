@@ -19,8 +19,7 @@ export interface IFormInput {
     zipCode: Lookup | null 
     agency: string | number
     status: Lookup | null 
-    about?: string
-  
+    about?: string 
   }
 export const useCreateAcc= ()=>{
     const addUser = async (params: IFormInput,uid:string) =>{ 

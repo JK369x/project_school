@@ -1,6 +1,6 @@
 import { addDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/config_firebase";
-import { AccountCollection } from "../firebase/createCollection";
+import { AccountCollection,CourseCollection} from "../firebase/createCollection";
 
 
 // store
@@ -26,4 +26,23 @@ export const useDeleteUser = () => {
     };
 
     return { deleteUser };
+};
+
+
+export const useDeleteCourse = () => {
+    const dispatch = useAppDispatch();
+    const deleteCourse = async (id: string) => {
+        try {
+            dispatch(isShowLoading());
+            await deleteDoc(doc(CourseCollection, id));
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        } finally {
+            dispatch(isCloseLoading());
+        }
+    };
+
+    return { deleteCourse };
 };

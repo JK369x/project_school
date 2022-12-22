@@ -11,35 +11,36 @@ import { useGetUserLists } from '../../../Hook/useGetUserLists'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/useDeleteUser'
+import { useDeleteCourse } from '../../../Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
-import './Course.scss'
+import '../Dashboard/Dashboard.scss'
+import { CourseListsType, useGetCourseLists } from '../../../Hook/useGetCourse'
 
 const  Course:FC = () => {
   
-  const { userLists, getUserLists } = useGetUserLists()
-  const data = userLists
+  const { CourseLists, getCourseLists } = useGetCourseLists()
+  const data = CourseLists
   const { openConfirmDialog } = useDialog()
-  const { deleteUser } = useDeleteUser()
+  const { deleteCourse } = useDeleteCourse()
   const navigate = useNavigate()
   //  const [detailUser, setDetailUser] = useState<UserListsType>()
   console.log("🚀 ~ file: User.tsx:20 ~ data", data)
 
 
-  const delItem = (data: UserListsType) => {
+  const delItem = (data: CourseListsType) => {
     openConfirmDialog({
       textContent: 'deleteUser',
       onConfirm: async () => {
-        await deleteUser(data.id)
-        getUserLists()
+        await deleteCourse(data.id)
+        getCourseLists()
       },
     })
   }
 
-  const viewDetailUser = (data: UserListsType) => {
+  const viewDetailUser = (data: CourseListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
     // setDetailUser(data)
     navigate(`/detailuser/${data.id}`)
@@ -60,18 +61,18 @@ const  Course:FC = () => {
     },
     {
       
-      label: 'User',
-      value: 'firstName',
+      label: 'Course',
+      value: 'title',
     },
     {
-      label: 'Email',
-      value: 'email',
+      label: 'Category',
+      value: 'subtitle',
     },
     {
       alignValue: 'left',
       alignHeader: 'left',
       label: 'Status',
-      value: 'status.label',
+      value: 'subtitle',
     },
     {
       alignValue: 'right',
@@ -118,7 +119,7 @@ const  Course:FC = () => {
                       <Button sx={{ mr: 0 }} color='error' onClick={() => {
                         delItem(e)
                       }}>Delete</Button>
-                    </>
+                    </>,
                   }
                 })} defaultRowsPerPage={10} />
               </Grid>

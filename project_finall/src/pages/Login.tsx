@@ -60,11 +60,11 @@ const Login = (props: Props) => {
         dispatch(openAlertSuccess('LoginSuccess'))
         navigate('/page')
       } else {
-        dispatch(openAlertError('Login fail'))
         console.log('error data')
         // handle error
       }
     } catch (error) {
+      // dispatch(openAlertError('Login fail'))
       console.log(error)
     } finally {
       dispatch(isCloseLoading())

@@ -30,6 +30,11 @@ export const Sidebar = () => {
     navigate('/courses')
   }
 
+  const onClickCategory =  () =>{
+  
+    navigate('/category')
+  }
+
   return (
     <div className='sidebar'>
       <div className="top">
@@ -55,7 +60,7 @@ export const Sidebar = () => {
           </li>
           <li>
             <CreditCardIcon className='icon'/>
-            <span>Orders</span>
+            <span onClick={onClickCategory}>Category</span>
           </li>
           <li>
             <LocalShippingIcon className='icon'/>

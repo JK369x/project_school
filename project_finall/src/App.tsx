@@ -18,7 +18,7 @@ import LoginAdmin from "./pages/Admin/LoginAdmin";
 import User from "./pages/Admin/Users/User";
 import Dashboard from "./pages/Admin/Dashboard/Dashboard";
 import Alert from "./framework/control/Alert/Alert";
-import {Dialog}  from "./framework/control/Dialog/Dialog";
+import { Dialog } from "./framework/control/Dialog/Dialog";
 import Loading from "./framework/control/Loading/Loading";
 import DetailUser from './pages/Admin/Users/detailuser/DetailUser'
 import EditUser from "./pages/Admin/Users/edituser/EditUser";
@@ -30,33 +30,37 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Page from "./pages/page";
 
+import AddCategory from "./pages/Admin/Categorys/AddCategory";
+import Category from "./pages/Admin/Categorys/Category";
+
 type Props = {};
 
 export default function App({ }: Props) {
   return (
-
     <ThemeProvider theme={ThemeLight}>
       <LocalizationProvider dateAdapter={AdapterMoment}>
-      <CssBaseline/>
-      <Dialog />
-      <Loading />
-      <Alert />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/registor" element={<Registor />} />
-        <Route path="/nextregistor" element={<Nextregistor />} />
-        <Route path="/testgrid" element={<Testgrid />} />
-        <Route path="/adminlogin" element={<LoginAdmin />} />
-        <Route path="/users" element={<User />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/detailuser/:id" element={<DetailUser />} />
-        <Route path="/editUser/:id" element={<EditUser />} />
-        <Route path="/courses" element={<Course />} />
-        <Route path="/addcourses" element={<AddCourse />} />
-        <Route path="/page" element={<Page />} />
-      </Routes>
+        <CssBaseline />
+        <Dialog />
+        <Loading />
+        <Alert />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/registor" element={<Registor />} />
+          <Route path="/nextregistor" element={<Nextregistor />} />
+          <Route path="/testgrid" element={<Testgrid />} />
+          <Route path="/adminlogin" element={<LoginAdmin />} />
+          <Route path="/users" element={<User />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/detailuser/:id" element={<DetailUser />} />
+          <Route path="/editUser/:id" element={<EditUser />} />
+          <Route path="/courses" element={<Course />} />
+          <Route path="/addcourses" element={<AddCourse />} />
+          <Route path="/page" element={<Page />} />
+          <Route path="/category" element={<Category />} />
+          <Route path="/addcategory" element={<AddCategory />} />
+        </Routes>
       </LocalizationProvider>
     </ThemeProvider>
 
