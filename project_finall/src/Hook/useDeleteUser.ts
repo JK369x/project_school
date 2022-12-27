@@ -1,6 +1,6 @@
 import { addDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/config_firebase";
-import { AccountCollection,CourseCollection} from "../firebase/createCollection";
+import { AccountCollection,CourseCollection,CategoryCollection} from "../firebase/createCollection";
 
 
 // store
@@ -45,4 +45,23 @@ export const useDeleteCourse = () => {
     };
 
     return { deleteCourse };
+};
+
+
+export const useDeleteCateGory = () => {
+    const dispatch = useAppDispatch();
+    const deleteCategory = async (id: string) => {
+        try {
+            dispatch(isShowLoading());
+            await deleteDoc(doc(CategoryCollection, id));
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        } finally {
+            dispatch(isCloseLoading());
+        }
+    };
+
+    return { deleteCategory };
 };

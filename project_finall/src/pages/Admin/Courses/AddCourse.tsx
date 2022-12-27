@@ -22,7 +22,7 @@ import { useForm } from 'react-hook-form'
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { Lookup } from '../../../types/type'
+import { Lookup, roleWeek, typeCourseOnline_Onside } from '../../../types/type'
 import moment from 'moment'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import ImageInput from '../../../framework/control/InputImage/ImageInput'
@@ -40,8 +40,8 @@ import { TypeCourses } from '../../../Hook/useCreateCourse'
 import { UseCreateCourse } from '../../../Hook/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
-
-
+import { CategoryListsType } from '../../../Hook/useGetCategory'
+import { useGetCourseLists } from '../../../Hook/useGetCategory'
 
 
 const roleCategory: Lookup[] = [{
@@ -49,33 +49,7 @@ const roleCategory: Lookup[] = [{
     label: 'IOT',
 }]
 
-const roleWeek: Lookup[] = [{
-    id: '1',
-    label: 'จันทร์',
-}, {
-    id: '2',
-    label: 'อังคาร',
-}, {
-    id: '3',
-    label: 'พุทธ',
-},
-{
-    id: '4',
-    label: 'พฤหัส',
-},
-{
-    id: '5',
-    label: 'ศุกร์',
-},
-{
-    id: '6',
-    label: 'เสาร์',
-},
-{
-    id: '7',
-    label: 'อาทิตย์',
-},
-]
+
 
 
 
@@ -83,9 +57,17 @@ const AddCourse = () => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [value, setValues] = useState<Date>(new Date());
     const [valueDate, setValuesDate] = useState<Date>(new Date());
-    const [valueTime, setValueTime] = useState<Date>(new Date());
+    const [valueTime_start, setValueTime_start] = useState<Date>(new Date());
+    const [valueTime_end, setValueTime_end] = useState<Date>(new Date());
     const [image, setImage] = useState<any>(null);
+    const { CategoryLists } = useGetCourseLists()
+    const getCategoryLists = CategoryLists
 
+    const dataCategory = getCategoryLists.map((item,index)=>{
+        return (item.Category_Title)
+    })
+    
+    console.log("🚀 ~ file: AddCourse.tsx:65 ~ AddCourse ~ getCategoryLists", getCategoryLists)
     //*Hook
     const { addCourse } = UseCreateCourse()
 
@@ -107,15 +89,15 @@ const AddCourse = () => {
             setImage(e.target.files[0]);
     }
 
-   
+
 
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
         if (image) {
-            const imageRef =  ref(storage, `img/${image.name}`);
-            const uploadTask =  uploadBytesResumable(imageRef, image)
+            const imageRef = ref(storage, `img/${image.name}`);
+            const uploadTask = uploadBytesResumable(imageRef, image)
             uploadTask.on('state_changed',
-                (snapshot:UploadTaskSnapshot) => {
+                (snapshot: UploadTaskSnapshot) => {
                     // Observe state change events such as progress, pause, and resume
                     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -138,34 +120,30 @@ const AddCourse = () => {
                     // Handle successful uploads on complete
                     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                  
+
                         //! can use url don't have useSate 
                         console.log('File available at', url);
-                   
-                        
+
+
                         setValue('start_register', new Date(value))
-                        setValue('start_register_time', new Date(valueTime))
+                        setValue('start_register_time', new Date(valueTime_start))
+                        setValue('start_register_end', new Date(valueTime_end))
                         setValue('start_course', new Date(valueDate))
-                        setValue('end_couse', new Date(selectedDate))
+                        setValue('end_course', new Date(selectedDate))
                         setValue('image', url)
-                
-                
+
+
                         if (getValues()) {
                             console.log("🚀 ~ file: AddCourse.tsx:165 ~ onSubmit ~ getValues")
                             try {
-                                dispatch(isShowLoading())
                                 addCourse(getValues())
-                                dispatch(openAlertSuccess('addCourseSuccess'))
                             } catch (err) {
-                                dispatch(openAlertError('addCourseError'))
                                 console.log("🚀 ~ file: AddCourse.tsx:113 ~ onSubmit ~ err", err)
-                            } finally {
-                                dispatch(isCloseLoading())
                             }
                         }
                     });
                 }
-                
+
             );
         } else {
             console.log('File not found')
@@ -184,17 +162,14 @@ const AddCourse = () => {
                     <div className="listTitle">
                         <Grid>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <Typography variant="h1" component="h2" ml={3}>
+                                <Typography variant="h1" component="h1" ml={3}>
                                     Add Course
                                 </Typography>
-                                {/* <ImageInput label="Select an image" onChange={(event) => {
-                                    setImage(event.target.files[0])
-                                }} /> */}
                                 <ImageInput label="Select an image" onChange={
                                     handleChange} />
                                 <ControllerTextField formprop={myForm} name={"title"} label={'Title'} />
                                 <ControllerTextField formprop={myForm} name={"subtitle"} label={'subtitle'} />
-                                <ControllerTextField formprop={myForm} name={"description"} label={'description'} />
+                                <ControllerTextField multiline maxRows={4} minRows={2} formprop={myForm} name={"description"} label={'description'} />
                                 <Grid>
                                     <DateTimePicker
                                         renderInput={(props) => <TextField {...props} />}
@@ -226,23 +201,46 @@ const AddCourse = () => {
                                 <Grid >
                                     <ControllerAutocomplete
                                         formprop={myForm}
-                                        name={''}
+                                        name={'category'}
                                         label={'Category'}
-                                        options={roleCategory} // load options
+                                        options={dataCategory} // load options
                                     />
                                 </Grid>
                                 <Grid>
                                     <ControllerAutocomplete
+                                        multiple
                                         formprop={myForm}
-                                        name={''}
+                                        name={'course_date'}
                                         label={'Course date'}
                                         options={roleWeek} // load options
                                     />
+                                </Grid>
+                                <Grid>
+                                    <ControllerAutocomplete
+                                        multiple
+                                        formprop={myForm}
+                                        name={'course_status'}
+                                        label={'Select Course Time'}
+                                        options={typeCourseOnline_Onside} // load options
+                                    />
+                                </Grid>
+                                <Grid container alignContent={'center'} alignItems={'center'}>
                                     <TimePicker
-                                        label="time register"
-                                        value={valueTime}
+                                        label="start-time"
+                                        value={valueTime_start}
                                         onChange={(newValue: any) => {
-                                            setValueTime(newValue);
+                                            setValueTime_start(newValue);
+                                        }}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
+                                    <Typography variant="h6" component="h6" m={2}>
+                                        To
+                                    </Typography>
+                                    <TimePicker
+                                        label="end-start"
+                                        value={valueTime_end}
+                                        onChange={(newValue: any) => {
+                                            setValueTime_end(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -292,6 +290,9 @@ const AddCourse = () => {
                                 </Grid>
                                 <Grid >
                                     <ControllerTextField formprop={myForm} name={"teaching_assistant"} label={'Add teaching assistant'} />
+                                </Grid>
+                                <Grid >
+                                    <ControllerTextField formprop={myForm} name={"Pricing"} label={'Pricing'} />
                                 </Grid>
                                 <Button type='submit' label='Submit' />
                             </form>

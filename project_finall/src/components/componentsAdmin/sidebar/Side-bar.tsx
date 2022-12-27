@@ -35,6 +35,12 @@ export const Sidebar = () => {
     navigate('/category')
   }
 
+
+  const onClickCalculate =  () =>{
+  
+    navigate('/category')
+  }
+
   return (
     <div className='sidebar'>
       <div className="top">
@@ -78,7 +84,7 @@ export const Sidebar = () => {
           <p className="title">SERVICE</p>
           <li>
             <SettingsSystemDaydreamIcon className='icon'/>
-            <span>System Health</span>
+            <span>Calculate Queue</span>
           </li>
           <li>
             <PsychologyIcon className='icon'/>

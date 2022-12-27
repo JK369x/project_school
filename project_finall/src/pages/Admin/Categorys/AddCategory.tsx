@@ -1,7 +1,7 @@
 
 import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
 import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
-import { Button, ControllerTextField} from '../../../framework/control'
+import { Button, ControllerTextField } from '../../../framework/control'
 
 import Grid from '@mui/material/Grid/Grid'
 
@@ -22,7 +22,6 @@ import { useForm } from 'react-hook-form'
 import { storage } from '../../../firebase/config_firebase'
 import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
 
-import { UseCreateCourse } from '../../../Hook/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
 
@@ -30,17 +29,15 @@ import { CategoryInput } from '../../../Hook/useCreateCategory'
 
 import '../Dashboard/Dashboard.scss'
 
+import { useCreateCategory } from '../../../Hook/useCreateCategory'
 
 
 
-
-
-const AddCategory:FC = () => {
+const AddCategory: FC = () => {
 
 
     //*Hook
-    const { addCourse } = UseCreateCourse()
-
+    const { addCategory } = useCreateCategory()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
@@ -57,8 +54,13 @@ const AddCategory:FC = () => {
 
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
-
-
+        if (getValues()) {
+            try {
+                addCategory(getValues())
+            } catch (err) {
+                console.log("🚀 ~ file: addCategory.tsx:65 ~ onSubmit ~ err", err)
+            }
+        }
     }
 
 
@@ -73,11 +75,11 @@ const AddCategory:FC = () => {
                         <Grid container>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <Typography variant="h1" component="h2" ml={3}>
-                                    Add Category 
+                                    Add Category
                                 </Typography>
                                 <ControllerTextField formprop={myForm} name={"Category_Title"} label={'Category Title'} />
-                                <Button label='Submit' type='submit' />     
-                                </form>
+                                <Button label='Submit' type='submit' />
+                            </form>
                         </Grid>
                     </div>
                 </div>

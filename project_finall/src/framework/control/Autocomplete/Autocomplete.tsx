@@ -18,7 +18,7 @@ export interface OptionType {
 }
 
 export type AutocompleteProps = {
-    options: readonly any[];
+    options:  any[];
     readOnly?: boolean;
     label?: string;
     name?: string;

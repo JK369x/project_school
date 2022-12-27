@@ -11,36 +11,36 @@ import { useGetUserLists } from '../../../Hook/useGetUserLists'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteCourse } from '../../../Hook/useDeleteUser'
+import { useDeleteCateGory } from '../../../Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import '../Dashboard/Dashboard.scss'
-import { CourseListsType, useGetCourseLists } from '../../../Hook/useGetCourse'
-
+import {useGetCourseLists} from '../../../Hook/useGetCategory'
+import {CategoryListsType} from '../../../Hook/useGetCategory'
 const  Category:FC = () => {
   
-  const { CourseLists, getCourseLists } = useGetCourseLists()
-  const data = CourseLists
+  const { CategoryLists, useGetCategory } = useGetCourseLists()
+  const data = CategoryLists
   const { openConfirmDialog } = useDialog()
-  const { deleteCourse } = useDeleteCourse()
+  const { deleteCategory } = useDeleteCateGory()
   const navigate = useNavigate()
   //  const [detailUser, setDetailUser] = useState<UserListsType>()
   console.log("🚀 ~ file: User.tsx:20 ~ data", data)
 
 
-  const delItem = (data: CourseListsType) => {
+  const delItem = (data: CategoryListsType) => {
     openConfirmDialog({
-      textContent: 'deleteUser',
+      textContent: 'deleteCategory',
       onConfirm: async () => {
-        await deleteCourse(data.id)
-        getCourseLists()
+        await deleteCategory(data.id)
+        useGetCategory()
       },
     })
   }
 
-  const viewDetailUser = (data: CourseListsType) => {
+  const viewDetailUser = (data: CategoryListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
     // setDetailUser(data)
     navigate(`/detailuser/${data.id}`)
@@ -54,26 +54,17 @@ const  Category:FC = () => {
   const columnOptions: TableColumnOptions[] = [
     
     {
-      alignHeader: 'left',
-      alignValue: 'left', 
+      alignHeader: 'center',
+      alignValue: 'center', 
       label: 'ID',
       value: 'countID',
     },
-    {
-      
-      label: 'Course',
-      value: 'title',
-    },
+  
     {
       label: 'Category',
-      value: 'subtitle',
+      value: 'Category_Title',
     },
-    {
-      alignValue: 'left',
-      alignHeader: 'left',
-      label: 'Status',
-      value: 'subtitle',
-    },
+ 
     {
       alignValue: 'right',
       alignHeader: 'center',

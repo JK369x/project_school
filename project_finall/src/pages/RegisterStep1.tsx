@@ -22,7 +22,6 @@ interface Props {
     handleComplete: () => void
     handleBack: () => void
     activeStep: number
-
 }
 
 export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {

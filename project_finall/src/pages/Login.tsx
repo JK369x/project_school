@@ -19,7 +19,7 @@ import { AccountCollection } from '../firebase/createCollection'
 import { doc, getDoc } from 'firebase/firestore';
 //google
 import GoogleButton from 'react-google-button'
-import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { async } from '@firebase/util';
 import { Footer } from '../components/Footer';
 import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice';
@@ -40,7 +40,7 @@ const Login = (props: Props) => {
   const onClickRegistor = () => {
     navigate('/registor')
   }
- 
+
   const onSubmit = async () => {
     console.log(getValues())
     const { email, password } = getValues()
@@ -70,24 +70,24 @@ const Login = (props: Props) => {
       dispatch(isCloseLoading())
     }
   }
-  
-//  const onClickLoginGoogle = async () =>{
-//   const provider = new GoogleAuthProvider();
-//     try{
-//       dispatch(isShowLoading())
-//       const result = await signInWithPopup(auth, provider)
-//       const credential = GoogleAuthProvider.credentialFromResult(result) as any
-//       const token = credential.accessToken;
-//     // The signed-in user info. 
-//       const user = result.user;
-//       console.log(user)
-      
-//     }catch (error){
-//       console.log(error)
-//     } finally{
-//       dispatch(isCloseLoading())
-//     }
-//  }
+
+  //  const onClickLoginGoogle = async () =>{
+  //   const provider = new GoogleAuthProvider();
+  //     try{
+  //       dispatch(isShowLoading())
+  //       const result = await signInWithPopup(auth, provider)
+  //       const credential = GoogleAuthProvider.credentialFromResult(result) as any
+  //       const token = credential.accessToken;
+  //     // The signed-in user info. 
+  //       const user = result.user;
+  //       console.log(user)
+
+  //     }catch (error){
+  //       console.log(error)
+  //     } finally{
+  //       dispatch(isCloseLoading())
+  //     }
+  //  }
 
 
   return (
@@ -115,7 +115,7 @@ const Login = (props: Props) => {
           </Grid>
         </Grid>
       </form>
-      <Footer/>
+      <Footer />
     </>
   )
 }

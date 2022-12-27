@@ -28,7 +28,7 @@ import AddCourse from "./pages/Admin/Courses/AddCourse";
 
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import Page from "./pages/page";
+import Page from "./pages/PageHome";
 
 import AddCategory from "./pages/Admin/Categorys/AddCategory";
 import Category from "./pages/Admin/Categorys/Category";
