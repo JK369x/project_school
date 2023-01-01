@@ -6,15 +6,20 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CourseListsType, useGetCourseLists } from '../Hook/useGetCourse';
+import { CourseListsType, useGetCourseLists } from '../Hook/course/useGetCourse';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { Grid, IconButton, Rating } from '@mui/material';
+import { Avatar, Grid, IconButton, Rating } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useAppSelector } from '../store/useHooksStore';
+import moment from 'moment';
+
 
 const PageHome = () => {
     const { CourseLists, getCourseLists } = useGetCourseLists()
     const data = CourseLists
+
+    // const [newData, setNewData] =  useState<CourseListsType[]>(data)
     const navigate = useNavigate()
     // const [status, setStatus] = useState('')
     console.log("🚀 ~ file: page.tsx:15 ~ page ~ data", data)
@@ -34,8 +39,18 @@ const PageHome = () => {
     //     })
     // }
 
+    // useEffect(()=>{
+    //     setNewData(data)
+    // },[newData])
 
+    // const { uid,status,displayName } = useAppSelector(({ auth }) => auth);
+    // console.log("🚀 ~ file: PageHome.tsx:44 ~ PageHome ~ displayName", displayName)
+    // console.log("🚀 ~ file: PageHome.tsx:44 ~ PageHome ~ status", status)
+    // console.log("🚀 ~ file: Testgrid.tsx:21 ~ Testgrid ~ uid", uid)
 
+    const onClickCard = (data: CourseListsType) => {
+
+    }
 
     return (
         <>
@@ -43,13 +58,26 @@ const PageHome = () => {
 
             <Grid container justifyContent={'center'} >
                 {data.map((item, index) => {
+                  
+                    const startCourse =  new Date(item.start_course.seconds)
+                    console.log("🚀 ~ file: PageHome.tsx:63 ~ {data.map ~ startCourse", startCourse)
+                    const formattedDate = startCourse.toDateString();
+                    console.log("🚀 ~ file: PageHome.tsx:69 ~ {data.map ~ formattedDate", formattedDate)
 
-                    return <>
+
+
+
+                    return <a onClick={() => { onClickCard(item) }}>
                         <Grid margin={2}>
-                            <Card sx={{ height: 430, width: 345 }} key={index}
+                            <Card sx={{
+                                height: 600, width: 345, '&:hover': {
+                                    cursor: 'pointer',
+                                }
+                            }} key={index}
                                 /* It's a prop that adds a shadow to the
                                 card. */
                                 raised={true}>
+
                                 <CardMedia
                                     component="img"
                                     alt="green iguana"
@@ -60,6 +88,16 @@ const PageHome = () => {
                                     <Grid>
                                         <Grid container justifyContent={'space-between'}>
                                             <Grid >
+                                                <Typography variant="body2" sx={{
+                                                    mt: 0.5,
+                                                    '&:hover': {
+                                                        color: '#8c37f1',
+                                                    }
+                                                }} color='#6d18d5' >
+                                                    {item.course_status!.map((params, index) => {
+                                                        return (index !== 0 ? ' & ' + params.label : params.label)
+                                                    })}
+                                                </Typography>
                                                 <Typography gutterBottom variant="h5" component="h5">
                                                     {item.title}
                                                 </Typography>
@@ -94,34 +132,33 @@ const PageHome = () => {
                                     </Grid>
                                 </CardContent>
                                 <CardContent sx={{ mt: 1, pt: 3, pb: 0 }}>
-                                    <Typography variant="body2" color="text.secondary">
-                                        <Rating name="read-only" value={5} readOnly  />
-                                        B1,500
-                                    </Typography>
+                                    <Grid container >
+                                        <Grid item sx={{ mr: 1 }}>
+                                            <Rating name="read-only" value={5} readOnly />
+                                        </Grid>
+                                        <Grid item >
+                                            <Typography>
+                                                {item.pricing.toLocaleString()} THB
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container sx={{ mr: 1 }} alignItems={'center'}>
+                                            <Grid sx={{ mr: 1.5 }} >
+                                                <Avatar alt="Remy Sharp" src="#" />
+                                            </Grid>
+                                            <Grid >
+                                                {item.create_by_name}
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
                                 </CardContent>
-                                <CardActions sx={{ ml: 1 }}>
-                                    <Grid container justifyContent={'space-between'} alignItems={'center'}
-                                        alignContent={'center'}
-                                        mr={1}>
-                                        <Button sx={{}} size="small">Learn More</Button>
-                                        <Typography variantMapping={{ body1: 'p' }} component="h2" sx={{
-                                            mt: 0.5,
-                                            '&:hover': {
-                                                cursor: 'pointer',
-                                                color: '#8c37f1',
+                                <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
+                                    <Grid >
 
-                                            }
-                                        }} color='#6d18d5' >
-                                            {item.course_status!.map((params, index) => {
-                                                // return (params.id === '1' ? params.label : ' & ' + params.label)
-                                                return (index !== 0 ? ' & ' + params.label : params.label)
-                                            })}
-                                        </Typography>
                                     </Grid>
                                 </CardActions>
                             </Card>
                         </Grid>
-                    </>
+                    </a>
 
                 })}
             </Grid>

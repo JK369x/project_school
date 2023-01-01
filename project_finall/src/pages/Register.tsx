@@ -15,8 +15,8 @@ import Grid from '@mui/material/Grid';
 import Button from "../framework/control/Button/Button";
 import { Navbar } from "../components/Navbar";
 //HOOK
-import { useCreateAcc } from '../Hook/useCreateAcc'
-import { IFormInput } from '../Hook/useCreateAcc'
+import { useCreateAcc } from '../Hook/user/useCreateAcc'
+import { IFormInput } from '../Hook/user/useCreateAcc'
 //firebase
 import { addDoc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -44,7 +44,7 @@ export const role: Lookup[] = [{
 }, {
   id: '3',
   label: 'ศิษย์เก่า (มทร.ธัญบุรี)'
-},{
+}, {
   id: '4',
   label: 'อาจารย์',
 },
@@ -114,7 +114,7 @@ const Register = (props: Props) => {
   const { addUser } = useCreateAcc()
   const { handleSubmit, getValues } = myForm
   const navigate = useNavigate()
-  
+
   const onSubmit = async () => {
     handleComplete()
     const email = getValues('email')
@@ -209,7 +209,7 @@ const Register = (props: Props) => {
 
         </Grid>
       </Grid>
-      <Footer/>
+      <Footer />
     </>
   )
 }

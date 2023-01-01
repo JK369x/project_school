@@ -1,24 +1,24 @@
-import { db } from '../firebase/config_firebase';
+import { db } from '../../firebase/config_firebase';
 import { addDoc, setDoc, doc, deleteDoc, } from "firebase/firestore";
-import { CourseCollection } from '../firebase/createCollection'
-import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice';
-import { isCloseLoading, isShowLoading } from '../store/slices/loadingSlice';
-import { useAppDispatch } from '../store/useHooksStore'
-import { Lookup,typeCourseOnline_Onside } from '../types/type';
+import { CourseCollection } from '../../firebase/createCollection'
+import { openAlertError, openAlertSuccess } from '../../store/slices/alertSlice';
+import { isCloseLoading, isShowLoading } from '../../store/slices/loadingSlice';
+import { useAppDispatch, useAppSelector } from '../../store/useHooksStore'
+import { Lookup, typeCourseOnline_Onside } from '../../types/type';
 
 export interface TypeCourses {
     title: string,
     subtitle: string,
     description: string,
     category: any,
-    start_register: Date | null,
-    start_register_time: Date | null,
-    start_register_end: Date | null,
-    start_course: Date | null,
-    end_course: Date | null,
+    start_register: Date ,
+    start_register_time: Date,
+    start_register_end: Date ,
+    start_course: Date | any,
+    end_course: Date ,
     course_date?: string,
     course_date_time: string | null,
-    course_status?: Lookup[] ,
+    course_status?: Lookup[],
     what_will_student_learn_in_your_course: {
         input_0: string,
         input_1: string,
@@ -36,18 +36,30 @@ export interface TypeCourses {
     whataretherequirement: string,
     image: string,
     teaching_assistant?: string,
-    Pricing: string,
+    Pricing: number,
+    pricing: number,
+    create_by_name: string,
 }
 
 export const UseCreateCourse = () => {
+    const { uid,status,displayName } = useAppSelector(({ auth }) => auth);
+    console.log("🚀 ~ file: useCreateCourse.ts:45 ~ UseCreateCourse ~ displayName", displayName)
     const dispatch = useAppDispatch()
     const addCourse = async (params: TypeCourses) => {
         console.log("🚀 ~ file: useCreateCourse.ts:39 ~ addCourse ~ params", params)
         try {
+            let newdata: any = params
+            let pricingNumber = Number(newdata.Pricing)
+            delete newdata.Pricing
+            // console.log(typeof(params.Pricing))
+
             await setDoc(doc(CourseCollection), {
-                ...params,
+                ...newdata,
+                create_by_name:displayName,
+                pricing: pricingNumber,
                 timestamp: new Date(),
             })
+            console.log("🚀 ~ file: useCreateCourse.ts:52 ~ awaitsetDoc ~ params", params)
             dispatch(isShowLoading())
             dispatch(openAlertSuccess('addCourseSuccess'))
         } catch (err) {

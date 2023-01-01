@@ -8,7 +8,7 @@ import { FC, useEffect, useState } from 'react'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/useDeleteUser'
+import { useDeleteUser } from '../../../Hook/user/useDeleteUser'
 
 //react dom 
 import { useNavigate } from 'react-router-dom'
@@ -36,18 +36,13 @@ import {
 import { storage } from '../../../firebase/config_firebase'
 import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
 import { CourseCollection } from '../../../firebase/createCollection'
-import { TypeCourses } from '../../../Hook/useCreateCourse'
-import { UseCreateCourse } from '../../../Hook/useCreateCourse'
+import { TypeCourses } from '../../../Hook/course/useCreateCourse'
+import { UseCreateCourse } from '../../../Hook/course/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
-import { CategoryListsType } from '../../../Hook/useGetCategory'
-import { useGetCourseLists } from '../../../Hook/useGetCategory'
+import { CategoryListsType } from '../../../Hook/category/useGetCategory'
+import { useGetCourseLists } from '../../../Hook/category/useGetCategory'
 
-
-const roleCategory: Lookup[] = [{
-    id: '1',
-    label: 'IOT',
-}]
 
 
 
@@ -63,10 +58,10 @@ const AddCourse = () => {
     const { CategoryLists } = useGetCourseLists()
     const getCategoryLists = CategoryLists
 
-    const dataCategory = getCategoryLists.map((item,index)=>{
+    const dataCategory = getCategoryLists.map((item, index) => {
         return (item.Category_Title)
     })
-    
+
     console.log("🚀 ~ file: AddCourse.tsx:65 ~ AddCourse ~ getCategoryLists", getCategoryLists)
     //*Hook
     const { addCourse } = UseCreateCourse()

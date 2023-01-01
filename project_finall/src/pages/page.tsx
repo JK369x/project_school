@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useGetCourseLists } from '../Hook/useGetCourse';
+import { useGetCourseLists } from '../Hook/course/useGetCourse';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Grid } from '@mui/material';
@@ -49,7 +49,7 @@ const page = () => {
                                                 {item.title}
                                             </Typography>
                                             <Typography gutterBottom variant="h5" component="div">
-                                                <FavoriteIcon/>
+                                                <FavoriteIcon />
                                             </Typography>
                                         </Grid>
                                         <Typography variant="body2" color="text.secondary">

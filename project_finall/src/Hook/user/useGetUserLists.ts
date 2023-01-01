@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useAppDispatch } from '../store/useHooksStore'
-import { isShowLoading, isCloseLoading } from '../store/slices/loadingSlice'
+import { useAppDispatch } from '../../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../../store/slices/loadingSlice'
 import { getDocs, query, where, orderBy, limit } from "firebase/firestore";
-import { IFormInput } from '../Hook/useCreateAcc'
-import { AccountCollection } from '../firebase/createCollection'
+import { IFormInput } from './useCreateAcc'
+import { AccountCollection } from '../../firebase/createCollection'
 export type UserListsType = {
     id: string
-    
+
 } & IFormInput
 //! & เพิ่ม id form input
 
@@ -22,8 +22,8 @@ export const useGetUserLists = () => {
     const getUserLists = async () => {
         dispatch(isShowLoading());
         try {
-          /* Getting the documents from the AccountCollection and ordering them by the createdate field
-          in descending order. */
+            /* Getting the documents from the AccountCollection and ordering them by the createdate field
+            in descending order. */
             const result = await getDocs(
                 query(
                     AccountCollection,
@@ -44,6 +44,6 @@ export const useGetUserLists = () => {
             dispatch(isCloseLoading())
         }
     }
-    return { userLists,getUserLists}
+    return { userLists, getUserLists }
 }
 

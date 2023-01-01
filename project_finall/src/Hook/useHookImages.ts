@@ -7,8 +7,8 @@ import {
 import { storage } from '../firebase/config_firebase'
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
 import { CourseCollection } from '../firebase/createCollection'
-import { TypeCourses } from './useCreateCourse'
-import { UseCreateCourse } from './useCreateCourse'
+import { TypeCourses } from './course/useCreateCourse'
+import { UseCreateCourse } from './course/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../store/slices/loadingSlice'
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from "react"
@@ -19,8 +19,8 @@ import { useState } from "react"
 export const useHookImages = () => {
     const [imageURL, setImageURL] = useState<any>(null);
     const dispatch = useAppDispatch()
-   
- 
+
+
 
 
 

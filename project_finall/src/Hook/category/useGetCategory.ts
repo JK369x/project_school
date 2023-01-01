@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useAppDispatch } from '../store/useHooksStore'
-import { isShowLoading, isCloseLoading } from '../store/slices/loadingSlice'
+import { useAppDispatch } from '../../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../../store/slices/loadingSlice'
 import { getDocs, query, where, orderBy, limit } from "firebase/firestore";
-import { CategoryCollection } from '../firebase/createCollection'
+import { CategoryCollection } from '../../firebase/createCollection'
 import { CategoryInput } from './useCreateCategory';
 export type CategoryListsType = {
     id: string
@@ -21,8 +21,8 @@ export const useGetCourseLists = () => {
     const useGetCategory = async () => {
         dispatch(isShowLoading());
         try {
-          /* Getting the documents from the AccountCollection and ordering them by the createdate field
-          in descending order. */
+            /* Getting the documents from the AccountCollection and ordering them by the createdate field
+            in descending order. */
             const result = await getDocs(
                 query(
                     CategoryCollection,
@@ -43,6 +43,6 @@ export const useGetCourseLists = () => {
             dispatch(isCloseLoading())
         }
     }
-    return { CategoryLists,useGetCategory}
+    return { CategoryLists, useGetCategory }
 }
 

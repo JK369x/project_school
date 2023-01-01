@@ -9,6 +9,7 @@ export interface AuthState {
 	displayName?: string | null
 	photoURL?: string | null
 	status?: Lookup | null
+	about? : string | null
 }
 
 // Define the initial state using that type

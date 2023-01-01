@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { db } from '../firebase/config_firebase'
-import { CourseCollection } from '../firebase/createCollection'
-import { useAppDispatch, useAppSelector } from "../store/useHooksStore";
-import { isCloseLoading, isShowLoading } from "../store/slices/loadingSlice";
+import { db } from '../../firebase/config_firebase'
+import { CourseCollection } from '../../firebase/createCollection'
+import { useAppDispatch, useAppSelector } from "../../store/useHooksStore";
+import { isCloseLoading, isShowLoading } from "../../store/slices/loadingSlice";
 import { TypeCourses } from "./useCreateCourse";
 
 export const useGetCourseDetail = () => {
@@ -41,7 +41,8 @@ export const useGetCourseDetail = () => {
         whataretherequirement: "",
         image: "",
         teaching_assistant: "",
-        Pricing: "",
+        Pricing: 0,
+        pricing: 0,
     })
 
     useEffect(() => {

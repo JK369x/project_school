@@ -4,23 +4,23 @@ import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
 import { Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
-import { IFormInput } from '../../../Hook/useCreateAcc'
+import { IFormInput } from '../../../Hook/user/useCreateAcc'
 import { FC, useEffect, useState } from 'react'
-import { UserListsType } from '../../../Hook/useGetUserLists'
-import { useGetUserLists } from '../../../Hook/useGetUserLists'
+import { UserListsType } from '../../../Hook/user/useGetUserLists'
+import { useGetUserLists } from '../../../Hook/user/useGetUserLists'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteCateGory } from '../../../Hook/useDeleteUser'
+import { useDeleteCateGory } from '../../../Hook/user/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import '../Dashboard/Dashboard.scss'
-import {useGetCourseLists} from '../../../Hook/useGetCategory'
-import {CategoryListsType} from '../../../Hook/useGetCategory'
-const  Category:FC = () => {
-  
+import { useGetCourseLists } from '../../../Hook/category/useGetCategory'
+import { CategoryListsType } from '../../../Hook/category/useGetCategory'
+const Category: FC = () => {
+
   const { CategoryLists, useGetCategory } = useGetCourseLists()
   const data = CategoryLists
   const { openConfirmDialog } = useDialog()
@@ -47,24 +47,24 @@ const  Category:FC = () => {
 
   }
 
-  const onClickAddCategory = () =>{
+  const onClickAddCategory = () => {
     navigate('/addcategory')
   }
 
   const columnOptions: TableColumnOptions[] = [
-    
+
     {
       alignHeader: 'center',
-      alignValue: 'center', 
+      alignValue: 'center',
       label: 'ID',
       value: 'countID',
     },
-  
+
     {
       label: 'Category',
       value: 'Category_Title',
     },
- 
+
     {
       alignValue: 'right',
       alignHeader: 'center',
@@ -78,30 +78,30 @@ const  Category:FC = () => {
 
   return (
     <div className='home'>
-      <Sidebar/> 
-      <div className="homeContainer"> 
-        <Navbar/>
+      <Sidebar />
+      <div className="homeContainer">
+        <Navbar />
         <div className="widgets">
-   
+
         </div>
         <div className="charts">
         </div>
         <div className="listContainer">
           <div className="listTitle">
-          <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
 
-              <Typography variant="h1" component="h2" ml={3}>
-                Categorys
-              </Typography>
-              <Button sx={{width:'140px', height:'40px',mr:3}}  color='success' onClick={()=>onClickAddCategory()} >+Add course</Button>
+                <Typography variant="h1" component="h2" ml={3}>
+                  Categorys
+                </Typography>
+                <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCategory()} >+Add course</Button>
               </Grid>
               <Grid item xs={12}>
                 <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
                   return {
-                    ...e, 
-                    countID:index + 1,
-                     delitem: <>
+                    ...e,
+                    countID: index + 1,
+                    delitem: <>
                       <Button sx={{ mr: 1 }} color='success' onClick={() => {
                         viewDetailUser(e)
                       }}>View</Button>
@@ -114,9 +114,9 @@ const  Category:FC = () => {
               </Grid>
             </Grid>
           </div>
-      
+
         </div>
-      </div> 
+      </div>
     </div>
 
   )

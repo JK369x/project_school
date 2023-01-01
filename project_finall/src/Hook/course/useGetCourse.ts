@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useAppDispatch } from '../store/useHooksStore'
-import { isShowLoading, isCloseLoading } from '../store/slices/loadingSlice'
+import { useAppDispatch } from '../../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../../store/slices/loadingSlice'
 import { getDocs, query, where, orderBy, limit } from "firebase/firestore";
-import { IFormInput } from '../Hook/useCreateAcc'
-import { CourseCollection } from '../firebase/createCollection'
+import { IFormInput } from '../user/useCreateAcc'
+import { CourseCollection } from '../../firebase/createCollection'
 import { TypeCourses } from './useCreateCourse';
 export type CourseListsType = {
     id: string
-    
+
 } & TypeCourses
 //! & เพิ่ม id form input
 
@@ -23,8 +23,8 @@ export const useGetCourseLists = () => {
     const getCourseLists = async () => {
         dispatch(isShowLoading());
         try {
-          /* Getting the documents from the AccountCollection and ordering them by the createdate field
-          in descending order. */
+            /* Getting the documents from the AccountCollection and ordering them by the createdate field
+            in descending order. */
             const result = await getDocs(
                 query(
                     CourseCollection,
@@ -45,6 +45,6 @@ export const useGetCourseLists = () => {
             dispatch(isCloseLoading())
         }
     }
-    return { CourseLists,getCourseLists}
+    return { CourseLists, getCourseLists }
 }
 

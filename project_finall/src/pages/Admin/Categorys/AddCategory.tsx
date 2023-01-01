@@ -25,11 +25,11 @@ import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
 
-import { CategoryInput } from '../../../Hook/useCreateCategory'
+import { CategoryInput } from '../../../Hook/category/useCreateCategory'
 
 import '../Dashboard/Dashboard.scss'
 
-import { useCreateCategory } from '../../../Hook/useCreateCategory'
+import { useCreateCategory } from '../../../Hook/category/useCreateCategory'
 
 
 

@@ -14,8 +14,8 @@ import { ControllerTextField } from '../../framework/control/TextField/Controlle
 
 interface IFormInput {
     email: string;
-    password: string 
-  }
+    password: string
+}
 const LoginAdmin = () => {
     const navigator = useNavigate()
     const dispatch = useAppDispatch()
@@ -30,13 +30,14 @@ const LoginAdmin = () => {
             const {
                 user: { uid },
             } = await signInWithEmailAndPassword(auth, email, password)
-        
-            const docSnap = await getDoc(doc(AccountCollection, uid)) 
-            console.log('123123',docSnap.exists())
+
+            const docSnap = await getDoc(doc(AccountCollection, uid))
+            console.log('123123', docSnap.exists())
             if (docSnap.exists()) {
-                const { displayName, photoURL,status } = docSnap.data() as any
+                const { firstName, lastName, photoURL, status } = docSnap.data() as any
+                const displayName = `${firstName} ${lastName}`
                 console.log(docSnap.data())
-                dispatch(setAuthStore({ uid, displayName, photoURL,status }))
+                dispatch(setAuthStore({ uid, displayName, photoURL, status }))
                 navigator('/dashboard')
             } else {
                 console.log('error data')
@@ -62,7 +63,7 @@ const LoginAdmin = () => {
                         <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
                     </Grid>
                     <Grid container justifyContent={'Right'}>
-                       
+
                         <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
                     </Grid>
                 </Grid>

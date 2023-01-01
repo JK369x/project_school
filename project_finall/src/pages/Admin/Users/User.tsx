@@ -4,14 +4,14 @@ import '../Dashboard/Dashboard.scss'
 import { Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
-import { IFormInput } from '../../../Hook/useCreateAcc'
+import { IFormInput } from '../../../Hook/user/useCreateAcc'
 import { FC, useEffect, useState } from 'react'
-import { UserListsType } from '../../../Hook/useGetUserLists'
-import { useGetUserLists } from '../../../Hook/useGetUserLists'
+import { UserListsType } from '../../../Hook/user/useGetUserLists'
+import { useGetUserLists } from '../../../Hook/user/useGetUserLists'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/useDeleteUser'
+import { useDeleteUser } from '../../../Hook/user/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
@@ -46,15 +46,15 @@ const User: FC = () => {
   }
 
   const columnOptions: TableColumnOptions[] = [
-    
+
     {
       alignHeader: 'left',
-      alignValue: 'left', 
+      alignValue: 'left',
       label: 'ID',
       value: 'countID',
     },
     {
-      
+
       label: 'User',
       value: 'firstName',
     },
@@ -95,19 +95,19 @@ const User: FC = () => {
             <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
 
-              <Typography variant="h1" component="h2" ml={3}>
-                Users
-              </Typography>
-              <Button sx={{width:'80px', height:'40px',mr:3}}  color='success'>
-                + ADD
-              </Button>
+                <Typography variant="h1" component="h2" ml={3}>
+                  Users
+                </Typography>
+                <Button sx={{ width: '80px', height: '40px', mr: 3 }} color='success'>
+                  + ADD
+                </Button>
               </Grid>
               <Grid item xs={12}>
                 <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
                   return {
-                    ...e, 
-                    countID:index + 1,
-                     delitem: <>
+                    ...e,
+                    countID: index + 1,
+                    delitem: <>
                       <Button sx={{ mr: 1 }} color='success' onClick={() => {
                         viewDetailUser(e)
                       }}>View</Button>

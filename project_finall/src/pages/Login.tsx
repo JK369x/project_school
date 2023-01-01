@@ -51,9 +51,9 @@ const Login = (props: Props) => {
       } = await signInWithEmailAndPassword(auth, email, password)
 
       const docSnap = await getDoc(doc(AccountCollection, uid))
-      console.log('123123', docSnap.exists())
       if (docSnap.exists()) {
-        const { displayName, photoURL, status } = docSnap.data() as any
+        const { firstName,lastName, photoURL, status } = docSnap.data() as any
+        const displayName = `${firstName} ${lastName}`
         console.log(docSnap.data())
         //! status = role user 
         dispatch(setAuthStore({ uid, displayName, photoURL, status }))

@@ -6,7 +6,7 @@ import { UseFormReturn } from "react-hook-form";
 import { useLocationLookup } from '../Hook/useLocationLookup';
 // Lookup
 import { role } from './Register'
-import { IFormInput } from '../Hook/useCreateAcc';
+import { IFormInput } from '../Hook/user/useCreateAcc';
 //MUI
 import Grid from '@mui/material/Grid';
 import {
@@ -53,7 +53,7 @@ export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 <Button type="button" onClick={handleComplete}>Complete Step</Button>
             </Grid>
         </>
-   )
+    )
 }
 
 export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {

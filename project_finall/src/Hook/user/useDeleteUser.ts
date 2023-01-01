@@ -1,11 +1,11 @@
 import { addDoc, deleteDoc, doc } from "firebase/firestore";
-import { db } from "../firebase/config_firebase";
-import { AccountCollection,CourseCollection,CategoryCollection} from "../firebase/createCollection";
+import { db } from "../../firebase/config_firebase";
+import { AccountCollection, CourseCollection, CategoryCollection } from "../../firebase/createCollection";
 
 
 // store
-import { useAppDispatch } from '../store/useHooksStore'
-import { isShowLoading, isCloseLoading } from '../store/slices/loadingSlice'
+import { useAppDispatch } from '../../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../../store/slices/loadingSlice'
 
 
 

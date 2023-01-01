@@ -13,17 +13,17 @@ import {
 }
     from '../../../../framework/control';
 import { useForm } from "react-hook-form";
-import { UserListsType } from "../../../../Hook/useGetUserLists";
-import { useGetDetailUser } from '../../../../Hook/useGetDetailUser'
+import { UserListsType } from "../../../../Hook/user/useGetUserLists";
+import { useGetDetailUser } from '../../../../Hook/user/useGetDetailUser'
 import { useLocationLookup } from '../../../../Hook/useLocationLookup'
-import { useUpdateUser } from '../../../../Hook/useUpdateUser'
+import { useUpdateUser } from '../../../../Hook/user/useUpdateUser'
 import { doc, updateDoc } from "firebase/firestore";
 
 
 const EditUser: FC = () => {
 
     const { state } = useGetDetailUser()
-    const {updateUser} = useUpdateUser()
+    const { updateUser } = useUpdateUser()
     useEffect(() => {
         myForm.setValue('data', state
         )
@@ -33,19 +33,19 @@ const EditUser: FC = () => {
     console.log("🚀 ~ file: EditUser.tsx:46 ~ myForm", myForm.getValues())
 
     const onClickSubmitEdit = () => {
-        if(getValues()){
-            try{
+        if (getValues()) {
+            try {
                 const id = myForm.getValues().data.id
-                updateUser(getValues().data,id)
-            }catch (error){
+                updateUser(getValues().data, id)
+            } catch (error) {
                 console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
-                
+
             }
         }
     }
 
 
-    const { watch, handleSubmit,getValues } = myForm
+    const { watch, handleSubmit, getValues } = myForm
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
 
     const changeProvince = watch('data.province')
@@ -81,14 +81,14 @@ const EditUser: FC = () => {
                 <div className="listContainer">
                     <div className="listTitle">
                         <Box sx={{ width: '100%' }}>
-                                <form onSubmit={handleSubmit(onSubmit)}>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <Grid >
                                     <Grid container justifyContent={'space-between'} item xs={12} sx={{ m: 0, p: 0 }}>
                                         <Typography variant="h2" mb={2}  >
                                             Information
                                         </Typography>
                                         <Button label='Submit' onClick={() => onClickSubmitEdit()} />
-                                       
+
                                     </Grid>
                                     <Grid container item>
                                         <Grid container ml={3} mr={3} item xs={1}>
@@ -158,7 +158,7 @@ const EditUser: FC = () => {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                    </form>
+                            </form>
                         </Box>
                     </div>
                 </div>
