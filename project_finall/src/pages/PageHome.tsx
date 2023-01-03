@@ -13,7 +13,8 @@ import { Avatar, Grid, IconButton, Rating } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAppSelector } from '../store/useHooksStore';
 import moment from 'moment';
-
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const PageHome = () => {
     const { CourseLists, getCourseLists } = useGetCourseLists()
@@ -52,25 +53,55 @@ const PageHome = () => {
 
     }
 
+    const labels: { [index: string]: string } = {
+        0.5: 'Useless',
+        1: 'Useless+',
+        1.5: 'Poor',
+        2: 'Poor+',
+        2.5: 'Ok',
+        3: 'Ok+',
+        3.5: 'Good',
+        4: 'Good+',
+        4.5: 'Excellent',
+        5: 'Excellent+',
+    };
+
+
+    function getLabelText(value: number) {
+        return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+    }
+
     return (
         <>
             <Navbar />
 
             <Grid container justifyContent={'center'} >
                 {data.map((item, index) => {
-                  
-                    const startCourse =  new Date(item.start_course.seconds)
+
+                    const startCourse = new Date(item.start_course.seconds * 1000)
                     console.log("🚀 ~ file: PageHome.tsx:63 ~ {data.map ~ startCourse", startCourse)
                     const formattedDate = startCourse.toDateString();
                     console.log("🚀 ~ file: PageHome.tsx:69 ~ {data.map ~ formattedDate", formattedDate)
-
+                    const start_course_learn = new Date(item.start_register_time.seconds * 1000).toLocaleTimeString('en-Us', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: false,
+                        timeZone: 'Asia/Bangkok'
+                    })
+                    const start_course_end = new Date(item.start_register_end.seconds * 1000).toLocaleTimeString('en-Us', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: false,
+                        timeZone: 'Asia/Bangkok'
+                    })
+                    console.log("🚀 ~ file: PageHome.tsx:86 ~ start_course_learn", start_course_learn)
 
 
 
                     return <a onClick={() => { onClickCard(item) }}>
                         <Grid margin={2}>
                             <Card sx={{
-                                height: 600, width: 345, '&:hover': {
+                                height:475, width: 345, '&:hover': {
                                     cursor: 'pointer',
                                 }
                             }} key={index}
@@ -132,29 +163,41 @@ const PageHome = () => {
                                     </Grid>
                                 </CardContent>
                                 <CardContent sx={{ mt: 1, pt: 3, pb: 0 }}>
-                                    <Grid container >
+                                    <Grid container justifyContent={'space-between'} >
                                         <Grid item sx={{ mr: 1 }}>
-                                            <Rating name="read-only" value={5} readOnly />
+                                            <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
+
                                         </Grid>
                                         <Grid item >
                                             <Typography>
                                                 {item.pricing.toLocaleString()} THB
                                             </Typography>
                                         </Grid>
-                                        <Grid container sx={{ mr: 1 }} alignItems={'center'}>
-                                            <Grid sx={{ mr: 1.5 }} >
-                                                <Avatar alt="Remy Sharp" src="#" />
-                                            </Grid>
-                                            <Grid >
-                                                {item.create_by_name}
-                                            </Grid>
+                                    </Grid>
+                                    <Grid container sx={{ mr: 1 }} alignItems={'center'}>
+                                        <Grid sx={{ mr: 1.5 }} >
+                                            <Avatar alt="Remy Sharp" src="#" />
+                                        </Grid>
+                                        <Grid >
+                                            {item.create_by_name}
                                         </Grid>
                                     </Grid>
                                 </CardContent>
                                 <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
-                                    <Grid >
-
-                                    </Grid>
+                                    
+                                        <Grid container>
+                                            <CalendarMonthIcon sx={{ color: "#6d18d5" }} />
+                                            {Array.from(item.course_date!).map((params: any, index: number) => {
+                                                return (index !== 0 ? ' - ' + params.label : params.label)
+                                            })}
+                                        </Grid>
+                                        <Grid container justifyContent={'flex-end'}>
+                                            <AccessTimeIcon sx={{ color: "#6d18d5" }} />
+                                            <Typography>
+                                                {`${start_course_learn} - ${start_course_end}`}
+                                            </Typography>
+                                        </Grid>
+                              
                                 </CardActions>
                             </Card>
                         </Grid>

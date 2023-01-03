@@ -360,8 +360,8 @@ export const Table: FC<ControlTableProps> = (props) => {
 																	{format === 'money'
 																		? fmtMoney(valueData)
 																		: format === 'date'
-																		? fmtDate(valueData)
-																		: valueData}
+																			? fmtDate(valueData)
+																			: valueData}
 																	{unit ?? ''}
 																</Typography>
 															)}
@@ -471,8 +471,8 @@ export const Table: FC<ControlTableProps> = (props) => {
 																{format === 'money'
 																	? fmtMoney(valueData)
 																	: format === 'date'
-																	? fmtDate(valueData)
-																	: valueData}
+																		? fmtDate(valueData)
+																		: valueData}
 																{unit ?? ''}
 															</Typography>
 														</Grid>

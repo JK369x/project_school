@@ -83,81 +83,96 @@ const EditUser: FC = () => {
                         <Box sx={{ width: '100%' }}>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <Grid >
-                                    <Grid container justifyContent={'space-between'} item xs={12} sx={{ m: 0, p: 0 }}>
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} >
                                         <Typography variant="h2" mb={2}  >
-                                            Information
+                                            INFORMATION
                                         </Typography>
-                                        <Button label='Submit' onClick={() => onClickSubmitEdit()} />
-
                                     </Grid>
-                                    <Grid container item>
-                                        <Grid container ml={3} mr={3} item xs={1}>
-                                            <Avatar alt="Remy Sharp" src="" sx={{ width: 120, height: 120, mr: 5 }} />
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{mb:2}}>
+                                        <Avatar alt="Remy Sharp" src="" sx={{ width: 120, height: 120, }} />
+                                    </Grid>
+
+
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
+                                        <Grid item xs={2}>
+                                            <ControllerTextField sx={{ mr: 1 }} fullWidth formprop={myForm} name={"data.firstName"} label={'FirstName'} />
                                         </Grid>
-                                        <Grid ml={1} item xs={6} >
-                                            <Grid item container spacing={2} >
-                                                <Grid>
-                                                    <ControllerTextField sx={{ mr: 1 }} formprop={myForm} name={"data.firstName"} label={'FirstName'} />
-                                                </Grid>
-                                                <Grid>
-
-                                                    <ControllerTextField formprop={myForm} name={"data.lastName"} label={'LastName'} />
-                                                </Grid>
-                                            </Grid>
-                                            <Grid item container spacing={2} xs={6} mt={0}>
-                                                <ControllerTextField formprop={myForm} name={"data.email"} label={'Email'} />
-                                            </Grid>
-                                            <Grid item container spacing={2} xs={6} mt={0}>
-                                                <ControllerTextField formprop={myForm} name={"data.job"} label={'Job'} />
-                                            </Grid>
-                                            <Grid item container spacing={2} xs={6} mt={0}>
-                                                <ControllerAutocomplete
-
-                                                    formprop={myForm}
-                                                    name={'data.province'}
-                                                    label={'Province'}
-                                                    options={province} // load options
-                                                    fullWidth
-                                                />
-                                                <ControllerAutocomplete
-
-                                                    formprop={myForm}
-                                                    name={'data.amphure'}
-                                                    label={'Amphure'}
-                                                    options={amphure} // load options
-                                                    fullWidth
-                                                />
-                                                <ControllerAutocomplete
-
-                                                    formprop={myForm}
-                                                    name={'data.tambon'}
-                                                    label={'Tambon'}
-                                                    options={tambon} // load options
-                                                    fullWidth
-                                                />
-
-                                                <ControllerAutocomplete
-                                                    formprop={myForm}
-                                                    name={'data.zipCode'}
-                                                    label={'รหัสไปรษณีย์'}
-                                                    options={zipcode} // load options
-                                                    fullWidth
-                                                />
-                                            </Grid>
-
-                                            <Grid item container spacing={2} xs={6} mt={0}>
-                                                <ControllerTextField formprop={myForm} name={"data.address"} label={'Address'} />
-                                            </Grid>
-                                            <Grid item container spacing={2} xs={6} mt={0}>
-                                                <ControllerTextField formprop={myForm} name={"data.agency"} label={'Agency'} />
-                                            </Grid>
-                                            <Grid item container spacing={2} xs={6} mt={0}>
-                                                <ControllerTextField formprop={myForm} name={"data.status.label"} label={'Status'} />
-                                            </Grid>
-
+                                        <Grid item xs={2}>
+                                            <ControllerTextField formprop={myForm} fullWidth name={"data.lastName"} label={'LastName'} />
                                         </Grid>
+                                    </Grid>
+
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
+                                        <Grid item xs={2} >
+                                            <ControllerTextField formprop={myForm} fullWidth name={"data.email"} label={'Email'} />
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            <ControllerTextField formprop={myForm} fullWidth name={"data.job"} label={'Job'} />
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
+                                        <Grid item xs={1} >
+                                            <ControllerAutocomplete
+
+                                                formprop={myForm}
+                                                name={'data.province'}
+                                                label={'Province'}
+                                                options={province} // load options
+                                                fullWidth
+                                            />
+                                        </Grid>
+                                        <Grid item xs={1}>
+
+                                            <ControllerAutocomplete
+
+                                                formprop={myForm}
+                                                name={'data.amphure'}
+                                                label={'Amphure'}
+                                                options={amphure} // load options
+                                                fullWidth
+                                            />
+                                        </Grid>
+                                        <Grid item xs={1} >
+                                            <ControllerAutocomplete
+
+                                                formprop={myForm}
+                                                name={'data.tambon'}
+                                                label={'Tambon'}
+                                                options={tambon} // load options
+                                                fullWidth
+                                            />
+                                        </Grid>
+                                        <Grid item xs={1}>
+
+                                            <ControllerAutocomplete
+                                                formprop={myForm}
+                                                name={'data.zipCode'}
+                                                label={'รหัสไปรษณีย์'}
+                                                options={zipcode} // load options
+                                                fullWidth
+                                            />
+                                        </Grid>
+                                    </Grid>
+
+
+
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}  >
+                                        <Grid item xs={1.3333} >
+                                            <ControllerTextField fullWidth formprop={myForm} name={"data.address"} label={'Address'} />
+                                        </Grid>
+                                        <Grid item xs={1.3333} >
+                                            <ControllerTextField fullWidth formprop={myForm} name={"data.agency"} label={'Agency'} />
+                                        </Grid>
+                                        <Grid item xs={1.3333} >
+                                            <ControllerTextField fullWidth formprop={myForm} name={"data.status.label"} label={'Status'} />
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{mt:2}}>
+                                        <Button label='Submit' onClick={() => onClickSubmitEdit()} />
                                     </Grid>
                                 </Grid>
+
                             </form>
                         </Box>
                     </div>

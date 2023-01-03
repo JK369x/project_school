@@ -20,12 +20,13 @@ import '../Dashboard/Dashboard.scss'
 import { CourseListsType, useGetCourseLists } from '../../../Hook/course/useGetCourse'
 import Testgrid from '../../test/Testgrid'
 import Image from '../../../components/Image/Image'
+import { Box } from '@mui/system'
 
 const Course: FC = () => {
 
   const { CourseLists, getCourseLists } = useGetCourseLists()
   const data = CourseLists
-  const { openConfirmDialog } = useDialog() 
+  const { openConfirmDialog } = useDialog()
   const { deleteCourse } = useDeleteCourse()
   const navigate = useNavigate()
   //  const [detailUser, setDetailUser] = useState<UserListsType>()
@@ -56,30 +57,35 @@ const Course: FC = () => {
   const columnOptions: TableColumnOptions[] = [
 
     {
-      alignHeader: 'left',
-      alignValue: 'left',
+      alignHeader: 'center',
+      alignValue: 'center',
       label: 'ID',
       value: 'countID',
     },
 
     {
-
+      alignHeader: 'center',
+      alignValue: 'center',
       label: 'Image',
       value: 'imageTitle',
     },
     {
-
+      alignHeader: 'center',
+      alignValue: 'center',
       label: 'Title',
       value: 'title',
     },
     {
+      alignHeader: 'center',
+      alignValue: 'center',
       label: 'Category',
       value: 'category',
     },
 
     {
-      alignValue: 'right',
+      width:'200',
       alignHeader: 'center',
+      alignValue: 'center',
       label: 'Action',
       value: 'delitem',
     },
@@ -101,33 +107,31 @@ const Course: FC = () => {
           <div className="listTitle">
             <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
-
                 <Typography variant="h1" component="h2" ml={3}>
                   Course
                 </Typography>
                 <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCourse()} >+Add course</Button>
+              </Grid>
 
-              </Grid>
-              <Grid item xs={12}>
-                <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
-                  return {
-                    ...e,
-                    countID: index + 1,
-                    delitem: <>
-                      <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                        viewDetailUser(e)
-                      }}>View</Button>
-                      <Button sx={{ mr: 0 }} color='error' onClick={() => {
-                        delItem(e)
-                      }}>Delete</Button>
-                    </>,
-                    imageTitle: <>
-                      <Image src={e.image} width={90} height={60} />
-                    </>,
-                  }
-                })} defaultRowsPerPage={10} />
-              </Grid>
+
             </Grid>
+            <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
+              return {
+                ...e,
+                countID: index + 1,
+                delitem: <>
+                  <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                    viewDetailUser(e)
+                  }}>View</Button>
+                  <Button sx={{ mr: 0 }} color='error' onClick={() => {
+                    delItem(e)
+                  }}>Delete</Button>
+                </>,
+                imageTitle: <Grid >
+                  <Image src={e.image} width={90} height={60} />
+                </Grid>,
+              }
+            })} defaultRowsPerPage={10} />
           </div>
 
         </div>

@@ -29,7 +29,7 @@ export type AutocompleteProps = {
     disabled?: boolean;
     fullWidth?: boolean;
     multiple?: boolean;
-    autoAddNewOption?: boolean;
+    autoAddNewOption?: any;
 };
 
 export const Autocomplete: FC<AutocompleteProps> = (props) => {
