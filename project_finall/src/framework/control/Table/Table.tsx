@@ -143,7 +143,7 @@ const TableHead = (props: EnhancedTableProps) => {
 }
 
 export interface TableColumnOptions {
-	label: string
+	label?: string
 	alignValue?: 'left' | 'center' | 'right' | 'inherit' | 'justify'
 	alignHeader?: 'left' | 'center' | 'right' | 'inherit' | 'justify'
 	value: string

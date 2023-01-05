@@ -57,6 +57,7 @@ const Course: FC = () => {
   const columnOptions: TableColumnOptions[] = [
 
     {
+      width:'100',
       alignHeader: 'center',
       alignValue: 'center',
       label: 'ID',
@@ -64,27 +65,26 @@ const Course: FC = () => {
     },
 
     {
+      width:'50',
       alignHeader: 'center',
       alignValue: 'center',
-      label: 'Image',
+      label: 'Course',
       value: 'imageTitle',
     },
     {
-      alignHeader: 'center',
-      alignValue: 'center',
-      label: 'Title',
+      alignValue: 'left',
       value: 'title',
     },
     {
-      alignHeader: 'center',
-      alignValue: 'center',
+      alignHeader: 'left',
+      alignValue: 'left',
       label: 'Category',
       value: 'category',
     },
 
     {
       width:'200',
-      alignHeader: 'center',
+      alignHeader: 'left',
       alignValue: 'center',
       label: 'Action',
       value: 'delitem',
@@ -108,7 +108,7 @@ const Course: FC = () => {
             <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
                 <Typography variant="h1" component="h2" ml={3}>
-                  Course
+                  Courses
                 </Typography>
                 <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCourse()} >+Add course</Button>
               </Grid>

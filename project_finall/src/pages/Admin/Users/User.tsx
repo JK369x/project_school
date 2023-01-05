@@ -48,6 +48,7 @@ const User: FC = () => {
   const columnOptions: TableColumnOptions[] = [
 
     {
+      width:'100',
       alignHeader: 'left',
       alignValue: 'left',
       label: 'ID',
@@ -69,11 +70,11 @@ const User: FC = () => {
       value: 'status.label',
     },
     {
-      alignValue: 'right',
-      alignHeader: 'center',
+      width:'200',
+      alignHeader: 'left',
+      alignValue: 'center',
       label: 'Action',
       value: 'delitem',
-
     },
 
 

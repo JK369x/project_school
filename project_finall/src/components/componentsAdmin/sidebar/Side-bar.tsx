@@ -13,33 +13,39 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 //react dom 
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged,signOut } from 'firebase/auth';
+import { auth } from '../../../firebase/config_firebase';
+import { useAppDispatch } from '../../../store/useHooksStore';
+import { setAuthStore } from '../../../store/slices/authSlice';
 
 export const Sidebar = () => {
   const navigate = useNavigate()
-  const onClickUser =  () =>{
+  const onClickUser = () => {
     navigate('/users')
-  
+
   }
-  const onClickDashboard =  () =>{
+  const onClickDashboard = () => {
     navigate('/dashboard')
   }
 
-  const onClickCourse =  () =>{
-  
+  const onClickCourse = () => {
+
     navigate('/courses')
   }
 
-  const onClickCategory =  () =>{
-  
+  const onClickCategory = () => {
+
     navigate('/category')
   }
 
 
-  const onClickCalculate =  () =>{
-  
+  const onClickCalculate = () => {
+
     navigate('/category')
   }
+
+
 
   return (
     <div className='sidebar'>
@@ -51,7 +57,7 @@ export const Sidebar = () => {
         <ul>
           <p className="title">MAIN</p>
           <li>
-            <DashboardIcon className='icon'/>
+            <DashboardIcon className='icon' />
             <span onClick={onClickDashboard}>Dashboard</span>
           </li>
           <p className="title">List</p>
@@ -61,49 +67,49 @@ export const Sidebar = () => {
             <span onClick={onClickUser}>Users</span>
           </li>
           <li>
-            <StoreIcon className='icon'/>
+            <StoreIcon className='icon' />
             <span onClick={onClickCourse}>Course</span>
           </li>
           <li>
-            <CreditCardIcon className='icon'/>
+            <CreditCardIcon className='icon' />
             <span onClick={onClickCategory}>Category</span>
           </li>
           <li>
-            <LocalShippingIcon className='icon'/>
+            <LocalShippingIcon className='icon' />
             <span>Delivery</span>
           </li>
           <p className="title">USEFUL</p>
           <li>
-            <QueryStatsIcon className='icon'/>
+            <QueryStatsIcon className='icon' />
             <span>Stats</span>
           </li>
           <li>
-            <NotificationsIcon className='icon'/>
+            <NotificationsIcon className='icon' />
             <span>Notifications</span>
           </li>
           <p className="title">SERVICE</p>
           <li>
-            <SettingsSystemDaydreamIcon className='icon'/>
+            <SettingsSystemDaydreamIcon className='icon' />
             <span>Calculate Queue</span>
           </li>
           <li>
-            <PsychologyIcon className='icon'/>
+            <PsychologyIcon className='icon' />
             <span>Logs</span>
           </li>
           <li>
-            <SettingsIcon className='icon'/>
+            <SettingsIcon className='icon' />
             <span>Setting</span>
           </li>
           <p className="title">USER</p>
           <li>
-            <AccountBoxIcon className='icon'/>
+            <AccountBoxIcon className='icon' />
             <span>Profile</span>
           </li>
           <li>
-            <LogoutIcon className='icon'/>
-            <span>Logout</span>
+            <LogoutIcon className='icon' />
+            <span onClick={() => { navigate('/adminlogin') }}>Logout</span>
           </li>
-          
+
         </ul>
       </div>
       <div className="bottom">

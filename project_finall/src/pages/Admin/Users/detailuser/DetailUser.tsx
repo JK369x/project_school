@@ -48,7 +48,7 @@ const DetailUser: FC = () => {
               <Grid >
                 <Grid container justifyContent={'space-between'} item xs={12} sx={{ m: 0, p: 0 }}>
                   <Typography variant="h2" mb={2}  >
-                    Information
+                   INFORMATION 
                   </Typography>
                   <Button label='Edit' onClick={() => onClickEdit()} />
                 </Grid>

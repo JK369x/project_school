@@ -9,12 +9,16 @@ import Typography from '@mui/material/Typography';
 import { CourseListsType, useGetCourseLists } from '../Hook/course/useGetCourse';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { Avatar, Grid, IconButton, Rating } from '@mui/material';
+import { Avatar, Box, Grid, IconButton, Rating } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAppSelector } from '../store/useHooksStore';
 import moment from 'moment';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import SearchIcon from '@mui/icons-material/Search';
+import { Search, SearchIconWrapper, StyledInputBase } from '../styles/seachMUI';
+import Image from '../components/Image/Image';
+import HeaderLogo from '../assets/Course app-amico.png'
 
 const PageHome = () => {
     const { CourseLists, getCourseLists } = useGetCourseLists()
@@ -74,14 +78,52 @@ const PageHome = () => {
     return (
         <>
             <Navbar />
+            <Box
+                sx={{
+                    position: "relative",
+                    width: '100%',
+                    height: 450,
+                    opacity:0.1,
+                    backgroundColor: '#000000',
+                    // '&:hover': {
+                        //     backgroundColor: 'primary.main',
+                        //     opacity: [0.9, 0.8, 0.7],
+                        // },
+                    }}>
+                    </Box>
+                <Grid container justifyContent={'space-between'} alignItems={'center'} alignContent={'center'} sx={{ width: '100%', height: 450,position: "absolute",top:65, }}>
+
+                    <Grid item xs={3} sx={{ ml: 6 }}>
+                        <Grid sx={{mb:3,ml:3}}>
+                            <Typography gutterBottom variant="h5" component="h5" color={"black"}>
+                                คอร์สเรียนเพิ่มทักษะทางด<br/>ด้านวิศวกรรมคอมพิวเตอร์
+                            </Typography>
+                            <Typography gutterBottom variant="body2" component="h5">
+                                พบกับวิทยากร ที่จะช่วยอัปสกิล ให้คุณเก่งขึ้น
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…"
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </Search>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={3} sx={{mr:6}}>
+                    <Image src={HeaderLogo} width={350} height={350}/>
+                    </Grid>
+                </Grid>
 
             <Grid container justifyContent={'center'} >
                 {data.map((item, index) => {
 
                     const startCourse = new Date(item.start_course.seconds * 1000)
-                    console.log("🚀 ~ file: PageHome.tsx:63 ~ {data.map ~ startCourse", startCourse)
                     const formattedDate = startCourse.toDateString();
-                    console.log("🚀 ~ file: PageHome.tsx:69 ~ {data.map ~ formattedDate", formattedDate)
                     const start_course_learn = new Date(item.start_register_time.seconds * 1000).toLocaleTimeString('en-Us', {
                         hour: 'numeric',
                         minute: 'numeric',
@@ -94,14 +136,14 @@ const PageHome = () => {
                         hour12: false,
                         timeZone: 'Asia/Bangkok'
                     })
-                    console.log("🚀 ~ file: PageHome.tsx:86 ~ start_course_learn", start_course_learn)
+               
 
 
 
                     return <a onClick={() => { onClickCard(item) }}>
                         <Grid margin={2}>
                             <Card sx={{
-                                height:475, width: 345, '&:hover': {
+                                height: 475, width: 345, '&:hover': {
                                     cursor: 'pointer',
                                 }
                             }} key={index}
@@ -184,20 +226,20 @@ const PageHome = () => {
                                     </Grid>
                                 </CardContent>
                                 <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
-                                    
-                                        <Grid container>
-                                            <CalendarMonthIcon sx={{ color: "#6d18d5" }} />
-                                            {Array.from(item.course_date!).map((params: any, index: number) => {
-                                                return (index !== 0 ? ' - ' + params.label : params.label)
-                                            })}
-                                        </Grid>
-                                        <Grid container justifyContent={'flex-end'}>
-                                            <AccessTimeIcon sx={{ color: "#6d18d5" }} />
-                                            <Typography>
-                                                {`${start_course_learn} - ${start_course_end}`}
-                                            </Typography>
-                                        </Grid>
-                              
+
+                                    <Grid container>
+                                        <CalendarMonthIcon sx={{ color: "#6d18d5" }} />
+                                        {Array.from(item.course_date!).map((params: any, index: number) => {
+                                            return (index !== 0 ? ' - ' + params.label : params.label)
+                                        })}
+                                    </Grid>
+                                    <Grid container justifyContent={'flex-end'}>
+                                        <AccessTimeIcon sx={{ color: "#6d18d5" }} />
+                                        <Typography>
+                                            {`${start_course_learn} - ${start_course_end}`}
+                                        </Typography>
+                                    </Grid>
+
                                 </CardActions>
                             </Card>
                         </Grid>

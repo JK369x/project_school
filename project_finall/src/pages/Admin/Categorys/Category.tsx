@@ -54,6 +54,7 @@ const Category: FC = () => {
   const columnOptions: TableColumnOptions[] = [
 
     {
+      width:'100',
       alignHeader: 'center',
       alignValue: 'center',
       label: 'ID',
@@ -66,8 +67,9 @@ const Category: FC = () => {
     },
 
     {
-      alignValue: 'right',
-      alignHeader: 'center',
+      width:'200',
+      alignHeader: 'left',
+      alignValue: 'center',
       label: 'Action',
       value: 'delitem',
 
