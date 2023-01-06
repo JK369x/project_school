@@ -1,20 +1,20 @@
-import { Components } from "@mui/material";
+import { Components } from '@mui/material'
 
 const themeComponents: Components = {
-    MuiTextField: {
-        defaultProps: {
-            variant: "outlined",
-            margin: "dense",
-            size: "small",
-        },
-    },
-    MuiButton: {
-        defaultProps: {
-            variant: "contained",
-            disableRipple: true,
-            disableFocusRipple: true,
-        },
-    },
-};
+	MuiTextField: {
+		defaultProps: {
+			variant: 'outlined',
+			margin: 'dense',
+			size: 'small',
+		},
+	},
+	MuiButton: {
+		defaultProps: {
+			variant: 'contained',
+			disableRipple: true,
+			disableFocusRipple: true,
+		},
+	},
+}
 
-export default themeComponents;
+export default themeComponents

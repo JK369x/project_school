@@ -68,7 +68,7 @@ export const FileManageControl: FC<FileManageControlProps> = ({ dataSource }) =>
 						}}
 					>
 						<ListItemButton sx={{ height: '36px', borderRadius: '10px', pr: 0.2 }}>
-							{/* <Typography variant="subtitle1">{t('myIot')}</Typography> */}
+							<Typography variant="subtitle1">{'myIot'}</Typography>
 							<ArrowDropDownRoundedIcon fontSize="large" sx={{ pt: 0.5 }} />
 						</ListItemButton>
 					</ListItem>

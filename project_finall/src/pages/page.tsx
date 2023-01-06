@@ -40,15 +40,13 @@ const page = () => {
                                     image={item.image}
                                 />
                                 <CardContent >
-                                    {/* <Typography sx={{m:0,p:0}} variant="h6" component="div">
-                                        online & onside
-                                    </Typography> */}
+                                 
                                     <Grid>
                                         <Grid container justifyContent={'space-between'}>
-                                            <Typography gutterBottom variant="h5" component="div">
+                                            <Typography gutterBottom variant="h5" component="h5">
                                                 {item.title}
                                             </Typography>
-                                            <Typography gutterBottom variant="h5" component="div">
+                                            <Typography gutterBottom variant="h5" component="h5">
                                                 <FavoriteIcon />
                                             </Typography>
                                         </Grid>

@@ -23,6 +23,7 @@ import { setAuthStore } from "../store/slices/authSlice";
 import { auth } from "../firebase/config_firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { AccountCollection } from "../firebase/createCollection";
+import Approval from "../pages/Admin/Approval/Approval";
 
 
 
@@ -38,16 +39,12 @@ const RouteAllPage: FC = () => {
 
     const dispatch = useAppDispatch()
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            console.log("🚀 ~ file: routes.tsx:37 ~ onAuthStateChanged ~ user", user)
-
-            const fetchdata = async (user: any) => {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
                 const docSnap = await getDoc(doc(AccountCollection, user.uid))
-                console.log("🚀 ~ file: routes.tsx:46 ~ fetchdata ~ docSnap", docSnap.data())
-                const { firstName, lastName, photoURL, status } = docSnap.data() as any
-                const displayName = `${firstName} ${lastName}`
-                if (user) {
-                    fetchdata(user)
+                if (docSnap && docSnap.exists()) {
+                    const { firstName, lastName, photoURL, status } = docSnap.data() as any
+                    const displayName = `${firstName} ${lastName}`
                     dispatch(
                         setAuthStore({
                             uid: user.uid,
@@ -56,16 +53,17 @@ const RouteAllPage: FC = () => {
                             // photoURL: user.photoURL as any,
                         }),
                     )
-                } else {
-                    dispatch(
-                        setAuthStore({
-                            uid: null,
-                            displayName: null,
-                            photoURL: null,
-                        }),
-                    )
                 }
+            } else {
+                dispatch(
+                    setAuthStore({
+                        uid: null,
+                        displayName: null,
+                        photoURL: null,
+                    }),
+                )
             }
+
         })
     }, [])
     return (
@@ -105,7 +103,7 @@ const RouteAllPage: FC = () => {
                 </>
             ) : (
                 <>
-                    
+
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/registor" element={<Registor />} />
                     <Route path="/nextregistor" element={<Nextregistor />} />
@@ -118,6 +116,7 @@ const RouteAllPage: FC = () => {
                     <Route path="/addcourses" element={<AddCourse />} />
                     <Route path="/category" element={<Category />} />
                     <Route path="/addcategory" element={<AddCategory />} />
+                    <Route path="/approval" element={<Approval />} />
                 </>
             )}
             <Route

@@ -177,7 +177,7 @@ const Register = (props: Props) => {
                   <form onSubmit={handleSubmit(onSubmit)}>
                     {/* //?component={'span'} variant={'body2'} */}
 
-                    <Typography component={'span'} variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
+                    <Typography  variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
 
                       {activeStep === 0 && (
 

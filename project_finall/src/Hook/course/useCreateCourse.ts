@@ -39,6 +39,8 @@ export interface TypeCourses {
     Pricing: number,
     pricing: number,
     create_by_name: string,
+    Approval: boolean,
+    min_people: string,
 }
 
 export const UseCreateCourse = () => {
@@ -58,6 +60,7 @@ export const UseCreateCourse = () => {
                 create_by_name:displayName,
                 pricing: pricingNumber,
                 timestamp: new Date(),
+                approval: false,
             })
             console.log("🚀 ~ file: useCreateCourse.ts:52 ~ awaitsetDoc ~ params", params)
             dispatch(isShowLoading())

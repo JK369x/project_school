@@ -37,7 +37,7 @@ import { fmtMoney, fmtDate } from '../../../utils/format'
 interface ControlTableProps {
 	densePadding?: true
 }
-//!gernerlic type ใส่มาทีหลังได้
+
 const descendingComparator = <T,>(a: T, b: T, orderBy: keyof T): number => {
 	if (b[orderBy] < a[orderBy]) {
 		return -1
@@ -59,7 +59,6 @@ function getComparator<Key extends keyof any>(
 		: (a, b) => -descendingComparator(a, b, orderBy)
 }
 
-// function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number): any[] {
 const stableSort = <T,>(array: readonly T[], comparator: (a: T, b: T) => number): any[] => {
 	const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
 	stabilizedThis.sort((a, b) => {
@@ -126,7 +125,7 @@ const TableHead = (props: EnhancedTableProps) => {
 						<TableSortLabel
 							active={orderBy === value}
 							direction={orderBy === value ? order : 'asc'}
-							onClick={createSortHandler(value)}
+							onClick={createSortHandler(value!)}
 						>
 							<Typography variant="subtitle1">{label}</Typography>
 							{orderBy === value ? (
@@ -146,7 +145,7 @@ export interface TableColumnOptions {
 	label?: string
 	alignValue?: 'left' | 'center' | 'right' | 'inherit' | 'justify'
 	alignHeader?: 'left' | 'center' | 'right' | 'inherit' | 'justify'
-	value: string
+	value?: string
 	sortable?: boolean
 	width?: string
 	color?: string
@@ -216,7 +215,7 @@ export const Table: FC<ControlTableProps> = (props) => {
 				} else {
 					let checkKeyValues = true
 					columnOptions.forEach((co) => {
-						if (el[co.value] !== rowData[co.value]) {
+						if (el[co.value!] !== rowData[co.value!]) {
 							checkKeyValues = false
 						}
 					})
@@ -254,7 +253,7 @@ export const Table: FC<ControlTableProps> = (props) => {
 				} else {
 					let checkKeyValues = true
 					columnOptions.forEach((co) => {
-						if (el[co.value] !== rowData[co.value]) {
+						if (el[co.value!] !== rowData[co.value!]) {
 							checkKeyValues = false
 						}
 					})
@@ -331,7 +330,7 @@ export const Table: FC<ControlTableProps> = (props) => {
 													},
 													i,
 												) => {
-													const sv = value.split('.')
+													const sv = value!.split('.')
 													let valueData: any = row
 													sv.forEach((e) => {
 														valueData = valueData[e]
@@ -360,8 +359,8 @@ export const Table: FC<ControlTableProps> = (props) => {
 																	{format === 'money'
 																		? fmtMoney(valueData)
 																		: format === 'date'
-																			? fmtDate(valueData)
-																			: valueData}
+																		? fmtDate(valueData)
+																		: valueData}
 																	{unit ?? ''}
 																</Typography>
 															)}
@@ -420,7 +419,7 @@ export const Table: FC<ControlTableProps> = (props) => {
 												{ label, value, color, colorField, format, unit, icon, iconOnClick },
 												i,
 											) => {
-												const sv = value.split('.')
+												const sv = value!.split('.')
 												let valueData: any = row
 												sv.forEach((e) => {
 													valueData = valueData[e]
@@ -471,8 +470,8 @@ export const Table: FC<ControlTableProps> = (props) => {
 																{format === 'money'
 																	? fmtMoney(valueData)
 																	: format === 'date'
-																		? fmtDate(valueData)
-																		: valueData}
+																	? fmtDate(valueData)
+																	: valueData}
 																{unit ?? ''}
 															</Typography>
 														</Grid>

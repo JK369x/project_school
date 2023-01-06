@@ -2,8 +2,8 @@ import './Side-bar.scss';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import StoreIcon from '@mui/icons-material/Store';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import SchoolIcon from '@mui/icons-material/School';
+import CategoryIcon from '@mui/icons-material/Category';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsSystemDaydreamIcon from '@mui/icons-material/SettingsSystemDaydream';
@@ -11,40 +11,56 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
+import VerifiedIcon from '@mui/icons-material/Verified';
 //react dom 
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { onAuthStateChanged,signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../../../firebase/config_firebase';
 import { useAppDispatch } from '../../../store/useHooksStore';
 import { setAuthStore } from '../../../store/slices/authSlice';
 
 export const Sidebar = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate()
+
+
+
   const onClickUser = () => {
     navigate('/users')
-
   }
   const onClickDashboard = () => {
     navigate('/dashboard')
   }
-
   const onClickCourse = () => {
-
     navigate('/courses')
   }
-
   const onClickCategory = () => {
-
     navigate('/category')
   }
-
-
   const onClickCalculate = () => {
-
     navigate('/category')
   }
-
+  const onClickApproval = () => {
+    navigate('/approval')
+  }
+  const onClickLogOut = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      dispatch(
+        setAuthStore({
+          uid: null,
+          displayName: null,
+          status: null,
+          // photoURL: user.photoURL as any,
+        }),
+      )
+    }).catch((error) => {
+      console.log("🚀 ~ file: Navbar.tsx:21 ~ signOut ~ error", error)
+      // An error happened.
+    });
+    navigate('/adminlogin')
+  }
 
 
   return (
@@ -67,16 +83,16 @@ export const Sidebar = () => {
             <span onClick={onClickUser}>Users</span>
           </li>
           <li>
-            <StoreIcon className='icon' />
+            <SchoolIcon className='icon' />
             <span onClick={onClickCourse}>Course</span>
           </li>
           <li>
-            <CreditCardIcon className='icon' />
+            <CategoryIcon className='icon' />
             <span onClick={onClickCategory}>Category</span>
           </li>
           <li>
-            <LocalShippingIcon className='icon' />
-            <span>Delivery</span>
+            <VerifiedIcon className='icon' />
+            <span onClick={onClickApproval}>Approval</span>
           </li>
           <p className="title">USEFUL</p>
           <li>
@@ -107,7 +123,7 @@ export const Sidebar = () => {
           </li>
           <li>
             <LogoutIcon className='icon' />
-            <span onClick={() => { navigate('/adminlogin') }}>Logout</span>
+            <span onClick={onClickLogOut}>Logout</span>
           </li>
 
         </ul>

@@ -23,7 +23,11 @@ import HeaderLogo from '../assets/Course app-amico.png'
 const PageHome = () => {
     const { CourseLists, getCourseLists } = useGetCourseLists()
     const data = CourseLists
+    // const auth_data = data.map((item, index) => {
+    //     return (item.approval )
+    // })
 
+    
     // const [newData, setNewData] =  useState<CourseListsType[]>(data)
     const navigate = useNavigate()
     // const [status, setStatus] = useState('')
@@ -83,26 +87,28 @@ const PageHome = () => {
                     position: "relative",
                     width: '100%',
                     height: 450,
-                    opacity:0.1,
+                    opacity: 0.1,
                     backgroundColor: '#000000',
                     // '&:hover': {
-                        //     backgroundColor: 'primary.main',
-                        //     opacity: [0.9, 0.8, 0.7],
-                        // },
-                    }}>
-                    </Box>
-                <Grid container justifyContent={'space-between'} alignItems={'center'} alignContent={'center'} sx={{ width: '100%', height: 450,position: "absolute",top:65, }}>
+                    //     backgroundColor: 'primary.main',
+                    //     opacity: [0.9, 0.8, 0.7],
+                    // },
+                }}>
+            </Box>
 
-                    <Grid item xs={3} sx={{ ml: 6 }}>
-                        <Grid sx={{mb:3,ml:3}}>
-                            <Typography gutterBottom variant="h5" component="h5" color={"black"}>
-                                คอร์สเรียนเพิ่มทักษะทางด<br/>ด้านวิศวกรรมคอมพิวเตอร์
-                            </Typography>
-                            <Typography gutterBottom variant="body2" component="h5">
-                                พบกับวิทยากร ที่จะช่วยอัปสกิล ให้คุณเก่งขึ้น
-                            </Typography>
-                        </Grid>
-                        <Grid item>
+           
+            <Grid container justifyContent={'space-between'} alignItems={'center'} alignContent={'center'} sx={{ width: '100%', height: 450, position: "absolute", top: 65, }}>
+
+                <Grid item xs={3} sx={{ ml: 6 }}>
+                    <Grid sx={{ mb: 3, ml: 3 }}>
+                        <Typography gutterBottom variant="h5" component="h5" color={"black"}>
+                            คอร์สเรียนเพิ่มทักษะทางด<br />ด้านวิศวกรรมคอมพิวเตอร์
+                        </Typography>
+                        <Typography gutterBottom variant="body2" >
+                            พบกับวิทยากร ที่จะช่วยอัปสกิล ให้คุณเก่งขึ้น
+                        </Typography>
+                    </Grid>
+                    <Grid item>
                         <Search>
                             <SearchIconWrapper>
                                 <SearchIcon />
@@ -112,16 +118,16 @@ const PageHome = () => {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </Search>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={3} sx={{mr:6}}>
-                    <Image src={HeaderLogo} width={350} height={350}/>
                     </Grid>
                 </Grid>
+                <Grid item xs={3} sx={{ mr: 6 }}>
+                    <Image src={HeaderLogo} width={350} height={350} />
+                </Grid>
+            </Grid>
 
             <Grid container justifyContent={'center'} >
                 {data.map((item, index) => {
-
+                    if(item.approval === true){
                     const startCourse = new Date(item.start_course.seconds * 1000)
                     const formattedDate = startCourse.toDateString();
                     const start_course_learn = new Date(item.start_register_time.seconds * 1000).toLocaleTimeString('en-Us', {
@@ -136,7 +142,7 @@ const PageHome = () => {
                         hour12: false,
                         timeZone: 'Asia/Bangkok'
                     })
-               
+
 
 
 
@@ -244,9 +250,11 @@ const PageHome = () => {
                             </Card>
                         </Grid>
                     </a>
-
+                    }
                 })}
+                
             </Grid>
+          
 
         </>
     )

@@ -43,6 +43,9 @@ export const useGetCourseDetail = () => {
         teaching_assistant: "",
         Pricing: 0,
         pricing: 0,
+        create_by_name:"",
+        Approval: false,
+        min_people: "",
     })
 
     useEffect(() => {

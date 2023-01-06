@@ -74,7 +74,7 @@ const AddCategory: FC = () => {
                     <div className="listTitle">
                         <Grid container>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <Typography variant="h1" component="h2" ml={3}>
+                                <Typography variant="h1" component="h1" ml={3}>
                                     Add Category
                                 </Typography>
                                 <ControllerTextField formprop={myForm} name={"Category_Title"} label={'Category Title'} />

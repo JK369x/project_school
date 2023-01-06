@@ -96,7 +96,7 @@ const User: FC = () => {
             <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
 
-                <Typography variant="h1" component="h2" ml={3}>
+                <Typography variant="h1" component="h1" ml={3}>
                   Users
                 </Typography>
                 <Button sx={{ width: '80px', height: '40px', mr: 3 }} color='success'>

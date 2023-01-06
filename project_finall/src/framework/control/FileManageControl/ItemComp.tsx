@@ -19,7 +19,7 @@ const ItemComp: FC = () => {
 					<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
 						Word of the Day
 					</Typography>
-					<Typography variant="h5" component="div"></Typography>
+					<Typography variant="h5" component="h5"></Typography>
 					<Typography sx={{ mb: 1.5 }} color="text.secondary">
 						adjective
 					</Typography>

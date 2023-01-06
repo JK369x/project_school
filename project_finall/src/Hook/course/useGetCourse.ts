@@ -7,7 +7,7 @@ import { CourseCollection } from '../../firebase/createCollection'
 import { TypeCourses } from './useCreateCourse';
 export type CourseListsType = {
     id: string
-
+    approval : any
 } & TypeCourses
 //! & เพิ่ม id form input
 
@@ -16,6 +16,7 @@ export type CourseListsType = {
 export const useGetCourseLists = () => {
     const dispatch = useAppDispatch();
     const [CourseLists, setCourseLists] = useState<CourseListsType[]>([])
+    
     useEffect(() => {
         getCourseLists()
     }, [])

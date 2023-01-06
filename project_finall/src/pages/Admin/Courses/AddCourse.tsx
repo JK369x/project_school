@@ -203,7 +203,7 @@ const AddCourse = () => {
                                 </Grid>
                                 <Grid>
                                     <ControllerAutocomplete
-                                        multiple
+                                        multiple={true}
                                         formprop={myForm}
                                         name={'course_date'}
                                         label={'Course date'}
@@ -212,7 +212,8 @@ const AddCourse = () => {
                                 </Grid>
                                 <Grid>
                                     <ControllerAutocomplete
-                                        multiple
+                                        
+                                        multiple={true}
                                         formprop={myForm}
                                         name={'course_status'}
                                         label={'Select Course Time'}
@@ -285,6 +286,9 @@ const AddCourse = () => {
                                 </Grid>
                                 <Grid >
                                     <ControllerTextField formprop={myForm} name={"teaching_assistant"} label={'Add teaching assistant'} />
+                                </Grid>
+                                <Grid >
+                                    <ControllerTextField formprop={myForm} name={"min_people"} label={'Min people'} />
                                 </Grid>
                                 <Grid >
                                     <ControllerTextField formprop={myForm} name={"Pricing"} label={'Pricing'} />
