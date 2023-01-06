@@ -12,6 +12,7 @@ export interface TypeCourses {
     description: string,
     category: any,
     start_register: Date| any ,
+    start_registerEnd: Date| any ,
     start_register_time: Date| any,
     start_register_end: Date | any,
     start_course: Date | any,

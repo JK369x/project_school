@@ -19,6 +19,7 @@ const ImageInput: FC<Props> = ({ label, onChange }) => {
         shrink: true,
         style: { textAlign: 'right'}
       }} 
+      
      
     />
    

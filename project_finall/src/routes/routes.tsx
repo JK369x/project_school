@@ -24,6 +24,8 @@ import { auth } from "../firebase/config_firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { AccountCollection } from "../firebase/createCollection";
 import Approval from "../pages/Admin/Approval/Approval";
+import DetailCourse from "../pages/Admin/Courses/DetailCourse";
+import EditCourse from "../pages/Admin/Courses/EditCourse";
 
 
 
@@ -112,6 +114,8 @@ const RouteAllPage: FC = () => {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/detailuser/:id" element={<DetailUser />} />
                     <Route path="/editUser/:id" element={<EditUser />} />
+                    <Route path="/detailcourse/:id" element={<DetailCourse />} />
+                    <Route path="/editcourse/:id" element={<EditCourse />} />
                     <Route path="/courses" element={<Course />} />
                     <Route path="/addcourses" element={<AddCourse />} />
                     <Route path="/category" element={<Category />} />

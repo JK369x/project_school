@@ -35,7 +35,7 @@ const Course: FC = () => {
 
   const delItem = (data: CourseListsType) => {
     openConfirmDialog({
-      textContent: 'deleteUser',
+      textContent: 'deleteCourse',
       onConfirm: async () => {
         await deleteCourse(data.id)
         getCourseLists()
@@ -43,10 +43,10 @@ const Course: FC = () => {
     })
   }
 
-  const viewDetailUser = (data: CourseListsType) => {
+  const viewDetailCourse = (data: CourseListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
     // setDetailUser(data)
-    navigate(`/detailuser/${data.id}`)
+    navigate(`/detailcourse/${data.id}`)
 
   }
 
@@ -121,7 +121,7 @@ const Course: FC = () => {
                 countID: index + 1,
                 delitem: <>
                   <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                    viewDetailUser(e)
+                    viewDetailCourse(e)
                   }}>View</Button>
                   <Button sx={{ mr: 0 }} color='error' onClick={() => {
                     delItem(e)

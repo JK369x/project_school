@@ -32,17 +32,6 @@ const EditUser: FC = () => {
     const myForm = useForm<{ data: UserListsType }>({})
     console.log("🚀 ~ file: EditUser.tsx:46 ~ myForm", myForm.getValues())
 
-    const onClickSubmitEdit = () => {
-        if (getValues()) {
-            try {
-                const id = myForm.getValues().data.id
-                updateUser(getValues().data, id)
-            } catch (error) {
-                console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
-
-            }
-        }
-    }
 
 
     const { watch, handleSubmit, getValues } = myForm
@@ -52,18 +41,20 @@ const EditUser: FC = () => {
     const changeAmphure = watch('data.amphure')
     const changeTambon = watch('data.tambon')
 
+
+    //!error 
     useEffect(() => {
         if (changeProvince) {
             getAmphure(parseInt(`${changeProvince.id}`))
         }
     }, [changeProvince])
-
+    //!error 
     useEffect(() => {
         if (changeProvince && changeAmphure) {
             getTambon(parseInt(`${changeProvince.id}`), parseInt(`${changeAmphure.id}`))
         }
     }, [changeAmphure])
-
+    //!error 
     useEffect(() => {
         if (changeTambon) {
             getZipcode(parseInt(`${changeTambon.id}`))
@@ -71,6 +62,17 @@ const EditUser: FC = () => {
     }, [changeTambon])
 
     const onSubmit = async () => {
+
+
+        if (getValues()) {
+            try {
+                const id = myForm.getValues().data.id
+                updateUser(getValues().data, id)
+            } catch (error) {
+                console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
+
+            }
+        }
 
     }
     return (
@@ -88,31 +90,31 @@ const EditUser: FC = () => {
                                             INFORMATION
                                         </Typography>
                                     </Grid>
-                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{mb:2}}>
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mb: 2 }}>
                                         <Avatar alt="Remy Sharp" src="" sx={{ width: 120, height: 120, }} />
                                     </Grid>
 
 
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={3}>
                                             <ControllerTextField sx={{ mr: 1 }} fullWidth formprop={myForm} name={"data.firstName"} label={'FirstName'} />
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={3}>
                                             <ControllerTextField formprop={myForm} fullWidth name={"data.lastName"} label={'LastName'} />
                                         </Grid>
                                     </Grid>
 
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
-                                        <Grid item xs={2} >
+                                        <Grid item xs={3} >
                                             <ControllerTextField formprop={myForm} fullWidth name={"data.email"} label={'Email'} />
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={3}>
                                             <ControllerTextField formprop={myForm} fullWidth name={"data.job"} label={'Job'} />
                                         </Grid>
                                     </Grid>
 
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
-                                        <Grid item xs={1} >
+                                        <Grid item xs={3} >
                                             <ControllerAutocomplete
 
                                                 formprop={myForm}
@@ -122,7 +124,7 @@ const EditUser: FC = () => {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xs={1}>
+                                        <Grid item xs={3}>
 
                                             <ControllerAutocomplete
 
@@ -133,7 +135,11 @@ const EditUser: FC = () => {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xs={1} >
+                                    </Grid>
+
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
+
+                                        <Grid item xs={3} >
                                             <ControllerAutocomplete
 
                                                 formprop={myForm}
@@ -143,33 +149,33 @@ const EditUser: FC = () => {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xs={1}>
+                                        <Grid item xs={3}>
 
                                             <ControllerAutocomplete
                                                 formprop={myForm}
                                                 name={'data.zipCode'}
-                                                label={'รหัสไปรษณีย์'}
+                                                label={'Zip'}
                                                 options={zipcode} // load options
                                                 fullWidth
                                             />
                                         </Grid>
-                                    </Grid>
 
+                                    </Grid>
 
 
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}  >
-                                        <Grid item xs={1.3333} >
+                                        <Grid item xs={2} >
                                             <ControllerTextField fullWidth formprop={myForm} name={"data.address"} label={'Address'} />
                                         </Grid>
-                                        <Grid item xs={1.3333} >
+                                        <Grid item xs={2} >
                                             <ControllerTextField fullWidth formprop={myForm} name={"data.agency"} label={'Agency'} />
                                         </Grid>
-                                        <Grid item xs={1.3333} >
+                                        <Grid item xs={2} >
                                             <ControllerTextField fullWidth formprop={myForm} name={"data.status.label"} label={'Status'} />
                                         </Grid>
                                     </Grid>
-                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{mt:2}}>
-                                        <Button label='Submit' onClick={() => onClickSubmitEdit()} />
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mt: 2 }}>
+                                        <Button label='Submit' type='submit' />
                                     </Grid>
                                 </Grid>
 

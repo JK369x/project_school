@@ -1,52 +1,32 @@
-import React from 'react'
-import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
+import React, { FC, useEffect, useState } from 'react'
+import { Avatar, Box, } from '@mui/material'
 import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
-import { Button, ControllerAutocomplete, ControllerTextField, Table } from '../../../framework/control'
-import Grid from '@mui/material/Grid/Grid'
-import { FC, useEffect, useState } from 'react'
-
-
-//controller
-import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/user/useDeleteUser'
-
-//react dom 
-import { useNavigate } from 'react-router-dom'
-import { Typography } from '@mui/material'
+import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
 import '../Dashboard/Dashboard.scss'
-import { useForm } from 'react-hook-form'
-//date MUI
+import Button from '../../../framework/control/Button/Button'
+import Grid from '@mui/material/Grid/Grid'
+import { Typography } from '@mui/material'
+import {
+    ControllerAutocomplete,
+    ControllerTextField,
 
+}
+    from '../../../framework/control';
+import { useForm } from "react-hook-form";
 
-// dayjs.locale('th')
+import { useUpdateUser } from '../../../Hook/user/useUpdateUser'
+import { doc, updateDoc } from "firebase/firestore";
+import ImageInput from '../../../framework/control/InputImage/ImageInput'
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Lookup, roleWeek, typeCourseOnline_Onside } from '../../../types/type'
 import { DateTimePicker } from '@mui/x-date-pickers'
-import ImageInput from '../../../framework/control/InputImage/ImageInput'
-//firebase image 
-import {
-    
-    getDownloadURL,
-    
-    ref, uploadBytesResumable,  UploadTaskSnapshot, 
-} from "firebase/storage"
-import { storage } from '../../../firebase/config_firebase'
-import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
-import { TypeCourses } from '../../../Hook/course/useCreateCourse'
-import { UseCreateCourse } from '../../../Hook/course/useCreateCourse'
-import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
-import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
-
 import { useGetCourseLists } from '../../../Hook/category/useGetCategory'
+import { CourseListsType } from '../../../Hook/course/useGetCourse'
+import { useGetCourseDetail } from '../../../Hook/course/useGetCourseDtail'
 
-
-
-
-
-
-const AddCourse = () => {
+const EditCourse: FC = () => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [value, setValues] = useState<Date>(new Date());
     const [valueDate, setValuesDate] = useState<Date>(new Date());
@@ -56,87 +36,59 @@ const AddCourse = () => {
     const [image, setImage] = useState<any>(null);
     const { CategoryLists } = useGetCourseLists()
     const getCategoryLists = CategoryLists
-
+    const { state } = useGetCourseDetail()
+    console.log("🚀 ~ file: EditCourse.tsx:40 ~ state", state)
+    const { updateUser } = useUpdateUser()
     const dataCategory = getCategoryLists.map((item, index) => {
         return (item.Category_Title)
     })
+    useEffect( ()  => {
+         myForm.setValue('data', state
+        )
+    }, [state])
 
-    console.log("🚀 ~ file: AddCourse.tsx:65 ~ AddCourse ~ getCategoryLists", getCategoryLists)
-    //*Hook
-    const { addCourse } = UseCreateCourse()
-
-    const uid = useAppSelector(({ auth: { uid } }) => uid)
-    const navigate = useNavigate()
-    const dispatch = useAppDispatch()
-
-
-
-    //? waiting set Default value form
-    const myForm = useForm<TypeCourses>({
-        //! can useDefault onChange
-
-    })
+    const myForm = useForm<{ data: CourseListsType }>({})
+    console.log("🚀 ~ file: EditUser.tsx:46 ~ myForm", myForm.getValues())
 
 
     const handleChange = (e: any) => {
         if (e.target.files[0])
             setImage(e.target.files[0]);
     }
+    //*start register course
+    const Start_Register_Date = new Date(state.start_register?.seconds * 1000)
 
+     //*end register course
+     const End_Register_Date = new Date(state.start_registerEnd?.seconds * 1000)
 
+     //*start course and End course
+    const Start_Course_Time = new Date(state.start_register_time?.seconds * 1000)
+    const End_Course_Time = new Date(state.start_register_end?.seconds * 1000)
 
-    const { handleSubmit, getValues, setValue } = myForm
+    //*Course Date
+    const Course_Date = Array.from(state.course_date!).map((params: any, index: number) => {
+        return (index !== 0 ? ' - ' + params.label : params.label)
+    })
+
+    //*Course Time Start and End
+    const start_course_learn = new Date(state.start_register_time?.seconds * 1000)
+    const start_course_end = new Date(state.start_register_end?.seconds * 1000)
     const onSubmit = async () => {
-        if (image) {
-            const imageRef = ref(storage, `img/${image.name}`);
-            const uploadTask = uploadBytesResumable(imageRef, image)
-            uploadTask.on('state_changed',
-                (snapshot: UploadTaskSnapshot) => {
-                    // Observe state change events such as progress, pause, and resume
-                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case 'paused':
-                            console.log('Upload is paused');
-                            break;
-                        case 'running':
-                            console.log('Upload is running');
-                            break;
-                    }
-                },
 
-                (error) => {
-                    // Handle unsuccessful uploads
-                    console.log("🚀 ~ file: AddCourse.tsx:157 ~ onSubmit ~ error", error)
-                },
-                () => {
-                    // Handle successful uploads on complete
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                        //! can use url don't have useSate 
-                        console.log('File available at', url);
-                        setValue('start_register', new Date(value))
-                        setValue('start_register_time', new Date(valueTime_start))
-                        setValue('start_register_end', new Date(valueTime_end))
-                        setValue('start_course', new Date(valueDate))
-                        setValue('end_course', new Date(selectedDate))
-                        setValue('start_registerEnd', new Date(selectedDate))
-                        setValue('image', url)
-                        if (getValues()) {
-                            try {
-                                addCourse(getValues())
-                            } catch (err) {
-                                console.log("🚀 ~ file: AddCourse.tsx:113 ~ onSubmit ~ err", err)
-                            }
-                        }
-                    });
-                }
-            );
-        } else {
-            console.log('File not found')
-        }
+
+        // if (getValues()) {
+        //     try {
+        //         const id = myForm.getValues().data.id
+        //         updateUser(getValues().data, id)
+        //     } catch (error) {
+        //         console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
+
+        //     }
+        // }
+
     }
+
+    const { watch, handleSubmit, getValues } = myForm
 
 
 
@@ -149,34 +101,35 @@ const AddCourse = () => {
                     <div className="listTitle">
                         <Grid>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <Typography variant="h1" component="h1" ml={3}>
-                                    Add Course
+                                <Typography variant="h2" mb={2}  >
+                                    Edit Course
                                 </Typography>
                                 <Grid container spacing={2}>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"title"} label={'Title'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.title"} label={'Title'} />
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"subtitle"} label={'subtitle'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.subtitle"} label={'subtitle'} />
                                     </Grid>
                                 </Grid>
-                                <ControllerTextField fullWidth multiline maxRows={4} minRows={2} formprop={myForm} name={"description"} label={'description'} />
+                                <ControllerTextField fullWidth multiline maxRows={4} minRows={2} formprop={myForm} name={"data.description"} label={'description'} />
 
 
-                        
+
 
                                 <Grid container spacing={1}>
                                     <Grid item xs={3}>
                                         <ControllerAutocomplete
                                             fullWidth
                                             formprop={myForm}
-                                            name={'category'}
+                                            name={'data.category'}
                                             label={'Category'}
                                             options={dataCategory} // load options
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <ControllerAutocomplete
+                                          
                                             fullWidth
                                             multiple={true}
                                             formprop={myForm}
@@ -199,34 +152,35 @@ const AddCourse = () => {
 
                                 <Grid container alignItems={'center'} alignContent={'center'} spacing={1} sx={{ mb: 2, mt: 2 }}>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course.input_0"} label={'What will student learn in your course'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course.input_0"} label={'What will student learn in your course'} />
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course.input_1"} label={''} />
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course.input_2"} label={''} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course.input_1"} label={''} />
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course.input_3"} label={''} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course.input_2"} label={''} />
+
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course.input_3"} label={''} />
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists.input_0"} label={'The Course consists'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists.input_0"} label={'The Course consists'} />
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists.input_1"} label={''} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists.input_1"} label={''} />
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists.input_2"} label={''} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists.input_2"} label={''} />
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists.input_3"} label={''} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists.input_3"} label={''} />
                                     </Grid>
 
                                 </Grid>
 
                                 <Grid container spacing={1} sx={{ mb: 2 }} >
                                     <Grid item xs={6} >
-                                        <ControllerTextField fullWidth formprop={myForm} name={"who_is_this_course"} label={'Who is this course for ?'} />
-                                        <ControllerTextField fullWidth formprop={myForm} name={"linkteammeeting"} label={'Link team meeting'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.who_is_this_course"} label={'Who is this course for ?'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.linkteammeeting"} label={'Link team meeting'} />
                                     </Grid>
                                     <Grid item xs={6} >
-                                        <ControllerTextField fullWidth formprop={myForm} name={"teaching_assistant"} label={'Add teaching assistant'} />
-                                        <ControllerTextField fullWidth formprop={myForm} name={"whataretherequirement"} label={'What are the requirement or prerequisites for taking your course?'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.teaching_assistant"} label={'Add teaching assistant'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.whataretherequirement"} label={'What are the requirement or prerequisites for taking your course?'} />
                                     </Grid>
 
                                 </Grid>
@@ -234,7 +188,7 @@ const AddCourse = () => {
                                 <Typography variant="h6"  >
                                     Image Course
                                 </Typography>
-                                <ImageInput label="Select an image" onChange={
+                                <ImageInput label="Select an image"  onChange={
                                     handleChange} />
 
 
@@ -245,7 +199,7 @@ const AddCourse = () => {
                                     <DateTimePicker
                                         renderInput={(props) => <TextField {...props} />}
                                         label="Start Registration"
-                                        value={value}
+                                        value={Start_Register_Date}
                                         onChange={(newValue: any) => {
                                             setValues(newValue);
                                         }}
@@ -256,7 +210,7 @@ const AddCourse = () => {
                                     <DateTimePicker
                                         renderInput={(props) => <TextField {...props} />}
                                         label="End Registration"
-                                        value={valueEnd}
+                                        value={End_Register_Date}
                                         onChange={(newValue: any) => {
                                             setValuesEnd(newValue);
                                         }}
@@ -270,7 +224,7 @@ const AddCourse = () => {
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <DatePicker
                                         label="start-course"
-                                        value={valueDate}
+                                        value={Start_Course_Time}
                                         onChange={(newValue: any) => {
                                             setValuesDate(newValue);
                                         }}
@@ -281,7 +235,7 @@ const AddCourse = () => {
                                     </Typography>
                                     <DatePicker
                                         label="end-course"
-                                        value={selectedDate}
+                                        value={End_Course_Time}
                                         onChange={(newValue: any) => {
                                             setSelectedDate(newValue);
                                         }}
@@ -296,7 +250,7 @@ const AddCourse = () => {
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <TimePicker
                                         label="start-time"
-                                        value={valueTime_start}
+                                        value={start_course_learn}
                                         onChange={(newValue: any) => {
                                             setValueTime_start(newValue);
                                         }}
@@ -307,7 +261,7 @@ const AddCourse = () => {
                                     </Typography>
                                     <TimePicker
                                         label="end-start"
-                                        value={valueTime_end}
+                                        value={start_course_end}
                                         onChange={(newValue: any) => {
                                             setValueTime_end(newValue);
                                         }}
@@ -317,12 +271,12 @@ const AddCourse = () => {
 
                                 <Grid container spacing={1} sx={{ mb: 2 }} alignContent={'center'} alignItems={'center'} >
                                     <Grid item xs={3}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"min_people"} label={'Min people'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.min_people"} label={'Min people'} />
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"Pricing"} label={'Pricing'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.pricing"} label={'Pricing'} />
                                     </Grid>
-                                    <Grid item xs={3} sx={{mt:2.3}}>
+                                    <Grid item xs={3} sx={{ mt: 2.3 }}>
                                         <Button type='submit' label='Submit' />
                                     </Grid>
                                 </Grid>
@@ -332,8 +286,7 @@ const AddCourse = () => {
                 </div>
             </div>
         </div>
-
     )
 }
 
-export default AddCourse
+export default EditCourse

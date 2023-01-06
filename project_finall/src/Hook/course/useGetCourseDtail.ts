@@ -6,17 +6,19 @@ import { CourseCollection } from '../../firebase/createCollection'
 import { useAppDispatch, useAppSelector } from "../../store/useHooksStore";
 import { isCloseLoading, isShowLoading } from "../../store/slices/loadingSlice";
 import { TypeCourses } from "./useCreateCourse";
+import { CourseListsType } from "./useGetCourse";
 
 export const useGetCourseDetail = () => {
     const dispatch = useAppDispatch()
     const uid = useAppSelector(({ auth: { uid } }) => uid)
     const { id } = useParams<{ id: string }>();
-    const [state, setState] = useState<TypeCourses>({
+    const [state, setState] = useState<CourseListsType>({
         title: "",
         subtitle: "",
         description: "",
         category: "",
         start_register: null,
+        start_registerEnd: "",
         start_register_time: null,
         start_register_end: null,
         start_course: null,
@@ -46,6 +48,7 @@ export const useGetCourseDetail = () => {
         create_by_name:"",
         Approval: false,
         min_people: "",
+        id:"",
     })
 
     useEffect(() => {

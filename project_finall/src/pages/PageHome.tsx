@@ -102,7 +102,7 @@ const PageHome = () => {
                 <Grid item xs={3} sx={{ ml: 6 }}>
                     <Grid sx={{ mb: 3, ml: 3 }}>
                         <Typography gutterBottom variant="h5" component="h5" color={"black"}>
-                            คอร์สเรียนเพิ่มทักษะทางด<br />ด้านวิศวกรรมคอมพิวเตอร์
+                            คอร์สเรียนเพิ่มทักษะทาง<br />ด้านวิศวกรรมคอมพิวเตอร์
                         </Typography>
                         <Typography gutterBottom variant="body2" >
                             พบกับวิทยากร ที่จะช่วยอัปสกิล ให้คุณเก่งขึ้น
@@ -128,15 +128,15 @@ const PageHome = () => {
             <Grid container justifyContent={'center'} >
                 {data.map((item, index) => {
                     if(item.approval === true){
-                    const startCourse = new Date(item.start_course.seconds * 1000)
+                    const startCourse = new Date(item.start_course?.seconds * 1000)
                     const formattedDate = startCourse.toDateString();
-                    const start_course_learn = new Date(item.start_register_time.seconds * 1000).toLocaleTimeString('en-Us', {
+                    const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
                         hour: 'numeric',
                         minute: 'numeric',
                         hour12: false,
                         timeZone: 'Asia/Bangkok'
                     })
-                    const start_course_end = new Date(item.start_register_end.seconds * 1000).toLocaleTimeString('en-Us', {
+                    const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
                         hour: 'numeric',
                         minute: 'numeric',
                         hour12: false,

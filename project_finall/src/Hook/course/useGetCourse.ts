@@ -7,7 +7,7 @@ import { CourseCollection } from '../../firebase/createCollection'
 import { TypeCourses } from './useCreateCourse';
 export type CourseListsType = {
     id: string
-    approval : any
+    approval? : any
 } & TypeCourses
 //! & เพิ่ม id form input
 
