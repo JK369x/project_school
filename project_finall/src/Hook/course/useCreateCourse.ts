@@ -59,6 +59,7 @@ export const UseCreateCourse = () => {
             await setDoc(doc(CourseCollection), {
                 ...newdata,
                 create_by_name:displayName,
+                create_by_id:uid,
                 pricing: pricingNumber,
                 timestamp: new Date(),
                 approval: false,

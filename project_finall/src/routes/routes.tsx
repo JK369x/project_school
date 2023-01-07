@@ -26,7 +26,7 @@ import { AccountCollection } from "../firebase/createCollection";
 import Approval from "../pages/Admin/Approval/Approval";
 import DetailCourse from "../pages/Admin/Courses/DetailCourse";
 import EditCourse from "../pages/Admin/Courses/EditCourse";
-
+import CategoryCourse from "../pages/CategoryCourse";
 
 
 
@@ -86,7 +86,7 @@ const RouteAllPage: FC = () => {
             <Route path="/page" element={<PageHome />} />
             <Route path="/category" element={<Category />} />
             <Route path="/addcategory" element={<AddCategory />} /> */}
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<PageHome />} />
             <Route path="/page" element={<PageHome />} />
             <Route path="/adminlogin" element={<LoginAdmin />} />
             {!auth_uid ? (
@@ -121,6 +121,7 @@ const RouteAllPage: FC = () => {
                     <Route path="/category" element={<Category />} />
                     <Route path="/addcategory" element={<AddCategory />} />
                     <Route path="/approval" element={<Approval />} />
+                    <Route path="/category_course" element={<CategoryCourse />} />
                 </>
             )}
             <Route

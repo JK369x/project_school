@@ -39,7 +39,7 @@ import { UseCreateCourse } from '../../../Hook/course/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
 
-import { useGetCourseLists } from '../../../Hook/category/useGetCategory'
+import { useGetCategoryLists  } from '../../../Hook/category/useGetCategory'
 
 
 
@@ -54,7 +54,7 @@ const AddCourse = () => {
     const [valueTime_end, setValueTime_end] = useState<Date>(new Date());
     const [valueEnd, setValuesEnd] = useState<Date>(new Date());
     const [image, setImage] = useState<any>(null);
-    const { CategoryLists } = useGetCourseLists()
+    const { CategoryLists } = useGetCategoryLists()
     const getCategoryLists = CategoryLists
 
     const dataCategory = getCategoryLists.map((item, index) => {

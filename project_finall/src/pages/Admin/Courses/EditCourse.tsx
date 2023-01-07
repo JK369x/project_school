@@ -14,7 +14,7 @@ import {
     from '../../../framework/control';
 import { useForm } from "react-hook-form";
 
-import { useUpdateUser } from '../../../Hook/user/useUpdateUser'
+import { useUpdateCourse } from '../../../Hook/user/useUpdateUser'
 import { doc, updateDoc } from "firebase/firestore";
 import ImageInput from '../../../framework/control/InputImage/ImageInput'
 import TextField from '@mui/material/TextField';
@@ -22,7 +22,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Lookup, roleWeek, typeCourseOnline_Onside } from '../../../types/type'
 import { DateTimePicker } from '@mui/x-date-pickers'
-import { useGetCourseLists } from '../../../Hook/category/useGetCategory'
+import { useGetCategoryLists } from '../../../Hook/category/useGetCategory'
 import { CourseListsType } from '../../../Hook/course/useGetCourse'
 import { useGetCourseDetail } from '../../../Hook/course/useGetCourseDtail'
 
@@ -34,11 +34,11 @@ const EditCourse: FC = () => {
     const [valueTime_end, setValueTime_end] = useState<Date>(new Date());
     const [valueEnd, setValuesEnd] = useState<Date>(new Date());
     const [image, setImage] = useState<any>(null);
-    const { CategoryLists } = useGetCourseLists()
+    const { CategoryLists } = useGetCategoryLists()
     const getCategoryLists = CategoryLists
     const { state } = useGetCourseDetail()
     console.log("🚀 ~ file: EditCourse.tsx:40 ~ state", state)
-    const { updateUser } = useUpdateUser()
+    const { updateCourse } = useUpdateCourse()
     const dataCategory = getCategoryLists.map((item, index) => {
         return (item.Category_Title)
     })
@@ -70,25 +70,29 @@ const EditCourse: FC = () => {
         return (index !== 0 ? ' - ' + params.label : params.label)
     })
 
+    const { watch, handleSubmit, getValues,setValue } = myForm
     //*Course Time Start and End
     const start_course_learn = new Date(state.start_register_time?.seconds * 1000)
     const start_course_end = new Date(state.start_register_end?.seconds * 1000)
     const onSubmit = async () => {
 
-
-        // if (getValues()) {
-        //     try {
-        //         const id = myForm.getValues().data.id
-        //         updateUser(getValues().data, id)
-        //     } catch (error) {
-        //         console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
-
-        //     }
-        // }
+        setValue('data.start_register', new Date(value))
+        setValue('data.start_register_time', new Date(valueTime_start))
+        setValue('data.start_register_end', new Date(valueTime_end))
+        setValue('data.start_course', new Date(valueDate))
+        setValue('data.end_course', new Date(selectedDate))
+        setValue('data.start_registerEnd', new Date(selectedDate))
+        if (getValues()) {
+            try {
+                const id = myForm.getValues().data.id
+                updateCourse(getValues().data, id)
+            } catch (error) {
+                console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
+            }
+        }
 
     }
 
-    const { watch, handleSubmit, getValues } = myForm
 
 
 

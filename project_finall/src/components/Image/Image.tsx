@@ -12,6 +12,7 @@ const Image: FC<Props> = ({ width, height, src }) => {
       style={{ width: `${width}px`, height: `${height}px` }}
       src={src}
       alt="Resized image"
+      
     />
   );
 };

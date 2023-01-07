@@ -11,7 +11,7 @@ export type CategoryListsType = {
 
 //! uid คืออะไรที่เกี่ยวข้องกับตัวเอง
 
-export const useGetCourseLists = () => {
+export const useGetCategoryLists = () => {
     const dispatch = useAppDispatch();
     const [CategoryLists, setCategoryLists] = useState<CategoryListsType[]>([])
     useEffect(() => {

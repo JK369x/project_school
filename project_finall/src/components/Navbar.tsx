@@ -6,6 +6,7 @@ import { Avatar } from '@mui/material'
 import { auth } from '../firebase/config_firebase'
 import { signOut } from 'firebase/auth'
 import { setAuthStore } from '../store/slices/authSlice'
+import Account_menu from './Account_menu'
 export const Navbar = () => {
   const navigate = useNavigate()
   const onClickHome = () => {
@@ -56,8 +57,7 @@ export const Navbar = () => {
           </>
         ) : (
           <>
-            <Avatar />
-            <a href='#' onClick={onClickLogOut}>ออกจากระบบ</a>
+            <Account_menu />
           </>
         )}
       </div>

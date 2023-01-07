@@ -17,11 +17,11 @@ import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import '../Dashboard/Dashboard.scss'
-import { useGetCourseLists } from '../../../Hook/category/useGetCategory'
+import { useGetCategoryLists } from '../../../Hook/category/useGetCategory'
 import { CategoryListsType } from '../../../Hook/category/useGetCategory'
 const Category: FC = () => {
 
-  const { CategoryLists, useGetCategory } = useGetCourseLists()
+  const { CategoryLists, useGetCategory } = useGetCategoryLists()
   const data = CategoryLists
   const { openConfirmDialog } = useDialog()
   const { deleteCategory } = useDeleteCateGory()

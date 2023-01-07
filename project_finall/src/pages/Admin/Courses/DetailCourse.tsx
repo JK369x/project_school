@@ -23,6 +23,7 @@ import { useGetCourseDetail } from '../../../Hook/course/useGetCourseDtail'
 import Image from '../../../components/Image/Image'
 import { stat } from 'fs'
 import { grey } from '@mui/material/colors'
+import { margin } from '@mui/system'
 const DetailCourse: FC = () => {
 
 
@@ -88,13 +89,22 @@ const DetailCourse: FC = () => {
                 <div className="listContainer">
                     <div className="listTitle">
                         <Box sx={{ width: '100%' }}>
-                            <Typography variant="h2" mb={2}  >
-                                Course About |
-                            </Typography>
+                            <Grid container>
+                                <Typography variant="h2" mb={2}  >
+                                    <span>
+                                        Course About |
+                                    </span>
+                                </Typography>
+                                <Typography variant="h2" mb={2} ml={1} >
+                                    <span>
+                                        User
+                                    </span>
+                                </Typography>
+                            </Grid>
                             <Grid container spacing={1}>
                                 <Grid item xs={4}>
                                     <Image src={state.image} width={300} height={200} />
-                                    <Grid container spacing={10} justifyContent={'center'}>
+                                    <Grid container spacing={4}  >
                                         <Grid item >
                                             <Typography variant="body2" mr={1}  >
                                                 Start registration
@@ -113,7 +123,7 @@ const DetailCourse: FC = () => {
                                         </Grid>
                                     </Grid>
 
-                                    <Grid container spacing={10} justifyContent={'center'}>
+                                    <Grid container spacing={4}>
                                         <Grid item sx={{ mr: 2 }}>
                                             <Typography variant="body2"   >
                                                 End registration
@@ -133,7 +143,7 @@ const DetailCourse: FC = () => {
                                         </Grid>
                                     </Grid>
 
-                                    <Grid container spacing={10} justifyContent={'center'}>
+                                    <Grid container spacing={4}>
                                         <Grid item>
                                             <Typography variant="body2"  >
                                                 Start Course
@@ -258,7 +268,7 @@ const DetailCourse: FC = () => {
                             <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
 
 
-                            <Button label='Edit' onClick={()=>onClickEdit()}/>
+                                <Button label='Edit' onClick={() => onClickEdit()} />
                             </Grid>
                         </Box>
                     </div>
