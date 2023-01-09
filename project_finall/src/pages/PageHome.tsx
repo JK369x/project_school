@@ -23,7 +23,7 @@ import { useGetCategoryLists } from '../Hook/category/useGetCategory';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Key } from '@mui/icons-material';
+
 
 const PageHome = () => {
     const { CourseLists, getCourseLists } = useGetCourseLists()
@@ -36,11 +36,9 @@ const PageHome = () => {
 
     const [Category, setCategory] = useState<any>('')
 
-    console.log("🚀 ~ file: PageHome.tsx:29 ~ PageHome ~ dataCategoryLists", dataCategoryLists)
     const navigate = useNavigate()
-    console.log("🚀 ~ file: page.tsx:15 ~ page ~ data", data)
 
- 
+
     const onClickCard = (data: CourseListsType) => {
 
     }
@@ -68,14 +66,24 @@ const PageHome = () => {
         infinite: true,
         arrows: false,
         speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+
         responsive: [
             {
                 breakpoint: 1424,
                 settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 1800,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 2,
                     infinite: true,
                     dots: true,
                 },
@@ -93,9 +101,9 @@ const PageHome = () => {
             {
                 breakpoint: 800,
                 settings: {
-                    slidesToShow: 1,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
-                    initialSlide: 2,
+                    initialSlide: 1,
                 },
             },
         ],
@@ -113,6 +121,8 @@ const PageHome = () => {
     let newdata = data
     if (Category) {
         newdata = data.filter((item: any) => item.category === Category)
+      
+        console.log("🚀 ~ file: PageHome.tsx:127 ~ PageHome ~ newdata.length", newdata.length)
     } else {
         newdata = data
     }
@@ -136,7 +146,7 @@ const PageHome = () => {
 
             <Grid container justifyContent={'space-between'} alignItems={'center'} alignContent={'center'} sx={{ width: '100%', height: 650, position: "absolute", top: 65, }}>
 
-                <Grid item xs={3} sx={{ ml: 6 }}>
+                <Grid item xs={6} sx={{ ml: 6 }}>
                     <Grid sx={{ mb: 3, ml: 3 }}>
                         <Typography gutterBottom variant="h2" component="h2" color={"black"}>
                             คอร์สเรียนเพิ่มทักษะทาง<br />ด้านวิศวกรรมคอมพิวเตอร์
@@ -199,136 +209,263 @@ const PageHome = () => {
                         </react.Fragment>)
                     })}
                 </Grid>
-
-                <Grid >
-                    <Slider {...settings} >
-                        {newdata.map((item, index) => {
-                            if (item.approval === true) {
-                                const startCourse = new Date(item.start_course?.seconds * 1000)
-                                const formattedDate = startCourse.toDateString();
-                                const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: false,
-                                    timeZone: 'Asia/Bangkok'
-                                })
-                                const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: false,
-                                    timeZone: 'Asia/Bangkok'
-                                })
-                                return (<react.Fragment key={index}>
-                                    <a onClick={() => { onClickCard(item) }}>
-                                        <Grid container mt={3} justifyContent={'center'}>
-                                            <Card sx={{
-                                                height: 475, width: 345, borderRadius: 1, '&:hover': {
-                                                    cursor: 'pointer',
-                                                }
-                                            }}
-                                                /* It's a prop that adds a shadow to the
-                                                card. */
-                                                raised={true}>
-
-                                                <CardMedia
-                                                    component="img"
-                                                    alt="green iguana"
-                                                    height="200"
-                                                    image={item.image}
-                                                />
-                                                <CardContent sx={{ height: 120, }} >
-                                                    <Grid>
-                                                        <Grid container justifyContent={'space-between'}>
-                                                            <Grid >
-                                                                <Typography variant="body2" sx={{
-                                                                    mt: 0.5,
-                                                                    '&:hover': {
-                                                                        color: '#0085ea',
-                                                                    }
-                                                                }} color='#015ca2' >
-                                                                    {item.course_status!.map((params, index) => {
-                                                                        return (index !== 0 ? ' & ' + params.label : params.label)
-                                                                    })}
-                                                                </Typography>
-                                                                <Typography gutterBottom variant="h5" component="h5">
-                                                                    {item.title}
-                                                                </Typography>
+                <Grid container justifyContent={'center'}  >
+                {newdata.map((item, index) => {
+                    if (item.approval === true && newdata.length < 3) {
+                        const startCourse = new Date(item.start_course?.seconds * 1000)
+                        const formattedDate = startCourse.toDateString();
+                        const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: false,
+                            timeZone: 'Asia/Bangkok'
+                        })
+                        const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: false,
+                            timeZone: 'Asia/Bangkok'
+                        })
+                        return (<react.Fragment key={index}>
+                                <a onClick={() => { onClickCard(item) }}>
+                                    <Grid item container mt={3} ml={2} justifyContent={'center'}>
+                                        <Card sx={{
+                                            height: 475, width: 345, borderRadius: 1, '&:hover': {
+                                                cursor: 'pointer',
+                                            }
+                                        }}
+                                            /* It's a prop that adds a shadow to the
+                                            card. */
+                                            raised={true}>
+                                            <CardMedia
+                                                component="img"
+                                                alt="green iguana"
+                                                height="200"
+                                                image={item.image}
+                                            />
+                                            <CardContent sx={{ height: 120, }} >
+                                                <Grid>
+                                                    <Grid container justifyContent={'space-between'}>
+                                                        <Grid >
+                                                            <Typography variant="body2" sx={{
+                                                                mt: 0.5,
+                                                                '&:hover': {
+                                                                    color: '#0085ea',
+                                                                }
+                                                            }} color='#015ca2' >
+                                                                {item.course_status!.map((params, index) => {
+                                                                    return (index !== 0 ? ' & ' + params.label : params.label)
+                                                                })}
+                                                            </Typography>
+                                                            <Typography gutterBottom variant="h5" component="h5">
+                                                                {item.title}
+                                                            </Typography>
 
 
-                                                            </Grid>
-                                                            <Grid>
-                                                                <IconButton
-                                                                    color='error'
-                                                                    sx={{
-                                                                        zIndex: 2,
-                                                                        borderRadius: '50%',
-                                                                        bottom: 0,
-                                                                    }}
-                                                                >
-                                                                    <FavoriteIcon />
-                                                                </IconButton>
-                                                            </Grid>
                                                         </Grid>
                                                         <Grid>
-                                                            <Typography variant="body2" color="text.secondary" sx={{
-                                                                display: '-webkit-box',
-                                                                overflow: 'hidden',
-                                                                WebkitBoxOrient: 'vertical',
-                                                                WebkitLineClamp: 3,
-                                                            }}
+                                                            <IconButton
+                                                                color='error'
+                                                                sx={{
+                                                                    zIndex: 2,
+                                                                    borderRadius: '50%',
+                                                                    bottom: 0,
+                                                                }}
                                                             >
-                                                                {item.description}
-                                                            </Typography>
-                                                        </Grid>
-
-                                                    </Grid>
-                                                </CardContent>
-                                                <CardContent sx={{ mt: 1, pt: 3, pb: 0 }}>
-                                                    <Grid container justifyContent={'space-between'} >
-                                                        <Grid item sx={{ mr: 1 }}>
-                                                            <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
-
-                                                        </Grid>
-                                                        <Grid item >
-                                                            <Typography>
-                                                                {item.pricing.toLocaleString()} THB
-                                                            </Typography>
+                                                                <FavoriteIcon />
+                                                            </IconButton>
                                                         </Grid>
                                                     </Grid>
-                                                    <Grid container sx={{ mr: 1 }} alignItems={'center'}>
-                                                        <Grid sx={{ mr: 1.5 }} >
-                                                            <Avatar alt="Remy Sharp" src="#" />
-                                                        </Grid>
-                                                        <Grid >
-                                                            {item.create_by_name}
-                                                        </Grid>
-                                                    </Grid>
-                                                </CardContent>
-                                                <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
-
-                                                    <Grid container>
-                                                        <CalendarMonthIcon sx={{ color: '#0085ea' }} />
-                                                        {Array.from(item.course_date!).map((params: any, index: number) => {
-                                                            return (index !== 0 ? ' - ' + params.label : params.label)
-                                                        })}
-                                                    </Grid>
-                                                    <Grid container justifyContent={'flex-end'}>
-                                                        <AccessTimeIcon sx={{ color: "#0085ea" }} />
-                                                        <Typography>
-                                                            {`${start_course_learn} - ${start_course_end}`}
+                                                    <Grid>
+                                                        <Typography variant="body2" color="text.secondary" sx={{
+                                                            display: '-webkit-box',
+                                                            overflow: 'hidden',
+                                                            WebkitBoxOrient: 'vertical',
+                                                            WebkitLineClamp: 3,
+                                                        }}
+                                                        >
+                                                            {item.description}
                                                         </Typography>
                                                     </Grid>
 
-                                                </CardActions>
-                                            </Card>
-                                        </Grid>
-                                    </a>
-                                </react.Fragment>)
-                            }
-                        })}
-                    </Slider>
+                                                </Grid>
+                                            </CardContent>
+                                            <CardContent sx={{ mt: 1, pt: 3, pb: 0 }}>
+                                                <Grid container justifyContent={'space-between'} >
+                                                    <Grid item sx={{ mr: 1 }}>
+                                                        <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
+
+                                                    </Grid>
+                                                    <Grid item >
+                                                        <Typography>
+                                                            {item.pricing.toLocaleString()} THB
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid container sx={{ mr: 1 }} alignItems={'center'}>
+                                                    <Grid sx={{ mr: 1.5 }} >
+                                                        <Avatar alt="Remy Sharp" src="#" />
+                                                    </Grid>
+                                                    <Grid >
+                                                        {item.create_by_name}
+                                                    </Grid>
+                                                </Grid>
+                                            </CardContent>
+                                            <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
+
+                                                <Grid container>
+                                                    <CalendarMonthIcon sx={{ color: '#0085ea' }} />
+                                                    {Array.from(item.course_date!).map((params: any, index: number) => {
+                                                        return (index !== 0 ? ' - ' + params.label : params.label)
+                                                    })}
+                                                </Grid>
+                                                <Grid container justifyContent={'flex-end'}>
+                                                    <AccessTimeIcon sx={{ color: "#0085ea" }} />
+                                                    <Typography>
+                                                        {`${start_course_learn} - ${start_course_end}`}
+                                                    </Typography>
+                                                </Grid>
+
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                                </a>
+
+                        </react.Fragment>)
+                    }
+                })}
 
                 </Grid>
+
+                <Slider {...settings} >
+                    {newdata.map((item, index) => {
+                        if (item.approval === true && newdata.length >= 3) {
+                            const startCourse = new Date(item.start_course?.seconds * 1000)
+                            const formattedDate = startCourse.toDateString();
+                            const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                hour12: false,
+                                timeZone: 'Asia/Bangkok'
+                            })
+                            const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                hour12: false,
+                                timeZone: 'Asia/Bangkok'
+                            })
+                            return (<react.Fragment key={index}>
+                                <a onClick={() => { onClickCard(item) }}>
+                                    <Grid container mt={3} justifyContent={'center'}>
+                                        <Card sx={{
+                                            height: 475, width: 345, borderRadius: 1, '&:hover': {
+                                                cursor: 'pointer',
+                                            }
+                                        }}
+                                            /* It's a prop that adds a shadow to the
+                                            card. */
+                                            raised={true}>
+                                            <CardMedia
+                                                component="img"
+                                                alt="green iguana"
+                                                height="200"
+                                                image={item.image}
+                                            />
+                                            <CardContent sx={{ height: 120, }} >
+                                                <Grid>
+                                                    <Grid container justifyContent={'space-between'}>
+                                                        <Grid >
+                                                            <Typography variant="body2" sx={{
+                                                                mt: 0.5,
+                                                                '&:hover': {
+                                                                    color: '#0085ea',
+                                                                }
+                                                            }} color='#015ca2' >
+                                                                {item.course_status!.map((params, index) => {
+                                                                    return (index !== 0 ? ' & ' + params.label : params.label)
+                                                                })}
+                                                            </Typography>
+                                                            <Typography gutterBottom variant="h5" component="h5">
+                                                                {item.title}
+                                                            </Typography>
+
+
+                                                        </Grid>
+                                                        <Grid>
+                                                            <IconButton
+                                                                color='error'
+                                                                sx={{
+                                                                    zIndex: 2,
+                                                                    borderRadius: '50%',
+                                                                    bottom: 0,
+                                                                }}
+                                                            >
+                                                                <FavoriteIcon />
+                                                            </IconButton>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Typography variant="body2" color="text.secondary" sx={{
+                                                            display: '-webkit-box',
+                                                            overflow: 'hidden',
+                                                            WebkitBoxOrient: 'vertical',
+                                                            WebkitLineClamp: 3,
+                                                        }}
+                                                        >
+                                                            {item.description}
+                                                        </Typography>
+                                                    </Grid>
+
+                                                </Grid>
+                                            </CardContent>
+                                            <CardContent sx={{ mt: 1, pt: 3, pb: 0 }}>
+                                                <Grid container justifyContent={'space-between'} >
+                                                    <Grid item sx={{ mr: 1 }}>
+                                                        <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
+
+                                                    </Grid>
+                                                    <Grid item >
+                                                        <Typography>
+                                                            {item.pricing.toLocaleString()} THB
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid container sx={{ mr: 1 }} alignItems={'center'}>
+                                                    <Grid sx={{ mr: 1.5 }} >
+                                                        <Avatar alt="Remy Sharp" src="#" />
+                                                    </Grid>
+                                                    <Grid >
+                                                        {item.create_by_name}
+                                                    </Grid>
+                                                </Grid>
+                                            </CardContent>
+                                            <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
+
+                                                <Grid container>
+                                                    <CalendarMonthIcon sx={{ color: '#0085ea' }} />
+                                                    {Array.from(item.course_date!).map((params: any, index: number) => {
+                                                        return (index !== 0 ? ' - ' + params.label : params.label)
+                                                    })}
+                                                </Grid>
+                                                <Grid container justifyContent={'flex-end'}>
+                                                    <AccessTimeIcon sx={{ color: "#0085ea" }} />
+                                                    <Typography>
+                                                        {`${start_course_learn} - ${start_course_end}`}
+                                                    </Typography>
+                                                </Grid>
+
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                                </a>
+
+                            </react.Fragment>)
+                        }
+                    }
+                    )}
+                </Slider>
+
+
             </Box>
 
 
