@@ -20,6 +20,9 @@ const LoginAdmin = () => {
     const navigator = useNavigate()
     const dispatch = useAppDispatch()
     const myForm = useForm<IFormInput>()
+    const RegisterTeacher = () =>{
+        navigator('/registerteacher')
+    }
     //react-form
     const { handleSubmit, getValues } = myForm;
     const onSubmit = async () => {
@@ -63,7 +66,7 @@ const LoginAdmin = () => {
                         <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
                     </Grid>
                     <Grid container justifyContent={'Right'}>
-
+                        <Button type="button" sx={{ mr: 1, m: 1, }} onClick={RegisterTeacher}>Register</Button>
                         <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
                     </Grid>
                 </Grid>

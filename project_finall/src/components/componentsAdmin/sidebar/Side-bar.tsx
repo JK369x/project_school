@@ -19,6 +19,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../../../firebase/config_firebase';
 import { useAppDispatch } from '../../../store/useHooksStore';
 import { setAuthStore } from '../../../store/slices/authSlice';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -43,6 +44,9 @@ export const Sidebar = () => {
   }
   const onClickApproval = () => {
     navigate('/approval')
+  }
+  const onClickTeacher = () => {
+    navigate('/registerteacher')
   }
   const onClickLogOut = () => {
     signOut(auth).then(() => {
@@ -84,6 +88,10 @@ export const Sidebar = () => {
           </li>
           <li>
             <SchoolIcon className='icon' />
+            <span onClick={onClickTeacher}>Teacher</span>
+          </li>
+          <li>
+            <MenuBookIcon className='icon' />
             <span onClick={onClickCourse}>Course</span>
           </li>
           <li>

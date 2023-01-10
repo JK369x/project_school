@@ -44,9 +44,6 @@ export const role: Lookup[] = [{
 }, {
   id: '3',
   label: 'ศิษย์เก่า (มทร.ธัญบุรี)'
-}, {
-  id: '4',
-  label: 'อาจารย์',
 },
 ]
 

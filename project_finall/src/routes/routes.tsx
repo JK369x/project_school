@@ -27,6 +27,7 @@ import Approval from "../pages/Admin/Approval/Approval";
 import DetailCourse from "../pages/Admin/Courses/DetailCourse";
 import EditCourse from "../pages/Admin/Courses/EditCourse";
 import CategoryCourse from "../pages/CategoryCourse";
+import RegisterTeacher from "../pages/Admin/RegisterTeacher";
 
 
 
@@ -89,6 +90,9 @@ const RouteAllPage: FC = () => {
             <Route path="/" element={<PageHome />} />
             <Route path="/page" element={<PageHome />} />
             <Route path="/adminlogin" element={<LoginAdmin />} />
+            <Route path="/registerteacher" element={<RegisterTeacher />} />
+            <Route path="/registor" element={<Registor />} />
+            <Route path="/login" element={<Login />} />
             {!auth_uid ? (
                 <>
 
@@ -97,7 +101,6 @@ const RouteAllPage: FC = () => {
 
                         </>) : (
                         <>
-                            <Route path="/login" element={<Login />} />
 
                         </>
                     )}
@@ -107,7 +110,6 @@ const RouteAllPage: FC = () => {
                 <>
 
                     <Route path="/signup" element={<SignUp />} />
-                    <Route path="/registor" element={<Registor />} />
                     <Route path="/nextregistor" element={<Nextregistor />} />
                     <Route path="/testgrid" element={<Testgrid />} />
                     <Route path="/users" element={<User />} />
@@ -118,6 +120,7 @@ const RouteAllPage: FC = () => {
                     <Route path="/editcourse/:id" element={<EditCourse />} />
                     <Route path="/courses" element={<Course />} />
                     <Route path="/addcourses" element={<AddCourse />} />
+
                     <Route path="/category" element={<Category />} />
                     <Route path="/addcategory" element={<AddCategory />} />
                     <Route path="/approval" element={<Approval />} />
