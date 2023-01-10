@@ -46,7 +46,7 @@ export const Sidebar = () => {
     navigate('/approval')
   }
   const onClickTeacher = () => {
-    navigate('/registerteacher')
+    navigate('/teacher')
   }
   const onClickLogOut = () => {
     signOut(auth).then(() => {

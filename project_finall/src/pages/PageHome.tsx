@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import react, { useEffect, useState, useRef } from 'react';
 import { Avatar, Box, Grid, IconButton, Rating } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useAppSelector } from '../store/useHooksStore';
+import { useAppDispatch, useAppSelector } from '../store/useHooksStore';
 import moment from 'moment';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -23,11 +23,16 @@ import { useGetCategoryLists } from '../Hook/category/useGetCategory';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-
+import { FavoriteInput } from '../Hook/favorite/useCreateFavorite';
+import { useCreateFavorite } from '../Hook/favorite/useCreateFavorite'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { setAuthStore } from '../store/slices/authSlice';
+import Favorite from '@mui/icons-material/Favorite';
+import { OtherHouses } from '@mui/icons-material';
 const PageHome = () => {
     const { CourseLists, getCourseLists } = useGetCourseLists()
     const data = CourseLists
+    const { addFavorite } = useCreateFavorite()
     const { CategoryLists, useGetCategory } = useGetCategoryLists()
     const dataCategoryLists = CategoryLists.map((item, index) => {
         return (item.Category_Title)
@@ -108,9 +113,29 @@ const PageHome = () => {
             },
         ],
     };
+    const dispatch = useAppDispatch()
+    const uid_login = useAppSelector(({ auth: uid }) => uid)
+    const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
+    console.log("🚀 ~ file: PageHome.tsx:119 ~ PageHome ~ favorite_user", favorite_user)
+    const Clickfavorite = (item: string) => {
+        //! ?? ถ้าไม่ใช่่ undefine and false
+        let favorite: string[] = [...favorite_user ?? []]
+        if (favorite.some((params) => params === item)) {
+            //! เอาออก
+            favorite = favorite.filter((params) => params !== item)
+        } else {
+            favorite.push(item)
+        }
+
+        // addFavorite(course_name,uid_login)
+        dispatch(setAuthStore({
+            //* ชื่อเหมือนกันไม่ต้อง :
+            favorite,
+        }),
+        )
+    }
 
     const queryCategory = (category: any) => {
-        console.log("🚀 ~ ", category)
         setCategory(category)
     }
 
@@ -121,8 +146,7 @@ const PageHome = () => {
     let newdata = data
     if (Category) {
         newdata = data.filter((item: any) => item.category === Category)
-      
-        console.log("🚀 ~ file: PageHome.tsx:127 ~ PageHome ~ newdata.length", newdata.length)
+
     } else {
         newdata = data
     }
@@ -210,23 +234,23 @@ const PageHome = () => {
                     })}
                 </Grid>
                 <Grid container justifyContent={'center'}  >
-                {newdata.map((item, index) => {
-                    if (item.approval === true && newdata.length < 3) {
-                        const startCourse = new Date(item.start_course?.seconds * 1000)
-                        const formattedDate = startCourse.toDateString();
-                        const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: false,
-                            timeZone: 'Asia/Bangkok'
-                        })
-                        const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: false,
-                            timeZone: 'Asia/Bangkok'
-                        })
-                        return (<react.Fragment key={index}>
+                    {newdata.map((item, index) => {
+                        if (item.approval === true && newdata.length < 3) {
+                            const startCourse = new Date(item.start_course?.seconds * 1000)
+                            const formattedDate = startCourse.toDateString();
+                            const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                hour12: false,
+                                timeZone: 'Asia/Bangkok'
+                            })
+                            const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                hour12: false,
+                                timeZone: 'Asia/Bangkok'
+                            })
+                            return (<react.Fragment key={index}>
                                 <a onClick={() => { onClickCard(item) }}>
                                     <Grid item container mt={3} ml={2} justifyContent={'center'}>
                                         <Card sx={{
@@ -264,8 +288,8 @@ const PageHome = () => {
 
                                                         </Grid>
                                                         <Grid>
-                                                            <IconButton
-                                                                color='error'
+                                                            <IconButton onClick={() => Clickfavorite(item.id)}
+                                                                color={favorite_user?.some((params) => params === item.id) ? 'error' : 'inherit'}
                                                                 sx={{
                                                                     zIndex: 2,
                                                                     borderRadius: '50%',
@@ -331,9 +355,9 @@ const PageHome = () => {
                                     </Grid>
                                 </a>
 
-                        </react.Fragment>)
-                    }
-                })}
+                            </react.Fragment>)
+                        }
+                    })}
 
                 </Grid>
 
@@ -392,8 +416,8 @@ const PageHome = () => {
 
                                                         </Grid>
                                                         <Grid>
-                                                            <IconButton
-                                                                color='error'
+                                                            <IconButton onClick={() => Clickfavorite(item.id)}
+                                                                color={favorite_user?.some((params) => params === item.id) ? 'error' : 'inherit'}
                                                                 sx={{
                                                                     zIndex: 2,
                                                                     borderRadius: '50%',

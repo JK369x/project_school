@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 
 
-const User: FC = () => {
+const Teacher: FC = () => {
   const { userLists, getUserLists } = useGetUserLists()
   const data = userLists
   const { openConfirmDialog } = useDialog()
@@ -45,7 +45,10 @@ const User: FC = () => {
 
   }
 
-  const newdata = data.filter((item:any) =>item.status.id  !== "4")
+  let newdata = data.filter((item:any)=> item.status.id === "4")
+  console.log("🚀 ~ file: Teacher.tsx:49 ~ newdata", newdata)
+
+
 
   const columnOptions: TableColumnOptions[] = [
 
@@ -58,7 +61,7 @@ const User: FC = () => {
     },
     {
 
-      label: 'Name',
+      label: 'User',
       value: 'firstName',
     },
     {
@@ -99,7 +102,7 @@ const User: FC = () => {
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
 
                 <Typography variant="h1" component="h1" ml={3}>
-                  Users
+                  Teacher
                 </Typography>
                 <Button sx={{ width: '80px', height: '40px', mr: 3 }} color='success'>
                   + ADD
@@ -130,6 +133,6 @@ const User: FC = () => {
   )
 }
 
-export default User
+export default Teacher
 
 

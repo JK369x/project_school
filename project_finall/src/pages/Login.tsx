@@ -52,11 +52,11 @@ const Login = (props: Props) => {
 
       const docSnap = await getDoc(doc(AccountCollection, uid))
       if (docSnap.exists()) {
-        const { firstName,lastName, photoURL, status } = docSnap.data() as any
+        const { firstName,lastName, photoURL, status,favorite } = docSnap.data() as any
         const displayName = `${firstName} ${lastName}`
         console.log(docSnap.data())
         //! status = role user 
-        dispatch(setAuthStore({ uid, displayName, photoURL, status }))
+        dispatch(setAuthStore({ uid, displayName, photoURL, status,favorite }))
         dispatch(openAlertSuccess('LoginSuccess'))
         navigate('/page')
       } else {

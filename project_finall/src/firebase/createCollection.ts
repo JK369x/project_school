@@ -10,3 +10,4 @@ const createCollection = (collectionName: string) => {
 export const CourseCollection = createCollection("Course");
 export const AccountCollection = createCollection("Account");
 export const CategoryCollection = createCollection("Category");
+export const FavoriteCollection = createCollection("Favorite");

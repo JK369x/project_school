@@ -28,6 +28,7 @@ import DetailCourse from "../pages/Admin/Courses/DetailCourse";
 import EditCourse from "../pages/Admin/Courses/EditCourse";
 import CategoryCourse from "../pages/CategoryCourse";
 import RegisterTeacher from "../pages/Admin/RegisterTeacher";
+import Teacher from "../pages/Admin/Teacher/Teacher";
 
 
 
@@ -46,13 +47,14 @@ const RouteAllPage: FC = () => {
             if (user) {
                 const docSnap = await getDoc(doc(AccountCollection, user.uid))
                 if (docSnap && docSnap.exists()) {
-                    const { firstName, lastName, photoURL, status } = docSnap.data() as any
+                    const { firstName, lastName, photoURL, status,favorite } = docSnap.data() as any
                     const displayName = `${firstName} ${lastName}`
                     dispatch(
                         setAuthStore({
                             uid: user.uid,
                             displayName: displayName,
                             status: status,
+                            favorite:favorite,
                             // photoURL: user.photoURL as any,
                         }),
                     )
@@ -120,7 +122,7 @@ const RouteAllPage: FC = () => {
                     <Route path="/editcourse/:id" element={<EditCourse />} />
                     <Route path="/courses" element={<Course />} />
                     <Route path="/addcourses" element={<AddCourse />} />
-
+                    <Route path="/teacher" element={<Teacher />} />
                     <Route path="/category" element={<Category />} />
                     <Route path="/addcategory" element={<AddCategory />} />
                     <Route path="/approval" element={<Approval />} />

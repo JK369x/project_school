@@ -10,6 +10,7 @@ export interface AuthState {
 	photoURL?: string | null
 	status?: Lookup | null
 	about? : string | null
+	favorite? : string [] | null 
 }
 
 // Define the initial state using that type
@@ -20,17 +21,19 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {
 		//! เป็น type ของ action 
-		setAuthStore: (state, { payload: { uid, displayName, photoURL,status, } }: PayloadAction<AuthState>) => {
+		setAuthStore: (state, { payload: { uid, displayName, photoURL,status,favorite } }: PayloadAction<AuthState>) => {
 			state.uid = uid
 			state.displayName = displayName
 			state.photoURL = photoURL
 			state.status = status
+			state.favorite = favorite
 		},
 		clearAuthStore: (state) => {
 			delete state.uid
 			delete state.displayName
 			delete state.photoURL
 			delete state.status
+			delete state.favorite
 		},
 	},
 })
