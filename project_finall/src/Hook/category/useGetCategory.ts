@@ -6,6 +6,7 @@ import { CategoryCollection } from '../../firebase/createCollection'
 import { CategoryInput } from './useCreateCategory';
 export type CategoryListsType = {
     id: string
+    label: string
 } & CategoryInput
 //! & เพิ่ม id form input
 
@@ -14,6 +15,7 @@ export type CategoryListsType = {
 export const useGetCategoryLists = () => {
     const dispatch = useAppDispatch();
     const [CategoryLists, setCategoryLists] = useState<CategoryListsType[]>([])
+    console.log("🚀 ~ file: useGetCategory.ts:17 ~ useGetCategoryLists ~ CategoryLists", CategoryLists)
     useEffect(() => {
         useGetCategory()
     }, [])
@@ -33,6 +35,7 @@ export const useGetCategoryLists = () => {
                 result.docs.map((e) => {
                     return {
                         ...e.data(),
+                        label: e.data().Category_Title,
                         id: e.id,
                     }
                 }) as CategoryListsType[]

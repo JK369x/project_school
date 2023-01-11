@@ -32,6 +32,7 @@ export const useGetDetailUser = () => {
         status: null,
         id: "",
         about: "",
+        image_rul: null,
     })
 
 
@@ -50,6 +51,7 @@ export const useGetDetailUser = () => {
                 doc(AccountCollection, id as string)
             )
             if (result.exists()) {
+                console.log("🚀 ~ file: useGetDetailUser.ts:54 ~ getData ~ result", result.data())
                 setState({ ...(result.data() as any), id: result.id });
             } else {
                 //

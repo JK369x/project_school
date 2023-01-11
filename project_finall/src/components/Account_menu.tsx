@@ -11,13 +11,16 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore';
 import { auth } from '../firebase/config_firebase'
 import { setAuthStore } from '../store/slices/authSlice';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { storage } from '../firebase/config_firebase'
+import { doc, getDoc } from 'firebase/firestore';
+import { AccountCollection } from '../firebase/createCollection';
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -30,8 +33,19 @@ export default function AccountMenu() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
-    const { uid, status, displayName } = useAppSelector(({ auth }) => auth)
-    const auth_uid = uid !== undefined && uid !== null
+    const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
+    const uid_string = uid?.toString()
+
+    //! edit login user 
+    // const auth_uid = uid !== undefined && uid !== null
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const docSnap = await getDoc(doc(AccountCollection, uid ?? ''))
+    //         console.log("🚀 ~ file: Account_menu.tsx:43 ~ fetchData ~ docSnap", docSnap.data())
+    //     }
+    //     fetchData()
+    // }, [])
+
 
     const onClickLogOut = () => {
         signOut(auth).then(() => {
@@ -52,9 +66,13 @@ export default function AccountMenu() {
         navigate('/page')
     }
 
-    const ClickCateGory = () =>{
+    const ClickCateGory = () => {
         navigate('/category_course')
     }
+    const ClickFavorite = () => {
+        navigate('/favorite')
+    }
+
     return (
         <>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -77,7 +95,7 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        <Avatar src={photoURL ? photoURL : '#'} sx={{ width: 32, height: 32 }}>M</Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -122,10 +140,10 @@ export default function AccountMenu() {
 
                 <Divider />
                 <MenuItem>
-                    <ListItemIcon>
+                    <ListItemIcon onClick={ClickFavorite}>
                         <FavoriteIcon color='error' fontSize="small" />
                     </ListItemIcon>
-                    Favorite
+                    <span onClick={ClickFavorite}>Favorite</span>
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>

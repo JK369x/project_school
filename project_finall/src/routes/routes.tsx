@@ -29,14 +29,17 @@ import EditCourse from "../pages/Admin/Courses/EditCourse";
 import CategoryCourse from "../pages/CategoryCourse";
 import RegisterTeacher from "../pages/Admin/RegisterTeacher";
 import Teacher from "../pages/Admin/Teacher/Teacher";
+import Favorite from "../pages/Favorite";
 
 
 
 
 
 const RouteAllPage: FC = () => {
-    const { uid, status, displayName } = useAppSelector(({ auth }) => auth)
-    console.log("🚀 ~ file: routes.tsx:32 ~ status", status)
+    const { uid, status,  photoURL} = useAppSelector(({ auth }) => auth)
+    console.log("🚀 ~ file: routes.tsx:39 ~ uid", uid)
+    console.log("🚀 ~ file: routes.tsx:39 ~ status", status)
+    console.log("🚀 ~ file: routes.tsx:39 ~ photoURL", photoURL)
     const auth_uid = uid !== undefined && uid !== null
 
 
@@ -46,8 +49,9 @@ const RouteAllPage: FC = () => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const docSnap = await getDoc(doc(AccountCollection, user.uid))
+                console.log("🚀 ~ file: routes.tsx:51 ~ onAuthStateChanged ~ docSnap", docSnap.data())
                 if (docSnap && docSnap.exists()) {
-                    const { firstName, lastName, photoURL, status,favorite } = docSnap.data() as any
+                    const { firstName, lastName, status,favorite,image_rul } = docSnap.data() as any
                     const displayName = `${firstName} ${lastName}`
                     dispatch(
                         setAuthStore({
@@ -55,7 +59,7 @@ const RouteAllPage: FC = () => {
                             displayName: displayName,
                             status: status,
                             favorite:favorite,
-                            // photoURL: user.photoURL as any,
+                            photoURL:image_rul,
                         }),
                     )
                 }
@@ -126,6 +130,7 @@ const RouteAllPage: FC = () => {
                     <Route path="/category" element={<Category />} />
                     <Route path="/addcategory" element={<AddCategory />} />
                     <Route path="/approval" element={<Approval />} />
+                    <Route path="/favorite" element={<Favorite />} />
                     <Route path="/category_course" element={<CategoryCourse />} />
                 </>
             )}

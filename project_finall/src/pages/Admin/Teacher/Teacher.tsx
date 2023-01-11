@@ -27,7 +27,6 @@ const Teacher: FC = () => {
   //  const [detailUser, setDetailUser] = useState<UserListsType>()
   console.log("🚀 ~ file: User.tsx:20 ~ data", data)
 
-
   const delItem = (data: UserListsType) => {
     openConfirmDialog({
       textContent: 'deleteUser',

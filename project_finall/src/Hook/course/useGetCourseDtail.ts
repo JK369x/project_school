@@ -16,7 +16,7 @@ export const useGetCourseDetail = () => {
         title: "",
         subtitle: "",
         description: "",
-        category: "",
+        category: null,
         start_register: null,
         start_registerEnd: "",
         start_register_time: null,
@@ -65,6 +65,8 @@ export const useGetCourseDetail = () => {
                 doc(CourseCollection, id as string)
             )
             if (result.exists()) {
+                console.log("🚀 ~ file: useGetCourseDtail.ts:68 ~ getCourse ~ result", result.data())
+                
                 setState({ ...(result.data() as any), id: result.id });
             } else {
                 //

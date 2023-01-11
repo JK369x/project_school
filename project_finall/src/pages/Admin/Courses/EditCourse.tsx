@@ -42,13 +42,15 @@ const EditCourse: FC = () => {
     const dataCategory = getCategoryLists.map((item, index) => {
         return (item.Category_Title)
     })
-    useEffect( ()  => {
-         myForm.setValue('data', state
-        )
+    useEffect(() => {
+        myForm.setValue('data', state)
+        console.log("🚀 ~ file: EditCourse.tsx:47 ~ useEffect ~ state", state)
     }, [state])
 
-    const myForm = useForm<{ data: CourseListsType }>({})
-    console.log("🚀 ~ file: EditUser.tsx:46 ~ myForm", myForm.getValues())
+    const myForm = useForm<{ data: CourseListsType }>({
+        //!defaultValues
+        // defaultValues
+    })
 
 
     const handleChange = (e: any) => {
@@ -58,10 +60,10 @@ const EditCourse: FC = () => {
     //*start register course
     const Start_Register_Date = new Date(state.start_register?.seconds * 1000)
 
-     //*end register course
-     const End_Register_Date = new Date(state.start_registerEnd?.seconds * 1000)
+    //*end register course
+    const End_Register_Date = new Date(state.start_registerEnd?.seconds * 1000)
 
-     //*start course and End course
+    //*start course and End course
     const Start_Course_Time = new Date(state.start_register_time?.seconds * 1000)
     const End_Course_Time = new Date(state.start_register_end?.seconds * 1000)
 
@@ -70,12 +72,16 @@ const EditCourse: FC = () => {
         return (index !== 0 ? ' - ' + params.label : params.label)
     })
 
-    const { watch, handleSubmit, getValues,setValue } = myForm
+    const { watch, handleSubmit, getValues, setValue } = myForm
+    console.log("🚀 ~ file: EditCourse.tsx:73 ~ getValues", getValues())
+
     //*Course Time Start and End
     const start_course_learn = new Date(state.start_register_time?.seconds * 1000)
     const start_course_end = new Date(state.start_register_end?.seconds * 1000)
-    const onSubmit = async () => {
 
+
+
+    const onSubmit = async () => {
         setValue('data.start_register', new Date(value))
         setValue('data.start_register_time', new Date(valueTime_start))
         setValue('data.start_register_end', new Date(valueTime_end))
@@ -93,9 +99,7 @@ const EditCourse: FC = () => {
 
     }
 
-
-
-
+    console.log("🚀 ~ file: EditCourse.tsx:73 ~ getValues", getValues())
     return (
         <div className='home'>
             <Sidebar />
@@ -124,6 +128,7 @@ const EditCourse: FC = () => {
                                 <Grid container spacing={1}>
                                     <Grid item xs={3}>
                                         <ControllerAutocomplete
+                                        
                                             fullWidth
                                             formprop={myForm}
                                             name={'data.category'}
@@ -133,11 +138,11 @@ const EditCourse: FC = () => {
                                     </Grid>
                                     <Grid item xs={3}>
                                         <ControllerAutocomplete
-                                          
+
                                             fullWidth
                                             multiple={true}
                                             formprop={myForm}
-                                            name={'course_date'}
+                                            name={'state.course_date'}
                                             label={'Course date'}
                                             options={roleWeek} // load options
                                         />
@@ -147,7 +152,7 @@ const EditCourse: FC = () => {
                                             fullWidth
                                             multiple={true}
                                             formprop={myForm}
-                                            name={'course_status'}
+                                            name={'state.course_status'}
                                             label={'Select Course Time'}
                                             options={typeCourseOnline_Onside} // load options
                                         />
@@ -192,7 +197,7 @@ const EditCourse: FC = () => {
                                 <Typography variant="h6"  >
                                     Image Course
                                 </Typography>
-                                <ImageInput label="Select an image"  onChange={
+                                <ImageInput label="Select an image" onChange={
                                     handleChange} />
 
 

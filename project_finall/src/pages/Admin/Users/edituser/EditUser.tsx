@@ -1,5 +1,5 @@
-import React, { FC, useEffect } from 'react'
-import { Avatar, Box, } from '@mui/material'
+import React, { FC, useEffect, useState } from 'react'
+import { Avatar, Box, IconButton, } from '@mui/material'
 import Navbar from '../../../../components/componentsAdmin/navbar/Navbar'
 import Sidebar from '../../../../components/componentsAdmin/sidebar/Side-bar'
 import './EditUser.scss'
@@ -9,6 +9,7 @@ import { Typography } from '@mui/material'
 import {
     ControllerAutocomplete,
     ControllerTextField,
+    UploadButton
 
 }
     from '../../../../framework/control';
@@ -17,30 +18,44 @@ import { UserListsType } from "../../../../Hook/user/useGetUserLists";
 import { useGetDetailUser } from '../../../../Hook/user/useGetDetailUser'
 import { useLocationLookup } from '../../../../Hook/useLocationLookup'
 import { useUpdateUser } from '../../../../Hook/user/useUpdateUser'
-import { doc, updateDoc } from "firebase/firestore";
-
+import { useUploadFile } from '../../../../file/useUploadFile'
+import { useAppDispatch, useAppSelector } from '../../../../store/useHooksStore'
+import { openAlertError, openAlertSuccess } from '../../../../store/slices/alertSlice'
+import { setAuthStore } from '../../../../store/slices/authSlice'
 
 const EditUser: FC = () => {
+    const [images, setImages] = useState<any>([]);
+    const [imageURLs, setImageURLs] = useState<any>([]);
+    const dispatch = useAppDispatch()
 
     const { state } = useGetDetailUser()
     const { updateUser } = useUpdateUser()
-    useEffect(() => {
-        myForm.setValue('data', state
-        )
-    }, [state])
 
-    const myForm = useForm<{ data: UserListsType }>({})
-    console.log("🚀 ~ file: EditUser.tsx:46 ~ myForm", myForm.getValues())
 
 
 
-    const { watch, handleSubmit, getValues } = myForm
+    const myForm = useForm<{ data: UserListsType }>({})
+
+    const { uploadFile, uploadState } = useUploadFile()
+    const { watch, handleSubmit, getValues, setValue } = myForm
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
-
+    const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     const changeProvince = watch('data.province')
     const changeAmphure = watch('data.amphure')
     const changeTambon = watch('data.tambon')
 
+    const onUploadImage = (files: FileList | null) => {
+        if (files) {
+            uploadFile(files[0], `myImages/${uid}/`)
+        }
+    }
+    useEffect(() => {
+        myForm.setValue('data', state
+        )
+        if (uploadState.downloadURL) {
+            myForm.setValue('data.image_rul', uploadState.downloadURL)
+        }
+    }, [state, uploadState.downloadURL])
 
     //!error 
     useEffect(() => {
@@ -65,13 +80,30 @@ const EditUser: FC = () => {
 
 
         if (getValues()) {
-            try {
-                const id = myForm.getValues().data.id
-                updateUser(getValues().data, id)
-            } catch (error) {
-                console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
+            console.log("🚀 ~ file: EditUser.tsx:90 ~ onSubmit ~ getValues", getValues)
+            const id = myForm.getValues().data.id
+            const firstName = getValues().data.firstName
+            const lastName = getValues().data.lastName
+            const ImageUrl = getValues().data.image_rul
+            const statusUpdata = getValues().data.status
 
+            const displayName = `${firstName} ${lastName}`
+            if (await updateUser(getValues().data, id)) {
+
+                dispatch(openAlertSuccess('changeProfileSuccess'))
+                dispatch(
+                    setAuthStore({
+                        uid,
+                        displayName,
+                        status: statusUpdata,
+                        favorite,
+                        photoURL: ImageUrl,
+                    }),)
+
+            } else {
+                dispatch(openAlertError('changeProfileError'))
             }
+
         }
 
     }
@@ -91,7 +123,17 @@ const EditUser: FC = () => {
                                         </Typography>
                                     </Grid>
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mb: 2 }}>
-                                        <Avatar alt="Remy Sharp" src="" sx={{ width: 120, height: 120, }} />
+
+                                        <Avatar alt="Remy Sharp" src={uploadState.downloadURL ? uploadState.downloadURL : state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, position: 'relative' }} />
+
+
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                                        {uploadState.status !== 'none' ? `${uploadState.progress}%` : uploadState.fileName}
+
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mb: 2 }}>
+                                        <UploadButton label={'Upload'} onUploadChange={onUploadImage} />
                                     </Grid>
 
 
@@ -189,3 +231,4 @@ const EditUser: FC = () => {
 }
 
 export default EditUser
+

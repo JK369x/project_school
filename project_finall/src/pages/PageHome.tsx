@@ -23,7 +23,6 @@ import { useGetCategoryLists } from '../Hook/category/useGetCategory';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FavoriteInput } from '../Hook/favorite/useCreateFavorite';
 import { useCreateFavorite } from '../Hook/favorite/useCreateFavorite'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { setAuthStore } from '../store/slices/authSlice';
@@ -113,26 +112,37 @@ const PageHome = () => {
             },
         ],
     };
+    const { uid, status, displayName,photoURL } = useAppSelector(({ auth }) => auth)
     const dispatch = useAppDispatch()
     const uid_login = useAppSelector(({ auth: uid }) => uid)
     const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
-    console.log("🚀 ~ file: PageHome.tsx:119 ~ PageHome ~ favorite_user", favorite_user)
+    console.log("favorite in redux", favorite_user)
     const Clickfavorite = (item: string) => {
         //! ?? ถ้าไม่ใช่่ undefine and false
-        let favorite: string[] = [...favorite_user ?? []]
-        if (favorite.some((params) => params === item)) {
-            //! เอาออก
-            favorite = favorite.filter((params) => params !== item)
-        } else {
-            favorite.push(item)
-        }
+        try {
 
-        // addFavorite(course_name,uid_login)
-        dispatch(setAuthStore({
-            //* ชื่อเหมือนกันไม่ต้อง :
-            favorite,
-        }),
-        )
+            let favorite: string[] = [...favorite_user ?? []]
+            if (favorite.some((params) => params === item)) {
+                //! เอาออก
+                favorite = favorite.filter((params) => params !== item)
+                addFavorite(favorite, uid_login.uid!)
+            } else {
+                favorite.push(item)
+                addFavorite(favorite, uid_login.uid!)
+            }
+          
+
+            dispatch(setAuthStore({
+                //* ชื่อเหมือนกันไม่ต้อง :
+                uid: uid,
+                displayName: displayName,
+                status: status,
+                favorite,
+            }),
+            )
+        } catch (err) {
+            console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
+        }
     }
 
     const queryCategory = (category: any) => {
@@ -456,7 +466,7 @@ const PageHome = () => {
                                                 </Grid>
                                                 <Grid container sx={{ mr: 1 }} alignItems={'center'}>
                                                     <Grid sx={{ mr: 1.5 }} >
-                                                        <Avatar alt="Remy Sharp" src="#" />
+                                                        <Avatar alt="Remy Sharp" src={''} />
                                                     </Grid>
                                                     <Grid >
                                                         {item.create_by_name}

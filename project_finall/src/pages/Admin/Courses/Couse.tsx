@@ -79,7 +79,7 @@ const Course: FC = () => {
       alignHeader: 'left',
       alignValue: 'left',
       label: 'Category',
-      value: 'category',
+      value: 'category.label',
     },
 
     {

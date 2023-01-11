@@ -21,6 +21,7 @@ export const useCreateCategory = () => {
             dispatch(isShowLoading())
             await setDoc(doc(CategoryCollection), {
                 ...params,
+                label:params.Category_Title,
                 timestamp: new Date(),
             })
         } catch (err) {

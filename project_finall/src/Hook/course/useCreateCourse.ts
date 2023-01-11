@@ -10,7 +10,7 @@ export interface TypeCourses {
     title: string,
     subtitle: string,
     description: string,
-    category: any,
+    category: Lookup | null,
     start_register: Date| any ,
     start_registerEnd: Date| any ,
     start_register_time: Date| any,
@@ -46,10 +46,8 @@ export interface TypeCourses {
 
 export const UseCreateCourse = () => {
     const { uid,status,displayName } = useAppSelector(({ auth }) => auth);
-    console.log("🚀 ~ file: useCreateCourse.ts:45 ~ UseCreateCourse ~ displayName", displayName)
     const dispatch = useAppDispatch()
     const addCourse = async (params: TypeCourses) => {
-        console.log("🚀 ~ file: useCreateCourse.ts:39 ~ addCourse ~ params", params)
         try {
             let newdata: any = params
             let pricingNumber = Number(newdata.Pricing)

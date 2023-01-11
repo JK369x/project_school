@@ -20,6 +20,7 @@ export interface IFormInput {
     agency: string | number
     status: Lookup | null
     about?: string
+    image_rul?: string | null
 }
 export const useCreateAcc = () => {
     const addUser = async (params: IFormInput, uid: string) => {

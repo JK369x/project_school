@@ -21,11 +21,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { useGetDetailUser } from '../../../../Hook/user/useGetDetailUser'
 import { Typography, Avatar } from '@mui/material'
+import { useAppSelector } from '../../../../store/useHooksStore'
+import { auth } from '../../../../firebase/config_firebase'
 
 const DetailUser: FC = () => {
 
   const { userLists, getUserLists } = useGetUserLists()
-
+  const {photoURL} = useAppSelector(({auth})=> auth)
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
@@ -54,7 +56,7 @@ const DetailUser: FC = () => {
                 </Grid>
                 <Grid container item>
                   <Grid container ml={3} mr={3} item xs={1}>
-                    <Avatar alt="Remy Sharp" src="" sx={{ width: 120, height: 120, mr: 5 }} />
+                    <Avatar alt="Remy Sharp" src={state.image_rul?state.image_rul : ''} sx={{ width: 120, height: 120, mr: 5 }} />
                   </Grid>
                   <Grid ml={1} item xs={6} >
                     <Grid item container mt={0}>

@@ -35,7 +35,7 @@ export const Navbar = () => {
     navigate('/page')
   }
   const dispatch = useAppDispatch();
-  const { uid, status, displayName } = useAppSelector(({ auth }) => auth)
+  const { uid, status, displayName,photoURL } = useAppSelector(({ auth }) => auth)
   const auth_uid = uid !== undefined && uid !== null
   // console.log("🚀 ~ file: Navbar.tsx:30 ~ Navbar ~ auth_uid", auth_uid)
   return (

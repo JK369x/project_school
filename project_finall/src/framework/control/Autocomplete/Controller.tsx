@@ -29,6 +29,7 @@ export const ControllerAutocomplete: FC<ControllerAutocompleteProps> = (props) =
 		<Controller
 			name={name}
 			control={control}
+			//!defaultValues
 			defaultValue={getValues('name')}
 			render={({ field: { onChange, value }, fieldState: { error } }) => {
 				return (

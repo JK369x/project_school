@@ -57,15 +57,14 @@ const AddCourse = () => {
     const { CategoryLists } = useGetCategoryLists()
     const getCategoryLists = CategoryLists
 
-    const dataCategory = getCategoryLists.map((item, index) => {
-        return (item.Category_Title)
+    const dataCategory: Lookup[] = getCategoryLists.map((item, index) => {
+        return {id: item.id, label: item.label}
     })
 
-    console.log("🚀 ~ file: AddCourse.tsx:65 ~ AddCourse ~ getCategoryLists", getCategoryLists)
     //*Hook
     const { addCourse } = UseCreateCourse()
 
-    const uid = useAppSelector(({ auth: { uid } }) => uid)
+    const auth = useAppSelector(({ auth: { uid } }) => uid)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
@@ -87,6 +86,10 @@ const AddCourse = () => {
 
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
+        getValues()
+        
+        console.log('testget',getValues())
+        
         if (image) {
             const imageRef = ref(storage, `img/${image.name}`);
             const uploadTask = uploadBytesResumable(imageRef, image)
@@ -137,6 +140,9 @@ const AddCourse = () => {
             console.log('File not found')
         }
     }
+        console.log("🚀 ~ file: AddCourse.tsx:141 ~ onSubmit ~ getValues", getValues)
+        console.log("🚀 ~ file: AddCourse.tsx:141 ~ onSubmit ~ getValues", getValues)
+        console.log("🚀 ~ file: AddCourse.tsx:141 ~ onSubmit ~ getValues()", getValues())
 
 
 
