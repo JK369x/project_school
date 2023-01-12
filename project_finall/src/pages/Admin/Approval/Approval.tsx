@@ -83,7 +83,7 @@ const Approval: FC = () => {
             alignHeader: 'left',
             alignValue: 'left',
             label: 'Category',
-            value: 'category',
+            value: 'category.label',
         },
         {
             width: '100',

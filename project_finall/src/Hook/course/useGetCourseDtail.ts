@@ -49,6 +49,8 @@ export const useGetCourseDetail = () => {
         Approval: false,
         min_people: "",
         id:"",
+        image_create:"",
+
     })
 
     useEffect(() => {

@@ -6,7 +6,7 @@ import { auth } from '../../firebase/config_firebase';
 import { AccountCollection } from '../../firebase/createCollection';
 import { setAuthStore } from '../../store/slices/authSlice';
 import { isCloseLoading, isShowLoading } from '../../store/slices/loadingSlice';
-import { useAppDispatch } from '../../store/useHooksStore';
+import { useAppDispatch, useAppSelector } from '../../store/useHooksStore';
 import { useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import { Button, Typography } from '@mui/material';
@@ -20,7 +20,7 @@ const LoginAdmin = () => {
     const navigator = useNavigate()
     const dispatch = useAppDispatch()
     const myForm = useForm<IFormInput>()
-    const RegisterTeacher = () =>{
+    const RegisterTeacher = () => {
         navigator('/registerteacher')
     }
     //react-form
@@ -37,10 +37,16 @@ const LoginAdmin = () => {
             const docSnap = await getDoc(doc(AccountCollection, uid))
             console.log('123123', docSnap.exists())
             if (docSnap.exists()) {
-                const { firstName, lastName, photoURL, status } = docSnap.data() as any
+                const { firstName, lastName, image_rul, status, favorite } = docSnap.data() as any
                 const displayName = `${firstName} ${lastName}`
                 console.log(docSnap.data())
-                dispatch(setAuthStore({ uid, displayName, photoURL, status }))
+                dispatch(setAuthStore({
+                    uid,
+                    displayName,
+                    status,
+                    favorite,
+                    photoURL: image_rul,
+                }))
                 navigator('/dashboard')
             } else {
                 console.log('error data')

@@ -30,16 +30,17 @@ import CategoryCourse from "../pages/CategoryCourse";
 import RegisterTeacher from "../pages/Admin/RegisterTeacher";
 import Teacher from "../pages/Admin/Teacher/Teacher";
 import Favorite from "../pages/Favorite";
+import DetailCourseHomePage from "../pages/DetailCourseHomePage";
 
 
 
 
 
 const RouteAllPage: FC = () => {
-    const { uid, status,  photoURL} = useAppSelector(({ auth }) => auth)
+    const { uid, status, photoURL,favorite } = useAppSelector(({ auth }) => auth)
     console.log("🚀 ~ file: routes.tsx:39 ~ uid", uid)
     console.log("🚀 ~ file: routes.tsx:39 ~ status", status)
-    console.log("🚀 ~ file: routes.tsx:39 ~ photoURL", photoURL)
+    console.log("👨🏻‍💻 redux", photoURL)
     const auth_uid = uid !== undefined && uid !== null
 
 
@@ -51,15 +52,15 @@ const RouteAllPage: FC = () => {
                 const docSnap = await getDoc(doc(AccountCollection, user.uid))
                 console.log("🚀 ~ file: routes.tsx:51 ~ onAuthStateChanged ~ docSnap", docSnap.data())
                 if (docSnap && docSnap.exists()) {
-                    const { firstName, lastName, status,favorite,image_rul } = docSnap.data() as any
+                    const { firstName, lastName, status, favorite, image_rul } = docSnap.data() as any
                     const displayName = `${firstName} ${lastName}`
                     dispatch(
                         setAuthStore({
                             uid: user.uid,
                             displayName: displayName,
                             status: status,
-                            favorite:favorite,
-                            photoURL:image_rul,
+                            favorite: favorite,
+                            photoURL: image_rul,
                         }),
                     )
                 }
@@ -68,6 +69,8 @@ const RouteAllPage: FC = () => {
                     setAuthStore({
                         uid: null,
                         displayName: null,
+                        status: null,
+                        favorite: favorite,
                         photoURL: null,
                     }),
                 )
@@ -114,7 +117,7 @@ const RouteAllPage: FC = () => {
                 </>
             ) : (
                 <>
-
+                    <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/nextregistor" element={<Nextregistor />} />
                     <Route path="/testgrid" element={<Testgrid />} />

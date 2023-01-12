@@ -44,7 +44,7 @@ const PageHome = () => {
 
 
     const onClickCard = (data: CourseListsType) => {
-
+        navigate(`detailcoursehomepage/${data.id}`)
     }
 
     const labels: { [index: string]: string } = {
@@ -112,7 +112,8 @@ const PageHome = () => {
             },
         ],
     };
-    const { uid, status, displayName,photoURL } = useAppSelector(({ auth }) => auth)
+
+    const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
     const dispatch = useAppDispatch()
     const uid_login = useAppSelector(({ auth: uid }) => uid)
     const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
@@ -130,7 +131,7 @@ const PageHome = () => {
                 favorite.push(item)
                 addFavorite(favorite, uid_login.uid!)
             }
-          
+
 
             dispatch(setAuthStore({
                 //* ชื่อเหมือนกันไม่ต้อง :
@@ -155,7 +156,7 @@ const PageHome = () => {
 
     let newdata = data
     if (Category) {
-        newdata = data.filter((item: any) => item.category === Category)
+        newdata = data.filter((item: any) => item.category.label === Category)
 
     } else {
         newdata = data
@@ -206,7 +207,7 @@ const PageHome = () => {
                 </Grid>
             </Grid>
             <Box
-                sx={{ width: '100%', height: 800, backgroundColor: '#000000' }}>
+                sx={{ width: '100%', height: 830, backgroundColor: '#000000' }}>
                 <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ ml: 2, }}>
                     <Typography variant="h2" component="h2" color='#ffffff' sx={{ mt: 7 }}>
                         👨🏻‍💻  หลักสูตรที่แนะนำ
@@ -243,139 +244,159 @@ const PageHome = () => {
                         </react.Fragment>)
                     })}
                 </Grid>
-                <Grid container justifyContent={'center'}  >
-                    {newdata.map((item, index) => {
-                        if (item.approval === true && newdata.length < 3) {
-                            const startCourse = new Date(item.start_course?.seconds * 1000)
-                            const formattedDate = startCourse.toDateString();
-                            const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                hour12: false,
-                                timeZone: 'Asia/Bangkok'
-                            })
-                            const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                hour12: false,
-                                timeZone: 'Asia/Bangkok'
-                            })
-                            return (<react.Fragment key={index}>
-                                <a onClick={() => { onClickCard(item) }}>
-                                    <Grid item container mt={3} ml={2} justifyContent={'center'}>
-                                        <Card sx={{
-                                            height: 475, width: 345, borderRadius: 1, '&:hover': {
-                                                cursor: 'pointer',
-                                            }
-                                        }}
-                                            /* It's a prop that adds a shadow to the
-                                            card. */
-                                            raised={true}>
-                                            <CardMedia
-                                                component="img"
-                                                alt="green iguana"
-                                                height="200"
-                                                image={item.image}
-                                            />
-                                            <CardContent sx={{ height: 120, }} >
-                                                <Grid>
-                                                    <Grid container justifyContent={'space-between'}>
-                                                        <Grid >
-                                                            <Typography variant="body2" sx={{
-                                                                mt: 0.5,
-                                                                '&:hover': {
-                                                                    color: '#0085ea',
-                                                                }
-                                                            }} color='#015ca2' >
-                                                                {item.course_status!.map((params, index) => {
-                                                                    return (index !== 0 ? ' & ' + params.label : params.label)
-                                                                })}
-                                                            </Typography>
-                                                            <Typography gutterBottom variant="h5" component="h5">
-                                                                {item.title}
-                                                            </Typography>
 
+
+
+                <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+                    <Grid item xs={12}>
+                        <Grid container justifyContent="center" spacing={5}>
+
+                            {newdata.map((item, index) => {
+                                if (item.approval === true && newdata.length < 3) {
+                                    const startCourse = new Date(item.start_course?.seconds * 1000)
+
+                                    const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        hour12: false,
+                                        timeZone: 'Asia/Bangkok'
+                                    })
+                                    const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                                        hour: 'numeric',
+                                        minute: 'numeric',
+                                        hour12: false,
+                                        timeZone: 'Asia/Bangkok'
+                                    })
+                                    return (<react.Fragment key={index}>
+
+                                        <Grid key={index} item  >
+
+                                            <Card sx={{
+                                                height: 490, width: 345, borderRadius: 1, '&:hover': {
+                                                    cursor: 'pointer',
+                                                }
+                                            }}
+                                                /* It's a prop that adds a shadow to the
+                                                card. */
+                                                raised={true}>
+                                                <CardMedia
+                                                    onClick={() => { onClickCard(item) }}
+                                                    component="img"
+                                                    alt="green iguana"
+                                                    height="200"
+                                                    image={item.image}
+                                                />
+                                                <CardContent sx={{ height: 120, }} >
+                                                    <Grid>
+                                                        <Typography variant="body2" sx={{
+                                                            mt: 0.5,
+                                                            '&:hover': {
+                                                                color: '#0085ea',
+                                                            }
+                                                        }} color='#015ca2' >
+                                                            {item.course_status!.map((params, index) => {
+                                                                return (index !== 0 ? ' & ' + params.label : params.label)
+                                                            })}
+                                                        </Typography>
+                                                        <Grid container justifyContent={'space-between'}>
+
+
+                                                            <Grid item xs={10}>
+                                                                <Typography gutterBottom variant="h6" sx={{
+                                                                    display: '-webkit-box',
+                                                                    overflow: 'hidden',
+                                                                    WebkitBoxOrient: 'vertical',
+                                                                    WebkitLineClamp: 1,
+
+                                                                }}>
+                                                                    {item.title}
+                                                                </Typography>
+
+                                                            </Grid>
+
+                                                            <Grid>
+                                                                <IconButton onClick={() => Clickfavorite(item.id)}
+                                                                    color={favorite_user?.some((params: any) => params === item.id) ? 'error' : 'inherit'}
+                                                                    sx={{
+                                                                        zIndex: 2,
+                                                                        borderRadius: '50%',
+                                                                        bottom: 0,
+                                                                    }}
+                                                                >
+                                                                    <FavoriteIcon />
+                                                                </IconButton>
+
+                                                            </Grid>
 
                                                         </Grid>
                                                         <Grid>
-                                                            <IconButton onClick={() => Clickfavorite(item.id)}
-                                                                color={favorite_user?.some((params) => params === item.id) ? 'error' : 'inherit'}
-                                                                sx={{
-                                                                    zIndex: 2,
-                                                                    borderRadius: '50%',
-                                                                    bottom: 0,
-                                                                }}
+                                                            <Typography variant="body2" color="text.secondary" sx={{
+                                                                display: '-webkit-box',
+                                                                overflow: 'hidden',
+                                                                WebkitBoxOrient: 'vertical',
+                                                                WebkitLineClamp: 3,
+                                                            }}
                                                             >
-                                                                <FavoriteIcon />
-                                                            </IconButton>
+                                                                {item.description}
+                                                            </Typography>
+                                                        </Grid>
+
+                                                    </Grid>
+                                                </CardContent>
+                                                <CardContent sx={{ mt: 3, pt: 3, pb: 0 }}>
+                                                    <Grid container justifyContent={'space-between'} >
+                                                        <Grid item sx={{ mr: 1 }}>
+                                                            <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
+
+                                                        </Grid>
+                                                        <Grid item >
+                                                            <Typography>
+                                                                {item.pricing.toLocaleString()} THB
+                                                            </Typography>
                                                         </Grid>
                                                     </Grid>
-                                                    <Grid>
-                                                        <Typography variant="body2" color="text.secondary" sx={{
-                                                            display: '-webkit-box',
-                                                            overflow: 'hidden',
-                                                            WebkitBoxOrient: 'vertical',
-                                                            WebkitLineClamp: 3,
-                                                        }}
-                                                        >
-                                                            {item.description}
-                                                        </Typography>
+                                                    <Grid container sx={{ mr: 1 }} alignItems={'center'}>
+                                                        <Grid sx={{ mr: 1.5 }} >
+                                                            <Avatar alt="Remy Sharp" src="#" />
+                                                        </Grid>
+                                                        <Grid >
+                                                            {item.create_by_name}
+                                                        </Grid>
                                                     </Grid>
+                                                </CardContent>
+                                                <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
 
-                                                </Grid>
-                                            </CardContent>
-                                            <CardContent sx={{ mt: 1, pt: 3, pb: 0 }}>
-                                                <Grid container justifyContent={'space-between'} >
-                                                    <Grid item sx={{ mr: 1 }}>
-                                                        <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
-
+                                                    <Grid container>
+                                                        <CalendarMonthIcon sx={{ color: '#0085ea' }} />
+                                                        {Array.from(item.course_date!).map((params: any, index: number) => {
+                                                            return (index !== 0 ? ' - ' + params.label : params.label)
+                                                        })}
                                                     </Grid>
-                                                    <Grid item >
+                                                    <Grid container justifyContent={'flex-end'}>
+                                                        <AccessTimeIcon sx={{ color: "#0085ea" }} />
                                                         <Typography>
-                                                            {item.pricing.toLocaleString()} THB
+                                                            {`${start_course_learn} - ${start_course_end}`}
                                                         </Typography>
                                                     </Grid>
-                                                </Grid>
-                                                <Grid container sx={{ mr: 1 }} alignItems={'center'}>
-                                                    <Grid sx={{ mr: 1.5 }} >
-                                                        <Avatar alt="Remy Sharp" src="#" />
-                                                    </Grid>
-                                                    <Grid >
-                                                        {item.create_by_name}
-                                                    </Grid>
-                                                </Grid>
-                                            </CardContent>
-                                            <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
 
-                                                <Grid container>
-                                                    <CalendarMonthIcon sx={{ color: '#0085ea' }} />
-                                                    {Array.from(item.course_date!).map((params: any, index: number) => {
-                                                        return (index !== 0 ? ' - ' + params.label : params.label)
-                                                    })}
-                                                </Grid>
-                                                <Grid container justifyContent={'flex-end'}>
-                                                    <AccessTimeIcon sx={{ color: "#0085ea" }} />
-                                                    <Typography>
-                                                        {`${start_course_learn} - ${start_course_end}`}
-                                                    </Typography>
-                                                </Grid>
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
 
-                                            </CardActions>
-                                        </Card>
-                                    </Grid>
-                                </a>
 
-                            </react.Fragment>)
-                        }
-                    })}
 
+                                    </react.Fragment>)
+                                }
+                            })}
+                        </Grid>
+                    </Grid>
                 </Grid>
+
 
                 <Slider {...settings} >
                     {newdata.map((item, index) => {
                         if (item.approval === true && newdata.length >= 3) {
                             const startCourse = new Date(item.start_course?.seconds * 1000)
-                            const formattedDate = startCourse.toDateString();
                             const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
                                 hour: 'numeric',
                                 minute: 'numeric',
@@ -389,109 +410,120 @@ const PageHome = () => {
                                 timeZone: 'Asia/Bangkok'
                             })
                             return (<react.Fragment key={index}>
-                                <a onClick={() => { onClickCard(item) }}>
-                                    <Grid container mt={3} justifyContent={'center'}>
-                                        <Card sx={{
-                                            height: 475, width: 345, borderRadius: 1, '&:hover': {
-                                                cursor: 'pointer',
-                                            }
-                                        }}
-                                            /* It's a prop that adds a shadow to the
-                                            card. */
-                                            raised={true}>
-                                            <CardMedia
-                                                component="img"
-                                                alt="green iguana"
-                                                height="200"
-                                                image={item.image}
-                                            />
-                                            <CardContent sx={{ height: 120, }} >
-                                                <Grid>
-                                                    <Grid container justifyContent={'space-between'}>
-                                                        <Grid >
-                                                            <Typography variant="body2" sx={{
-                                                                mt: 0.5,
-                                                                '&:hover': {
-                                                                    color: '#0085ea',
-                                                                }
-                                                            }} color='#015ca2' >
-                                                                {item.course_status!.map((params, index) => {
-                                                                    return (index !== 0 ? ' & ' + params.label : params.label)
-                                                                })}
-                                                            </Typography>
-                                                            <Typography gutterBottom variant="h5" component="h5">
-                                                                {item.title}
-                                                            </Typography>
+
+                                <Grid container mt={3} justifyContent={'center'}>
+                                    <Card sx={{
+                                        height: 490, width: 345, borderRadius: 1, '&:hover': {
+                                            cursor: 'pointer',
+                                        }
+                                    }}
+                                        /* It's a prop that adds a shadow to the
+                                        card. */
+                                        raised={true}>
+                                        <CardMedia
+                                            onClick={() => { onClickCard(item) }}
+                                            component="img"
+                                            alt="green iguana"
+                                            height="200"
+                                            image={item.image}
+                                        />
+                                        <CardContent sx={{ height: 120, }} >
+                                            <Grid>
+                                                <Typography variant="body2" sx={{
+                                                    mt: 0.5,
+                                                    '&:hover': {
+                                                        color: '#0085ea',
+                                                    }
+                                                }} color='#015ca2' >
+                                                    {item.course_status!.map((params, index) => {
+                                                        return (index !== 0 ? ' & ' + params.label : params.label)
+                                                    })}
+                                                </Typography>
+                                                <Grid container justifyContent={'space-between'}>
 
 
-                                                        </Grid>
-                                                        <Grid>
-                                                            <IconButton onClick={() => Clickfavorite(item.id)}
-                                                                color={favorite_user?.some((params) => params === item.id) ? 'error' : 'inherit'}
-                                                                sx={{
-                                                                    zIndex: 2,
-                                                                    borderRadius: '50%',
-                                                                    bottom: 0,
-                                                                }}
-                                                            >
-                                                                <FavoriteIcon />
-                                                            </IconButton>
-                                                        </Grid>
-                                                    </Grid>
-                                                    <Grid>
-                                                        <Typography variant="body2" color="text.secondary" sx={{
+                                                    <Grid item xs={10}>
+                                                        <Typography gutterBottom variant="h6" sx={{
                                                             display: '-webkit-box',
                                                             overflow: 'hidden',
                                                             WebkitBoxOrient: 'vertical',
-                                                            WebkitLineClamp: 3,
-                                                        }}
+                                                            WebkitLineClamp: 1,
+
+                                                        }}>
+                                                            {item.title}
+                                                        </Typography>
+
+                                                    </Grid>
+
+                                                    <Grid>
+                                                        <IconButton onClick={() => Clickfavorite(item.id)}
+                                                            color={favorite_user?.some((params: any) => params === item.id) ? 'error' : 'inherit'}
+                                                            sx={{
+                                                                zIndex: 2,
+                                                                borderRadius: '50%',
+                                                                bottom: 0,
+                                                            }}
                                                         >
-                                                            {item.description}
-                                                        </Typography>
+                                                            <FavoriteIcon />
+                                                        </IconButton>
+
                                                     </Grid>
 
                                                 </Grid>
-                                            </CardContent>
-                                            <CardContent sx={{ mt: 1, pt: 3, pb: 0 }}>
-                                                <Grid container justifyContent={'space-between'} >
-                                                    <Grid item sx={{ mr: 1 }}>
-                                                        <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
-
-                                                    </Grid>
-                                                    <Grid item >
-                                                        <Typography>
-                                                            {item.pricing.toLocaleString()} THB
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid container sx={{ mr: 1 }} alignItems={'center'}>
-                                                    <Grid sx={{ mr: 1.5 }} >
-                                                        <Avatar alt="Remy Sharp" src={''} />
-                                                    </Grid>
-                                                    <Grid >
-                                                        {item.create_by_name}
-                                                    </Grid>
-                                                </Grid>
-                                            </CardContent>
-                                            <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
-
-                                                <Grid container>
-                                                    <CalendarMonthIcon sx={{ color: '#0085ea' }} />
-                                                    {Array.from(item.course_date!).map((params: any, index: number) => {
-                                                        return (index !== 0 ? ' - ' + params.label : params.label)
-                                                    })}
-                                                </Grid>
-                                                <Grid container justifyContent={'flex-end'}>
-                                                    <AccessTimeIcon sx={{ color: "#0085ea" }} />
-                                                    <Typography>
-                                                        {`${start_course_learn} - ${start_course_end}`}
+                                                <Grid>
+                                                    <Typography variant="body2" color="text.secondary" sx={{
+                                                        display: '-webkit-box',
+                                                        overflow: 'hidden',
+                                                        WebkitBoxOrient: 'vertical',
+                                                        WebkitLineClamp: 3,
+                                                    }}
+                                                    >
+                                                        {item.description}
                                                     </Typography>
                                                 </Grid>
 
-                                            </CardActions>
-                                        </Card>
-                                    </Grid>
-                                </a>
+                                            </Grid>
+                                        </CardContent>
+                                        <CardContent sx={{ mt: 3, pt: 3, pb: 0 }}>
+                                            <Grid container justifyContent={'space-between'} >
+                                                <Grid item sx={{ mr: 1 }}>
+                                                    <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
+
+                                                </Grid>
+                                                <Grid item >
+                                                    <Typography>
+                                                        {item.pricing.toLocaleString()} THB
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container sx={{ mr: 1 }} alignItems={'center'}>
+                                                <Grid sx={{ mr: 1.5 }} >
+                                                    <Avatar alt="Remy Sharp" src="#" />
+                                                </Grid>
+                                                <Grid >
+                                                    {item.create_by_name}
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+                                        <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
+
+                                            <Grid container>
+                                                <CalendarMonthIcon sx={{ color: '#0085ea' }} />
+                                                {Array.from(item.course_date!).map((params: any, index: number) => {
+                                                    return (index !== 0 ? ' - ' + params.label : params.label)
+                                                })}
+                                            </Grid>
+                                            <Grid container justifyContent={'flex-end'}>
+                                                <AccessTimeIcon sx={{ color: "#0085ea" }} />
+                                                <Typography>
+                                                    {`${start_course_learn} - ${start_course_end}`}
+                                                </Typography>
+                                            </Grid>
+
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+
 
                             </react.Fragment>)
                         }

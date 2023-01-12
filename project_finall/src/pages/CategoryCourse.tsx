@@ -11,10 +11,14 @@ import react from 'react'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
+import { useCreateFavorite } from '../Hook/favorite/useCreateFavorite'
+import { setAuthStore } from '../store/slices/authSlice'
 const CategoryCourse = () => {
   const { CourseLists, getCourseLists } = useGetCourseLists()
   const data = CourseLists
   const { CategoryLists, useGetCategory } = useGetCategoryLists()
+  const { addFavorite } = useCreateFavorite()
   const dataCategoryLists = CategoryLists.map((item, index) => {
     return (item.Category_Title)
   }
@@ -46,9 +50,41 @@ const CategoryCourse = () => {
   function getLabelText(value: number) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
   }
+  const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
+  const dispatch = useAppDispatch()
+  const uid_login = useAppSelector(({ auth: uid }) => uid)
+  const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
+  const Clickfavorite = (item: string) => {
+    //! ?? ถ้าไม่ใช่่ undefine and false
+    try {
+
+      let favorite: string[] = [...favorite_user ?? []]
+      if (favorite.some((params) => params === item)) {
+        //! เอาออก
+        favorite = favorite.filter((params) => params !== item)
+        addFavorite(favorite, uid_login.uid!)
+      } else {
+        favorite.push(item)
+        addFavorite(favorite, uid_login.uid!)
+      }
+
+
+      dispatch(setAuthStore({
+        //* ชื่อเหมือนกันไม่ต้อง :
+        uid: uid,
+        displayName: displayName,
+        status: status,
+        favorite,
+      }),
+      )
+    } catch (err) {
+      console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
+    }
+  }
+
   let newdata = data
   if (Category) {
-    newdata = data.filter((item: any) => item.category === Category)
+    newdata = data.filter((item: any) => item.category.label === Category)
   } else {
     newdata = data
   }
@@ -56,7 +92,7 @@ const CategoryCourse = () => {
     <>
       <Navbar />
       <Grid container justifyContent={'center'} sx={{ mt: 5, }}>
-        <Grid container  justifyContent={'center'}  >
+        <Grid container justifyContent={'center'}  >
           <Image src={teacher} width={1100} height={350}></Image>
         </Grid>
         <Grid container justifyContent={'center'} maxWidth={'75rem'} >
@@ -67,7 +103,7 @@ const CategoryCourse = () => {
           </Grid>
 
 
-          <Grid container  justifyContent={'center'} >
+          <Grid container justifyContent={'center'} >
             <Typography variant='h6' sx={{
               mr: 1, '&:hover': {
                 cursor: 'pointer',
@@ -76,7 +112,7 @@ const CategoryCourse = () => {
             }}>
               <span onClick={() => { allcategoryClick() }}>
 
-              All
+                All
               </span>
             </Typography>
             {dataCategoryLists.map((item, index) => {
@@ -89,7 +125,7 @@ const CategoryCourse = () => {
                 }}>
                   <span onClick={() => { queryCategory(item) }}>
 
-                  {item}
+                    {item}
                   </span>
                 </Typography>
               </React.Fragment>)
@@ -97,45 +133,47 @@ const CategoryCourse = () => {
 
           </Grid>
 
+          <Grid sx={{ flexGrow: 1 ,mt:4}} container spacing={2}>
+            <Grid item xs={12}>
+              <Grid container justifyContent="center" spacing={5}>
 
-          {newdata.map((item, index) => {
-            if (item.approval === true) {
-              const startCourse = new Date(item.start_course?.seconds * 1000)
-              const formattedDate = startCourse.toDateString();
-              const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: false,
-                timeZone: 'Asia/Bangkok'
-              })
-              const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: false,
-                timeZone: 'Asia/Bangkok'
-              })
-              return (<react.Fragment key={index}>
-                <a onClick={() => { onClickCard(item) }}>
-                  <Grid item container mt={3} mr={4} justifyContent={'center'}>
-                    <Card sx={{
-                      height: 475, width: 345, borderRadius: 1, '&:hover': {
-                        cursor: 'pointer',
-                      }
-                    }}
-                      /* It's a prop that adds a shadow to the
-                      card. */
-                      raised={true}>
+                {newdata.map((item, index) => {
+                  if (item.approval === true ) {
+                    const startCourse = new Date(item.start_course?.seconds * 1000)
 
-                      <CardMedia
-                        component="img"
-                        alt="green iguana"
-                        height="200"
-                        image={item.image}
-                      />
-                      <CardContent sx={{ height: 120, }} >
-                        <Grid>
-                          <Grid container justifyContent={'space-between'}>
-                            <Grid >
+                    const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                      hour: 'numeric',
+                      minute: 'numeric',
+                      hour12: false,
+                      timeZone: 'Asia/Bangkok'
+                    })
+                    const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                      hour: 'numeric',
+                      minute: 'numeric',
+                      hour12: false,
+                      timeZone: 'Asia/Bangkok'
+                    })
+                    return (<react.Fragment key={index}>
+
+                      <Grid key={index} item  >
+
+                        <Card sx={{
+                          height: 490, width: 345, borderRadius: 1, '&:hover': {
+                            cursor: 'pointer',
+                          }
+                        }}
+                          /* It's a prop that adds a shadow to the
+                          card. */
+                          raised={true}>
+                          <CardMedia
+                            onClick={() => { onClickCard(item) }}
+                            component="img"
+                            alt="green iguana"
+                            height="200"
+                            image={item.image}
+                          />
+                          <CardContent sx={{ height: 120, }} >
+                            <Grid>
                               <Typography variant="body2" sx={{
                                 mt: 0.5,
                                 '&:hover': {
@@ -146,82 +184,99 @@ const CategoryCourse = () => {
                                   return (index !== 0 ? ' & ' + params.label : params.label)
                                 })}
                               </Typography>
-                              <Typography gutterBottom variant="h5" component="h5">
-                                {item.title}
-                              </Typography>
+                              <Grid container justifyContent={'space-between'}>
 
 
-                            </Grid>
-                            <Grid>
-                              <IconButton
-                                color='error'
-                                sx={{
-                                  zIndex: 2,
-                                  borderRadius: '50%',
-                                  bottom: 0,
+                                <Grid item xs={10}>
+                                  <Typography gutterBottom variant="h6" sx={{
+                                    display: '-webkit-box',
+                                    overflow: 'hidden',
+                                    WebkitBoxOrient: 'vertical',
+                                    WebkitLineClamp: 1,
+
+                                  }}>
+                                    {item.title}
+                                  </Typography>
+
+                                </Grid>
+
+                                <Grid>
+                                  <IconButton onClick={() => Clickfavorite(item.id)}
+                                    color={favorite_user?.some((params: any) => params === item.id) ? 'error' : 'inherit'}
+                                    sx={{
+                                      zIndex: 2,
+                                      borderRadius: '50%',
+                                      bottom: 0,
+                                    }}
+                                  >
+                                    <FavoriteIcon />
+                                  </IconButton>
+
+                                </Grid>
+
+                              </Grid>
+                              <Grid>
+                                <Typography variant="body2" color="text.secondary" sx={{
+                                  display: '-webkit-box',
+                                  overflow: 'hidden',
+                                  WebkitBoxOrient: 'vertical',
+                                  WebkitLineClamp: 3,
                                 }}
-                              >
-                                <FavoriteIcon />
-                              </IconButton>
+                                >
+                                  {item.description}
+                                </Typography>
+                              </Grid>
+
                             </Grid>
-                          </Grid>
-                          <Grid>
-                            <Typography variant="body2" color="text.secondary" sx={{
-                              display: '-webkit-box',
-                              overflow: 'hidden',
-                              WebkitBoxOrient: 'vertical',
-                              WebkitLineClamp: 3,
-                            }}
-                            >
-                              {item.description}
-                            </Typography>
-                          </Grid>
+                          </CardContent>
+                          <CardContent sx={{ mt: 3, pt: 3, pb: 0 }}>
+                            <Grid container justifyContent={'space-between'} >
+                              <Grid item sx={{ mr: 1 }}>
+                                <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
 
-                        </Grid>
-                      </CardContent>
-                      <CardContent sx={{ mt: 1, pt: 3, pb: 0 }}>
-                        <Grid container justifyContent={'space-between'} >
-                          <Grid item sx={{ mr: 1 }}>
-                            <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
+                              </Grid>
+                              <Grid item >
+                                <Typography>
+                                  {item.pricing.toLocaleString()} THB
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                            <Grid container sx={{ mr: 1 }} alignItems={'center'}>
+                              <Grid sx={{ mr: 1.5 }} >
+                                <Avatar alt="Remy Sharp" src="#" />
+                              </Grid>
+                              <Grid >
+                                {item.create_by_name}
+                              </Grid>
+                            </Grid>
+                          </CardContent>
+                          <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
 
-                          </Grid>
-                          <Grid item >
-                            <Typography>
-                              {item.pricing.toLocaleString()} THB
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid container sx={{ mr: 1 }} alignItems={'center'}>
-                          <Grid sx={{ mr: 1.5 }} >
-                            <Avatar alt="Remy Sharp" src="#" />
-                          </Grid>
-                          <Grid >
-                            {item.create_by_name}
-                          </Grid>
-                        </Grid>
-                      </CardContent>
-                      <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
+                            <Grid container>
+                              <CalendarMonthIcon sx={{ color: '#0085ea' }} />
+                              {Array.from(item.course_date!).map((params: any, index: number) => {
+                                return (index !== 0 ? ' - ' + params.label : params.label)
+                              })}
+                            </Grid>
+                            <Grid container justifyContent={'flex-end'}>
+                              <AccessTimeIcon sx={{ color: "#0085ea" }} />
+                              <Typography>
+                                {`${start_course_learn} - ${start_course_end}`}
+                              </Typography>
+                            </Grid>
 
-                        <Grid container>
-                          <CalendarMonthIcon sx={{ color: '#0085ea' }} />
-                          {Array.from(item.course_date!).map((params: any, index: number) => {
-                            return (index !== 0 ? ' - ' + params.label : params.label)
-                          })}
-                        </Grid>
-                        <Grid container justifyContent={'flex-end'}>
-                          <AccessTimeIcon sx={{ color: "#0085ea" }} />
-                          <Typography>
-                            {`${start_course_learn} - ${start_course_end}`}
-                          </Typography>
-                        </Grid>
+                          </CardActions>
+                        </Card>
+                      </Grid>
 
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                </a>
-              </react.Fragment>)
-            }
-          })}
+
+
+                    </react.Fragment>)
+                  }
+                })}
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
 
       </Grid>

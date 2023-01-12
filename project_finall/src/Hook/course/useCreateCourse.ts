@@ -42,10 +42,11 @@ export interface TypeCourses {
     create_by_name: string,
     Approval: boolean,
     min_people: string,
+    image_create:string,
 }
 
 export const UseCreateCourse = () => {
-    const { uid,status,displayName } = useAppSelector(({ auth }) => auth);
+    const { uid,status,displayName,photoURL } = useAppSelector(({ auth }) => auth);
     const dispatch = useAppDispatch()
     const addCourse = async (params: TypeCourses) => {
         try {
@@ -61,6 +62,7 @@ export const UseCreateCourse = () => {
                 pricing: pricingNumber,
                 timestamp: new Date(),
                 approval: false,
+                image_create: photoURL,
             })
             console.log("🚀 ~ file: useCreateCourse.ts:52 ~ awaitsetDoc ~ params", params)
             dispatch(isShowLoading())
