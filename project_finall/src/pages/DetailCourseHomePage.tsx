@@ -3,17 +3,23 @@ import { Navbar } from '../components/Navbar'
 import { useGetCourseDetail } from '../Hook/course/useGetCourseDtail'
 import { timecourse } from '../types/timecourse'
 import { useNavigate } from 'react-router-dom'
-import { Box, Typography, Avatar, IconButton } from '@mui/material'
+import { Box, Typography, Avatar, IconButton, Button } from '@mui/material'
 import Grid from '@mui/material/Grid/Grid'
 import Image from '../components/Image/Image'
-import { Button } from '../framework/control'
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonIcon from '@mui/icons-material/Person';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
 
   const { Start_Register_Date, Start_Register_Time, End_Register_Date, End_Register_Time, Start_Course_Time, End_Course_Time, Course_Date, start_course_learn, start_course_end } = timecourse()
 
 
+  const Clickfavorite = (item: string) => {
+
+  }
 
   const navigate = useNavigate()
 
@@ -28,16 +34,78 @@ const DetailCourseHomePage = () => {
     <>
       <Navbar />
       <Box sx={{ width: '100%' }}>
-        <Grid container justifyContent={'space-between'} spacing={3} sx={{ mt: 2, ml: 1, }}>
-          <Grid item container justifyContent={'center'} xs={4} sx={{ maxHeight: 700, height: 500, border: 'solid red' }}>
+        <Typography variant="h2" sx={{ ml: 4, mt: 2 }} color={'#0F0F0F'} >
+          👨🏻‍💻เรียนรู้ทักษะใหม่ให้ทันเทรนโลกปัจจุบัน
+        </Typography>
+
+
+        <Grid container justifyContent={'space-between'} spacing={3} sx={{ mt: 0.1, pl: 1, mb: 3 }}>
+          <Grid item container justifyContent={'center'} xs={4} >
             <Image src={state.image} width={400} height={350} />
 
           </Grid>
-          <Grid item container xs={8} sx={{ pb: 10, maxHeight: 700, height: 500, border: 'solid red' }}>
+          <Grid item container xs={8} >
+            <Grid item container xs={12} sx={{ mb: 1 }} justifyContent={'space-between'}>
+              <Grid item xs={6}>
+                <Button variant="contained" startIcon={<PersonAddIcon />}>
+
+                  เข้าคิว
+                </Button>
+                <IconButton onClick={() => Clickfavorite(state.id)}
+                  color={'error'}
+                  sx={{
+                    zIndex: 2,
+                    borderRadius: '0.2',
+                    bottom: 0,
+
+
+                  }}
+                >
+                  <FavoriteIcon />
+                </IconButton>
+                <IconButton
+
+                  sx={{
+                    zIndex: 2,
+                    borderRadius: '0.2',
+                    bottom: 0,
+                    color: '#0ab33a'
+
+                  }}
+                >
+                  {state.min_people}
+                  <GroupAddIcon />
+                </IconButton>
+                <IconButton
+
+                  sx={{
+                    zIndex: 2,
+                    borderRadius: '0.2',
+                    bottom: 0,
+                    color: '#b30a0a',
+                
+
+                  }}
+                >
+                  {state.min_people}
+                  <GroupRemoveIcon />
+                </IconButton>
+              </Grid>
+              <Grid item container justifyContent={'flex-end'} xs={6} sx={{pr:6,pt:0.5}}>
+                <Typography variant="h6" sx={{ ml: 4 }} color={'#0F0F0F'} >
+                  ฿{state.pricing.toLocaleString()}
+                </Typography>
+
+              </Grid>
+              <Grid>
+
+              </Grid>
+
+            </Grid>
             <Grid container >
               <Grid item xs={2} >
                 <Typography variant="body2" mr={1}  >
-                  Start registration
+                  วันเปิดรับสมัคร
                 </Typography>
                 <Typography variant="body2" mb={2} mr={2} color={'#959494'} >
                   {`${Start_Register_Date} : ${Start_Register_Time}`}
@@ -46,7 +114,7 @@ const DetailCourseHomePage = () => {
 
               <Grid item xs={2} >
                 <Typography variant="body2"   >
-                  End registration
+                  วันปิดรับสมัคร
                 </Typography>
                 <Typography variant="body2" mb={2} mr={2} color={'#959494'} >
                   {`${End_Register_Date} : ${End_Register_Time}`}
@@ -55,7 +123,7 @@ const DetailCourseHomePage = () => {
 
               <Grid item xs={2} >
                 <Typography variant="body2"   >
-                  Start Course
+                  เริ่มเรียนวันที่
                 </Typography>
                 <Typography variant="body2" mb={2} mr={2} color={'#959494'} >
                   {Start_Course_Time}
@@ -64,7 +132,7 @@ const DetailCourseHomePage = () => {
 
               <Grid item xs={2} >
                 <Typography variant="body2"   >
-                  End Course
+                  สิ้นสุดการเรียน
                 </Typography>
                 <Typography variant="body2" mb={2} mr={2} color={'#959494'} >
                   {End_Course_Time}
@@ -73,7 +141,7 @@ const DetailCourseHomePage = () => {
 
               <Grid item xs={2} >
                 <Typography variant="body2" mr={1}  >
-                  Course Date
+                  เรียนวันที่
                 </Typography>
                 <Typography variant="body2" mb={2} mr={2} color={'#959494'} >
                   {Course_Date}
@@ -82,7 +150,7 @@ const DetailCourseHomePage = () => {
 
               <Grid item xs={2} >
                 <Typography variant="body2" mr={1}  >
-                  Time Course
+                  เวลาในการเรียน
                 </Typography>
                 <Typography variant="body2" mb={2} mr={2} color={'#959494'} >
                   {`${start_course_learn} - ${start_course_end}`}
@@ -93,7 +161,7 @@ const DetailCourseHomePage = () => {
             <Grid>
 
               <Typography variant="h6" mr={2}  >
-                Lecturer
+                วิทธยากร
               </Typography>
 
               <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} >
@@ -108,110 +176,108 @@ const DetailCourseHomePage = () => {
 
               </Grid>
               <Typography variant="body2"   >
-                About
+                เกี่ยวกับผู้สอน
               </Typography>
-              <Typography variant="body2" mb={2} sx={{ maxHeight: 70, height: 70 }} >
+              <Typography variant="body2" mb={2} sx={{ maxHeight: 70, }} >
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam iusto ratione repellat aperiam nobis esse vitae exercitationem aut quo incidunt eius quis consequuntur, est assumenda possimus, rem velit nulla voluptate.
               </Typography>
             </Grid>
 
-            <Grid container sx={{ height: 100, border: 'solid red' }} justifyContent={'flex-start'} alignItems={'flex-end'} alignContent={'flex-end'}>
 
 
-              <Button label='เข้าคิว' />
-
-              <IconButton onClick={() => Clickfavorite(state.id)}
-                color={'error'}
-                sx={{
-                  zIndex: 2,
-                  borderRadius: '0.2',
-                  bottom: 0,
 
 
-                }}
-              >
-                <FavoriteIcon />
-              </IconButton>
-            </Grid>
+
           </Grid>
         </Grid>
 
-
-
-
-
-
-        <Typography variant="h6" mb={1}  >
-          Course title
-        </Typography>
-        <Typography variant="h3" mb={2} color={'black'} >
-          {state.title}
-        </Typography>
-        <Typography variant="h6" mb={1}  >
-          Course subtitle
-        </Typography>
-        <Typography variant="body2" mb={2}  >
-          {state.subtitle}
-        </Typography>
-        <Typography variant="h6" mb={1}  >
-          What will students learn in your course?
-        </Typography>
-        <Typography variant="body2" mb={2}  >
-          {state.what_will_student_learn_in_your_course.input_0}<br />
-          {state.what_will_student_learn_in_your_course.input_1}
-          <br />
-          {state.what_will_student_learn_in_your_course.input_2}
-          <br />
-          {state.what_will_student_learn_in_your_course.input_3}
-        </Typography>
-        <Typography variant="h6" mb={1}  >
-          What are the requirements prerequisites for taking your Course?
-        </Typography>
-        <Typography variant="body2" mb={2}  >
-          {state.whataretherequirement}
-        </Typography>
-        <Typography variant="h6" mb={1}  >
-          Who is this course for?
-        </Typography>
-        <Typography variant="body2" mb={2}  >
-          {state.who_is_this_course}
-        </Typography>
-        <Typography variant="h6" mb={1}  >
-          The course consists?
-        </Typography>
-        <Typography variant="body2" mb={2}  >
-          {state.the_course_consists.input_0}
-          <br />
-          {state.the_course_consists.input_1}
-          <br />
-          {state.the_course_consists.input_2}
-          <br />
-          {state.the_course_consists.input_3}
-          <br />
-        </Typography>
-        <Typography variant="body2" mb={2}  >
-          Name teaching assistant
-        </Typography>
-        <Typography variant="body2" mb={2}  >
-          {state.teaching_assistant}
-        </Typography>
-        <Typography variant="body2" mb={1} mr={8} >
-          Min people
-        </Typography>
-
-        <Typography variant="body2" mb={1} mr={8} borderBottom={1} borderColor={'gray'}>
-          {state.min_people}
-        </Typography>
-
-        <Typography variant="body2" mb={1} mr={8} >
-          Pricing
-        </Typography>
-
-        <Typography variant="body2" mb={1} mr={8} borderBottom={1} borderColor={'gray'}>
-          {state.pricing.toLocaleString()} THB
-        </Typography>
-
       </Box>
+
+      <Box sx={{ width: '100%', backgroundColor: '#1C1D1F', paddingLeft: 5 }}>
+        <Grid container justifyContent={'center'}>
+          <Typography variant="h3" mb={2} color={'#FFFFFF'} sx={{ mt: 2 }} >
+            รายละเอียดหลักสูตร📝
+          </Typography>
+        </Grid>
+        <Grid container justifyContent={'center'}>
+
+          <Grid  item xs={12}>
+            <Typography variant="body2" mb={2} color={'secondary'}  >
+              {state.course_status?.map((params, index) => {
+                return (index !== 0 ? ' & ' + params.label : params.label)
+              })}
+            </Typography>
+            <Typography variant="h3" mb={2} color={'#FFFFFF'} >
+              {state.title}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" mb={2} color={'#FFFFFF'}  >
+              {state.subtitle}
+            </Typography>
+
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h6" mb={1} color={'#FFFFFF'} >
+              คุณจะได้อะไรจากการเรียนรู้หลักสูตรนี้?
+            </Typography>
+            <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
+              {state.what_will_student_learn_in_your_course?.input_0}<br />
+              {state.what_will_student_learn_in_your_course?.input_1}
+              <br />
+              {state.what_will_student_learn_in_your_course?.input_2}
+              <br />
+              {state.what_will_student_learn_in_your_course?.input_3}
+            </Typography>
+            <Typography variant="h6" mb={1} color={'#FFFFFF'} >
+              หลักสูตรประกอบไปด้วย?
+            </Typography>
+            <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
+              {state.the_course_consists?.input_0}
+              <br />
+              {state.the_course_consists?.input_1}
+              <br />
+              {state.the_course_consists?.input_2}
+              <br />
+              {state.the_course_consists?.input_3}
+              <br />
+            </Typography>
+          </Grid>
+
+          <Grid item xs={6}>
+            <Typography variant="h6" mb={1} color={'#FFFFFF'}  >
+              ข้อกำหนดเบื้องต้นสำหรับการเรียนหลักสูตรนี้?
+            </Typography>
+            <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
+              {state.whataretherequirement}
+            </Typography>
+            <Typography variant="h6" mb={1} color={'#FFFFFF'} >
+              หลักสูตรนี้เหมาะกับใคร?
+            </Typography>
+            <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
+              {state.who_is_this_course}
+            </Typography>
+            <Typography variant="h6" mb={2} color={'#FFFFFF'} >
+              ผู้ช่วยผู้สอน
+            </Typography>
+            <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
+              {state.teaching_assistant}
+            </Typography>
+            <Typography variant="body2" mb={1} mr={8} color={'#FFFFFF'} >
+              จำนวนคนขั้นต่ำในการเปิดหลักสูตร
+            </Typography>
+            <Typography marginLeft={2} variant="body2" mb={1} mr={8} color={'#FFFFFF'}>
+              {state.min_people}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
+
+
+
+    
+
+
     </>
   )
 }

@@ -17,35 +17,47 @@ export const useGetCourseLists = () => {
     const dispatch = useAppDispatch();
     const [CourseLists, setCourseLists] = useState<CourseListsType[]>([])
     
-    useEffect(() => {
-        getCourseLists()
-    }, [])
+    // useEffect(() => {
+    //     getCourseLists()
+    // }, [])
 
-    const getCourseLists = async () => {
-        dispatch(isShowLoading());
-        try {
-            /* Getting the documents from the AccountCollection and ordering them by the createdate field
-            in descending order. */
-            const result = await getDocs(
-                query(
-                    CourseCollection,
-                    orderBy("timestamp", "desc"),
-                )
-            )
-            setCourseLists(
-                result.docs.map((e) => {
-                    return {
-                        ...e.data(),
-                        id: e.id,
-                    }
-                }) as CourseListsType[]
-            )
-        } catch (error) {
-            console.log(error)
-        } finally {
-            dispatch(isCloseLoading())
-        }
-    }
-    return { CourseLists, getCourseLists }
+    // const getCourseLists = async () => {
+    //     dispatch(isShowLoading());
+    //     try {
+       
+    //         const result = await getDocs(
+    //             query(
+    //                 CourseCollection,
+    //                 orderBy("timestamp", "desc"),
+    //             )
+    //         )
+    //         setCourseLists(
+    //             result.docs.map((e) => {
+    //                 return {
+    //                     ...e.data(),
+    //                     id: e.id,
+    //                 }
+    //             }) as CourseListsType[]
+    //         )
+    //     } catch (error) {
+    //         console.log(error)
+    //     } finally {
+    //         dispatch(isCloseLoading())
+    //     }
+    // }
+    useEffect(() => {
+        (async() => {
+            dispatch(isShowLoading());
+            try {
+                const result = await getDocs(query(CourseCollection, orderBy("timestamp", "desc")));
+                setCourseLists(result.docs.map((e) => ({ ...e.data(), id: e.id })) as CourseListsType[]);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                dispatch(isCloseLoading());
+            }
+        })();
+    }, []);
+    return { CourseLists }
 }
 

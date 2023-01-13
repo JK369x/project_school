@@ -29,7 +29,7 @@ import { setAuthStore } from '../store/slices/authSlice';
 import Favorite from '@mui/icons-material/Favorite';
 import { OtherHouses } from '@mui/icons-material';
 const PageHome = () => {
-    const { CourseLists, getCourseLists } = useGetCourseLists()
+    const { CourseLists } = useGetCourseLists()
     const data = CourseLists
     const { addFavorite } = useCreateFavorite()
     const { CategoryLists, useGetCategory } = useGetCategoryLists()
@@ -139,6 +139,7 @@ const PageHome = () => {
                 displayName: displayName,
                 status: status,
                 favorite,
+                photoURL
             }),
             )
         } catch (err) {
@@ -288,16 +289,27 @@ const PageHome = () => {
                                                 />
                                                 <CardContent sx={{ height: 120, }} >
                                                     <Grid>
-                                                        <Typography variant="body2" sx={{
-                                                            mt: 0.5,
-                                                            '&:hover': {
-                                                                color: '#0085ea',
-                                                            }
-                                                        }} color='#015ca2' >
-                                                            {item.course_status!.map((params, index) => {
-                                                                return (index !== 0 ? ' & ' + params.label : params.label)
-                                                            })}
-                                                        </Typography>
+                                                        <Grid container justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
+                                                            <Grid item xs={6}>
+                                                                <Typography variant="body2" sx={{
+                                                                    mt: 0.5,
+                                                                    '&:hover': {
+                                                                        color: '#0085ea',
+                                                                    }
+                                                                }} color='#015ca2' >
+                                                                    {item.course_status!.map((params, index) => {
+                                                                        return (index !== 0 ? ' & ' + params.label : params.label)
+                                                                    })}
+                                                                </Typography>
+
+                                                            </Grid>
+                                                            <Grid item xs={6} container justifyContent={'flex-end'}>
+                                                                <AccessTimeIcon sx={{ color: "#0085ea" }} />
+                                                                <Typography>
+                                                                    {`${start_course_learn} - ${start_course_end}`}
+                                                                </Typography>
+                                                            </Grid>
+                                                        </Grid>
                                                         <Grid container justifyContent={'space-between'}>
 
 
@@ -357,7 +369,7 @@ const PageHome = () => {
                                                     </Grid>
                                                     <Grid container sx={{ mr: 1 }} alignItems={'center'}>
                                                         <Grid sx={{ mr: 1.5 }} >
-                                                            <Avatar alt="Remy Sharp" src="#" />
+                                                            <Avatar alt="Remy Sharp" src={item.image_create} />
                                                         </Grid>
                                                         <Grid >
                                                             {item.create_by_name}
@@ -372,12 +384,7 @@ const PageHome = () => {
                                                             return (index !== 0 ? ' - ' + params.label : params.label)
                                                         })}
                                                     </Grid>
-                                                    <Grid container justifyContent={'flex-end'}>
-                                                        <AccessTimeIcon sx={{ color: "#0085ea" }} />
-                                                        <Typography>
-                                                            {`${start_course_learn} - ${start_course_end}`}
-                                                        </Typography>
-                                                    </Grid>
+                                               
 
                                                 </CardActions>
                                             </Card>
@@ -429,16 +436,29 @@ const PageHome = () => {
                                         />
                                         <CardContent sx={{ height: 120, }} >
                                             <Grid>
-                                                <Typography variant="body2" sx={{
-                                                    mt: 0.5,
-                                                    '&:hover': {
-                                                        color: '#0085ea',
-                                                    }
-                                                }} color='#015ca2' >
-                                                    {item.course_status!.map((params, index) => {
-                                                        return (index !== 0 ? ' & ' + params.label : params.label)
-                                                    })}
-                                                </Typography>
+
+                                                <Grid container justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
+                                                    <Grid item xs={6}>
+                                                        <Typography variant="body2" sx={{
+                                                            mt: 0.5,
+                                                            '&:hover': {
+                                                                color: '#0085ea',
+                                                            }
+                                                        }} color='#015ca2' >
+                                                            {item.course_status!.map((params, index) => {
+                                                                return (index !== 0 ? ' & ' + params.label : params.label)
+                                                            })}
+                                                        </Typography>
+
+                                                    </Grid>
+                                                    <Grid item xs={6} container justifyContent={'flex-end'}>
+                                                        <AccessTimeIcon sx={{ color: "#0085ea" }} />
+                                                        <Typography>
+                                                            {`${start_course_learn} - ${start_course_end}`}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+
                                                 <Grid container justifyContent={'space-between'}>
 
 
@@ -497,8 +517,8 @@ const PageHome = () => {
                                                 </Grid>
                                             </Grid>
                                             <Grid container sx={{ mr: 1 }} alignItems={'center'}>
-                                                <Grid sx={{ mr: 1.5 }} >
-                                                    <Avatar alt="Remy Sharp" src="#" />
+                                                <Grid sx={{ mr: 1.5, }}  >
+                                                    <Avatar alt="Remy Sharp" src={item.image_create} />
                                                 </Grid>
                                                 <Grid >
                                                     {item.create_by_name}
@@ -513,12 +533,7 @@ const PageHome = () => {
                                                     return (index !== 0 ? ' - ' + params.label : params.label)
                                                 })}
                                             </Grid>
-                                            <Grid container justifyContent={'flex-end'}>
-                                                <AccessTimeIcon sx={{ color: "#0085ea" }} />
-                                                <Typography>
-                                                    {`${start_course_learn} - ${start_course_end}`}
-                                                </Typography>
-                                            </Grid>
+
 
                                         </CardActions>
                                     </Card>
