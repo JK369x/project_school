@@ -116,7 +116,7 @@ const RegisterTeacher = (props: Props) => {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password)
                 const user = userCredential.user
                 const uid = userCredential.user.uid
-                addUser(getValues(), uid)
+                addUser(getValues())
                 console.log(user)
                 navigate('/adminlogin')
             } catch (error) {

@@ -43,6 +43,9 @@ export interface TypeCourses {
     Approval: boolean,
     min_people: string,
     image_create:string,
+    // queue_people: {
+
+    // }
 }
 
 export const UseCreateCourse = () => {

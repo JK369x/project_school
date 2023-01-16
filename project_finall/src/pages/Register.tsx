@@ -124,7 +124,7 @@ const Register = (props: Props) => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password)
         const user = userCredential.user
         const uid = userCredential.user.uid
-        addUser(getValues(), uid)
+        addUser(getValues())
         console.log(user)
         navigate('/login')
       } catch (error) {

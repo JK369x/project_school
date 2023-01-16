@@ -23,6 +23,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { async } from '@firebase/util';
 import { Footer } from '../components/Footer';
 import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice';
+import axios from 'axios';
 
 interface IFormInput {
   email: string;
@@ -46,24 +47,28 @@ const Login = (props: Props) => {
     const { email, password } = getValues()
     try {
       dispatch(isShowLoading())
-      const {
-        user: { uid },
-      } = await signInWithEmailAndPassword(auth, email, password)
+      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`,{email,password})
 
-      const docSnap = await getDoc(doc(AccountCollection, uid))
-      if (docSnap.exists()) {
-        const { firstName,lastName,  status,favorite } = docSnap.data() as any
-        const displayName = `${firstName} ${lastName}`
-        console.log(docSnap.data())
+      console.log("🚀 ~ file: Login.tsx:52 ~ onSubmit ~ res", res)
+
+      // const {
+      //   user: { uid },
+      // } = await signInWithEmailAndPassword(auth, email, password)
+
+      // const docSnap = await getDoc(doc(AccountCollection, uid))
+      // if (docSnap.exists()) {
+        // const { firstName,lastName,  status,favorite } = docSnap.data() as any
+        // const displayName = `${firstName} ${lastName}`
+        // console.log(docSnap.data())
         //! status = role user 
         //!dispatch duplicate
         // dispatch(setAuthStore({ uid, displayName,  status,favorite }))
         dispatch(openAlertSuccess('LoginSuccess'))
         navigate('/page')
-      } else {
-        console.log('error data')
+      // } else {
+        // console.log('error data')
         // handle error
-      }
+      // }
     } catch (error) {
       // dispatch(openAlertError('Login fail'))
       console.log(error)
