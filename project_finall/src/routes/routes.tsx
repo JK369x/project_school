@@ -31,71 +31,62 @@ import RegisterTeacher from "../pages/Admin/RegisterTeacher";
 import Teacher from "../pages/Admin/Teacher/Teacher";
 import Favorite from "../pages/Favorite";
 import DetailCourseHomePage from "../pages/DetailCourseHomePage";
+import { middleware } from "../middleware/middleware";
 
 
 
 
 
 const RouteAllPage: FC = () => {
-    const { uid, status, photoURL,favorite } = useAppSelector(({ auth }) => auth)
+    const { uid, status, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     console.log("🚀 ~ file: routes.tsx:39 ~ uid", uid)
     console.log("🚀 ~ file: routes.tsx:39 ~ status", status)
     console.log("👨🏻‍💻 redux", photoURL)
     const auth_uid = uid !== undefined && uid !== null
-
+   const  { autoSignIn } = middleware()
 
 
     const dispatch = useAppDispatch()
-    useEffect(() => {
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const docSnap = await getDoc(doc(AccountCollection, user.uid))
-                console.log("🚀 ~ file: routes.tsx:51 ~ onAuthStateChanged ~ docSnap", docSnap.data())
-                if (docSnap && docSnap.exists()) {
-                    const { firstName, lastName, status, favorite, image_rul } = docSnap.data() as any
-                    const displayName = `${firstName} ${lastName}`
-                    dispatch(
-                        setAuthStore({
-                            uid: user.uid,
-                            displayName: displayName,
-                            status: status,
-                            favorite: favorite,
-                            photoURL: image_rul,
-                        }),
-                    )
-                }
-            } else {
-                dispatch(
-                    setAuthStore({
-                        uid: null,
-                        displayName: null,
-                        status: null,
-                        favorite: favorite,
-                        photoURL: null,
-                    }),
-                )
-            }
+    // useEffect(() => {
+    //     onAuthStateChanged(auth, async (user) => {
+    //         if (user) {
+    //             const docSnap = await getDoc(doc(AccountCollection, user.uid))
+    //             console.log("🚀 ~ file: routes.tsx:51 ~ onAuthStateChanged ~ docSnap", docSnap.data())
+    //             if (docSnap && docSnap.exists()) {
+    //                 const { firstName, lastName, status, favorite, image_rul } = docSnap.data() as any
+    //                 const displayName = `${firstName} ${lastName}`
+    //                 dispatch(
+    //                     setAuthStore({
+    //                         uid: user.uid,
+    //                         displayName: displayName,
+    //                         status: status,
+    //                         favorite: favorite,
+    //                         photoURL: image_rul,
+    //                     }),
+    //                 )
+    //             }
+    //         } else {
+    //             dispatch(
+    //                 setAuthStore({
+    //                     uid: null,
+    //                     displayName: null,
+    //                     status: null,
+    //                     favorite: favorite,
+    //                     photoURL: null,
+    //                 }),
+    //             )
+    //         }
 
-        })
-    }, [])
+    //     })
+    // }, [])
+
+    // useEffect(() => {
+    //     console.log('rouatde')
+    //     autoSignIn(token)
+    // }, [])
     return (
         <Routes>
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/adminlogin" element={<LoginAdmin />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/registor" element={<Registor />} />
-            <Route path="/nextregistor" element={<Nextregistor />} />
-            <Route path="/testgrid" element={<Testgrid />} />
-            <Route path="/users" element={<User />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/detailuser/:id" element={<DetailUser />} />
-            <Route path="/editUser/:id" element={<EditUser />} />
-            <Route path="/courses" element={<Course />} />
-            <Route path="/addcourses" element={<AddCourse />} />
-            <Route path="/page" element={<PageHome />} />
-            <Route path="/category" element={<Category />} />
-            <Route path="/addcategory" element={<AddCategory />} /> */}
+
             <Route path="/" element={<PageHome />} />
             <Route path="/page" element={<PageHome />} />
             <Route path="/adminlogin" element={<LoginAdmin />} />

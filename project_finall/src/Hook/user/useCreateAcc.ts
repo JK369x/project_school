@@ -48,7 +48,6 @@ export interface IFormInput {
 export const useCreateAcc = () => {
     const addUser = async (params: IFormInput) => {
         const url = `${import.meta.env.VITE_REACT_APP_API}auth/register`
-        console.log("🚀 ~ file: useCreateAcc.ts:52 ~ addUser ~ url", url)
         try {
             await axios.post<IFormInput>(url,
                 params,

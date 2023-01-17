@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 // react hook form
 import { useForm, } from 'react-hook-form';
 import { Navbar } from '../components/Navbar'
@@ -24,6 +24,9 @@ import { async } from '@firebase/util';
 import { Footer } from '../components/Footer';
 import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
+import * as jose from 'jose'
 
 interface IFormInput {
   email: string;
@@ -37,7 +40,7 @@ const Login = (props: Props) => {
   const dispatch = useAppDispatch()
   const myForm = useForm<IFormInput>()
   const { handleSubmit, getValues } = myForm;
-
+  const [token, setToken] = useState();
   const onClickRegistor = () => {
     navigate('/registor')
   }
@@ -47,27 +50,33 @@ const Login = (props: Props) => {
     const { email, password } = getValues()
     try {
       dispatch(isShowLoading())
-      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`,{email,password})
+      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
+      console.log("login token", res.data._fieldsProto)
 
-      console.log("🚀 ~ file: Login.tsx:52 ~ onSubmit ~ res", res)
 
+      if (res.data.cookie) {
+        console.log("true")
+        setToken(res.data.token)
+      } else {
+        console.log("missing")
+      }
       // const {
       //   user: { uid },
       // } = await signInWithEmailAndPassword(auth, email, password)
 
       // const docSnap = await getDoc(doc(AccountCollection, uid))
       // if (docSnap.exists()) {
-        // const { firstName,lastName,  status,favorite } = docSnap.data() as any
-        // const displayName = `${firstName} ${lastName}`
-        // console.log(docSnap.data())
-        //! status = role user 
-        //!dispatch duplicate
-        // dispatch(setAuthStore({ uid, displayName,  status,favorite }))
-        dispatch(openAlertSuccess('LoginSuccess'))
-        navigate('/page')
+      // const { firstName,lastName,  status,favorite } = docSnap.data() as any
+      // const displayName = `${firstName} ${lastName}`
+      // console.log(docSnap.data())
+      //! status = role user 
+      //!dispatch duplicate
+      // dispatch(setAuthStore({ uid, displayName,  status,favorite }))
+      dispatch(openAlertSuccess('LoginSuccess'))
+      navigate('/page')
       // } else {
-        // console.log('error data')
-        // handle error
+      // console.log('error data')
+      // handle error
       // }
     } catch (error) {
       // dispatch(openAlertError('Login fail'))
