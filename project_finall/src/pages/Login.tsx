@@ -51,7 +51,7 @@ const Login = (props: Props) => {
     try {
       dispatch(isShowLoading())
       const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
-      console.log("login token", res.data._fieldsProto)
+      console.log("login token success", res.data._fieldsProto)
 
 
       if (res.data.cookie) {
