@@ -13,10 +13,10 @@ import { Grid } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const page = () => {
-    const { CourseLists, getCourseLists } = useGetCourseLists()
+    const { CourseLists,  } = useGetCourseLists()
     const data = CourseLists
     const navigate = useNavigate()
-    console.log("🚀 ~ file: page.tsx:15 ~ page ~ data", data)
+    console.log("🚀 ~ file: pagesss.ssasdasdddtsx:15 ~ page ~ data", data)
 
 
 

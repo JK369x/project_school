@@ -50,16 +50,12 @@ const Login = (props: Props) => {
     const { email, password } = getValues()
     try {
       dispatch(isShowLoading())
-      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
-      console.log("login token success", res.data._fieldsProto)
+      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, {
+        email, password
+      }, { withCredentials: true })
+     
 
 
-      if (res.data.cookie) {
-        console.log("true")
-        setToken(res.data.token)
-      } else {
-        console.log("missing")
-      }
       // const {
       //   user: { uid },
       // } = await signInWithEmailAndPassword(auth, email, password)

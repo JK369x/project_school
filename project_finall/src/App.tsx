@@ -8,9 +8,12 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import RouteAllPage from "./routes/routes";
 import './App.css'
+import { middleware } from "./middleware/middleware";
+import { useEffect } from "react";
 type Props = {};
 
-export default function App({ }: Props) {
+export default function App() {
+
   return (
     <ThemeProvider theme={ThemeLight}>
       <LocalizationProvider dateAdapter={AdapterMoment}>

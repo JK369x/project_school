@@ -32,6 +32,7 @@ import Teacher from "../pages/Admin/Teacher/Teacher";
 import Favorite from "../pages/Favorite";
 import DetailCourseHomePage from "../pages/DetailCourseHomePage";
 import { middleware } from "../middleware/middleware";
+import axios from "axios";
 
 
 
@@ -43,7 +44,7 @@ const RouteAllPage: FC = () => {
     console.log("🚀 ~ file: routes.tsx:39 ~ status", status)
     console.log("👨🏻‍💻 redux", photoURL)
     const auth_uid = uid !== undefined && uid !== null
-   const  { autoSignIn } = middleware()
+    const { autoSignIn } = middleware()
 
 
     const dispatch = useAppDispatch()
@@ -80,10 +81,13 @@ const RouteAllPage: FC = () => {
     //     })
     // }, [])
 
-    // useEffect(() => {
-    //     console.log('rouatde')
-    //     autoSignIn(token)
-    // }, [])
+    useEffect(() => {
+
+        console.log('auto slosgissdsaddssssssssasdsssassssssssssasssssssssaasasssหssaa aassssassuth me ')
+        const url = `${import.meta.env.VITE_REACT_APP_API}auth/me`
+        axios.defaults.withCredentials = true
+        axios.get(url)
+    }, [])
     return (
         <Routes>
 

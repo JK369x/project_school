@@ -117,7 +117,7 @@ const PageHome = () => {
     const dispatch = useAppDispatch()
     const uid_login = useAppSelector(({ auth: uid }) => uid)
     const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
-    console.log("favorite in redux", favorite_user)
+    console.log("favorite in rsseadux", favorite_user)
     const Clickfavorite = (item: string) => {
         //! ?? ถ้าไม่ใช่่ undefine and false
         try {
@@ -143,7 +143,7 @@ const PageHome = () => {
             }),
             )
         } catch (err) {
-            console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
+            console.log("🚀 ~ file: PageHome.aatsx:140 ss~ Clickfavorite ~ err", err)
         }
     }
 
