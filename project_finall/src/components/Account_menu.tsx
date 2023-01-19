@@ -33,8 +33,8 @@ export default function AccountMenu() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
-    const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
-    const uid_string = uid?.toString()
+    const { email, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
+    // const uid_string = uid?.toString()
 
     //! edit login user 
     // const auth_uid = uid !== undefined && uid !== null
@@ -49,15 +49,23 @@ export default function AccountMenu() {
 
     const onClickLogOut = () => {
         signOut(auth).then(() => {
-            // Sign-out successful.
             dispatch(
                 setAuthStore({
-                    uid: null,
+                    email: null,
                     displayName: null,
                     status: null,
                     // photoURL: user.photoURL as any,
                 }),
             )
+            // Sign-out successful.
+            // dispatch(
+            //     setAuthStore({
+            //         uid: null,
+            //         displayName: null,
+            //         status: null,
+            //         // photoURL: user.photoURL as any,
+            //     }),
+            // )
         }).catch((error) => {
             console.log("🚀 ~ file: Navbar.tsx:21 ~ signOut ~ error", error)
             // An error happened.

@@ -22,8 +22,7 @@ export const useGetUserLists = () => {
     const getUserLists = async () => {
         try {
             dispatch(isShowLoading());
-            /* Getting the documents from the AccountCollection and ordering them by the createdate field
-            in descending order. */
+    
             const result = await getDocs(
                 query(
                     AccountCollection,

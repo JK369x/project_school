@@ -21,7 +21,7 @@ export const Navbar = () => {
       // Sign-out successful.
       dispatch(
         setAuthStore({
-          uid: null,
+          email: null,
           displayName: null,
           status: null,
           // photoURL: user.photoURL as any,
@@ -35,9 +35,11 @@ export const Navbar = () => {
     navigate('/page')
   }
   const dispatch = useAppDispatch();
-  const { uid, status, displayName,photoURL } = useAppSelector(({ auth }) => auth)
-  const auth_uid = uid !== undefined && uid !== null
-  // console.log("🚀 ~ file: Navbar.tsx:30 ~ Navbar ~ auth_uid", auth_uid)
+  // const { uid, status, displayName,photoURL } = useAppSelector(({ auth }) => auth)
+  const {email , status, displayName,photoURL } = useAppSelector(({ auth }) => auth)
+  // const auth_uid = uid !== undefined && uid !== null
+  const auth_email = email !== undefined && email !== null
+
   return (
     <div className='nav-bar'>
 
@@ -47,7 +49,7 @@ export const Navbar = () => {
       </div>
       <div className="side-nav-bar-end">
 
-        {!auth_uid ? (
+        {!auth_email ? (
           <>
             <div className="nva-bar-in">
               <a href='#' onClick={onClickLogin}>เข้าสู่ระบบ</a>

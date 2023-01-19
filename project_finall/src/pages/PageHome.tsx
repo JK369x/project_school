@@ -113,9 +113,11 @@ const PageHome = () => {
         ],
     };
 
-    const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
+    // const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
+    const { email, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
     const dispatch = useAppDispatch()
-    const uid_login = useAppSelector(({ auth: uid }) => uid)
+    // const uid_login = useAppSelector(({ auth: uid }) => uid)
+    const email_login = useAppSelector(({ auth: email }) => email)
     const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
     console.log("favorite in rsseadux", favorite_user)
     const Clickfavorite = (item: string) => {

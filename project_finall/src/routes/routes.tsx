@@ -33,21 +33,49 @@ import Favorite from "../pages/Favorite";
 import DetailCourseHomePage from "../pages/DetailCourseHomePage";
 import { middleware } from "../middleware/middleware";
 import axios from "axios";
-
+import { middleware as autoSignIn } from '../middleware/middleware'
 
 
 
 
 const RouteAllPage: FC = () => {
-    const { uid, status, photoURL, favorite } = useAppSelector(({ auth }) => auth)
-    console.log("🚀 ~ file: routes.tsx:39 ~ uid", uid)
-    console.log("🚀 ~ file: routes.tsx:39 ~ status", status)
-    console.log("👨🏻‍💻 redux", photoURL)
-    const auth_uid = uid !== undefined && uid !== null
-    const { autoSignIn } = middleware()
+
+    // const { uid, status, photoURL, favorite } = useAppSelector(({ auth }) => auth)
+    const { email, status, photoURL, favorite } = useAppSelector(({ auth }) => auth)
+    // const auth_uid = uid !== undefined && uid !== null
+    const auth_uid = email !== undefined && email !== null
 
 
     const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        autoSignIn()
+    },[])
+    const autoSignIn = async () => {
+        console.log('autosme ')
+        const url = `${import.meta.env.VITE_REACT_APP_API}auth/me`
+        axios.defaults.withCredentials = true
+        try {
+            const autoSignIn = await axios.get(url)
+            const data = autoSignIn.data.payload
+            console.log("🚀 ~ file: routes.tsx:61 ~ autoSignIn ~ data", data)
+            console.log('================== email',data.email)
+            dispatch(setAuthStore({
+                email: data.email,
+                displayName:data.display_name,
+                status: data.status,
+                favorite: []
+            }))
+        } catch (err) {
+            console.log("🚀 ~ filse: middleware.ts:18 ~ autoSignIn ~ err", err)
+
+        }
+        console.log("🚀===================")
+    }
+
+
+
+
     // useEffect(() => {
     //     onAuthStateChanged(auth, async (user) => {
     //         if (user) {
@@ -81,13 +109,6 @@ const RouteAllPage: FC = () => {
     //     })
     // }, [])
 
-    useEffect(() => {
-
-        console.log('auto slosgissdsaddssssssssasdsssassssssssssasssssssssaasasssหssaa aassssassuth me ')
-        const url = `${import.meta.env.VITE_REACT_APP_API}auth/me`
-        axios.defaults.withCredentials = true
-        axios.get(url)
-    }, [])
     return (
         <Routes>
 
@@ -134,7 +155,7 @@ const RouteAllPage: FC = () => {
             )}
             <Route
                 path="*"
-                element={<>{uid === null ? <NotFoundPage /> : null}</>}
+                element={<>{email === null ? <NotFoundPage /> : null}</>}
             />
         </Routes>
     )

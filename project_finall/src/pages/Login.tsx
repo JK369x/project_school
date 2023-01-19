@@ -53,8 +53,14 @@ const Login = (props: Props) => {
       const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, {
         email, password
       }, { withCredentials: true })
-     
-
+      const data = res.data
+      const displayName = `${data.firstName} ${data.lastName}`
+      dispatch(setAuthStore({
+        email: data.email,
+        displayName,
+        status:data.status.label,
+        favorite:[]
+      }))
 
       // const {
       //   user: { uid },

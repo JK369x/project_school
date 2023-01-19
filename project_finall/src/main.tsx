@@ -8,13 +8,8 @@ import { BrowserRouter } from 'react-router-dom'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from 'axios'
+import {middleware  as autoSignIn } from './middleware/middleware'
 
-
-
-// console.log('auto slosgissdsadsssssadsasssaaasssaa aasssassuth me ')
-// const url = `${import.meta.env.VITE_REACT_APP_API}auth/me`
-// axios.defaults.withCredentials = true
-// await axios.get(url)
 
 
 
@@ -26,9 +21,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
-
-
-
-
 )
+
+
+
 
