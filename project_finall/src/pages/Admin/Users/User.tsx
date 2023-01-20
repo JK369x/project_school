@@ -4,14 +4,14 @@ import '../Dashboard/Dashboard.scss'
 import { Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
-import { IFormInput } from '../../../Hook/user/useCreateAcc'
+import { IFormInput } from '../Users/Hook/useCreateAcc'
 import { FC, useEffect, useState } from 'react'
-import { UserListsType } from '../../../Hook/user/useGetUserLists'
-import { useGetUserLists } from '../../../Hook/user/useGetUserLists'
+import { UserListsType } from '../Users/Hook/useGetUserLists'
+import { useGetUserLists } from '../Users/Hook/useGetUserLists'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/user/useDeleteUser'
+import { useDeleteUser } from '../Users/Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
@@ -24,15 +24,14 @@ const User: FC = () => {
   const { openConfirmDialog } = useDialog()
   const { deleteUser } = useDeleteUser()
   const navigate = useNavigate()
-  //  const [detailUser, setDetailUser] = useState<UserListsType>()
-  console.log("🚀 ~ file: User.tsx:20 ~ data", data)
 
 
   const delItem = (data: UserListsType) => {
     openConfirmDialog({
+      
       textContent: 'deleteUser',
       onConfirm: async () => {
-        await deleteUser(data.id)
+        await deleteUser(data.id_document)
         getUserLists()
       },
     })
@@ -41,11 +40,10 @@ const User: FC = () => {
   const viewDetailUser = (data: UserListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
     // setDetailUser(data)
-    navigate(`/detailuser/${data.id}`)
+    navigate(`/detailuser/${data.id_document}`)
 
   }
 
-  const newdata = data.filter((item:any) =>item.status.id  !== "4")
 
   const columnOptions: TableColumnOptions[] = [
 
@@ -106,7 +104,7 @@ const User: FC = () => {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <Table isSelectTable columnOptions={columnOptions} dataSource={newdata.map((e, index) => {
+                <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
                   return {
                     ...e,
                     countID: index + 1,

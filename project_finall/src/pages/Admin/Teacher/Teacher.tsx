@@ -4,14 +4,13 @@ import '../Dashboard/Dashboard.scss'
 import { Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
-import { IFormInput } from '../../../Hook/user/useCreateAcc'
 import { FC, useEffect, useState } from 'react'
-import { UserListsType } from '../../../Hook/user/useGetUserLists'
-import { useGetUserLists } from '../../../Hook/user/useGetUserLists'
+import { UserListsType } from '../Users/Hook/useGetUserLists'
+import { useGetUserLists } from '../Users/Hook/useGetUserLists'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/user/useDeleteUser'
+import { useDeleteUser } from '../Users/Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'

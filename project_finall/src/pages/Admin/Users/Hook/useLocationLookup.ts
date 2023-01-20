@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Lookup } from '../types/type'
+import { Lookup } from '../../../../types/type'
 import axios from 'axios'
 
-import { useAppDispatch } from '../store/useHooksStore'
-import { isShowLoading, isCloseLoading } from '../store/slices/loadingSlice'
+import { useAppDispatch } from '../../../../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../../../../store/slices/loadingSlice'
 
 interface LocationDatatype {
 	amphure: {

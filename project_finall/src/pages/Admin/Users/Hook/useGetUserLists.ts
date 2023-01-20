@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useAppDispatch } from '../../store/useHooksStore'
-import { isShowLoading, isCloseLoading } from '../../store/slices/loadingSlice'
+import { useAppDispatch } from '../../../../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../../../../store/slices/loadingSlice'
 import { getDocs, query, where, orderBy, limit } from "firebase/firestore";
 import { IFormInput } from './useCreateAcc'
-import { AccountCollection } from '../../firebase/createCollection'
+import { AccountCollection } from '../../../../firebase/createCollection'
+import axios from 'axios';
 export type UserListsType = {
     id: string
-
+    id_document:string
 } & IFormInput
 //! & เพิ่ม id form input
 
@@ -22,20 +23,18 @@ export const useGetUserLists = () => {
     const getUserLists = async () => {
         try {
             dispatch(isShowLoading());
-    
-            const result = await getDocs(
-                query(
-                    AccountCollection,
-                    orderBy("createBy", "desc"),
-                )
-            )
+            const url = `${import.meta.env.VITE_REACT_APP_API}user/alluser`
+            axios.defaults.withCredentials = true
+            const getDetailUser = await axios.get(url)
+            const result = getDetailUser.data
+            console.log("🚀 ~ file: useGetUserLists.ts:30 ~ getUserLists ~ result", result)
             setUserLists(
-                result.docs.map((e) => {
+                result.map((e:any) => {
                     return {
-                        ...e.data(),
-                        id: e.id,
+                        ...e,
+                        id_document:e.id_document
                     }
-                }) as UserListsType[]
+                }) as UserListsType []
             )
         } catch (error) {
             console.log(error)

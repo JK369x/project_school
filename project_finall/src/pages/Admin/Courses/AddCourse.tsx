@@ -8,7 +8,7 @@ import { FC, useEffect, useState } from 'react'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/user/useDeleteUser'
+import { useDeleteUser } from '../Users/Hook/useDeleteUser'
 
 //react dom 
 import { useNavigate } from 'react-router-dom'
@@ -39,7 +39,7 @@ import { UseCreateCourse } from '../../../Hook/course/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
 
-import { useGetCategoryLists  } from '../../../Hook/category/useGetCategory'
+import { useGetCategoryLists  } from '../Categorys/Hook/useGetCategory'
 
 
 

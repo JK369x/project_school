@@ -1,10 +1,11 @@
 import { addDoc, setDoc, doc, deleteDoc, } from "firebase/firestore";
 
-import { CategoryCollection } from '../../firebase/createCollection'
-import { Lookup } from "../../types/type";
+import { CategoryCollection } from '../../../../firebase/createCollection'
+import { Lookup } from "../../../../types/type";
 import { Timestamp } from "mongodb";
-import { useAppDispatch } from "../../store/useHooksStore";
-import { isCloseLoading, isShowLoading } from "../../store/slices/loadingSlice";
+import { useAppDispatch } from "../../../../store/useHooksStore";
+import { isCloseLoading, isShowLoading } from "../../../../store/slices/loadingSlice";
+import axios from "axios";
 
 
 export interface CategoryInput {
@@ -16,17 +17,15 @@ export interface CategoryInput {
 export const useCreateCategory = () => {
     const dispatch = useAppDispatch()
     const addCategory = async (params: CategoryInput) => {
-        console.log("🚀 ~ file: useCreateCategory.ts:16 ~ addCategory ~ params", params)
         try {
             dispatch(isShowLoading())
-            await setDoc(doc(CategoryCollection), {
-                ...params,
-                label:params.Category_Title,
-                timestamp: new Date(),
-            })
+            const url = `${import.meta.env.VITE_REACT_APP_API}category/createcategory`
+            axios.defaults.withCredentials = true
+            await axios.post(url,params)
+            return true
         } catch (err) {
             console.log("🚀 ~ file: useCreateCategory.ts:23 ~ addCategory ~ err", err)
-
+            return false 
         } finally {
             dispatch(isCloseLoading())
         }

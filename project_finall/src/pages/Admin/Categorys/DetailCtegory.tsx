@@ -30,21 +30,25 @@ import { CategoryInput } from './Hook/useCreateCategory'
 import '../Dashboard/Dashboard.scss'
 
 import { useCreateCategory } from './Hook/useCreateCategory'
+import { useGetDetailCategory } from './Hook/useGetDetailCategory'
 
 
 
-const AddCategory: FC = () => {
+const DetailCategory: FC = () => {
 
 
     //*Hook
     const { addCategory } = useCreateCategory()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const { state } = useGetDetailCategory()
 
 
-
+    const onClickEdit = () => {
+        navigate(`/editcategory/${state.id}`)
+    }
     //? waiting set Default value form
-    const myForm = useForm<CategoryInput>({
+    const myForm = useForm< {data:CategoryInput}>({
         //! can useDefault onChange
 
     })
@@ -52,16 +56,7 @@ const AddCategory: FC = () => {
 
 
 
-    const { handleSubmit, getValues, setValue } = myForm
-    const onSubmit = async () => {
-        if (getValues()) {
-            try {
-                addCategory(getValues())
-            } catch (err) {
-                console.log("🚀 ~ file: addCategory.tsx:65 ~ onSubmit ~ err", err)
-            }
-        }
-    }
+
 
 
 
@@ -72,14 +67,14 @@ const AddCategory: FC = () => {
                 <Navbar />
                 <div className="listContainer">
                     <div className="listTitle">
-                        <Grid container>
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                        <Grid >
                                 <Typography variant="h1" component="h1" ml={3}>
                                     Add Category
                                 </Typography>
-                                <ControllerTextField formprop={myForm} name={"Category_Title"} label={'Category Title'} />
-                                <Button label='Submit' type='submit' />
-                            </form>
+                                <Typography variant="body2" mb={2}  >
+                                            {state.Category_Title}
+                                        </Typography>
+                                <Button label='Edit' onClick={() => onClickEdit()}  />
                         </Grid>
                     </div>
                 </div>
@@ -89,4 +84,4 @@ const AddCategory: FC = () => {
     )
 }
 
-export default AddCategory
+export default DetailCategory

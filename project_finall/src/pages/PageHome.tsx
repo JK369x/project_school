@@ -19,7 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Search, SearchIconWrapper, StyledInputBase } from '../styles/seachMUI';
 import Image from '../components/Image/Image';
 import HeaderLogo from '../assets/Course app-amico.png'
-import { useGetCategoryLists } from '../Hook/category/useGetCategory';
+import { useGetCategoryLists } from './Admin/Categorys/Hook/useGetCategory';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

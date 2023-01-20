@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useAppDispatch } from '../../store/useHooksStore'
-import { isShowLoading, isCloseLoading } from '../../store/slices/loadingSlice'
+import { useAppDispatch } from '../../../../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../../../../store/slices/loadingSlice'
 import { getDocs, query, where, orderBy, limit } from "firebase/firestore";
-import { CategoryCollection } from '../../firebase/createCollection'
+import { CategoryCollection } from '../../../../firebase/createCollection'
 import { CategoryInput } from './useCreateCategory';
+import axios from 'axios';
 export type CategoryListsType = {
-    id: string
-    label: string
+    id?: string
+    label?: string
 } & CategoryInput
 //! & เพิ่ม id form input
 
@@ -23,20 +24,15 @@ export const useGetCategoryLists = () => {
     const useGetCategory = async () => {
         dispatch(isShowLoading());
         try {
-            /* Getting the documents from the AccountCollection and ordering them by the createdate field
-            in descending order. */
-            const result = await getDocs(
-                query(
-                    CategoryCollection,
-                    orderBy("timestamp", "desc"),
-                )
-            )
+            const url = `${import.meta.env.VITE_REACT_APP_API}category/allcategory`
+            axios.defaults.withCredentials = true
+            const getCategory = await axios.get(url)
+            const result = getCategory.data
+     
             setCategoryLists(
-                result.docs.map((e) => {
+                result.map((e:any) => {
                     return {
-                        ...e.data(),
-                        label: e.data().Category_Title,
-                        id: e.id,
+                        ...e,
                     }
                 }) as CategoryListsType[]
             )

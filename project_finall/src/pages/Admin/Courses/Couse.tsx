@@ -4,14 +4,12 @@ import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
 import { Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
-import { IFormInput } from '../../../Hook/user/useCreateAcc'
 import { FC, useEffect, useState } from 'react'
-import { UserListsType } from '../../../Hook/user/useGetUserLists'
-import { useGetUserLists } from '../../../Hook/user/useGetUserLists'
+
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteCourse } from '../../../Hook/user/useDeleteUser'
+import { useDeleteCourse } from '../Users/Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
@@ -24,7 +22,7 @@ import { Box } from '@mui/system'
 
 const Course: FC = () => {
 
-  const { CourseLists, getCourseLists } = useGetCourseLists()
+  const { CourseLists  } = useGetCourseLists()
   const data = CourseLists
   const { openConfirmDialog } = useDialog()
   const { deleteCourse } = useDeleteCourse()
@@ -38,7 +36,7 @@ const Course: FC = () => {
       textContent: 'deleteCourse',
       onConfirm: async () => {
         await deleteCourse(data.id)
-        getCourseLists()
+       
       },
     })
   }

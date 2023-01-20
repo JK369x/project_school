@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { FC } from 'react'
 // /* Importing the type of the object returned by the useForm hook. */
 import { UseFormReturn } from "react-hook-form";
-import { useLocationLookup } from '../../Hook/useLocationLookup';
+import { useLocationLookup } from './Users/Hook/useLocationLookup';
 // Lookup
 import { role } from './RegisterTeacher'
-import { IFormInput } from '../../Hook/user/useCreateAcc';
+import { IFormInput } from './Users/Hook/useCreateAcc';
 //MUI
 import Grid from '@mui/material/Grid';
 import {

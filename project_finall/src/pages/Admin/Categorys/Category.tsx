@@ -4,21 +4,20 @@ import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
 import { Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
-import { IFormInput } from '../../../Hook/user/useCreateAcc'
 import { FC, useEffect, useState } from 'react'
-import { UserListsType } from '../../../Hook/user/useGetUserLists'
-import { useGetUserLists } from '../../../Hook/user/useGetUserLists'
+
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteCateGory } from '../../../Hook/user/useDeleteUser'
+
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import '../Dashboard/Dashboard.scss'
-import { useGetCategoryLists } from '../../../Hook/category/useGetCategory'
-import { CategoryListsType } from '../../../Hook/category/useGetCategory'
+import { useGetCategoryLists } from './Hook/useGetCategory'
+import { CategoryListsType } from './Hook/useGetCategory'
+import { useDeleteCateGory } from './Hook/useDeletecategory'
 const Category: FC = () => {
 
   const { CategoryLists, useGetCategory } = useGetCategoryLists()
@@ -43,7 +42,7 @@ const Category: FC = () => {
   const viewDetailUser = (data: CategoryListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
     // setDetailUser(data)
-    navigate(`/detailuser/${data.id}`)
+    navigate(`/detailcategory/${data.id}`)
 
   }
 

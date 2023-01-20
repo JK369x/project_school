@@ -30,33 +30,39 @@ import { CategoryInput } from './Hook/useCreateCategory'
 import '../Dashboard/Dashboard.scss'
 
 import { useCreateCategory } from './Hook/useCreateCategory'
+import { useGetDetailCategory } from './Hook/useGetDetailCategory'
+import { useUpdateCategory } from './Hook/useUpdateCategory'
 
 
 
-const AddCategory: FC = () => {
+const EditCategory: FC = () => {
 
 
     //*Hook
-    const { addCategory } = useCreateCategory()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-
-
+    const { state } = useGetDetailCategory()
+    const { updateCategory} = useUpdateCategory()
 
     //? waiting set Default value form
-    const myForm = useForm<CategoryInput>({
+    const myForm = useForm< {data:CategoryInput}>({
         //! can useDefault onChange
 
     })
 
 
-
+    useEffect(() => {
+        myForm.setValue('data', state)
+        console.log("🚀 ~ file: EditCourse.tsx:47 ~ useEffect ~ state", state)
+    }, [state])
 
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
+        
         if (getValues()) {
+            const id = myForm.getValues().data.id
             try {
-                addCategory(getValues())
+                updateCategory(getValues().data,id)
             } catch (err) {
                 console.log("🚀 ~ file: addCategory.tsx:65 ~ onSubmit ~ err", err)
             }
@@ -77,7 +83,7 @@ const AddCategory: FC = () => {
                                 <Typography variant="h1" component="h1" ml={3}>
                                     Add Category
                                 </Typography>
-                                <ControllerTextField formprop={myForm} name={"Category_Title"} label={'Category Title'} />
+                                <ControllerTextField formprop={myForm} name={"data.Category_Title"} label={'Category Title'} />
                                 <Button label='Submit' type='submit' />
                             </form>
                         </Grid>
@@ -89,4 +95,4 @@ const AddCategory: FC = () => {
     )
 }
 
-export default AddCategory
+export default EditCategory

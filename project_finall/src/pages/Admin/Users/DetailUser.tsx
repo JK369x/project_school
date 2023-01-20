@@ -1,33 +1,30 @@
-import Sidebar from '../../../../components/componentsAdmin/sidebar/Side-bar'
-import Navbar from '../../../../components/componentsAdmin/navbar/Navbar'
-import './DetailUser.scss'
-import { Table } from '../../../../framework/control'
-import { TableColumnOptions } from '../../../../framework/control/Table/Table'
+import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
+import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
+import './User.scss'
+
 import Grid from '@mui/material/Grid/Grid'
-import { IFormInput } from '../../../../Hook/user/useCreateAcc'
 import { FC, useEffect, useState } from 'react'
-import { UserListsType } from '../../../../Hook/user/useGetUserLists'
-import { useGetUserLists } from '../../../../Hook/user/useGetUserLists'
+import { UserListsType } from './Hook/useGetUserLists'
+import { useGetUserLists } from './Hook/useGetUserLists'
 
 //controller
-import { useDialog } from '../../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../../Hook/user/useDeleteUser'
+import { useDialog } from '../../../Hook/dialog/useDialog'
+import { useDeleteUser } from './Hook/useDeleteUser'
 import { Box, } from '@mui/material'
-import Button from "../../../../framework/control/Button/Button";
+import Button from "../../../framework/control/Button/Button";
 //react dom 
 import { useNavigate, useParams } from 'react-router-dom'
 
 //User
 
-import { useGetDetailUser } from '../../../../Hook/user/useGetDetailUser'
+import { useGetDetailUser } from './Hook/useGetDetailUser'
 import { Typography, Avatar } from '@mui/material'
-import { useAppSelector } from '../../../../store/useHooksStore'
-import { auth } from '../../../../firebase/config_firebase'
+import { useAppSelector } from '../../../store/useHooksStore'
 
 const DetailUser: FC = () => {
 
   const { userLists, getUserLists } = useGetUserLists()
-  const {photoURL} = useAppSelector(({auth})=> auth)
+  const { photoURL } = useAppSelector(({ auth }) => auth)
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
@@ -35,7 +32,7 @@ const DetailUser: FC = () => {
   console.log("🚀 ~ file: DetailUser.tsx:29 ~ state", state)
 
   const onClickEdit = () => {
-    navigate(`/editUser/${state.id}`)
+    navigate(`/editUser/${id}`)
   }
 
 
@@ -50,13 +47,13 @@ const DetailUser: FC = () => {
               <Grid >
                 <Grid container justifyContent={'space-between'} item xs={12} sx={{ m: 0, p: 0 }}>
                   <Typography variant="h2" mb={2}  >
-                   INFORMATION 
+                    INFORMATION
                   </Typography>
                   <Button label='Edit' onClick={() => onClickEdit()} />
                 </Grid>
                 <Grid container item>
                   <Grid container ml={3} mr={3} item xs={1}>
-                    <Avatar alt="Remy Sharp" src={state.image_rul?state.image_rul : ''} sx={{ width: 120, height: 120, mr: 5 }} />
+                    <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, mr: 5 }} />
                   </Grid>
                   <Grid ml={1} item xs={6} >
                     <Grid item container mt={0}>

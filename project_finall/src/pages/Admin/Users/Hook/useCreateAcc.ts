@@ -1,8 +1,8 @@
-import { db } from '../../firebase/config_firebase';
+import { db } from '../../../../firebase/config_firebase';
 import { addDoc, setDoc, doc, deleteDoc, } from "firebase/firestore";
 
-import { AccountCollection } from '../../firebase/createCollection'
-import { Lookup } from "../../types/type";
+import { AccountCollection } from '../../../../firebase/createCollection'
+import { Lookup } from "../../../../types/type";
 import axios from 'axios';
 
 export interface IFormInput {

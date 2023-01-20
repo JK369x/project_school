@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { db } from '../../firebase/config_firebase'
-import { AccountCollection } from '../../firebase/createCollection'
-import { useAppDispatch, useAppSelector } from "../../store/useHooksStore";
-import { isCloseLoading, isShowLoading } from "../../store/slices/loadingSlice";
+import { db } from '../../../../firebase/config_firebase'
+import { AccountCollection } from '../../../../firebase/createCollection'
+import { useAppDispatch, useAppSelector } from "../../../../store/useHooksStore";
+import { isCloseLoading, isShowLoading } from "../../../../store/slices/loadingSlice";
 import { UserListsType } from "./useGetUserLists";
 import { lookup } from "dns";
 import { IFormInput } from "./useCreateAcc"
+import axios from "axios";
 
 export const useGetDetailUser = () => {
 
     const dispatch = useAppDispatch()
-    const uid = useAppSelector(({ auth: { uid } }) => uid)
     const { id } = useParams<{ id: string }>();
+    console.log("🚀 ~ file: useGetDetailUser.ts:17 ~ useGetDetailUser ~ id", id)
     //! Time in use
     const [state, setState] = useState<UserListsType>({
         email: "",
@@ -33,6 +34,7 @@ export const useGetDetailUser = () => {
         id: "",
         about: "",
         image_rul: null,
+        id_document:"",
     })
 
 
@@ -47,12 +49,17 @@ export const useGetDetailUser = () => {
     const getData = async () => {
         try {
             dispatch(isShowLoading())
-            const result = await getDoc(
-                doc(AccountCollection, id as string)
-            )
-            if (result.exists()) {
-                console.log("🚀 ~ file: useGetDetailUser.ts:54 ~ getData ~ result", result.data())
-                setState({ ...(result.data() as any), id: result.id });
+            const url = `${import.meta.env.VITE_REACT_APP_API}user/getdetailuser/${id}`
+            axios.defaults.withCredentials = true
+            const getdetail = await axios.get(url)
+            const result = getdetail.data
+            console.log("🚀 ~ file: useGetDetailUser.ts:53 ~ getData ~ result", result)
+            // const result = await getDoc(
+            //     doc(AccountCollection, id as string)
+            // )
+            if (result) {
+                setState({ ...(result as any), id: result.id });
+                // setState({ ...(result.data() as any), id: result.id });
             } else {
                 //
             }

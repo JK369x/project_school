@@ -15,8 +15,8 @@ import Grid from '@mui/material/Grid';
 import Button from "../../framework/control/Button/Button";
 import { Navbar } from "../../components/Navbar";
 //HOOK
-import { useCreateAcc } from '../../Hook/user/useCreateAcc'
-import { IFormInput } from '../../Hook/user/useCreateAcc'
+import { useCreateAcc } from './Users/Hook/useCreateAcc'
+import { IFormInput } from './Users/Hook/useCreateAcc'
 //firebase
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../firebase/config_firebase'

@@ -8,8 +8,8 @@ import Testgrid from "../pages/test/Testgrid";
 import LoginAdmin from "../pages/Admin/LoginAdmin";
 import User from "../pages/Admin/Users/User";
 import Dashboard from "../pages/Admin/Dashboard/Dashboard";
-import DetailUser from "../pages/Admin/Users/detailuser/DetailUser";
-import EditUser from "../pages/Admin/Users/edituser/EditUser";
+import DetailUser from "../pages/Admin/Users/DetailUser";
+import EditUser from "../pages/Admin/Users/EditUser";
 import Course from "../pages/Admin/Courses/Couse";
 import AddCourse from "../pages/Admin/Courses/AddCourse";
 import Page from "../pages/page";
@@ -34,6 +34,8 @@ import DetailCourseHomePage from "../pages/DetailCourseHomePage";
 import { middleware } from "../middleware/middleware";
 import axios from "axios";
 import { middleware as autoSignIn } from '../middleware/middleware'
+import EditCategory from "../pages/Admin/Categorys/EditCategory";
+import DetailCategory from "../pages/Admin/Categorys/DetailCtegory";
 
 
 
@@ -48,9 +50,9 @@ const RouteAllPage: FC = () => {
 
     const dispatch = useAppDispatch()
 
-    useEffect(()=>{
+    useEffect(() => {
         autoSignIn()
-    },[])
+    }, [])
     const autoSignIn = async () => {
         console.log('autosme ')
         const url = `${import.meta.env.VITE_REACT_APP_API}auth/me`
@@ -59,10 +61,11 @@ const RouteAllPage: FC = () => {
             const autoSignIn = await axios.get(url)
             const data = autoSignIn.data.payload
             console.log("🚀 ~ file: routes.tsx:61 ~ autoSignIn ~ data", data)
-            console.log('================== email',data.email)
+            console.log('================== email', data.email)
             dispatch(setAuthStore({
+                uid: data.id_document,
                 email: data.email,
-                displayName:data.display_name,
+                displayName: data.display_name,
                 status: data.status,
                 favorite: []
             }))
@@ -111,48 +114,34 @@ const RouteAllPage: FC = () => {
 
     return (
         <Routes>
-
             <Route path="/" element={<PageHome />} />
             <Route path="/page" element={<PageHome />} />
             <Route path="/adminlogin" element={<LoginAdmin />} />
             <Route path="/registerteacher" element={<RegisterTeacher />} />
             <Route path="/registor" element={<Registor />} />
             <Route path="/login" element={<Login />} />
-            {!auth_uid ? (
-                <>
+            <Route path="/editcategory/:id" element={<EditCategory />} />
+            <Route path="/detailcategory/:id" element={<DetailCategory />} />
+            <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/nextregistor" element={<Nextregistor />} />
+            <Route path="/testgrid" element={<Testgrid />} />
+            <Route path="/users" element={<User />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/detailuser/:id" element={<DetailUser />} />
+            <Route path="/editUser/:id" element={<EditUser />} />
+            <Route path="/detailcourse/:id" element={<DetailCourse />} />
+            <Route path="/editcourse/:id" element={<EditCourse />} />
+            <Route path="/courses" element={<Course />} />
+            <Route path="/addcourses" element={<AddCourse />} />
+            <Route path="/teacher" element={<Teacher />} />
+            <Route path="/category" element={<Category />} />
+            <Route path="/addcategory" element={<AddCategory />} />
+            <Route path="/approval" element={<Approval />} />
+            <Route path="/favorite" element={<Favorite />} />
+            <Route path="/category_course" element={<CategoryCourse />} />
 
-                    {status?.label === 'admin' ? (
-                        <>
 
-                        </>) : (
-                        <>
-
-                        </>
-                    )}
-
-                </>
-            ) : (
-                <>
-                    <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/nextregistor" element={<Nextregistor />} />
-                    <Route path="/testgrid" element={<Testgrid />} />
-                    <Route path="/users" element={<User />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/detailuser/:id" element={<DetailUser />} />
-                    <Route path="/editUser/:id" element={<EditUser />} />
-                    <Route path="/detailcourse/:id" element={<DetailCourse />} />
-                    <Route path="/editcourse/:id" element={<EditCourse />} />
-                    <Route path="/courses" element={<Course />} />
-                    <Route path="/addcourses" element={<AddCourse />} />
-                    <Route path="/teacher" element={<Teacher />} />
-                    <Route path="/category" element={<Category />} />
-                    <Route path="/addcategory" element={<AddCategory />} />
-                    <Route path="/approval" element={<Approval />} />
-                    <Route path="/favorite" element={<Favorite />} />
-                    <Route path="/category_course" element={<CategoryCourse />} />
-                </>
-            )}
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useAppDispatch } from '../../store/useHooksStore'
 import { isShowLoading, isCloseLoading } from '../../store/slices/loadingSlice'
 import { getDocs, query, where, orderBy, limit } from "firebase/firestore";
-import { IFormInput } from '../user/useCreateAcc'
 import { CourseCollection } from '../../firebase/createCollection'
 import { TypeCourses } from './useCreateCourse';
 export type CourseListsType = {

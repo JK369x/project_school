@@ -14,7 +14,7 @@ import {
     from '../../../framework/control';
 import { useForm } from "react-hook-form";
 
-import { useUpdateCourse } from '../../../Hook/user/useUpdateUser'
+import { useUpdateCourse } from '../Users/Hook/useUpdateUser'
 import { doc, updateDoc } from "firebase/firestore";
 import ImageInput from '../../../framework/control/InputImage/ImageInput'
 import TextField from '@mui/material/TextField';
@@ -22,7 +22,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Lookup, roleWeek, typeCourseOnline_Onside } from '../../../types/type'
 import { DateTimePicker } from '@mui/x-date-pickers'
-import { useGetCategoryLists } from '../../../Hook/category/useGetCategory'
+import { useGetCategoryLists } from '../Categorys/Hook/useGetCategory'
 import { CourseListsType } from '../../../Hook/course/useGetCourse'
 import { useGetCourseDetail } from '../../../Hook/course/useGetCourseDtail'
 
@@ -128,7 +128,7 @@ const EditCourse: FC = () => {
                                 <Grid container spacing={1}>
                                     <Grid item xs={3}>
                                         <ControllerAutocomplete
-                                        
+
                                             fullWidth
                                             formprop={myForm}
                                             name={'data.category'}

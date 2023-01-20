@@ -10,7 +10,7 @@ import { useUpdateApproval } from '../../../Hook/approval/useGetupdateApproval'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteCourse } from '../../../Hook/user/useDeleteUser'
+import { useDeleteCourse } from '../Users/Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'

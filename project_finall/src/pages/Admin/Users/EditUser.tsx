@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Avatar, Box, IconButton, } from '@mui/material'
-import Navbar from '../../../../components/componentsAdmin/navbar/Navbar'
-import Sidebar from '../../../../components/componentsAdmin/sidebar/Side-bar'
-import './EditUser.scss'
-import Button from '../../../../framework/control/Button/Button'
+import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
+import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
+import './User.scss'
+import Button from '../../../framework/control/Button/Button'
 import Grid from '@mui/material/Grid/Grid'
 import { Typography } from '@mui/material'
 import {
@@ -12,16 +12,16 @@ import {
     UploadButton
 
 }
-    from '../../../../framework/control';
+    from '../../../framework/control';
 import { useForm } from "react-hook-form";
-import { UserListsType } from "../../../../Hook/user/useGetUserLists";
-import { useGetDetailUser } from '../../../../Hook/user/useGetDetailUser'
-import { useLocationLookup } from '../../../../Hook/useLocationLookup'
-import { useUpdateUser } from '../../../../Hook/user/useUpdateUser'
-import { useUploadFile } from '../../../../file/useUploadFile'
-import { useAppDispatch, useAppSelector } from '../../../../store/useHooksStore'
-import { openAlertError, openAlertSuccess } from '../../../../store/slices/alertSlice'
-import { setAuthStore } from '../../../../store/slices/authSlice'
+import { UserListsType } from "./Hook/useGetUserLists";
+import { useGetDetailUser } from './Hook/useGetDetailUser'
+import { useLocationLookup } from './Hook/useLocationLookup'
+import { useUpdateUser } from './Hook/useUpdateUser'
+import { useUploadFile } from '../../../file/useUploadFile'
+import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
+import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
+import { setAuthStore } from '../../../store/slices/authSlice'
 
 const EditUser: FC = () => {
     const [images, setImages] = useState<any>([]);
@@ -29,6 +29,7 @@ const EditUser: FC = () => {
     const dispatch = useAppDispatch()
 
     const { state } = useGetDetailUser()
+    console.log("🚀 ~ file: EditUser.tsx:32 ~ state", state)
     const { updateUser } = useUpdateUser()
 
 
@@ -57,31 +58,31 @@ const EditUser: FC = () => {
         }
     }, [state, uploadState.downloadURL])
 
-    //!error 
-    useEffect(() => {
-        if (changeProvince) {
-            getAmphure(parseInt(`${changeProvince.id}`))
-        }
-    }, [changeProvince])
-    //!error 
-    useEffect(() => {
-        if (changeProvince && changeAmphure) {
-            getTambon(parseInt(`${changeProvince.id}`), parseInt(`${changeAmphure.id}`))
-        }
-    }, [changeAmphure])
-    //!error 
-    useEffect(() => {
-        if (changeTambon) {
-            getZipcode(parseInt(`${changeTambon.id}`))
-        }
-    }, [changeTambon])
+    // //!error 
+    // useEffect(() => {
+    //     if (changeProvince) {
+    //         getAmphure(parseInt(`${changeProvince.id}`))
+    //     }
+    // }, [changeProvince])
+    // //!error 
+    // useEffect(() => {
+    //     if (changeProvince && changeAmphure) {
+    //         getTambon(parseInt(`${changeProvince.id}`), parseInt(`${changeAmphure.id}`))
+    //     }
+    // }, [changeAmphure])
+    // //!error 
+    // useEffect(() => {
+    //     if (changeTambon) {
+    //         getZipcode(parseInt(`${changeTambon.id}`))
+    //     }
+    // }, [changeTambon])
 
     const onSubmit = async () => {
 
 
         if (getValues()) {
-            console.log("🚀 ~ file: EditUser.tsx:90 ~ onSubmit ~ getValues", getValues)
-            const id = myForm.getValues().data.id
+            console.log("🚀 ~ file: EditUser.tsx:84 ~ onSubmit ~ getValues", getValues().data)
+            const id = myForm.getValues().data.id_document
             const firstName = getValues().data.firstName
             const lastName = getValues().data.lastName
             const ImageUrl = getValues().data.image_rul

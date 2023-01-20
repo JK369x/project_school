@@ -3,17 +3,10 @@ import { Lookup } from '../../types/type'
 // import type { RootState } from "../../app/store";
 import { RootState } from '../store'
 
-// displayName, uid, photoURL, accessToken
-// export interface AuthState {
-// 	uid?: string | null
-// 	displayName?: string | null
-// 	photoURL?: string | null
-// 	status?: Lookup | null
-// 	about? : string | null
-// 	favorite? : string [] | null 
-// }
+
 
 export interface AuthState {
+	uid?: string | null
 	email?: string | null
 	displayName?: string | null 
 	photoURL?: string | null 
@@ -30,28 +23,17 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {
 		//! เป็น type ของ action 
-		setAuthStore: (state, { payload: { email, displayName, photoURL,status,favorite } }: PayloadAction<AuthState>) => {
+		setAuthStore: (state, { payload: { uid,email, displayName, photoURL,status,favorite } }: PayloadAction<AuthState>) => {
+			state.uid = uid
 			state.email = email
 			state.displayName = displayName
 			state.photoURL = photoURL
 			state.status = status
 			state.favorite = favorite
 		},
-		// setAuthStore: (state, { payload: { uid, displayName, photoURL,status,favorite } }: PayloadAction<AuthState>) => {
-		// 	state.uid = uid
-		// 	state.displayName = displayName
-		// 	state.photoURL = photoURL
-		// 	state.status = status
-		// 	state.favorite = favorite
-		// },
-		// clearAuthStore: (state) => {
-		// 	delete state.uid
-		// 	delete state.displayName
-		// 	delete state.photoURL
-		// 	delete state.status
-		// 	delete state.favorite
-		// },
+		
 		clearAuthStore: (state) => {
+			delete state.uid
 			delete state.email
 			delete state.displayName
 			delete state.photoURL

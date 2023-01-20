@@ -56,6 +56,7 @@ const Login = (props: Props) => {
       const data = res.data
       const displayName = `${data.firstName} ${data.lastName}`
       dispatch(setAuthStore({
+        uid: data.id_document,
         email: data.email,
         displayName,
         status:data.status.label,
@@ -88,23 +89,7 @@ const Login = (props: Props) => {
     }
   }
 
-  //  const onClickLoginGoogle = async () =>{
-  //   const provider = new GoogleAuthProvider();
-  //     try{
-  //       dispatch(isShowLoading())
-  //       const result = await signInWithPopup(auth, provider)
-  //       const credential = GoogleAuthProvider.credentialFromResult(result) as any
-  //       const token = credential.accessToken;
-  //     // The signed-in user info. 
-  //       const user = result.user;
-  //       console.log(user)
 
-  //     }catch (error){
-  //       console.log(error)
-  //     } finally{
-  //       dispatch(isCloseLoading())
-  //     }
-  //  }
 
 
   return (

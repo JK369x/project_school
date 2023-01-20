@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AccountMenu from '../components/Account_menu'
 import { Navbar } from '../components/Navbar'
-import { useGetCategoryLists } from '../Hook/category/useGetCategory'
+import { useGetCategoryLists } from './Admin/Categorys/Hook/useGetCategory'
 import { Box, Card, CardActions, Grid, Typography, CardMedia, CardContent } from '@mui/material'
 import Image from '../components/Image/Image'
 import teacher from '../assets/photo-1573166364524-d9dbfd8bbf83.avif'
@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
 import { useCreateFavorite } from '../Hook/favorite/useCreateFavorite'
 import { setAuthStore } from '../store/slices/authSlice'
 const CategoryCourse = () => {
-  const { CourseLists, getCourseLists } = useGetCourseLists()
+  const { CourseLists  } = useGetCourseLists()
   const data = CourseLists
   const { CategoryLists, useGetCategory } = useGetCategoryLists()
   const { addFavorite } = useCreateFavorite()
