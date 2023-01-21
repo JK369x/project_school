@@ -8,7 +8,6 @@ import { FC, useEffect, useState } from 'react'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteUser } from '../../../Hook/user/useDeleteUser'
 import { Box, } from '@mui/material'
 import Button from "../../../framework/control/Button/Button";
 //react dom 
@@ -17,21 +16,60 @@ import { useNavigate, useParams } from 'react-router-dom'
 //User
 
 import { Typography, Avatar } from '@mui/material'
-import { useGetCourseDetail } from '../../../Hook/course/useGetCourseDtail'
+import { useGetCourseDetail } from './Hook/useGetCourseDtail'
 import Image from '../../../components/Image/Image'
-import { timecourse } from '../../../types/timecourse'
 const DetailCourse: FC = () => {
-    const {Start_Register_Date,Start_Register_Time,End_Register_Date,End_Register_Time,Start_Course_Time,End_Course_Time,Course_Date,start_course_learn,start_course_end } = timecourse()
+    const { state } = useGetCourseDetail()
+    console.log("🚀 ~ file: DetailCourse.tsx:23 ~ state", state)
+    //*start register course
+    const Start_Register_Date = new Date(state.start_register).toLocaleDateString();
+    const Start_Register_Time = new Date(state.start_register).toLocaleTimeString('en-Us', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+        timeZone: 'Asia/Bangkok'
+    });
+
+    //*end register course
+    const End_Register_Date = new Date(state.End_register).toLocaleDateString();
+    const End_Register_Time = new Date(state.End_register).toLocaleTimeString('en-Us', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+        timeZone: 'Asia/Bangkok'
+    });
+
+    //*start course and End course
+    const Start_Course_Time = new Date(state.start_learn).toLocaleDateString()
+    const End_Course_Time = new Date(state.end_learn).toLocaleDateString()
+
+    //*Course Date
+    const Course_Date = Array.from(state.course_date!).map((params: any, index: number) => {
+        return (index !== 0 ? ' - ' + params.label : params.label)
+    })
+
+    //*Course Time Start and End
+    const start_course_learn = new Date(state.start_time).toLocaleTimeString('en-Us', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+        timeZone: 'Asia/Bangkok'
+    })
+    const start_course_end = new Date(state.end_time).toLocaleTimeString('en-Us', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+        timeZone: 'Asia/Bangkok'
+    })
 
 
 
     const navigate = useNavigate()
 
-    const { state } = useGetCourseDetail()
     console.log("🚀 ~ file: DetailUser.tsx:29 ~ state", state)
 
 
-  
+
 
 
 
@@ -163,12 +201,8 @@ const DetailCourse: FC = () => {
                                             What will students learn in your course?
                                         </Typography>
                                         <Typography variant="body2" mb={2}  >
-                                            {state.what_will_student_learn_in_your_course.input_0}<br />
-                                            {state.what_will_student_learn_in_your_course.input_1}
-                                            <br />
-                                            {state.what_will_student_learn_in_your_course.input_2}
-                                            <br />
-                                            {state.what_will_student_learn_in_your_course.input_3}
+                                            {state.what_will_student_learn_in_your_course}<br />
+
                                         </Typography>
                                         <Typography variant="h6" mb={1}  >
                                             What are the requirements prerequisites for taking your Course?
@@ -186,14 +220,9 @@ const DetailCourse: FC = () => {
                                             The course consists?
                                         </Typography>
                                         <Typography variant="body2" mb={2}  >
-                                            {state.the_course_consists.input_0}
+                                            {state.the_course_consists}
                                             <br />
-                                            {state.the_course_consists.input_1}
-                                            <br />
-                                            {state.the_course_consists.input_2}
-                                            <br />
-                                            {state.the_course_consists.input_3}
-                                            <br />
+
                                         </Typography>
                                         <Typography variant="body2" mb={2}  >
                                             Name teaching assistant
@@ -202,6 +231,15 @@ const DetailCourse: FC = () => {
                                             {state.teaching_assistant}
                                         </Typography>
                                         <Grid container justifyContent={'end'}>
+                                            <Grid>
+                                                <Typography variant="body2" mb={1} mr={8} >
+                                                    Max people
+                                                </Typography>
+
+                                                <Typography variant="body2" mb={1} mr={8} borderBottom={1} borderColor={'gray'}>
+                                                    {state.max_people}
+                                                </Typography>
+                                            </Grid>
                                             <Grid>
                                                 <Typography variant="body2" mb={1} mr={8} >
                                                     Min people

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useAppDispatch } from '../../store/useHooksStore'
-import { isShowLoading, isCloseLoading } from '../../store/slices/loadingSlice'
+import { useAppDispatch } from '../../../../store/useHooksStore'
+import { isShowLoading, isCloseLoading } from '../../../../store/slices/loadingSlice'
 import { getDocs, query, where, orderBy, limit } from "firebase/firestore";
-import { CourseCollection } from '../../firebase/createCollection'
-import { CourseListsType} from '../course/useGetCourse'
+import { CourseCollection } from '../../../../firebase/createCollection'
+import { CourseListsType } from '../../Courses/Hook/useGetCourse'
+import axios from 'axios';
 
 //! & เพิ่ม id form input
 
@@ -19,18 +20,15 @@ export const useGetApproval = () => {
     const getApprovalLists = async () => {
         dispatch(isShowLoading());
         try {
-          
-            const result = await getDocs(
-                query(
-                    CourseCollection,
-                    where("approval", "==", false),
-                )
-            )
+            const url = `${import.meta.env.VITE_REACT_APP_API}course/getapprovalfalse`
+            axios.defaults.withCredentials = true
+            const getapproval_false = await axios.get(url)
+            const result = getapproval_false.data
+            console.log("🚀 ~ file: useGetApproval.ts:28 ~ getApprovalLists ~ result", result)
             setApprovalLists(
-                result.docs.map((e) => {
+                result.map((e:any) => {
                     return {
-                        ...e.data(),
-                        id: e.id,
+                        ...e,
                     }
                 }) as CourseListsType[]
             )

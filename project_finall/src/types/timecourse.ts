@@ -1,4 +1,4 @@
-import { useGetCourseDetail } from "../Hook/course/useGetCourseDtail"
+import { useGetCourseDetail } from "../pages/Admin/Courses/Hook/useGetCourseDtail"
 
 
 export const timecourse = () => {
@@ -14,8 +14,8 @@ export const timecourse = () => {
     });
 
     //*end register course
-    const End_Register_Date = new Date(state.start_registerEnd?.seconds * 1000).toLocaleDateString();
-    const End_Register_Time = new Date(state.start_registerEnd?.seconds * 1000).toLocaleTimeString('en-Us', {
+    const End_Register_Date = new Date(state.End_register?.seconds * 1000).toLocaleDateString();
+    const End_Register_Time = new Date(state.End_register?.seconds * 1000).toLocaleTimeString('en-Us', {
         hour: 'numeric',
         minute: 'numeric',
         hour12: false,
@@ -23,8 +23,8 @@ export const timecourse = () => {
     });
 
     //*start course and End course
-    const Start_Course_Time = new Date(state.start_register_time?.seconds * 1000).toLocaleDateString()
-    const End_Course_Time = new Date(state.start_register_end?.seconds * 1000).toLocaleDateString()
+    const Start_Course_Time = new Date(state.start_learn?.seconds * 1000).toLocaleDateString()
+    const End_Course_Time = new Date(state.end_learn?.seconds * 1000).toLocaleDateString()
 
     //*Course Date
     const Course_Date = Array.from(state.course_date!).map((params: any, index: number) => {
@@ -32,13 +32,13 @@ export const timecourse = () => {
     })
 
     //*Course Time Start and End
-    const start_course_learn = new Date(state.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+    const start_course_learn = new Date(state.start_time?.seconds * 1000).toLocaleTimeString('en-Us', {
         hour: 'numeric',
         minute: 'numeric',
         hour12: false,
         timeZone: 'Asia/Bangkok'
     })
-    const start_course_end = new Date(state.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+    const start_course_end = new Date(state.end_time?.seconds * 1000).toLocaleTimeString('en-Us', {
         hour: 'numeric',
         minute: 'numeric',
         hour12: false,

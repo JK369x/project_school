@@ -5,7 +5,7 @@ import { useGetCategoryLists } from './Admin/Categorys/Hook/useGetCategory'
 import { Box, Card, CardActions, Grid, Typography, CardMedia, CardContent } from '@mui/material'
 import Image from '../components/Image/Image'
 import teacher from '../assets/photo-1573166364524-d9dbfd8bbf83.avif'
-import { CourseListsType, useGetCourseLists } from '../Hook/course/useGetCourse'
+import { CourseListsType, useGetCourseLists } from './Admin/Courses/Hook/useGetCourse'
 import { Avatar, IconButton, Rating } from '@mui/material';
 import react from 'react'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -139,15 +139,14 @@ const CategoryCourse = () => {
 
                 {newdata.map((item, index) => {
                   if (item.approval === true ) {
-                    const startCourse = new Date(item.start_course?.seconds * 1000)
 
-                    const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                    const start_course_learn = new Date(item.start_register?.seconds * 1000).toLocaleTimeString('en-Us', {
                       hour: 'numeric',
                       minute: 'numeric',
                       hour12: false,
                       timeZone: 'Asia/Bangkok'
                     })
-                    const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                    const start_course_end = new Date(item.End_register?.seconds * 1000).toLocaleTimeString('en-Us', {
                       hour: 'numeric',
                       minute: 'numeric',
                       hour12: false,

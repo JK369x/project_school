@@ -28,7 +28,6 @@ const User: FC = () => {
 
   const delItem = (data: UserListsType) => {
     openConfirmDialog({
-      
       textContent: 'deleteUser',
       onConfirm: async () => {
         await deleteUser(data.id_document)
@@ -39,7 +38,6 @@ const User: FC = () => {
 
   const viewDetailUser = (data: UserListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
-    // setDetailUser(data)
     navigate(`/detailuser/${data.id_document}`)
 
   }
@@ -48,7 +46,7 @@ const User: FC = () => {
   const columnOptions: TableColumnOptions[] = [
 
     {
-      width:'100',
+      width: '100',
       alignHeader: 'left',
       alignValue: 'left',
       label: 'ID',
@@ -70,7 +68,7 @@ const User: FC = () => {
       value: 'status.label',
     },
     {
-      width:'200',
+      width: '200',
       alignHeader: 'left',
       alignValue: 'center',
       label: 'Action',

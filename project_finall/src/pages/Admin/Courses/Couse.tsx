@@ -9,20 +9,20 @@ import { FC, useEffect, useState } from 'react'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteCourse } from '../Users/Hook/useDeleteUser'
+import { useDeleteCourse } from './Hook/useDeleteCourse'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import '../Dashboard/Dashboard.scss'
-import { CourseListsType, useGetCourseLists } from '../../../Hook/course/useGetCourse'
+import { CourseListsType, useGetCourseLists } from './Hook/useGetCourse'
 import Testgrid from '../../test/Testgrid'
 import Image from '../../../components/Image/Image'
 import { Box } from '@mui/system'
 
 const Course: FC = () => {
 
-  const { CourseLists  } = useGetCourseLists()
+  const { CourseLists ,getCourseLists } = useGetCourseLists()
   const data = CourseLists
   const { openConfirmDialog } = useDialog()
   const { deleteCourse } = useDeleteCourse()
@@ -35,17 +35,15 @@ const Course: FC = () => {
     openConfirmDialog({
       textContent: 'deleteCourse',
       onConfirm: async () => {
-        await deleteCourse(data.id)
-       
+        await deleteCourse(data.id_document)
+        getCourseLists()
       },
     })
   }
 
   const viewDetailCourse = (data: CourseListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
-    // setDetailUser(data)
-    navigate(`/detailcourse/${data.id}`)
-
+    navigate(`/detailcourse/${data.id_document}`)
   }
 
   const onClickAddCourse = () => {

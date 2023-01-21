@@ -42,10 +42,10 @@ const EditCategory: FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const { state } = useGetDetailCategory()
-    const { updateCategory} = useUpdateCategory()
+    const { updateCategory } = useUpdateCategory()
 
     //? waiting set Default value form
-    const myForm = useForm< {data:CategoryInput}>({
+    const myForm = useForm<{ data: CategoryInput }>({
         //! can useDefault onChange
 
     })
@@ -58,11 +58,11 @@ const EditCategory: FC = () => {
 
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
-        
+
         if (getValues()) {
             const id = myForm.getValues().data.id
             try {
-                updateCategory(getValues().data,id)
+                updateCategory(getValues().data, id)
             } catch (err) {
                 console.log("🚀 ~ file: addCategory.tsx:65 ~ onSubmit ~ err", err)
             }

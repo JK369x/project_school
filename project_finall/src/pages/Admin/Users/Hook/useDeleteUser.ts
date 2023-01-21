@@ -52,20 +52,3 @@ export const useDeleteCourse = () => {
 };
 
 
-// export const useDeleteCateGory = () => {
-//     const dispatch = useAppDispatch();
-//     const deleteCategory = async (id: string) => {
-//         try {
-//             dispatch(isShowLoading());
-//             await deleteDoc(doc(CategoryCollection, id));
-//             return true;
-//         } catch (error) {
-//             console.log(error);
-//             return false;
-//         } finally {
-//             dispatch(isCloseLoading());
-//         }
-//     };
-
-//     return { deleteCategory };
-// };

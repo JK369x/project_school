@@ -6,7 +6,7 @@ import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
 import { FC, useEffect, useState } from 'react'
 import Chip from '@mui/material/Chip';
-import { useUpdateApproval } from '../../../Hook/approval/useGetupdateApproval'
+import { useUpdateApproval } from './Hook/useGetupdateApproval'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
@@ -16,8 +16,8 @@ import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import '../Dashboard/Dashboard.scss'
-import { CourseListsType, useGetCourseLists } from '../../../Hook/course/useGetCourse'
-import { useGetApproval } from '../../../Hook/approval/useGetApproval'
+import { CourseListsType, useGetCourseLists } from '../Courses/Hook/useGetCourse'
+import { useGetApproval } from './Hook/useGetApproval'
 import Image from '../../../components/Image/Image'
 
 const Approval: FC = () => {
@@ -27,12 +27,11 @@ const Approval: FC = () => {
     const { openConfirmDialog } = useDialog()
     const { deleteCourse } = useDeleteCourse()
     const navigate = useNavigate()
-    //  const [detailUser, setDetailUser] = useState<UserListsType>()
     console.log("🚀 ~ file: User.tsx:20 ~ data", data)
 
 
-    const approval = async ( data: CourseListsType) =>{
-        await useUpdateApproval(data.id)
+    const approval = async (data: CourseListsType) => {
+        await useUpdateApproval(data.id_document)
         getApprovalLists()
     }
 
@@ -40,7 +39,7 @@ const Approval: FC = () => {
         openConfirmDialog({
             textContent: 'deleteUser',
             onConfirm: async () => {
-                await deleteCourse(data.id)
+                await deleteCourse(data.id_document)
                 getApprovalLists()
             },
         })
@@ -48,8 +47,7 @@ const Approval: FC = () => {
 
     const viewApprovalCourse = (data: CourseListsType) => {
         console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
-        // setDetailUser(data)
-        navigate(`/detailuser/${data.id}`)
+        navigate(`/detailcourse/${data.id_document}`)
 
     }
 
@@ -134,7 +132,7 @@ const Approval: FC = () => {
                                 countID: index + 1,
                                 delitem:
                                     <>
-                                       <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                             approval(e)
                                         }}>Approval</Button>
                                         <Button sx={{ mr: 1 }} color='info' onClick={() => {

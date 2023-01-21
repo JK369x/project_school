@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { db } from '../../firebase/config_firebase'
-import { CourseCollection } from '../../firebase/createCollection'
-import { useAppDispatch, useAppSelector } from "../../store/useHooksStore";
-import { isCloseLoading, isShowLoading } from "../../store/slices/loadingSlice";
+import { db } from '../../../../firebase/config_firebase'
+import { CourseCollection } from '../../../../firebase/createCollection'
+import { useAppDispatch, useAppSelector } from "../../../../store/useHooksStore";
+import { isCloseLoading, isShowLoading } from "../../../../store/slices/loadingSlice";
 import { TypeCourses } from "./useCreateCourse";
 import { CourseListsType } from "./useGetCourse";
+import axios from "axios";
 
 export const useGetCourseDetail = () => {
     const dispatch = useAppDispatch()
@@ -18,26 +19,16 @@ export const useGetCourseDetail = () => {
         description: "",
         category: null,
         start_register: null,
-        start_registerEnd: "",
-        start_register_time: null,
-        start_register_end: null,
-        start_course: null,
+        End_register: "",
+        start_learn: null,
+        end_learn: null,
+        start_time: null,
         course_status: undefined,
-        end_course: null,
+        end_time: null,
         course_date: "",
         course_date_time: "",
-        what_will_student_learn_in_your_course: {
-            input_0: "",
-            input_1: "",
-            input_2: "",
-            input_3: "",
-        },
-        the_course_consists: {
-            input_0: "",
-            input_1: "",
-            input_2: "",
-            input_3: "",
-        },
+        what_will_student_learn_in_your_course:[],
+        the_course_consists:[],
         who_is_this_course: "",
         linkteammeeting: "",
         whataretherequirement: "",
@@ -50,7 +41,8 @@ export const useGetCourseDetail = () => {
         min_people: "",
         id:"",
         image_create:"",
-
+        max_people:"",
+        id_document:"",
     })
 
     useEffect(() => {
@@ -63,15 +55,13 @@ export const useGetCourseDetail = () => {
     const getCourse = async () => {
         try {
             dispatch(isShowLoading())
-            const result = await getDoc(
-                doc(CourseCollection, id as string)
-            )
-            if (result.exists()) {
-                console.log("🚀 ~ file: useGetCourseDtail.ts:68 ~ getCourse ~ result", result.data())
-                
-                setState({ ...(result.data() as any), id: result.id });
-            } else {
-                //
+            const url = `${import.meta.env.VITE_REACT_APP_API}course/getdetailcourse/${id}`
+            axios.defaults.withCredentials = true
+            const getdetail = await axios.get(url)
+            const result = getdetail.data
+            console.log("🚀 ~ file: useGetCourseDtail.ts:62 ~ getCourse ~ result", result)
+            if (result) {
+                setState({ ...(result as any), id: result.id });
             }
         } catch (error) {
             console.log("🚀 ~ file: useGetDetailUser.ts:41 ~ getData ~ error", error)

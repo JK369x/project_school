@@ -3,24 +3,19 @@ import { Navbar } from '../components/Navbar'
 import { Box } from '@mui/system'
 import { Avatar, Card, CardActions, CardContent, CardMedia, Grid, IconButton, Rating, Typography } from '@mui/material'
 import { useGetFavorite } from '../Hook/favorite/useGetFavorite'
-import { useGetCourseLists } from '../Hook/course/useGetCourse'
+import { useGetCourseLists } from './Admin/Courses/Hook/useGetCourse'
 import { useAppSelector } from '../store/useHooksStore'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 const Favorite = () => {
     // const {FavoriteList} = useGetFavorite()
-    const { CourseLists, getCourseLists } = useGetCourseLists()
+    const { CourseLists  } = useGetCourseLists()
     const data = CourseLists
     const { uid, status, displayName, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     console.log("🚀 ~ file: Favorite.tsx:14 ~ Favorite ~ favorite", favorite)
 
-    // const getCourse = data.filter((item:any)=> item.id == favorite?.filter((params:any) => item.id == params))
-    // if(favorite!.length > 0) {
-    //     const getCourse = data.filter((item:any) => favorite?.includes(item.id));
-    //   } else {
-    //     console.log("The favorite array is empty, so no data is returned.");
-    //   }
+  
 
     const getCourse = data.filter((item: any) => favorite?.includes(item.id));
     console.log("🚀 ~ file: Favorite.tsx:24 ~ Favorite ~ getCourse", getCourse)

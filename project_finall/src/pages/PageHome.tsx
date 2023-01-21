@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CourseListsType, useGetCourseLists } from '../Hook/course/useGetCourse';
+import { CourseListsType, useGetCourseLists } from './Admin/Courses/Hook/useGetCourse';
 import { useNavigate } from 'react-router-dom';
 import react, { useEffect, useState, useRef } from 'react';
 import { Avatar, Box, Grid, IconButton, Rating } from '@mui/material';

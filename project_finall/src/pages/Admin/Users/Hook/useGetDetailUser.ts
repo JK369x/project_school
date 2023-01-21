@@ -34,7 +34,7 @@ export const useGetDetailUser = () => {
         id: "",
         about: "",
         image_rul: null,
-        id_document:"",
+        id_document: "",
     })
 
 
@@ -54,14 +54,10 @@ export const useGetDetailUser = () => {
             const getdetail = await axios.get(url)
             const result = getdetail.data
             console.log("🚀 ~ file: useGetDetailUser.ts:53 ~ getData ~ result", result)
-            // const result = await getDoc(
-            //     doc(AccountCollection, id as string)
-            // )
+
             if (result) {
                 setState({ ...(result as any), id: result.id });
-                // setState({ ...(result.data() as any), id: result.id });
-            } else {
-                //
+                return true
             }
         } catch (error) {
             console.log("🚀 ~ file: useGetDetailUser.ts:41 ~ getData ~ error", error)

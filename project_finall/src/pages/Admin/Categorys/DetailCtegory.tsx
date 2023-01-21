@@ -48,7 +48,7 @@ const DetailCategory: FC = () => {
         navigate(`/editcategory/${state.id}`)
     }
     //? waiting set Default value form
-    const myForm = useForm< {data:CategoryInput}>({
+    const myForm = useForm<{ data: CategoryInput }>({
         //! can useDefault onChange
 
     })
@@ -68,13 +68,13 @@ const DetailCategory: FC = () => {
                 <div className="listContainer">
                     <div className="listTitle">
                         <Grid >
-                                <Typography variant="h1" component="h1" ml={3}>
-                                    Add Category
-                                </Typography>
-                                <Typography variant="body2" mb={2}  >
-                                            {state.Category_Title}
-                                        </Typography>
-                                <Button label='Edit' onClick={() => onClickEdit()}  />
+                            <Typography variant="h1" component="h1" ml={3}>
+                                Add Category
+                            </Typography>
+                            <Typography variant="body2" mb={2}  >
+                                {state.Category_Title}
+                            </Typography>
+                            <Button label='Edit' onClick={() => onClickEdit()} />
                         </Grid>
                     </div>
                 </div>

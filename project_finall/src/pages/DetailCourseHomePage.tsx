@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navbar } from '../components/Navbar'
-import { useGetCourseDetail } from '../Hook/course/useGetCourseDtail'
+import { useGetCourseDetail } from './Admin/Courses/Hook/useGetCourseDtail'
 import { timecourse } from '../types/timecourse'
 import { useNavigate } from 'react-router-dom'
 import { Box, Typography, Avatar, IconButton, Button } from '@mui/material'
@@ -222,25 +222,16 @@ const DetailCourseHomePage = () => {
               คุณจะได้อะไรจากการเรียนรู้หลักสูตรนี้?
             </Typography>
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
-              {state.what_will_student_learn_in_your_course?.input_0}<br />
-              {state.what_will_student_learn_in_your_course?.input_1}
-              <br />
-              {state.what_will_student_learn_in_your_course?.input_2}
-              <br />
-              {state.what_will_student_learn_in_your_course?.input_3}
+              {state.what_will_student_learn_in_your_course}<br />
+          
             </Typography>
             <Typography variant="h6" mb={1} color={'#FFFFFF'} >
               หลักสูตรประกอบไปด้วย?
             </Typography>
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
-              {state.the_course_consists?.input_0}
+              {state.the_course_consists}
               <br />
-              {state.the_course_consists?.input_1}
-              <br />
-              {state.the_course_consists?.input_2}
-              <br />
-              {state.the_course_consists?.input_3}
-              <br />
+           
             </Typography>
           </Grid>
 

@@ -14,8 +14,7 @@ import {
     from '../../../framework/control';
 import { useForm } from "react-hook-form";
 
-import { useUpdateCourse } from '../Users/Hook/useUpdateUser'
-import { doc, updateDoc } from "firebase/firestore";
+import { useUpdateCourse } from './Hook/useUpdateCourse'
 import ImageInput from '../../../framework/control/InputImage/ImageInput'
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -23,16 +22,10 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Lookup, roleWeek, typeCourseOnline_Onside } from '../../../types/type'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import { useGetCategoryLists } from '../Categorys/Hook/useGetCategory'
-import { CourseListsType } from '../../../Hook/course/useGetCourse'
-import { useGetCourseDetail } from '../../../Hook/course/useGetCourseDtail'
+import { CourseListsType } from './Hook/useGetCourse'
+import { useGetCourseDetail } from './Hook/useGetCourseDtail'
 
 const EditCourse: FC = () => {
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-    const [value, setValues] = useState<Date>(new Date());
-    const [valueDate, setValuesDate] = useState<Date>(new Date());
-    const [valueTime_start, setValueTime_start] = useState<Date>(new Date());
-    const [valueTime_end, setValueTime_end] = useState<Date>(new Date());
-    const [valueEnd, setValuesEnd] = useState<Date>(new Date());
     const [image, setImage] = useState<any>(null);
     const { CategoryLists } = useGetCategoryLists()
     const getCategoryLists = CategoryLists
@@ -57,37 +50,45 @@ const EditCourse: FC = () => {
         if (e.target.files[0])
             setImage(e.target.files[0]);
     }
-    //*start register course
-    const Start_Register_Date = new Date(state.start_register?.seconds * 1000)
+    const Start_Register_Date = new Date(state.start_register)
+    const [start_register, setStart_register] = useState<Date>(Start_Register_Date); 
 
-    //*end register course
-    const End_Register_Date = new Date(state.start_registerEnd?.seconds * 1000)
+    const End_Register_Date = new Date(state.End_register)
+    const [end_register, setEnd_register] = useState<Date>(End_Register_Date); 
 
-    //*start course and End course
-    const Start_Course_Time = new Date(state.start_register_time?.seconds * 1000)
-    const End_Course_Time = new Date(state.start_register_end?.seconds * 1000)
+ 
+    const Start_Course_Time = new Date(state.start_learn)
+    const [start_learn, setStart_learn] = useState<Date>(Start_Course_Time);
 
-    //*Course Date
+    const End_Course_Time = new Date(state.end_learn)
+    const [end_learn, setEnd_learn] = useState<Date>(End_Course_Time);
+
+    const start_course_learn = new Date(state.start_time)
+    const [start_time, setStart_time] = useState<Date>(start_course_learn);
+
+    const start_course_end = new Date(state.end_time)
+    const [end_time, setEnd_time] = useState<Date>(start_course_end);
+
     const Course_Date = Array.from(state.course_date!).map((params: any, index: number) => {
         return (index !== 0 ? ' - ' + params.label : params.label)
     })
 
     const { watch, handleSubmit, getValues, setValue } = myForm
-    console.log("🚀 ~ file: EditCourse.tsx:73 ~ getValues", getValues())
+   
 
-    //*Course Time Start and End
-    const start_course_learn = new Date(state.start_register_time?.seconds * 1000)
-    const start_course_end = new Date(state.start_register_end?.seconds * 1000)
+   
 
 
 
     const onSubmit = async () => {
-        setValue('data.start_register', new Date(value))
-        setValue('data.start_register_time', new Date(valueTime_start))
-        setValue('data.start_register_end', new Date(valueTime_end))
-        setValue('data.start_course', new Date(valueDate))
-        setValue('data.end_course', new Date(selectedDate))
-        setValue('data.start_registerEnd', new Date(selectedDate))
+        setValue('data.start_register', new Date(start_register))
+        setValue('data.End_register', new Date(end_register))
+
+        setValue('data.start_learn', new Date(start_learn))
+        setValue('data.end_learn', new Date(end_learn))
+
+        setValue('data.start_time', new Date(start_time))
+        setValue('data.end_time', new Date(end_time))
         if (getValues()) {
             try {
                 const id = myForm.getValues().data.id
@@ -161,25 +162,14 @@ const EditCourse: FC = () => {
 
                                 <Grid container alignItems={'center'} alignContent={'center'} spacing={1} sx={{ mb: 2, mt: 2 }}>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course.input_0"} label={'What will student learn in your course'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course"} label={'What will student learn in your course'} />
 
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course.input_1"} label={''} />
-
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course.input_2"} label={''} />
-
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course.input_3"} label={''} />
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists.input_0"} label={'The Course consists'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists"} label={'The Course consists'} />
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists.input_1"} label={''} />
-
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists.input_2"} label={''} />
-
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists.input_3"} label={''} />
-                                    </Grid>
-
+                                </Grid>
                                 </Grid>
 
                                 <Grid container spacing={1} sx={{ mb: 2 }} >
@@ -210,7 +200,7 @@ const EditCourse: FC = () => {
                                         label="Start Registration"
                                         value={Start_Register_Date}
                                         onChange={(newValue: any) => {
-                                            setValues(newValue);
+                                            setStart_register(newValue);
                                         }}
                                     />
                                     <Typography variant="body2" m={2}>
@@ -221,7 +211,7 @@ const EditCourse: FC = () => {
                                         label="End Registration"
                                         value={End_Register_Date}
                                         onChange={(newValue: any) => {
-                                            setValuesEnd(newValue);
+                                            setEnd_register(newValue);
                                         }}
                                     />
                                 </Grid>
@@ -235,7 +225,7 @@ const EditCourse: FC = () => {
                                         label="start-course"
                                         value={Start_Course_Time}
                                         onChange={(newValue: any) => {
-                                            setValuesDate(newValue);
+                                            setStart_learn(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -246,7 +236,7 @@ const EditCourse: FC = () => {
                                         label="end-course"
                                         value={End_Course_Time}
                                         onChange={(newValue: any) => {
-                                            setSelectedDate(newValue);
+                                            setEnd_learn(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -261,7 +251,7 @@ const EditCourse: FC = () => {
                                         label="start-time"
                                         value={start_course_learn}
                                         onChange={(newValue: any) => {
-                                            setValueTime_start(newValue);
+                                            setStart_time(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -272,7 +262,7 @@ const EditCourse: FC = () => {
                                         label="end-start"
                                         value={start_course_end}
                                         onChange={(newValue: any) => {
-                                            setValueTime_end(newValue);
+                                            setEnd_time(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -281,6 +271,9 @@ const EditCourse: FC = () => {
                                 <Grid container spacing={1} sx={{ mb: 2 }} alignContent={'center'} alignItems={'center'} >
                                     <Grid item xs={3}>
                                         <ControllerTextField fullWidth formprop={myForm} name={"data.min_people"} label={'Min people'} />
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.max_people"} label={'Max people'} />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <ControllerTextField fullWidth formprop={myForm} name={"data.pricing"} label={'Pricing'} />

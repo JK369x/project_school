@@ -14,7 +14,7 @@ import { useDeleteUser } from '../Users/Hook/useDeleteUser'
 import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import '../Dashboard/Dashboard.scss'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 //date MUI
 
 
@@ -27,19 +27,17 @@ import { DateTimePicker } from '@mui/x-date-pickers'
 import ImageInput from '../../../framework/control/InputImage/ImageInput'
 //firebase image 
 import {
-    
     getDownloadURL,
-    
-    ref, uploadBytesResumable,  UploadTaskSnapshot, 
+    ref, uploadBytesResumable, UploadTaskSnapshot,
 } from "firebase/storage"
 import { storage } from '../../../firebase/config_firebase'
 import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
-import { TypeCourses } from '../../../Hook/course/useCreateCourse'
-import { UseCreateCourse } from '../../../Hook/course/useCreateCourse'
+import { TypeCourses } from './Hook/useCreateCourse'
+import { UseCreateCourse } from './Hook/useCreateCourse'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
 
-import { useGetCategoryLists  } from '../Categorys/Hook/useGetCategory'
+import { useGetCategoryLists } from '../Categorys/Hook/useGetCategory'
 
 
 
@@ -47,18 +45,21 @@ import { useGetCategoryLists  } from '../Categorys/Hook/useGetCategory'
 
 
 const AddCourse = () => {
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-    const [value, setValues] = useState<Date>(new Date());
-    const [valueDate, setValuesDate] = useState<Date>(new Date());
-    const [valueTime_start, setValueTime_start] = useState<Date>(new Date());
-    const [valueTime_end, setValueTime_end] = useState<Date>(new Date());
-    const [valueEnd, setValuesEnd] = useState<Date>(new Date());
+    const [start_register, setStart_register] = useState<Date>(new Date());
+    const [End_register, setEnd_register] = useState<Date>(new Date());
+
+    const [start_learn, setStart_learn] = useState<Date>(new Date());
+    const [end_learn, setEnd_learn] = useState<Date>(new Date());
+
+    const [start_time, setStart_time] = useState<Date>(new Date());
+    const [end_time, setEnd_time] = useState<Date>(new Date());
+
     const [image, setImage] = useState<any>(null);
     const { CategoryLists } = useGetCategoryLists()
     const getCategoryLists = CategoryLists
 
     const dataCategory: Lookup[] = getCategoryLists.map((item, index) => {
-        return {id: item.id, label: item.label}
+        return { id: item.id, label: item.Category_Title }
     })
 
     //*Hook
@@ -75,7 +76,16 @@ const AddCourse = () => {
         //! can useDefault onChange
 
     })
+    const [choices, setChoices] = useState<string[]>([]);
+    const [numOfChoices, setNumOfChoices] = useState(1);
+    const [numOfChoices1, setNumOfChoices1] = useState(1);
+    const handleAddChoice = (e: any) => {
+        setNumOfChoices(numOfChoices + 1);
+    }
 
+    const handleAddChoice1 = (e: any) => {
+        setNumOfChoices1(numOfChoices1 + 1);
+    }
 
     const handleChange = (e: any) => {
         if (e.target.files[0])
@@ -87,16 +97,12 @@ const AddCourse = () => {
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
         getValues()
-        
-        console.log('testget',getValues())
-        
         if (image) {
             const imageRef = ref(storage, `img/${image.name}`);
             const uploadTask = uploadBytesResumable(imageRef, image)
             uploadTask.on('state_changed',
                 (snapshot: UploadTaskSnapshot) => {
-                    // Observe state change events such as progress, pause, and resume
-                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
                     switch (snapshot.state) {
@@ -108,7 +114,6 @@ const AddCourse = () => {
                             break;
                     }
                 },
-
                 (error) => {
                     // Handle unsuccessful uploads
                     console.log("🚀 ~ file: AddCourse.tsx:157 ~ onSubmit ~ error", error)
@@ -119,12 +124,16 @@ const AddCourse = () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                         //! can use url don't have useSate 
                         console.log('File available at', url);
-                        setValue('start_register', new Date(value))
-                        setValue('start_register_time', new Date(valueTime_start))
-                        setValue('start_register_end', new Date(valueTime_end))
-                        setValue('start_course', new Date(valueDate))
-                        setValue('end_course', new Date(selectedDate))
-                        setValue('start_registerEnd', new Date(selectedDate))
+
+                        setValue('start_register', new Date(start_register))
+                        setValue('End_register', new Date(End_register))
+
+                        setValue('start_learn', new Date(start_learn))
+                        setValue('end_learn', new Date(end_learn))
+
+                        setValue('start_time', new Date(start_time))
+                        setValue('end_time', new Date(end_time))
+
                         setValue('image', url)
                         if (getValues()) {
                             try {
@@ -140,9 +149,7 @@ const AddCourse = () => {
             console.log('File not found')
         }
     }
-        console.log("🚀 ~ file: AddCourse.tsx:141 ~ onSubmit ~ getValues", getValues)
-        console.log("🚀 ~ file: AddCourse.tsx:141 ~ onSubmit ~ getValues", getValues)
-        console.log("🚀 ~ file: AddCourse.tsx:141 ~ onSubmit ~ getValues()", getValues())
+
 
 
 
@@ -169,7 +176,7 @@ const AddCourse = () => {
                                 <ControllerTextField fullWidth multiline maxRows={4} minRows={2} formprop={myForm} name={"description"} label={'description'} />
 
 
-                        
+
 
                                 <Grid container spacing={1}>
                                     <Grid item xs={3}>
@@ -203,24 +210,48 @@ const AddCourse = () => {
                                     </Grid>
                                 </Grid>
 
-                                <Grid container alignItems={'center'} alignContent={'center'} spacing={1} sx={{ mb: 2, mt: 2 }}>
+                                <Grid container spacing={1} sx={{ mb: 2, mt: 2 }}>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course.input_0"} label={'What will student learn in your course'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course"} label={'What will student learn in your course'} />
+                                        {Array.from({ length: numOfChoices }, (_, i) => (
+                                            <ControllerTextField
+                                                key={i}
+                                                fullWidth
+                                                formprop={myForm}
+                                                name={`what_will_student_learn_in_your_course${i}`}
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course.input_1"} label={''} />
+                                            />
+                                        ))}
+                                        <Typography variant="h6" color={'primary'} onClick={handleAddChoice}
+                                            ml={3} sx={{
+                                                '&:hover': {
+                                                    color: '#0572c5',
+                                                    cursor: "pointer",
+                                                }
+                                            }}>
+                                            Add Choice +
+                                        </Typography>
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course.input_2"} label={''} />
-
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course.input_3"} label={''} />
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists.input_0"} label={'The Course consists'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists"} label={'The Course consists'} />
+                                        {Array.from({ length: numOfChoices1 }, (_, i) => (
+                                            <ControllerTextField
+                                                key={i}
+                                                fullWidth
+                                                formprop={myForm}
+                                                name={`the_course_consists${i}`}
 
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists.input_1"} label={''} />
-
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists.input_2"} label={''} />
-
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists.input_3"} label={''} />
+                                            />
+                                        ))}
+                                        <Typography variant="h6" color={'primary'} onClick={handleAddChoice1} ml={3} sx={{
+                                            '&:hover': {
+                                                color: '#0572c5',
+                                                cursor: "pointer",
+                                            }
+                                        }}>
+                                            Add Choice +
+                                        </Typography>
                                     </Grid>
 
                                 </Grid>
@@ -251,9 +282,9 @@ const AddCourse = () => {
                                     <DateTimePicker
                                         renderInput={(props) => <TextField {...props} />}
                                         label="Start Registration"
-                                        value={value}
+                                        value={start_register}
                                         onChange={(newValue: any) => {
-                                            setValues(newValue);
+                                            setStart_register(newValue);
                                         }}
                                     />
                                     <Typography variant="body2" m={2}>
@@ -262,9 +293,9 @@ const AddCourse = () => {
                                     <DateTimePicker
                                         renderInput={(props) => <TextField {...props} />}
                                         label="End Registration"
-                                        value={valueEnd}
+                                        value={End_register}
                                         onChange={(newValue: any) => {
-                                            setValuesEnd(newValue);
+                                            setEnd_register(newValue);
                                         }}
                                     />
                                 </Grid>
@@ -276,9 +307,9 @@ const AddCourse = () => {
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <DatePicker
                                         label="start-course"
-                                        value={valueDate}
+                                        value={start_learn}
                                         onChange={(newValue: any) => {
-                                            setValuesDate(newValue);
+                                            setStart_learn(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -287,9 +318,9 @@ const AddCourse = () => {
                                     </Typography>
                                     <DatePicker
                                         label="end-course"
-                                        value={selectedDate}
+                                        value={end_learn}
                                         onChange={(newValue: any) => {
-                                            setSelectedDate(newValue);
+                                            setEnd_learn(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -302,9 +333,9 @@ const AddCourse = () => {
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <TimePicker
                                         label="start-time"
-                                        value={valueTime_start}
+                                        value={start_time}
                                         onChange={(newValue: any) => {
-                                            setValueTime_start(newValue);
+                                            setStart_time(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -313,9 +344,9 @@ const AddCourse = () => {
                                     </Typography>
                                     <TimePicker
                                         label="end-start"
-                                        value={valueTime_end}
+                                        value={end_time}
                                         onChange={(newValue: any) => {
-                                            setValueTime_end(newValue);
+                                            setEnd_time(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
@@ -326,9 +357,12 @@ const AddCourse = () => {
                                         <ControllerTextField fullWidth formprop={myForm} name={"min_people"} label={'Min people'} />
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"Pricing"} label={'Pricing'} />
+                                        <ControllerTextField fullWidth formprop={myForm} name={"max_people"} label={'Max people'} />
                                     </Grid>
-                                    <Grid item xs={3} sx={{mt:2.3}}>
+                                    <Grid item xs={3}>
+                                        <ControllerTextField fullWidth formprop={myForm} name={"pricing"} label={'pricing'} />
+                                    </Grid>
+                                    <Grid item xs={3} sx={{ mt: 2.3 }}>
                                         <Button type='submit' label='Submit' />
                                     </Grid>
                                 </Grid>

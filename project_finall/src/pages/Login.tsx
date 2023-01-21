@@ -59,30 +59,13 @@ const Login = (props: Props) => {
         uid: data.id_document,
         email: data.email,
         displayName,
-        status:data.status.label,
-        favorite:[]
+        status: data.status.label,
+        favorite: []
       }))
-
-      // const {
-      //   user: { uid },
-      // } = await signInWithEmailAndPassword(auth, email, password)
-
-      // const docSnap = await getDoc(doc(AccountCollection, uid))
-      // if (docSnap.exists()) {
-      // const { firstName,lastName,  status,favorite } = docSnap.data() as any
-      // const displayName = `${firstName} ${lastName}`
-      // console.log(docSnap.data())
-      //! status = role user 
-      //!dispatch duplicate
-      // dispatch(setAuthStore({ uid, displayName,  status,favorite }))
       dispatch(openAlertSuccess('LoginSuccess'))
       navigate('/page')
-      // } else {
-      // console.log('error data')
-      // handle error
-      // }
     } catch (error) {
-      // dispatch(openAlertError('Login fail'))
+      dispatch(openAlertError('Login fail'))
       console.log(error)
     } finally {
       dispatch(isCloseLoading())

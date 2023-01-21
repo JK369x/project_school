@@ -33,7 +33,6 @@ import Favorite from "../pages/Favorite";
 import DetailCourseHomePage from "../pages/DetailCourseHomePage";
 import { middleware } from "../middleware/middleware";
 import axios from "axios";
-import { middleware as autoSignIn } from '../middleware/middleware'
 import EditCategory from "../pages/Admin/Categorys/EditCategory";
 import DetailCategory from "../pages/Admin/Categorys/DetailCtegory";
 
@@ -42,9 +41,7 @@ import DetailCategory from "../pages/Admin/Categorys/DetailCtegory";
 
 const RouteAllPage: FC = () => {
 
-    // const { uid, status, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     const { email, status, photoURL, favorite } = useAppSelector(({ auth }) => auth)
-    // const auth_uid = uid !== undefined && uid !== null
     const auth_uid = email !== undefined && email !== null
 
 
@@ -77,40 +74,6 @@ const RouteAllPage: FC = () => {
     }
 
 
-
-
-    // useEffect(() => {
-    //     onAuthStateChanged(auth, async (user) => {
-    //         if (user) {
-    //             const docSnap = await getDoc(doc(AccountCollection, user.uid))
-    //             console.log("🚀 ~ file: routes.tsx:51 ~ onAuthStateChanged ~ docSnap", docSnap.data())
-    //             if (docSnap && docSnap.exists()) {
-    //                 const { firstName, lastName, status, favorite, image_rul } = docSnap.data() as any
-    //                 const displayName = `${firstName} ${lastName}`
-    //                 dispatch(
-    //                     setAuthStore({
-    //                         uid: user.uid,
-    //                         displayName: displayName,
-    //                         status: status,
-    //                         favorite: favorite,
-    //                         photoURL: image_rul,
-    //                     }),
-    //                 )
-    //             }
-    //         } else {
-    //             dispatch(
-    //                 setAuthStore({
-    //                     uid: null,
-    //                     displayName: null,
-    //                     status: null,
-    //                     favorite: favorite,
-    //                     photoURL: null,
-    //                 }),
-    //             )
-    //         }
-
-    //     })
-    // }, [])
 
     return (
         <Routes>

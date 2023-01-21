@@ -1,7 +1,4 @@
-import { db } from '../../../../firebase/config_firebase';
-import { addDoc, setDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { AccountCollection, CourseCollection } from '../../../../firebase/createCollection'
-import { CourseListsType } from '../../../../Hook/course/useGetCourse';
+
 import axios from 'axios';
 import { CategoryInput } from './useCreateCategory';
 
