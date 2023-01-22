@@ -4,6 +4,7 @@ import authSlice from './slices/authSlice'
 import loadingSlice from './slices/loadingSlice'
 import dialogSlice from './slices/dialogSlice'
 import alertSlice from './slices/alertSlice'
+import courseSlice from './slices/courseSlice'
 // import themeSlice from './themeSlice'
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
 		loading: loadingSlice,
 		dialog: dialogSlice,
 		alert: alertSlice,
+		course: courseSlice,
 		// theme: themeSlice,
 	},
 })

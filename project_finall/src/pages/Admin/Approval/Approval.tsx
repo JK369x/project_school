@@ -27,7 +27,6 @@ const Approval: FC = () => {
     const { openConfirmDialog } = useDialog()
     const { deleteCourse } = useDeleteCourse()
     const navigate = useNavigate()
-    console.log("🚀 ~ file: User.tsx:20 ~ data", data)
 
 
     const approval = async (data: CourseListsType) => {
@@ -46,7 +45,6 @@ const Approval: FC = () => {
     }
 
     const viewApprovalCourse = (data: CourseListsType) => {
-        console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
         navigate(`/detailcourse/${data.id_document}`)
 
     }
@@ -125,7 +123,7 @@ const Approval: FC = () => {
 
                         </Grid>
                         <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
-                            console.log("🚀 ~ file: Approval.tsx:138 ~ <TableisSelectTablecolumnOptions={columnOptions}dataSource={data.map ~ e", e)
+
                             return {
                                 ...e,
                                 approval: <Chip label={e.approval == false ? 'รอการอนุมัติ' : true} color="warning" />,

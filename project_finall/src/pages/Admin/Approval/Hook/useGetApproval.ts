@@ -24,9 +24,8 @@ export const useGetApproval = () => {
             axios.defaults.withCredentials = true
             const getapproval_false = await axios.get(url)
             const result = getapproval_false.data
-            console.log("🚀 ~ file: useGetApproval.ts:28 ~ getApprovalLists ~ result", result)
             setApprovalLists(
-                result.map((e:any) => {
+                result.map((e: any) => {
                     return {
                         ...e,
                     }

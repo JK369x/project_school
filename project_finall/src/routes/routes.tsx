@@ -56,15 +56,24 @@ const RouteAllPage: FC = () => {
         axios.defaults.withCredentials = true
         try {
             const autoSignIn = await axios.get(url)
-            const data = autoSignIn.data.payload
-            console.log("🚀 ~ file: routes.tsx:61 ~ autoSignIn ~ data", data)
-            console.log('================== email', data.email)
+            console.log("🚀 ~ file: routes.tsx:59 ~ autoSignIn ~ autoSignIn", autoSignIn)
+
+            const data = autoSignIn.data.user.payload
+            const user_data = autoSignIn.data.data_new
+            const new_favorite = user_data.favorite
+            const new_email = user_data.email
+            const new_status = user_data.status
+            const firstName = user_data.firstName
+            const lastName = user_data.lastName
+            const new_id_document = user_data.id_document
+
+            const displayName = `${firstName} ${lastName}`
             dispatch(setAuthStore({
-                uid: data.id_document,
-                email: data.email,
-                displayName: data.display_name,
-                status: data.status,
-                favorite: []
+                uid: new_id_document,
+                email: new_email,
+                displayName,
+                status: new_status,
+                favorite: new_favorite,
             }))
         } catch (err) {
             console.log("🚀 ~ filse: middleware.ts:18 ~ autoSignIn ~ err", err)
@@ -78,7 +87,8 @@ const RouteAllPage: FC = () => {
     return (
         <Routes>
             <Route path="/" element={<PageHome />} />
-            <Route path="/page" element={<PageHome />} />
+            {/* <Route path="/pagehome" element={<PageHome />} /> */}
+            <Route path="/favorite" element={<Favorite />} />
             <Route path="/adminlogin" element={<LoginAdmin />} />
             <Route path="/registerteacher" element={<RegisterTeacher />} />
             <Route path="/registor" element={<Registor />} />
@@ -101,7 +111,6 @@ const RouteAllPage: FC = () => {
             <Route path="/category" element={<Category />} />
             <Route path="/addcategory" element={<AddCategory />} />
             <Route path="/approval" element={<Approval />} />
-            <Route path="/favorite" element={<Favorite />} />
             <Route path="/category_course" element={<CategoryCourse />} />
 
 

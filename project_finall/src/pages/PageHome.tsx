@@ -23,7 +23,7 @@ import { useGetCategoryLists } from './Admin/Categorys/Hook/useGetCategory';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useCreateFavorite } from '../Hook/favorite/useCreateFavorite'
+import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { setAuthStore } from '../store/slices/authSlice';
 import Favorite from '@mui/icons-material/Favorite';
@@ -33,10 +33,10 @@ const PageHome = () => {
     const data = CourseLists
     const { addFavorite } = useCreateFavorite()
     const { CategoryLists, useGetCategory } = useGetCategoryLists()
-    const dataCategoryLists = CategoryLists.map((item, index) => {
-        return (item.Category_Title)
-    }
-    )
+    // const dataCategoryLists = CategoryLists.map((item, index) => {
+    //     return (item.Category_Title)
+    // }
+    // )
 
     const [Category, setCategory] = useState<any>('')
 
@@ -44,7 +44,7 @@ const PageHome = () => {
 
 
     const onClickCard = (data: CourseListsType) => {
-        navigate(`detailcoursehomepage/${data.id}`)
+        navigate(`detailcoursehomepage/${data.id_document}`)
     }
 
     const labels: { [index: string]: string } = {
@@ -113,13 +113,10 @@ const PageHome = () => {
         ],
     };
 
-    // const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
-    const { email, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
+    const { email, uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
     const dispatch = useAppDispatch()
-    // const uid_login = useAppSelector(({ auth: uid }) => uid)
-    const email_login = useAppSelector(({ auth: email }) => email)
+    const uid_login = useAppSelector(({ auth: uid }) => uid)
     const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
-    console.log("favorite in rsseadux", favorite_user)
     const Clickfavorite = (item: string) => {
         //! ?? ถ้าไม่ใช่่ undefine and false
         try {
@@ -138,7 +135,8 @@ const PageHome = () => {
             dispatch(setAuthStore({
                 //* ชื่อเหมือนกันไม่ต้อง :
                 uid: uid,
-                displayName: displayName,
+                email,
+                displayName,
                 status: status,
                 favorite,
                 photoURL
@@ -157,13 +155,13 @@ const PageHome = () => {
         setCategory('')
     }
 
-    let newdata = data
-    if (Category) {
-        newdata = data.filter((item: any) => item.category.label === Category)
+    // let newdata = data
+    // if (Category) {
+    //     newdata = data.filter((item: any) => item.category.label === Category)
 
-    } else {
-        newdata = data
-    }
+    // } else {
+    //     newdata = data
+    // }
     return (
         <>
             <Navbar />
@@ -223,7 +221,7 @@ const PageHome = () => {
                 </Grid>
 
                 <Grid container justifyContent={'center'} sx={{ mb: 2 }}>
-                    <Button color="secondary"
+                    {/* <Button color="secondary"
                         disabled={false}
                         size="medium"
                         variant="outlined"
@@ -231,8 +229,8 @@ const PageHome = () => {
                         onClick={() => { allcategoryClick() }}
                     >
                         All
-                    </Button>
-                    {dataCategoryLists.map((item, index) => {
+                    </Button> */}
+                    {/* {dataCategoryLists.map((item, index) => {
                         return (<react.Fragment key={index}>
                             <Button
                                 color='secondary'
@@ -245,7 +243,7 @@ const PageHome = () => {
                                 {item}
                             </Button>
                         </react.Fragment>)
-                    })}
+                    })} */}
                 </Grid>
 
 
@@ -253,27 +251,22 @@ const PageHome = () => {
                 <Grid sx={{ flexGrow: 1 }} container spacing={2}>
                     <Grid item xs={12}>
                         <Grid container justifyContent="center" spacing={5}>
-
-                            {newdata.map((item, index) => {
-                                if (item.approval === true && newdata.length < 3) {
-                                    const startCourse = new Date(item.start_course?.seconds * 1000)
-
-                                    const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                            {data.map((item, index) => {
+                                if (item.approval === true && data.length < 3) {
+                                    const start_course_learn = new Date(item.start_register).toLocaleTimeString('en-Us', {
                                         hour: 'numeric',
                                         minute: 'numeric',
                                         hour12: false,
                                         timeZone: 'Asia/Bangkok'
                                     })
-                                    const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                                    const start_course_end = new Date(item.End_register).toLocaleTimeString('en-Us', {
                                         hour: 'numeric',
                                         minute: 'numeric',
                                         hour12: false,
                                         timeZone: 'Asia/Bangkok'
                                     })
                                     return (<react.Fragment key={index}>
-
-                                        <Grid key={index} item  >
-
+                                        <Grid   >
                                             <Card sx={{
                                                 height: 490, width: 345, borderRadius: 1, '&:hover': {
                                                     cursor: 'pointer',
@@ -329,8 +322,8 @@ const PageHome = () => {
                                                             </Grid>
 
                                                             <Grid>
-                                                                <IconButton onClick={() => Clickfavorite(item.id)}
-                                                                    color={favorite_user?.some((params: any) => params === item.id) ? 'error' : 'inherit'}
+                                                                <IconButton onClick={() => Clickfavorite(item.id_document)}
+                                                                    color={favorite_user?.some((params: any) => params === item.id_document) ? 'error' : 'inherit'}
                                                                     sx={{
                                                                         zIndex: 2,
                                                                         borderRadius: '50%',
@@ -374,7 +367,7 @@ const PageHome = () => {
                                                             <Avatar alt="Remy Sharp" src={item.image_create} />
                                                         </Grid>
                                                         <Grid >
-                                                            {item.create_by_name}
+                                                            {item.create_byName}
                                                         </Grid>
                                                     </Grid>
                                                 </CardContent>
@@ -386,7 +379,7 @@ const PageHome = () => {
                                                             return (index !== 0 ? ' - ' + params.label : params.label)
                                                         })}
                                                     </Grid>
-                                               
+
 
                                                 </CardActions>
                                             </Card>
@@ -403,16 +396,15 @@ const PageHome = () => {
 
 
                 <Slider {...settings} >
-                    {newdata.map((item, index) => {
-                        if (item.approval === true && newdata.length >= 3) {
-                            const startCourse = new Date(item.start_course?.seconds * 1000)
-                            const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                    {data.map((item, index) => {
+                        if (item.approval === true && data.length >= 3) {
+                            const start_course_learn = new Date(item.start_register).toLocaleTimeString('en-Us', {
                                 hour: 'numeric',
                                 minute: 'numeric',
                                 hour12: false,
                                 timeZone: 'Asia/Bangkok'
                             })
-                            const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                            const start_course_end = new Date(item.End_register).toLocaleTimeString('en-Us', {
                                 hour: 'numeric',
                                 minute: 'numeric',
                                 hour12: false,
@@ -478,8 +470,8 @@ const PageHome = () => {
                                                     </Grid>
 
                                                     <Grid>
-                                                        <IconButton onClick={() => Clickfavorite(item.id)}
-                                                            color={favorite_user?.some((params: any) => params === item.id) ? 'error' : 'inherit'}
+                                                        <IconButton onClick={() => Clickfavorite(item.id_document)}
+                                                            color={favorite_user?.some((params: any) => params === item.id_document) ? 'error' : 'inherit'}
                                                             sx={{
                                                                 zIndex: 2,
                                                                 borderRadius: '50%',
@@ -523,7 +515,7 @@ const PageHome = () => {
                                                     <Avatar alt="Remy Sharp" src={item.image_create} />
                                                 </Grid>
                                                 <Grid >
-                                                    {item.create_by_name}
+                                                    {item.create_byName}
                                                 </Grid>
                                             </Grid>
                                         </CardContent>

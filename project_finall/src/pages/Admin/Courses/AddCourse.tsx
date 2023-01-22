@@ -69,7 +69,9 @@ const AddCourse = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-
+    const onClickSubmit = () => {
+        // navigate(`/courses`)
+    }
 
     //? waiting set Default value form
     const myForm = useForm<TypeCourses>({
@@ -91,7 +93,6 @@ const AddCourse = () => {
         if (e.target.files[0])
             setImage(e.target.files[0]);
     }
-
 
 
     const { handleSubmit, getValues, setValue } = myForm
@@ -134,6 +135,7 @@ const AddCourse = () => {
                         setValue('start_time', new Date(start_time))
                         setValue('end_time', new Date(end_time))
 
+                        // setValue('what_will_student_learn_in_your_course', [...getValues(what_will_learn), ""])
                         setValue('image', url)
                         if (getValues()) {
                             try {
@@ -212,13 +214,16 @@ const AddCourse = () => {
 
                                 <Grid container spacing={1} sx={{ mb: 2, mt: 2 }}>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"what_will_student_learn_in_your_course"} label={'What will student learn in your course'} />
+                                        <Typography variant="h6">
+                                            What will student learn in your course
+                                        </Typography>
+
                                         {Array.from({ length: numOfChoices }, (_, i) => (
                                             <ControllerTextField
                                                 key={i}
                                                 fullWidth
                                                 formprop={myForm}
-                                                name={`what_will_student_learn_in_your_course${i}`}
+                                                name={`what_will_student_learn_in_your_course.${i}`}
 
                                             />
                                         ))}
@@ -234,13 +239,16 @@ const AddCourse = () => {
 
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"the_course_consists"} label={'The Course consists'} />
+                                        <Typography variant="h6" >
+                                            The Course consists
+                                        </Typography>
+
                                         {Array.from({ length: numOfChoices1 }, (_, i) => (
                                             <ControllerTextField
                                                 key={i}
                                                 fullWidth
                                                 formprop={myForm}
-                                                name={`the_course_consists${i}`}
+                                                name={`the_course_consists.${i}`}
 
                                             />
                                         ))}
@@ -363,7 +371,7 @@ const AddCourse = () => {
                                         <ControllerTextField fullWidth formprop={myForm} name={"pricing"} label={'pricing'} />
                                     </Grid>
                                     <Grid item xs={3} sx={{ mt: 2.3 }}>
-                                        <Button type='submit' label='Submit' />
+                                        <Button type='submit' label='Submit' onClick={onClickSubmit} />
                                     </Grid>
                                 </Grid>
                             </form>

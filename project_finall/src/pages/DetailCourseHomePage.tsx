@@ -11,10 +11,50 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonIcon from '@mui/icons-material/Person';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
 
-  const { Start_Register_Date, Start_Register_Time, End_Register_Date, End_Register_Time, Start_Course_Time, End_Course_Time, Course_Date, start_course_learn, start_course_end } = timecourse()
+  //*start register course
+  const Start_Register_Date = new Date(state.start_register).toLocaleDateString();
+  const Start_Register_Time = new Date(state.start_register).toLocaleTimeString('en-Us', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+    timeZone: 'Asia/Bangkok'
+  });
+
+  //*end register course
+  const End_Register_Date = new Date(state.End_register).toLocaleDateString();
+  const End_Register_Time = new Date(state.End_register).toLocaleTimeString('en-Us', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+    timeZone: 'Asia/Bangkok'
+  });
+
+  //*start course and End course
+  const Start_Course_Time = new Date(state.start_learn).toLocaleDateString()
+  const End_Course_Time = new Date(state.end_learn).toLocaleDateString()
+
+  //*Course Date
+  const Course_Date = Array.from(state.course_date!).map((params: any, index: number) => {
+    return (index !== 0 ? ' - ' + params.label : params.label)
+  })
+
+  //*Course Time Start and End
+  const start_course_learn = new Date(state.start_time).toLocaleTimeString('en-Us', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+    timeZone: 'Asia/Bangkok'
+  })
+  const start_course_end = new Date(state.end_time).toLocaleTimeString('en-Us', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+    timeZone: 'Asia/Bangkok'
+  })
 
 
   const Clickfavorite = (item: string) => {
@@ -83,7 +123,7 @@ const DetailCourseHomePage = () => {
                     borderRadius: '0.2',
                     bottom: 0,
                     color: '#b30a0a',
-                
+
 
                   }}
                 >
@@ -91,7 +131,7 @@ const DetailCourseHomePage = () => {
                   <GroupRemoveIcon />
                 </IconButton>
               </Grid>
-              <Grid item container justifyContent={'flex-end'} xs={6} sx={{pr:6,pt:0.5}}>
+              <Grid item container justifyContent={'flex-end'} xs={6} sx={{ pr: 6, pt: 0.5 }}>
                 <Typography variant="h6" sx={{ ml: 4 }} color={'#0F0F0F'} >
                   ฿{state.pricing.toLocaleString()}
                 </Typography>
@@ -169,7 +209,7 @@ const DetailCourseHomePage = () => {
               </Grid>
               <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} >
                 <Typography variant="body2" mb={2}  >
-                  {state.create_by_name}
+                  {state.create_byName}
                 </Typography>
 
 
@@ -201,7 +241,7 @@ const DetailCourseHomePage = () => {
         </Grid>
         <Grid container justifyContent={'center'}>
 
-          <Grid  item xs={12}>
+          <Grid item xs={12}>
             <Typography variant="body2" mb={2} color={'secondary'}  >
               {state.course_status?.map((params, index) => {
                 return (index !== 0 ? ' & ' + params.label : params.label)
@@ -221,17 +261,18 @@ const DetailCourseHomePage = () => {
             <Typography variant="h6" mb={1} color={'#FFFFFF'} >
               คุณจะได้อะไรจากการเรียนรู้หลักสูตรนี้?
             </Typography>
+
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
               {state.what_will_student_learn_in_your_course}<br />
-          
             </Typography>
+
             <Typography variant="h6" mb={1} color={'#FFFFFF'} >
               หลักสูตรประกอบไปด้วย?
             </Typography>
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
               {state.the_course_consists}
               <br />
-           
+
             </Typography>
           </Grid>
 
@@ -266,7 +307,7 @@ const DetailCourseHomePage = () => {
 
 
 
-    
+
 
 
     </>

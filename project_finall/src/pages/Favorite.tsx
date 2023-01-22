@@ -2,25 +2,56 @@ import React from 'react'
 import { Navbar } from '../components/Navbar'
 import { Box } from '@mui/system'
 import { Avatar, Card, CardActions, CardContent, CardMedia, Grid, IconButton, Rating, Typography } from '@mui/material'
-import { useGetFavorite } from '../Hook/favorite/useGetFavorite'
-import { useGetCourseLists } from './Admin/Courses/Hook/useGetCourse'
-import { useAppSelector } from '../store/useHooksStore'
+import { useGetFavorite } from './Admin/favorite/useGetFavorite'
+import { CourseListsType, useGetCourseLists } from './Admin/Courses/Hook/useGetCourse'
+import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import react from 'react'
+import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
+import { setAuthStore } from '../store/slices/authSlice'
+import { useNavigate } from 'react-router-dom'
 const Favorite = () => {
-    // const {FavoriteList} = useGetFavorite()
-    const { CourseLists  } = useGetCourseLists()
-    const data = CourseLists
-    const { uid, status, displayName, photoURL, favorite } = useAppSelector(({ auth }) => auth)
-    console.log("🚀 ~ file: Favorite.tsx:14 ~ Favorite ~ favorite", favorite)
+    const { FavoriteList } = useGetFavorite()
+    const { CourseLists } = useGetCourseLists()
+    const favorite_data = FavoriteList
 
-  
-
-    const getCourse = data.filter((item: any) => favorite?.includes(item.id));
-    console.log("🚀 ~ file: Favorite.tsx:24 ~ Favorite ~ getCourse", getCourse)
+    const { uid, status, displayName, photoURL, favorite, email } = useAppSelector(({ auth }) => auth)
+    console.log("🚀 ~ file: Favorite.tsx:21 ~ Favorite ~ uid", uid)
+    const dispatch = useAppDispatch()
+    const uid_login = useAppSelector(({ auth: uid }) => uid)
+    const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
+    const { addFavorite } = useCreateFavorite()
+    // const getCourse = data.filter((item: any) => favorite?.includes(item.id_document));
     const Clickfavorite = (item: any) => {
-
+        try {
+            let favorite: string[] = [...favorite_user ?? []]
+            if (favorite.some((params) => params === item)) {
+                favorite = favorite.filter((params) => params !== item)
+                addFavorite(favorite, uid_login.uid!)
+            } else {
+                //! เอาออก
+                favorite.push(item)
+                addFavorite(favorite, uid_login.uid!)
+            }
+            dispatch(setAuthStore({
+                //* ชื่อเหมือนกันไม่ต้อง :
+                uid,
+                email,
+                displayName,
+                status,
+                favorite,
+            }),
+            )
+        } catch (err) {
+            console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
+        }
+    }
+    const navigate = useNavigate()
+    const onClickCard = (favorite_data: any) => {
+        console.log("🚀 ~ file: Favorite.tsx:53 ~ onClickCard ~ favorite_data", favorite_data)
+        navigate(`/detailcoursehomepage/${favorite_data.id_document}`)
     }
 
 
@@ -38,20 +69,20 @@ const Favorite = () => {
                 <Grid sx={{ flexGrow: 1 }} container spacing={2}>
                     <Grid item xs={12}>
                         <Grid container justifyContent="center" spacing={5}>
-                            {getCourse.map((item: any, index: number) => {
-                                const start_course_learn = new Date(item.start_register_time?.seconds * 1000).toLocaleTimeString('en-Us', {
+                            {favorite_data.map((item: any, index: number) => {
+                                const start_course_learn = new Date(item.start_register).toLocaleTimeString('en-Us', {
                                     hour: 'numeric',
                                     minute: 'numeric',
                                     hour12: false,
                                     timeZone: 'Asia/Bangkok'
                                 })
-                                const start_course_end = new Date(item.start_register_end?.seconds * 1000).toLocaleTimeString('en-Us', {
+                                const start_course_end = new Date(item.End_register).toLocaleTimeString('en-Us', {
                                     hour: 'numeric',
                                     minute: 'numeric',
                                     hour12: false,
                                     timeZone: 'Asia/Bangkok'
                                 })
-                                return (<React.Fragment key={index}>
+                                return (<react.Fragment key={index}>
 
                                     <Grid key={index} item  >
 
@@ -64,7 +95,7 @@ const Favorite = () => {
                                             card. */
                                             raised={true}>
                                             <CardMedia
-                                                // onClick={() => { onClickCard(item) }}
+                                                onClick={() => { onClickCard(item) }}
                                                 component="img"
                                                 alt="green iguana"
                                                 height="200"
@@ -110,8 +141,8 @@ const Favorite = () => {
                                                         </Grid>
 
                                                         <Grid>
-                                                            <IconButton onClick={() => Clickfavorite(item.id)}
-                                                                color={favorite?.some((params: any) => params === item.id) ? 'error' : 'inherit'}
+                                                            <IconButton onClick={() => Clickfavorite(item.id_document)}
+                                                                color={favorite_user?.some((params: any) => params === item.id_document) ? 'error' : 'inherit'}
                                                                 sx={{
                                                                     zIndex: 2,
                                                                     borderRadius: '50%',
@@ -141,7 +172,7 @@ const Favorite = () => {
                                             <CardContent sx={{ mt: 3, pt: 3, pb: 0 }}>
                                                 <Grid container justifyContent={'space-between'} >
                                                     <Grid item sx={{ mr: 1 }}>
-                                                        <Rating name="read-only" value={5} readOnly />
+                                                        <Rating name="read-only" value={5} />
 
                                                     </Grid>
                                                     <Grid item >
@@ -152,10 +183,10 @@ const Favorite = () => {
                                                 </Grid>
                                                 <Grid container sx={{ mr: 1 }} alignItems={'center'}>
                                                     <Grid sx={{ mr: 1.5 }} >
-                                                        <Avatar alt="Remy Sharp" src="#" />
+                                                        <Avatar alt="Remy Sharp" src={item.image_create} />
                                                     </Grid>
                                                     <Grid >
-                                                        {item.create_by_name}
+                                                        {item.create_byName}
                                                     </Grid>
                                                 </Grid>
                                             </CardContent>
@@ -167,10 +198,15 @@ const Favorite = () => {
                                                         return (index !== 0 ? ' - ' + params.label : params.label)
                                                     })}
                                                 </Grid>
+
+
                                             </CardActions>
                                         </Card>
                                     </Grid>
-                                </React.Fragment>)
+
+
+
+                                </react.Fragment>)
                             })}
                         </Grid>
                     </Grid>
@@ -180,5 +216,6 @@ const Favorite = () => {
         </>
     )
 }
+
 
 export default Favorite

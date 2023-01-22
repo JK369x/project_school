@@ -13,10 +13,9 @@ import { Grid } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const page = () => {
-    const { CourseLists,  } = useGetCourseLists()
+    const { CourseLists, } = useGetCourseLists()
     const data = CourseLists
     const navigate = useNavigate()
-    console.log("🚀 ~ file: pagesss.ssasdasdddtsx:15 ~ page ~ data", data)
 
 
 
@@ -25,7 +24,7 @@ const page = () => {
             <Navbar />
 
             <Grid container justifyContent={'center'} >
-                {data.map((item, index) => {
+                {data.map((item: any, index: any) => {
                     return <>
                         <Grid margin={2}>
 
@@ -40,7 +39,7 @@ const page = () => {
                                     image={item.image}
                                 />
                                 <CardContent >
-                                 
+
                                     <Grid>
                                         <Grid container justifyContent={'space-between'}>
                                             <Typography gutterBottom variant="h5" component="h5">

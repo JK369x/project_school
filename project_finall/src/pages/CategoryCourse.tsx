@@ -12,10 +12,10 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
-import { useCreateFavorite } from '../Hook/favorite/useCreateFavorite'
+import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
 import { setAuthStore } from '../store/slices/authSlice'
 const CategoryCourse = () => {
-  const { CourseLists  } = useGetCourseLists()
+  const { CourseLists } = useGetCourseLists()
   const data = CourseLists
   const { CategoryLists, useGetCategory } = useGetCategoryLists()
   const { addFavorite } = useCreateFavorite()
@@ -25,7 +25,6 @@ const CategoryCourse = () => {
   )
   const [Category, setCategory] = useState<any>('')
   const queryCategory = (category: any) => {
-    console.log("🚀 ~ ", category)
     setCategory(category)
   }
 
@@ -133,20 +132,20 @@ const CategoryCourse = () => {
 
           </Grid>
 
-          <Grid sx={{ flexGrow: 1 ,mt:4}} container spacing={2}>
+          <Grid sx={{ flexGrow: 1, mt: 4 }} container spacing={2}>
             <Grid item xs={12}>
               <Grid container justifyContent="center" spacing={5}>
 
                 {newdata.map((item, index) => {
-                  if (item.approval === true ) {
+                  if (item.approval === true) {
 
-                    const start_course_learn = new Date(item.start_register?.seconds * 1000).toLocaleTimeString('en-Us', {
+                    const start_course_learn = new Date(item.start_register).toLocaleTimeString('en-Us', {
                       hour: 'numeric',
                       minute: 'numeric',
                       hour12: false,
                       timeZone: 'Asia/Bangkok'
                     })
-                    const start_course_end = new Date(item.End_register?.seconds * 1000).toLocaleTimeString('en-Us', {
+                    const start_course_end = new Date(item.End_register).toLocaleTimeString('en-Us', {
                       hour: 'numeric',
                       minute: 'numeric',
                       hour12: false,
@@ -173,16 +172,27 @@ const CategoryCourse = () => {
                           />
                           <CardContent sx={{ height: 120, }} >
                             <Grid>
-                              <Typography variant="body2" sx={{
-                                mt: 0.5,
-                                '&:hover': {
-                                  color: '#0085ea',
-                                }
-                              }} color='#015ca2' >
-                                {item.course_status!.map((params, index) => {
-                                  return (index !== 0 ? ' & ' + params.label : params.label)
-                                })}
-                              </Typography>
+                              <Grid container justifyContent={'space-between'} alignContent={'center'} alignItems={'center'}>
+                                <Grid item xs={6}>
+                                  <Typography variant="body2" sx={{
+                                    mt: 0.5,
+                                    '&:hover': {
+                                      color: '#0085ea',
+                                    }
+                                  }} color='#015ca2' >
+                                    {item.course_status!.map((params, index) => {
+                                      return (index !== 0 ? ' & ' + params.label : params.label)
+                                    })}
+                                  </Typography>
+
+                                </Grid>
+                                <Grid item xs={6} container justifyContent={'flex-end'}>
+                                  <AccessTimeIcon sx={{ color: "#0085ea" }} />
+                                  <Typography>
+                                    {`${start_course_learn} - ${start_course_end}`}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
                               <Grid container justifyContent={'space-between'}>
 
 
@@ -200,8 +210,8 @@ const CategoryCourse = () => {
                                 </Grid>
 
                                 <Grid>
-                                  <IconButton onClick={() => Clickfavorite(item.id)}
-                                    color={favorite_user?.some((params: any) => params === item.id) ? 'error' : 'inherit'}
+                                  <IconButton onClick={() => Clickfavorite(item.id_document)}
+                                    color={favorite_user?.some((params: any) => params === item.id_document) ? 'error' : 'inherit'}
                                     sx={{
                                       zIndex: 2,
                                       borderRadius: '50%',
@@ -242,10 +252,10 @@ const CategoryCourse = () => {
                             </Grid>
                             <Grid container sx={{ mr: 1 }} alignItems={'center'}>
                               <Grid sx={{ mr: 1.5 }} >
-                                <Avatar alt="Remy Sharp" src="#" />
+                                <Avatar alt="Remy Sharp" src={item.image_create} />
                               </Grid>
                               <Grid >
-                                {item.create_by_name}
+                                {item.create_byName}
                               </Grid>
                             </Grid>
                           </CardContent>
@@ -257,12 +267,7 @@ const CategoryCourse = () => {
                                 return (index !== 0 ? ' - ' + params.label : params.label)
                               })}
                             </Grid>
-                            <Grid container justifyContent={'flex-end'}>
-                              <AccessTimeIcon sx={{ color: "#0085ea" }} />
-                              <Typography>
-                                {`${start_course_learn} - ${start_course_end}`}
-                              </Typography>
-                            </Grid>
+
 
                           </CardActions>
                         </Card>

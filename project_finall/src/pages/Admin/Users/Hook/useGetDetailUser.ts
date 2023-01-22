@@ -14,7 +14,6 @@ export const useGetDetailUser = () => {
 
     const dispatch = useAppDispatch()
     const { id } = useParams<{ id: string }>();
-    console.log("🚀 ~ file: useGetDetailUser.ts:17 ~ useGetDetailUser ~ id", id)
     //! Time in use
     const [state, setState] = useState<UserListsType>({
         email: "",
@@ -53,7 +52,6 @@ export const useGetDetailUser = () => {
             axios.defaults.withCredentials = true
             const getdetail = await axios.get(url)
             const result = getdetail.data
-            console.log("🚀 ~ file: useGetDetailUser.ts:53 ~ getData ~ result", result)
 
             if (result) {
                 setState({ ...(result as any), id: result.id });

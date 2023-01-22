@@ -27,9 +27,9 @@ const Course: FC = () => {
   const { openConfirmDialog } = useDialog()
   const { deleteCourse } = useDeleteCourse()
   const navigate = useNavigate()
-  //  const [detailUser, setDetailUser] = useState<UserListsType>()
   console.log("🚀 ~ file: User.tsx:20 ~ data", data)
-
+  const newdata = data.filter((item)=> item.approval === true)
+  console.log("🚀 ~ file: Couse.tsx:32 ~ newdata", newdata)
 
   const delItem = (data: CourseListsType) => {
     openConfirmDialog({
@@ -111,7 +111,7 @@ const Course: FC = () => {
 
 
             </Grid>
-            <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
+            <Table isSelectTable columnOptions={columnOptions} dataSource={newdata.map((e, index) => {
               return {
                 ...e,
                 countID: index + 1,

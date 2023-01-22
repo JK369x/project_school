@@ -31,18 +31,18 @@ const LoginAdmin = () => {
         const { email, password } = getValues()
         try {
             dispatch(isShowLoading())
-            const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, {
-                email, password
-            }, { withCredentials: true })
-            const data = res.data
-            const displayName = `${data.firstName} ${data.lastName}`
+            axios.defaults.withCredentials = true
+            const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
+            const user = res.data.user.email
+            const {displayName,id_document,status,favorite} = user
+            console.log("🚀 ~ file: Login.tsx:57 ~ onSubmit ~ user", user)
+          
             dispatch(setAuthStore({
-                uid: data.id_document,
-                email: data.email,
-                displayName,
-                status: data.status.label,
-                favorite: data.favorite,
-                photoURL: data.image_rul,
+              uid: id_document,
+              email: user,
+              displayName,
+              status,
+              favorite,
             }))
 
             navigator('/dashboard')

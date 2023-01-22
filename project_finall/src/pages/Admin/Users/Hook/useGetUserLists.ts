@@ -7,7 +7,7 @@ import { AccountCollection } from '../../../../firebase/createCollection'
 import axios from 'axios';
 export type UserListsType = {
     id: string
-    id_document:string
+    id_document: string
 } & IFormInput
 //! & เพิ่ม id form input
 
@@ -27,14 +27,13 @@ export const useGetUserLists = () => {
             axios.defaults.withCredentials = true
             const getDetailUser = await axios.get(url)
             const result = getDetailUser.data
-            console.log("🚀 ~ file: useGetUserLists.ts:30 ~ getUserLists ~ result", result)
             setUserLists(
-                result.map((e:any) => {
+                result.map((e: any) => {
                     return {
                         ...e,
-                        id_document:e.id_document
+                        id_document: e.id_document
                     }
-                }) as UserListsType []
+                }) as UserListsType[]
             )
         } catch (error) {
             console.log(error)

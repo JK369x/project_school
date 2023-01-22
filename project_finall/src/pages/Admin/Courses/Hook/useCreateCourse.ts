@@ -14,7 +14,7 @@ export interface TypeCourses {
     category: Lookup | null,
     start_register: Date | any,
     End_register: Date | any,
-    
+
     start_learn: Date | any,
     end_learn: Date | any,
 
@@ -32,7 +32,7 @@ export interface TypeCourses {
     teaching_assistant?: string,
     Pricing: number,
     pricing: number,
-    create_by_name?: string,
+    create_byName?: string,
     Approval: boolean,
     min_people: string,
     image_create: string,

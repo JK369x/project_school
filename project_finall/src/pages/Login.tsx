@@ -40,7 +40,6 @@ const Login = (props: Props) => {
   const dispatch = useAppDispatch()
   const myForm = useForm<IFormInput>()
   const { handleSubmit, getValues } = myForm;
-  const [token, setToken] = useState();
   const onClickRegistor = () => {
     navigate('/registor')
   }
@@ -50,20 +49,28 @@ const Login = (props: Props) => {
     const { email, password } = getValues()
     try {
       dispatch(isShowLoading())
-      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, {
-        email, password
-      }, { withCredentials: true })
-      const data = res.data
-      const displayName = `${data.firstName} ${data.lastName}`
-      dispatch(setAuthStore({
-        uid: data.id_document,
-        email: data.email,
-        displayName,
-        status: data.status.label,
-        favorite: []
-      }))
+      axios.defaults.withCredentials = true
+      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
+      const user = res.data.user
+      console.log("🚀 ~ file: Login.tsx:55 ~ onSubmit ~ res", res)
+      const user_email = user.email
+      const user_displayName = user.display_name
+      const user_status = user.status
+      const user_id = user.id_document
+      const user_favorite = user.favorite
+
+      if (user) {
+        dispatch(setAuthStore({
+          uid: user_id,
+          email: user_email,
+          displayName: user_displayName,
+          status: user_status,
+          favorite: user_favorite,
+        }))
+      }
+
       dispatch(openAlertSuccess('LoginSuccess'))
-      navigate('/page')
+      navigate('/')
     } catch (error) {
       dispatch(openAlertError('Login fail'))
       console.log(error)

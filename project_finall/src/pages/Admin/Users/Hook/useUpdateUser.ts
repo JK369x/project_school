@@ -6,7 +6,6 @@ import axios from 'axios';
 
 export const useUpdateUser = () => {
     const updateUser = async (params: UserListsType, id: string) => {
-        console.log("🚀 ~ file: useUpdateUser.ts:9 ~ updateUser ~ params", params)
         try {
             const url = `${import.meta.env.VITE_REACT_APP_API}user/updateuser/${id}`
             axios.defaults.withCredentials = true

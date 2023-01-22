@@ -33,45 +33,32 @@ export default function AccountMenu() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
-    const { email, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
-    // const uid_string = uid?.toString()
+    const { email, status, displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
+    console.log("🚀 ~ file: Account_menu.tsx:37 ~ AccountMenu ~ displayName", displayName)
 
-    //! edit login user 
-    // const auth_uid = uid !== undefined && uid !== null
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const docSnap = await getDoc(doc(AccountCollection, uid ?? ''))
-    //         console.log("🚀 ~ file: Account_menu.tsx:43 ~ fetchData ~ docSnap", docSnap.data())
-    //     }
-    //     fetchData()
-    // }, [])
+
+
 
 
     const onClickLogOut = () => {
         signOut(auth).then(() => {
             dispatch(
                 setAuthStore({
+                    uid: null,
                     email: null,
                     displayName: null,
                     status: null,
+                    favorite: null,
                     // photoURL: user.photoURL as any,
                 }),
             )
-            // Sign-out successful.
-            // dispatch(
-            //     setAuthStore({
-            //         uid: null,
-            //         displayName: null,
-            //         status: null,
-            //         // photoURL: user.photoURL as any,
-            //     }),
-            // )
+
         }).catch((error) => {
             console.log("🚀 ~ file: Navbar.tsx:21 ~ signOut ~ error", error)
             // An error happened.
         });
 
-        navigate('/page')
+        navigate('/')
     }
 
     const ClickCateGory = () => {

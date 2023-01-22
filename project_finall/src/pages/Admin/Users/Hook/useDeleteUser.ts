@@ -14,7 +14,6 @@ import axios from "axios";
 export const useDeleteUser = () => {
     const dispatch = useAppDispatch();
     const deleteUser = async (id: string) => {
-        console.log("🚀 ~ file: useDeleteUser.ts:17 ~ deleteUser ~ id", id)
         try {
             dispatch(isShowLoading());
             const url = `${import.meta.env.VITE_REACT_APP_API}user/deleteuser/${id}`

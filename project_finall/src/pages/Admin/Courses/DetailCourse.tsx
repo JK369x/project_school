@@ -174,7 +174,7 @@ const DetailCourse: FC = () => {
                                         Lecturer
                                     </Typography>
                                     <Typography variant="body2" mb={2}  >
-                                        {state.create_by_name}
+                                        {state.create_byName}
                                     </Typography>
                                     <Typography variant="body2"   >
                                         About
