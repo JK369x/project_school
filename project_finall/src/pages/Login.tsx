@@ -27,6 +27,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import * as jose from 'jose'
+import { setCourseStore } from '../store/slices/courseSlice';
 
 interface IFormInput {
   email: string;
@@ -46,6 +47,7 @@ const Login = (props: Props) => {
 
   const onSubmit = async () => {
     console.log(getValues())
+
     const { email, password } = getValues()
     try {
       dispatch(isShowLoading())
@@ -58,6 +60,8 @@ const Login = (props: Props) => {
       const user_status = user.status
       const user_id = user.id_document
       const user_favorite = user.favorite
+      const user_course = res.data.data.course_join
+      console.log("🚀 ~ file: Login.tsx:64 ~ onSubmit ~ user_course", user_course)
 
       if (user) {
         dispatch(setAuthStore({
@@ -67,6 +71,12 @@ const Login = (props: Props) => {
           status: user_status,
           favorite: user_favorite,
         }))
+
+        dispatch(setCourseStore({
+          uid_course: user_course,
+
+        }),
+        )
       }
 
       dispatch(openAlertSuccess('LoginSuccess'))

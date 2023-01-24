@@ -51,12 +51,12 @@ const EditCourse: FC = () => {
             setImage(e.target.files[0]);
     }
     const Start_Register_Date = new Date(state.start_register)
-    const [start_register, setStart_register] = useState<Date>(Start_Register_Date); 
+    const [start_register, setStart_register] = useState<Date>(Start_Register_Date);
 
     const End_Register_Date = new Date(state.End_register)
-    const [end_register, setEnd_register] = useState<Date>(End_Register_Date); 
+    const [end_register, setEnd_register] = useState<Date>(End_Register_Date);
 
- 
+
     const Start_Course_Time = new Date(state.start_learn)
     const [start_learn, setStart_learn] = useState<Date>(Start_Course_Time);
 
@@ -74,11 +74,19 @@ const EditCourse: FC = () => {
     })
 
     const { watch, handleSubmit, getValues, setValue } = myForm
-   
-
-   
 
 
+
+
+    const [numOfChoices, setNumOfChoices] = useState(1);
+    const [numOfChoices1, setNumOfChoices1] = useState(1);
+    const handleAddChoice = (e: any) => {
+        setNumOfChoices(numOfChoices + 1);
+    }
+
+    const handleAddChoice1 = (e: any) => {
+        setNumOfChoices1(numOfChoices1 + 1);
+    }
 
     const onSubmit = async () => {
         setValue('data.start_register', new Date(start_register))
@@ -160,16 +168,54 @@ const EditCourse: FC = () => {
                                     </Grid>
                                 </Grid>
 
-                                <Grid container alignItems={'center'} alignContent={'center'} spacing={1} sx={{ mb: 2, mt: 2 }}>
+                                <Grid container spacing={1} sx={{ mb: 2, mt: 2 }}>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.what_will_student_learn_in_your_course"} label={'What will student learn in your course'} />
+                                        <Typography variant="h6">
+                                            What will student learn in your course
+                                        </Typography>
+                                        {Array.from({ length: numOfChoices }, (_, i) => (
 
+                                            <ControllerTextField
+                                                key={i}
+                                                fullWidth
+                                                formprop={myForm}
+                                                name={`data.what_will_student_learn_in_your_course.${i}`}
 
+                                            />
+                                        ))}
+                                        <Typography variant="h6" color={'primary'} onClick={handleAddChoice}
+                                            ml={3} sx={{
+                                                '&:hover': {
+                                                    color: '#0572c5',
+                                                    cursor: "pointer",
+                                                }
+                                            }}>
+                                            Add Choice +
+                                        </Typography>
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"data.the_course_consists"} label={'The Course consists'} />
+                                        <Typography variant="h6" >
+                                            The Course consists
+                                        </Typography>
+                                        {Array.from({ length: numOfChoices1 }, (_, i) => (
+                                            <ControllerTextField
+                                                key={i}
+                                                fullWidth
+                                                formprop={myForm}
+                                                name={`data.the_course_consists.${i}`}
 
-                                </Grid>
+                                            />
+                                        ))}
+                                        <Typography variant="h6" color={'primary'} onClick={handleAddChoice1}
+                                            ml={3} sx={{
+                                                '&:hover': {
+                                                    color: '#0572c5',
+                                                    cursor: "pointer",
+                                                }
+                                            }}>
+                                            Add Choice +
+                                        </Typography>
+                                    </Grid>
                                 </Grid>
 
                                 <Grid container spacing={1} sx={{ mb: 2 }} >
@@ -239,6 +285,7 @@ const EditCourse: FC = () => {
                                             setEnd_learn(newValue);
                                         }}
                                         renderInput={(params) => <TextField {...params} />}
+
                                     />
                                 </Grid>
 

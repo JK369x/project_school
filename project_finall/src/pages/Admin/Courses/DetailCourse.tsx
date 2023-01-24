@@ -4,7 +4,7 @@ import '../Dashboard/Dashboard.scss'
 
 import Grid from '@mui/material/Grid/Grid'
 import { FC, useEffect, useState } from 'react'
-
+import CheckIcon from '@mui/icons-material/Check';
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
@@ -18,6 +18,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Typography, Avatar } from '@mui/material'
 import { useGetCourseDetail } from './Hook/useGetCourseDtail'
 import Image from '../../../components/Image/Image'
+import React from 'react'
 const DetailCourse: FC = () => {
     const { state } = useGetCourseDetail()
     console.log("🚀 ~ file: DetailCourse.tsx:23 ~ state", state)
@@ -68,13 +69,16 @@ const DetailCourse: FC = () => {
 
     console.log("🚀 ~ file: DetailUser.tsx:29 ~ state", state)
 
+    const onClickViewUser = () => {
+        navigate(`/editcourse/${state.id}`)
 
+    }
 
 
 
 
     const onClickEdit = () => {
-        navigate(`/editcourse/${state.id}`)
+        navigate(`/viewusercourse/${state.id}`)
     }
 
 
@@ -89,14 +93,10 @@ const DetailCourse: FC = () => {
                             <Grid container>
                                 <Typography variant="h2" mb={2}  >
                                     <span>
-                                        Course About |
+                                        Course About
                                     </span>
                                 </Typography>
-                                <Typography variant="h2" mb={2} ml={1} >
-                                    <span>
-                                        User
-                                    </span>
-                                </Typography>
+
                             </Grid>
                             <Grid container spacing={1}>
                                 <Grid item xs={4}>
@@ -200,10 +200,13 @@ const DetailCourse: FC = () => {
                                         <Typography variant="h6" mb={1}  >
                                             What will students learn in your course?
                                         </Typography>
-                                        <Typography variant="body2" mb={2}  >
-                                            {state.what_will_student_learn_in_your_course}<br />
-
-                                        </Typography>
+                                        {state.what_will_student_learn_in_your_course.map((params: any, index: number) => {
+                                            return (<React.Fragment key={index}>
+                                                <Typography marginLeft={2} variant="body2" mb={2} color={'#black'} >
+                                                    <CheckIcon /> {params}
+                                                </Typography>
+                                            </React.Fragment>)
+                                        })}
                                         <Typography variant="h6" mb={1}  >
                                             What are the requirements prerequisites for taking your Course?
                                         </Typography>
@@ -219,11 +222,14 @@ const DetailCourse: FC = () => {
                                         <Typography variant="h6" mb={1}  >
                                             The course consists?
                                         </Typography>
-                                        <Typography variant="body2" mb={2}  >
-                                            {state.the_course_consists}
-                                            <br />
 
-                                        </Typography>
+                                        {state.the_course_consists.map((params: any, index: number) => {
+                                            return (<React.Fragment key={index}>
+                                                <Typography marginLeft={2} variant="body2" mb={2} color={'#black'} >
+                                                    <CheckIcon /> {params}
+                                                </Typography>
+                                            </React.Fragment>)
+                                        })}
                                         <Typography variant="body2" mb={2}  >
                                             Name teaching assistant
                                         </Typography>
@@ -263,7 +269,7 @@ const DetailCourse: FC = () => {
                                 </Grid>
                             </Grid>
                             <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-
+                                <Button label='Edit' onClick={() => onClickViewUser()} />
 
                                 <Button label='Edit' onClick={() => onClickEdit()} />
                             </Grid>

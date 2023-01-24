@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navbar } from '../components/Navbar'
 import { useGetCourseDetail } from './Admin/Courses/Hook/useGetCourseDtail'
 import { timecourse } from '../types/timecourse'
@@ -12,6 +12,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import { UserJoinCourse } from './Admin/Courses/Hook/useJoinCourse'
+import { useAppSelector } from '../store/useHooksStore'
+import { UserOutCourse } from './Admin/Courses/Hook/useOutcourse'
+import { useDispatch } from 'react-redux'
+import { setCourseStore } from '../store/slices/courseSlice'
+import { CourseListsType } from './Admin/Courses/Hook/useGetCourse'
+import { joinCourseUser } from './Admin/joinCourse/useJoinCourse'
+import CheckIcon from '@mui/icons-material/Check';
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
 
@@ -64,10 +72,52 @@ const DetailCourseHomePage = () => {
   const navigate = useNavigate()
 
 
-  console.log("🚀 ~ file: DetailUser.tsx:29 ~ state", state)
 
   function onClickEdit() {
 
+  }
+
+
+
+  const uid_login = useAppSelector(({ auth: uid }) => uid)
+  const { joinCourse } = UserJoinCourse()
+  const { outCourse } = UserOutCourse()
+  const { addJoinCourse } = joinCourseUser()
+  const { uid_course } = useAppSelector(({ course }) => course);
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:86 ~ DetailCourseHomePage ~ uid_course", uid_course)
+  const course_id = useAppSelector(({ course: { uid_course } }) => uid_course)
+  const dispatch = useDispatch()
+  const ClickDeleteCourseJoin = (datacourse: string) => {
+    console.log("🚀 ~ file: DetailCourseHomePage.tsx:87 ~ ClickDeleteCourseJoin ~ datacourse", datacourse)
+    let course: string[] = [...course_id ?? []]
+    console.log("🚀 ~ file: DetailCourseHomePage.tsx:89 ~ ClickDeleteCourseJoin ~ course", course)
+
+    try {
+      console.log("course ", course)
+      if (course.some((prams) => prams === datacourse)) {
+        //! เอาออก
+        console.log('out')
+
+        course = course.filter((params) => params !== datacourse)
+        console.log("filter", course)
+        outCourse(datacourse)
+        addJoinCourse(course, uid_login.uid!)
+      } else {
+        //* เอาเข้า
+        console.log('join')
+        course.push(datacourse)
+        joinCourse(datacourse)
+        addJoinCourse(course, uid_login.uid!)
+      }
+
+      dispatch(setCourseStore({
+        uid_course: course,
+
+      }),
+      )
+    } catch (err) {
+      console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
+    }
   }
 
   return (
@@ -87,10 +137,19 @@ const DetailCourseHomePage = () => {
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }} justifyContent={'space-between'}>
               <Grid item xs={6}>
-                <Button variant="contained" startIcon={<PersonAddIcon />}>
+                {uid_course?.some((params: any) => params === state.id) ? (<>
+                  <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
+                </>) : (<>
+                  <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
+                </>)}
+                {/* {Array.isArray(uid_course) && uid_course.some((params: any) => params === state.id) ? (<>
+                  <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
+                </>) : (<>
+                  <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
+                </>)} */}
+                {/* <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color={course_id ? 'error' : 'primary'} startIcon={<PersonRemoveIcon />}> ออกคิว</Button> */}
 
-                  เข้าคิว
-                </Button>
+
                 <IconButton onClick={() => Clickfavorite(state.id)}
                   color={'error'}
                   sx={{
@@ -262,18 +321,32 @@ const DetailCourseHomePage = () => {
               คุณจะได้อะไรจากการเรียนรู้หลักสูตรนี้?
             </Typography>
 
-            <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
+            {/* <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
               {state.what_will_student_learn_in_your_course}<br />
+            </Typography> */}
+            <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
             </Typography>
+            {state.what_will_student_learn_in_your_course.map((params: any, index: number) => {
+              return (<React.Fragment key={index}>
+                <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
+                  <CheckIcon /> {params}
+                </Typography>
+              </React.Fragment>)
+            })}
+
 
             <Typography variant="h6" mb={1} color={'#FFFFFF'} >
               หลักสูตรประกอบไปด้วย?
             </Typography>
-            <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
-              {state.the_course_consists}
-              <br />
 
-            </Typography>
+            {state.the_course_consists.map((params: any, index: number) => {
+              return (<React.Fragment key={index}>
+                <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
+                  <CheckIcon /> {params}
+                </Typography>
+              </React.Fragment>)
+            })}
+
           </Grid>
 
           <Grid item xs={6}>

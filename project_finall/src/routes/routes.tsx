@@ -35,6 +35,7 @@ import { middleware } from "../middleware/middleware";
 import axios from "axios";
 import EditCategory from "../pages/Admin/Categorys/EditCategory";
 import DetailCategory from "../pages/Admin/Categorys/DetailCtegory";
+import { setCourseStore } from "../store/slices/courseSlice";
 
 
 
@@ -62,6 +63,8 @@ const RouteAllPage: FC = () => {
             const user_data = autoSignIn.data.data_new
             const new_favorite = user_data.favorite
             const new_email = user_data.email
+            const new_join = user_data.course_join
+            console.log("🚀 ~ file: routes.tsx:67 ~ autoSignIn ~ new_join", new_join)
             const new_status = user_data.status
             const firstName = user_data.firstName
             const lastName = user_data.lastName
@@ -75,6 +78,11 @@ const RouteAllPage: FC = () => {
                 status: new_status,
                 favorite: new_favorite,
             }))
+            dispatch(setCourseStore({
+                uid_course: new_join,
+
+            }),
+            )
         } catch (err) {
             console.log("🚀 ~ filse: middleware.ts:18 ~ autoSignIn ~ err", err)
 
