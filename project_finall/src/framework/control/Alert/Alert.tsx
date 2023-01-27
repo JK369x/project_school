@@ -28,7 +28,7 @@ export const Alert: FC = () => {
 
 	return (
 		<Snackbar
-			anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
 			open={open}
 			onClose={handleClose}
 			key={'Alert'}

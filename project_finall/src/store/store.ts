@@ -5,6 +5,7 @@ import loadingSlice from './slices/loadingSlice'
 import dialogSlice from './slices/dialogSlice'
 import alertSlice from './slices/alertSlice'
 import courseSlice from './slices/courseSlice'
+import buttonSlice from './slices/buttonSlice'
 // import themeSlice from './themeSlice'
 
 const store = configureStore({
@@ -14,6 +15,7 @@ const store = configureStore({
 		dialog: dialogSlice,
 		alert: alertSlice,
 		course: courseSlice,
+		btnStatus: buttonSlice,
 		// theme: themeSlice,
 	},
 })

@@ -5,33 +5,33 @@ import { RootState } from '../store'
 
 
 
-export interface Course {
-    uid_course?: string[] | null
+export interface ButtonCheck {
+    statusbtn?: boolean
 
 }
 
 // Define the initial state using that type
-const initialState: Course = {}
+const initialState: ButtonCheck = {}
 
-export const courseStore = createSlice({
-    name: 'course',
+export const btnStore = createSlice({
+    name: 'btnStatus',
     initialState,
     reducers: {
         //! เป็น type ของ action 
-        setCourseStore: (state, { payload: { uid_course } }: PayloadAction<Course>) => {
-            state.uid_course = uid_course
+        setbtnStore: (state, { payload: { statusbtn } }: PayloadAction<ButtonCheck>) => {
+            state.statusbtn = statusbtn
         },
-        clearCourseStore: (state) => {
-            delete state.uid_course
+        clearbtnStore: (state) => {
+            delete state.statusbtn
         },
     },
 })
 
-export const { setCourseStore, clearCourseStore } = courseStore.actions
+export const { setbtnStore, clearbtnStore } = btnStore.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const auth = (state: RootState) => {
 // 	return state.auth
 // }
 
-export default courseStore.reducer
+export default btnStore.reducer

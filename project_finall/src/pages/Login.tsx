@@ -107,9 +107,7 @@ const Login = (props: Props) => {
             <Grid item xs={12}>
               <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
             </Grid>
-            {/* <Grid>
-              <GoogleButton onClick={onClickLoginGoogle}/>
-            </Grid> */}
+
             <Grid container justifyContent={'Right'}>
               <Button type="button" onClick={onClickRegistor} sx={{ mr: 1, m: 1, }}>Registor</Button>
               <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>

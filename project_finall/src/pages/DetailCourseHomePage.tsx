@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navbar } from '../components/Navbar'
 import { useGetCourseDetail } from './Admin/Courses/Hook/useGetCourseDtail'
 import { timecourse } from '../types/timecourse'
 import { useNavigate } from 'react-router-dom'
-import { Box, Typography, Avatar, IconButton, Button } from '@mui/material'
+import { Box, Typography, Avatar, IconButton, Button, Chip } from '@mui/material'
 import Grid from '@mui/material/Grid/Grid'
 import Image from '../components/Image/Image'
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -20,9 +20,19 @@ import { setCourseStore } from '../store/slices/courseSlice'
 import { CourseListsType } from './Admin/Courses/Hook/useGetCourse'
 import { joinCourseUser } from './Admin/joinCourse/useJoinCourse'
 import CheckIcon from '@mui/icons-material/Check';
+import CheckName from './Admin/Checkname/CheckName'
+import { useStatusButtonCheckName } from './Admin/Courses/Hook/useStatusButtonCheckName'
+import { useGetAllJoinCourse } from './Admin/Courses/Hook/useGetAllJoinCourse'
+import BoyIcon from '@mui/icons-material/Boy';
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
+  const { JoinCourse } = useGetAllJoinCourse()
+  const newdata = JoinCourse.map((item) => {
+    return item.count_number
+  })
+  const newjoin = JoinCourse.length
 
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:33 ~ DetailCourseHomePage ~ newjoin", newjoin)
   //*start register course
   const Start_Register_Date = new Date(state.start_register).toLocaleDateString();
   const Start_Register_Time = new Date(state.start_register).toLocaleTimeString('en-Us', {
@@ -69,6 +79,9 @@ const DetailCourseHomePage = () => {
 
   }
 
+
+
+
   const navigate = useNavigate()
 
 
@@ -77,27 +90,28 @@ const DetailCourseHomePage = () => {
 
   }
 
-
+  useEffect(() => {
+    setCountJoin(newjoin)
+  }, [newjoin])
 
   const uid_login = useAppSelector(({ auth: uid }) => uid)
   const { joinCourse } = UserJoinCourse()
   const { outCourse } = UserOutCourse()
   const { addJoinCourse } = joinCourseUser()
   const { uid_course } = useAppSelector(({ course }) => course);
-  console.log("🚀 ~ file: DetailCourseHomePage.tsx:86 ~ DetailCourseHomePage ~ uid_course", uid_course)
   const course_id = useAppSelector(({ course: { uid_course } }) => uid_course)
   const dispatch = useDispatch()
+  const [countJoin, setCountJoin] = useState(newjoin)
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:101 ~ DetailCourseHomePage ~ countJoin", countJoin)
   const ClickDeleteCourseJoin = (datacourse: string) => {
-    console.log("🚀 ~ file: DetailCourseHomePage.tsx:87 ~ ClickDeleteCourseJoin ~ datacourse", datacourse)
     let course: string[] = [...course_id ?? []]
-    console.log("🚀 ~ file: DetailCourseHomePage.tsx:89 ~ ClickDeleteCourseJoin ~ course", course)
 
     try {
       console.log("course ", course)
       if (course.some((prams) => prams === datacourse)) {
         //! เอาออก
         console.log('out')
-
+        setCountJoin(countJoin - 1)
         course = course.filter((params) => params !== datacourse)
         console.log("filter", course)
         outCourse(datacourse)
@@ -105,6 +119,7 @@ const DetailCourseHomePage = () => {
       } else {
         //* เอาเข้า
         console.log('join')
+        setCountJoin(countJoin + 1)
         course.push(datacourse)
         joinCourse(datacourse)
         addJoinCourse(course, uid_login.uid!)
@@ -129,71 +144,67 @@ const DetailCourseHomePage = () => {
         </Typography>
 
 
-        <Grid container justifyContent={'space-between'} spacing={3} sx={{ mt: 0.1, pl: 1, mb: 3 }}>
+        <Grid container spacing={3} sx={{ mt: 0.1, pl: 1, mb: 3 }}>
           <Grid item container justifyContent={'center'} xs={4} >
             <Image src={state.image} width={400} height={350} />
 
           </Grid>
           <Grid item container xs={8} >
-            <Grid item container xs={12} sx={{ mb: 1 }} justifyContent={'space-between'}>
-              <Grid item xs={6}>
+            <Grid item container xs={12} sx={{ mb: 1 }}>
+              <Grid container xs={6} alignItems={'center'} >
                 {uid_course?.some((params: any) => params === state.id) ? (<>
-                  <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
+                  <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
                 </>) : (<>
-                  <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
+                  <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
                 </>)}
-                {/* {Array.isArray(uid_course) && uid_course.some((params: any) => params === state.id) ? (<>
-                  <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
-                </>) : (<>
-                  <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
-                </>)} */}
-                {/* <Button variant="contained" onClick={() => ClickDeleteCourseJoin(state.id)} color={course_id ? 'error' : 'primary'} startIcon={<PersonRemoveIcon />}> ออกคิว</Button> */}
-
-
+                {state.btn_check_name == "true" && <>
+                  <CheckName id={state.id} />
+                </>}
                 <IconButton onClick={() => Clickfavorite(state.id)}
                   color={'error'}
                   sx={{
                     zIndex: 2,
                     borderRadius: '0.2',
                     bottom: 0,
-
-
-                  }}
-                >
+                  }}>
                   <FavoriteIcon />
                 </IconButton>
-                <IconButton
 
+                <IconButton
                   sx={{
                     zIndex: 2,
                     borderRadius: '0.2',
                     bottom: 0,
                     color: '#0ab33a'
 
-                  }}
-                >
-                  {state.min_people}
-                  <GroupAddIcon />
+                  }}>
+                  <Chip icon={<BoyIcon />} label={`${state.min_people} ที่นั่งขั้นต่ำ`} color="error" variant="outlined" />
                 </IconButton>
                 <IconButton
-
                   sx={{
                     zIndex: 2,
                     borderRadius: '0.2',
                     bottom: 0,
                     color: '#b30a0a',
-
-
-                  }}
-                >
-                  {state.min_people}
-                  <GroupRemoveIcon />
+                  }}>
+                  <Chip icon={<BoyIcon />} label={`${state.min_people} ที่นั่งสูงสุด`} color="success" variant="outlined" />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    zIndex: 2,
+                    borderRadius: '0.2',
+                    bottom: 0,
+                    color: '#b30a0a',
+                  }}>
+                  <Chip label={`${countJoin} คนที่อยู่ในคิว`} color="info" variant="outlined" icon={<BoyIcon />} />
                 </IconButton>
               </Grid>
+
               <Grid item container justifyContent={'flex-end'} xs={6} sx={{ pr: 6, pt: 0.5 }}>
                 <Typography variant="h6" sx={{ ml: 4 }} color={'#0F0F0F'} >
                   ฿{state.pricing.toLocaleString()}
                 </Typography>
+
 
               </Grid>
               <Grid>
@@ -258,7 +269,6 @@ const DetailCourseHomePage = () => {
             </Grid>
 
             <Grid>
-
               <Typography variant="h6" mr={2}  >
                 วิทธยากร
               </Typography>

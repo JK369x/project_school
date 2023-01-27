@@ -53,7 +53,7 @@ const Category: FC = () => {
   const columnOptions: TableColumnOptions[] = [
 
     {
-      width:'100',
+      width: '100',
       alignHeader: 'center',
       alignValue: 'center',
       label: 'ID',
@@ -66,7 +66,7 @@ const Category: FC = () => {
     },
 
     {
-      width:'200',
+      width: '200',
       alignHeader: 'left',
       alignValue: 'center',
       label: 'Action',

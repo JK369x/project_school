@@ -6,43 +6,34 @@ import { CourseCollection } from '../../../../firebase/createCollection'
 import { TypeCourses } from './useCreateCourse';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-export interface CourseJoinType {
-    approval: boolean | null
-    courseName: string | null
-    id_user: string
-    image_course: string
-    name_join: string | null
-    id_document: string
-    transaction: boolean | null
-    transaction_image: string
-    count_number: number | string
-}
+import { CourseJoinType } from './useGetAllJoinCourse';
 
+//! & เพิ่ม id form input
 
-export const useGetAllJoinCourse = () => {
+//! uid คืออะไรที่เกี่ยวข้องกับตัวเอง
+
+export const useGetAllJoinCourseApproval = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams<{ id: string }>();
-    const [JoinCourse, setJoinCourse] = useState<CourseJoinType[]>([])
+    const [JoinCourseApproval, setJoinCourseApproval] = useState<CourseJoinType[]>([])
 
     useEffect(() => {
-        getUserJoinCourse()
+        getUserJoinCourseApproval()
     }, [])
 
-    const getUserJoinCourse = async () => {
+    const getUserJoinCourseApproval = async () => {
         dispatch(isShowLoading());
         try {
-            const url = `${import.meta.env.VITE_REACT_APP_API}course/getalljoincourse/${id}`
+            const url = `${import.meta.env.VITE_REACT_APP_API}course/getalljoincoursetrue/${id}`
             axios.defaults.withCredentials = true
             //! edit form before post 
             const getAllCourse = await axios.get(url)
-            const count = getAllCourse.data.length
             const result = getAllCourse.data
             console.log("course all get list :", result)
-            setJoinCourse(
+            setJoinCourseApproval(
                 result.map((e: any) => {
                     return {
                         ...e,
-                        count_number: count,
                         id_document: e.join_course
                     }
                 }) as CourseJoinType[]
@@ -55,6 +46,6 @@ export const useGetAllJoinCourse = () => {
     }
 
 
-    return { JoinCourse, getUserJoinCourse }
+    return { JoinCourseApproval, getUserJoinCourseApproval }
 }
 

@@ -36,6 +36,9 @@ import axios from "axios";
 import EditCategory from "../pages/Admin/Categorys/EditCategory";
 import DetailCategory from "../pages/Admin/Categorys/DetailCtegory";
 import { setCourseStore } from "../store/slices/courseSlice";
+import CheckName from "../pages/Admin/Checkname/CheckName";
+import ViewUserJoinCourse from "../pages/Admin/Courses/ViewUserJoinCourse";
+import { setbtnStore } from "../store/slices/buttonSlice";
 
 
 
@@ -56,9 +59,9 @@ const RouteAllPage: FC = () => {
         const url = `${import.meta.env.VITE_REACT_APP_API}auth/me`
         axios.defaults.withCredentials = true
         try {
+
             const autoSignIn = await axios.get(url)
             console.log("🚀 ~ file: routes.tsx:59 ~ autoSignIn ~ autoSignIn", autoSignIn)
-
             const data = autoSignIn.data.user.payload
             const user_data = autoSignIn.data.data_new
             const new_favorite = user_data.favorite
@@ -83,6 +86,7 @@ const RouteAllPage: FC = () => {
 
             }),
             )
+
         } catch (err) {
             console.log("🚀 ~ filse: middleware.ts:18 ~ autoSignIn ~ err", err)
 
@@ -120,8 +124,8 @@ const RouteAllPage: FC = () => {
             <Route path="/addcategory" element={<AddCategory />} />
             <Route path="/approval" element={<Approval />} />
             <Route path="/category_course" element={<CategoryCourse />} />
-
-
+            <Route path="/viewuserjoincourse/:id" element={<ViewUserJoinCourse />} />
+            <Route path="/checkname" element={<CheckName />} />
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

@@ -10,38 +10,47 @@ import { FC, useEffect, useState } from 'react'
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
 import { useDeleteCourse } from './Hook/useDeleteCourse'
-import { Button } from '@mui/material'
+import { Button, Chip } from '@mui/material'
 //react dom 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import '../Dashboard/Dashboard.scss'
-import { CourseListsType, useGetCourseLists } from './Hook/useGetCourse'
 import Testgrid from '../../test/Testgrid'
 import Image from '../../../components/Image/Image'
 import { Box } from '@mui/system'
+import { CourseJoinType, useGetAllJoinCourse } from './Hook/useGetAllJoinCourse'
+import { useUpdateApprovalJoinCourse } from './Hook/useUpdateApprovalJoinCourse'
+import { useGetCourseDetail } from './Hook/useGetCourseDtail'
+import { useGetAllJoinCourseApproval } from './Hook/useGetAllJoinCoruseApproval'
+import { useDeleteJoinCourse } from './Hook/useDeleteJoinCourse'
 
 const ViewUserJoinCourse: FC = () => {
-
-    const { CourseLists, getCourseLists } = useGetCourseLists()
-    const data = CourseLists
+    const { JoinCourse, getUserJoinCourse } = useGetAllJoinCourse()
+    const data = JoinCourse
+    const { JoinCourseApproval, getUserJoinCourseApproval } = useGetAllJoinCourseApproval()
+    const data_approval = JoinCourseApproval
+    const { state } = useGetCourseDetail()
+    console.log("🚀 ~ file: ViewUserJoinCourse.tsx:29 ~ state", state)
+    console.log("🚀 ~ file: ViewUserJoinCourse.tsx:27 ~ data", data)
     const { openConfirmDialog } = useDialog()
-    const { deleteCourse } = useDeleteCourse()
+    const { deleteJoinCourse } = useDeleteJoinCourse()
     const navigate = useNavigate()
-    console.log("🚀 ~ file: User.tsx:20 ~ data", data)
-    const newdata = data.filter((item) => item.approval === true)
-    console.log("🚀 ~ file: Couse.tsx:32 ~ newdata", newdata)
+    // console.log("🚀 ~ file: User.tsx:20 ~ data", data)
+    // const newdata = data.filter((item) => item.approval === true)
+    // console.log("🚀 ~ file: Couse.tsx:32 ~ newdata", newdata)
 
-    const delItem = (data: CourseListsType) => {
+    const delItem = (data: CourseJoinType) => {
         openConfirmDialog({
             textContent: 'deleteCourse',
             onConfirm: async () => {
-                await deleteCourse(data.id_document)
-                getCourseLists()
+                await deleteJoinCourse(state.id, data.id_document)
+                getUserJoinCourse()
+                getUserJoinCourseApproval()
             },
         })
     }
 
-    const viewDetailCourse = (data: CourseListsType) => {
+    const viewDetailCourse = (data: CourseJoinType) => {
         console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
         navigate(`/detailcourse/${data.id_document}`)
     }
@@ -49,7 +58,11 @@ const ViewUserJoinCourse: FC = () => {
     const onClickAddCourse = () => {
         navigate('/addcourses')
     }
-
+    const approval = async (data: CourseJoinType) => {
+        await useUpdateApprovalJoinCourse(state.id, data.id_document)
+        getUserJoinCourseApproval()
+        getUserJoinCourse()
+    }
     const columnOptions: TableColumnOptions[] = [
 
         {
@@ -69,17 +82,38 @@ const ViewUserJoinCourse: FC = () => {
         },
         {
             alignValue: 'left',
-            value: 'title',
+            value: 'courseName',
         },
         {
             alignHeader: 'left',
             alignValue: 'left',
-            label: 'Category',
-            value: 'category.label',
+            label: 'Name User',
+            value: 'name_join',
+        },
+        {
+            width: '100',
+            alignHeader: 'left',
+            alignValue: 'left',
+            label: 'Transaction',
+            value: 'transaction',
+        },
+        {
+            width: '100',
+            alignHeader: 'left',
+            alignValue: 'left',
+            label: 'Pricing',
+            value: 'pricing',
+        },
+        {
+            width: '100',
+            alignHeader: 'left',
+            alignValue: 'left',
+            label: 'Approval',
+            value: 'approval',
         },
 
         {
-            width: '200',
+            width: '400',
             alignHeader: 'left',
             alignValue: 'center',
             label: 'Action',
@@ -104,35 +138,87 @@ const ViewUserJoinCourse: FC = () => {
                         <Grid container spacing={2} sx={{ mt: 2 }}>
                             <Grid container justifyContent={'space-between'} alignItems={'center'} >
                                 <Typography variant="h1" component="h1" ml={3}>
-                                    Courses
+                                    Approval
                                 </Typography>
                                 <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCourse()} >+Add course</Button>
                             </Grid>
 
 
                         </Grid>
-                        <Table isSelectTable columnOptions={columnOptions} dataSource={newdata.map((e, index) => {
-                            return {
-                                ...e,
-                                countID: index + 1,
-                                delitem: <>
-                                    <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                                        viewDetailCourse(e)
-                                    }}>View</Button>
-                                    <Button sx={{ mr: 0 }} color='error' onClick={() => {
-                                        delItem(e)
-                                    }}>Delete</Button>
-                                </>,
-                                imageTitle: <Grid >
-                                    <Image src={e.image} width={90} height={60} />
-                                </Grid>,
-                            }
-                        })} defaultRowsPerPage={10} />
+                        <Grid sx={{ height: 1200, maxHeight: 2000 }}>
+
+                            <Table columnOptions={columnOptions} dataSource={data_approval.map((e, index) => {
+                                return {
+                                    ...e,
+                                    transaction: <Chip label={e.transaction == false ? 'รอการโอนเงิน' : 'ชำระเงินแล้ว'} color="success" />,
+                                    approval: <Chip label={e.approval == true ? 'อนุมัติ' : true} color="primary" />,
+                                    countID: index + 1,
+                                    delitem: <>
+                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                            approval(e)
+                                        }}>Approval</Button>
+                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                            viewDetailCourse(e)
+                                        }}>View</Button>
+                                        <Button sx={{ mr: 0 }} color='error' onClick={() => {
+                                            delItem(e)
+                                        }}>Delete</Button>
+                                    </>,
+                                    imageTitle: <Grid >
+                                        <Image src={e.image_course} width={90} height={60} />
+                                    </Grid>,
+                                }
+                            })} defaultRowsPerPage={10} />
+
+                        </Grid>
+
                     </div>
 
                 </div>
+
+                <div className="listContainer">
+                    <div className="listTitle">
+                        <Grid container spacing={2} sx={{ mt: 2 }}>
+                            <Grid container justifyContent={'space-between'} alignItems={'center'} >
+                                <Typography variant="h1" component="h1" ml={3}>
+                                    Wait Approval
+                                </Typography>
+                                <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCourse()} >+Add course</Button>
+                            </Grid>
+
+
+                        </Grid>
+                        <Grid sx={{ height: 1200, maxHeight: 2000 }}>
+
+                            <Table columnOptions={columnOptions} dataSource={data.map((e, index) => {
+                                return {
+                                    ...e,
+                                    transaction: <Chip label={e.transaction == false ? 'รอการโอนเงิน' : 'ชำระเงินแล้ว'} color="error" />,
+                                    approval: <Chip label={e.approval == false ? 'รอการอนุมัติ' : true} color="warning" />,
+                                    countID: index + 1,
+                                    delitem: <>
+                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                            approval(e)
+                                        }}>Approval</Button>
+                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                            viewDetailCourse(e)
+                                        }}>View</Button>
+                                        <Button sx={{ mr: 0 }} color='error' onClick={() => {
+                                            delItem(e)
+                                        }}>Delete</Button>
+                                    </>,
+                                    imageTitle: <Grid >
+                                        <Image src={e.image_course} width={90} height={60} />
+                                    </Grid>,
+                                }
+                            })} defaultRowsPerPage={10} />
+                        </Grid>
+                    </div>
+
+
+                </div>
             </div>
-        </div>
+        </div >
 
     )
 }

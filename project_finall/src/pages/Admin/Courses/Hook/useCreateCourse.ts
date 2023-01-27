@@ -37,15 +37,21 @@ export interface TypeCourses {
     min_people: string,
     image_create: string,
     max_people: string,
+
+    btn_quiz?: boolean,
+    btn_check_name?: boolean | string,
 }
 
 export const UseCreateCourse = () => {
     const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth);
     const dispatch = useAppDispatch()
     const addCourse = async (params: TypeCourses) => {
+        console.log("🚀 ~ file: useCreateCourse.ts:49 ~ addCourse ~ params", params)
         try {
+            console.log('addcourse !! ')
             dispatch(isShowLoading())
             dispatch(openAlertSuccess('addCourseSuccess'))
+            console.log('addcourse !! ')
             const url = `${import.meta.env.VITE_REACT_APP_API}course/addcourse`
             try {
                 axios.defaults.withCredentials = true

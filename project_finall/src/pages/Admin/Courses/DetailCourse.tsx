@@ -8,8 +8,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { Box, } from '@mui/material'
-import Button from "../../../framework/control/Button/Button";
+import { Box, Button, } from '@mui/material'
 //react dom 
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -19,8 +18,13 @@ import { Typography, Avatar } from '@mui/material'
 import { useGetCourseDetail } from './Hook/useGetCourseDtail'
 import Image from '../../../components/Image/Image'
 import React from 'react'
+import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
+import { setbtnStore } from '../../../store/slices/buttonSlice'
+import { useStatusButtonCheckName } from './Hook/useStatusButtonCheckName'
 const DetailCourse: FC = () => {
     const { state } = useGetCourseDetail()
+    const { BtnstatusCheckName, btnCheckName, setbtnCheckName } = useStatusButtonCheckName()
+    console.log("🚀 ~ file: DetailCourse.tsx:27 ~ btnCheckName", btnCheckName)
     console.log("🚀 ~ file: DetailCourse.tsx:23 ~ state", state)
     //*start register course
     const Start_Register_Date = new Date(state.start_register).toLocaleDateString();
@@ -66,20 +70,36 @@ const DetailCourse: FC = () => {
 
 
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
-    console.log("🚀 ~ file: DetailUser.tsx:29 ~ state", state)
 
     const onClickViewUser = () => {
-        navigate(`/editcourse/${state.id}`)
+        navigate(`/viewuserjoincourse/${state.id}`)
 
     }
 
 
-
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    console.log("🚀 ~ file: DetailCourse.tsx:83 ~ isButtonEnabled", isButtonEnabled)
 
     const onClickEdit = () => {
         navigate(`/viewusercourse/${state.id}`)
     }
+
+
+    function viewDetailUser() {
+        navigate(`/viewuserjoincourse/${state.id}`)
+    }
+
+    function checkName() {
+        setIsButtonEnabled(!isButtonEnabled)
+        BtnstatusCheckName(state.id, isButtonEnabled)
+    }
+
+    function Quiz() {
+        throw new Error('Function not implemented.')
+    }
+
 
 
     return (
@@ -90,12 +110,39 @@ const DetailCourse: FC = () => {
                 <div className="listContainer">
                     <div className="listTitle">
                         <Box sx={{ width: '100%' }}>
-                            <Grid container>
-                                <Typography variant="h2" mb={2}  >
-                                    <span>
-                                        Course About
-                                    </span>
-                                </Typography>
+                            <Grid container justifyContent={'space-between'} >
+                                <Grid item >
+                                    <Typography variant="h2" mb={2}  >
+                                        <span>
+                                            Course About
+                                        </span>
+                                    </Typography>
+
+                                </Grid>
+                                <Grid container mb={3} item spacing={2} >
+                                    <Grid item>
+                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                            viewDetailUser()
+                                        }}>View User</Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button sx={{ mr: 1 }} color={isButtonEnabled === true ? 'success' : 'error'} onClick={() => {
+                                            checkName()
+                                        }}>Check Name</Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button sx={{ mr: 1 }} color='info' onClick={() => {
+                                            Quiz()
+                                        }}>Create Quiz</Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button sx={{ mr: 1 }} color='warning' onClick={() => {
+                                            onClickEdit()
+                                        }}>Edit</Button>
+                                    </Grid>
+                                </Grid>
+
+
 
                             </Grid>
                             <Grid container spacing={1}>
@@ -268,16 +315,12 @@ const DetailCourse: FC = () => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-                                <Button label='Edit' onClick={() => onClickViewUser()} />
 
-                                <Button label='Edit' onClick={() => onClickEdit()} />
-                            </Grid>
                         </Box>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }

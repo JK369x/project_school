@@ -22,13 +22,13 @@ import { Box } from '@mui/system'
 
 const Course: FC = () => {
 
-  const { CourseLists ,getCourseLists } = useGetCourseLists()
+  const { CourseLists, getCourseLists } = useGetCourseLists()
   const data = CourseLists
   const { openConfirmDialog } = useDialog()
   const { deleteCourse } = useDeleteCourse()
   const navigate = useNavigate()
   console.log("🚀 ~ file: User.tsx:20 ~ data", data)
-  const newdata = data.filter((item)=> item.approval === true)
+  const newdata = data.filter((item) => item.approval === true)
   console.log("🚀 ~ file: Couse.tsx:32 ~ newdata", newdata)
 
   const delItem = (data: CourseListsType) => {
@@ -53,7 +53,7 @@ const Course: FC = () => {
   const columnOptions: TableColumnOptions[] = [
 
     {
-      width:'100',
+      width: '100',
       alignHeader: 'center',
       alignValue: 'center',
       label: 'ID',
@@ -61,7 +61,7 @@ const Course: FC = () => {
     },
 
     {
-      width:'50',
+      width: '50',
       alignHeader: 'center',
       alignValue: 'center',
       label: 'Course',
@@ -79,7 +79,7 @@ const Course: FC = () => {
     },
 
     {
-      width:'200',
+      width: '200',
       alignHeader: 'left',
       alignValue: 'center',
       label: 'Action',
