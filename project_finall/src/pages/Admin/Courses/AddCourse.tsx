@@ -69,11 +69,6 @@ const AddCourse = () => {
     const auth = useAppSelector(({ auth: { uid } }) => uid)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-
-    const onClickSubmit = () => {
-        // navigate(`/courses`)
-    }
-
     //? waiting set Default value form
     const myForm = useForm<TypeCourses>({
         //! can useDefault onChange
@@ -374,7 +369,7 @@ const AddCourse = () => {
                                         <ControllerTextField fullWidth formprop={myForm} name={"pricing"} label={'pricing'} />
                                     </Grid>
                                     <Grid item xs={3} sx={{ mt: 2.3 }}>
-                                        <Button type='submit' label='Submit' onClick={onClickSubmit} />
+                                        <Button type='submit' label='Submit' />
                                     </Grid>
                                 </Grid>
                             </form>

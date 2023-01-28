@@ -9,6 +9,7 @@ export type CourseListsType = {
     id: string
     approval?: any
     id_document: string
+
 } & TypeCourses
 //! & เพิ่ม id form input
 

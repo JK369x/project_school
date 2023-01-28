@@ -21,6 +21,9 @@ import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
 import { setbtnStore } from '../../../store/slices/buttonSlice'
 import { useStatusButtonCheckName } from './Hook/useStatusButtonCheckName'
+import { ControllerTextField } from '../../../framework/control'
+import { useForm } from 'react-hook-form'
+import { useReject } from './Hook/useRejectCourse'
 const DetailCourse: FC = () => {
     const { state } = useGetCourseDetail()
     const { BtnstatusCheckName, btnCheckName, setbtnCheckName } = useStatusButtonCheckName()
@@ -77,13 +80,17 @@ const DetailCourse: FC = () => {
         navigate(`/viewuserjoincourse/${state.id}`)
 
     }
+    const myForm = useForm<any>({
+        //! can useDefault onChange
 
+    })
+    const { handleSubmit, getValues, setValue } = myForm
 
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     console.log("🚀 ~ file: DetailCourse.tsx:83 ~ isButtonEnabled", isButtonEnabled)
 
     const onClickEdit = () => {
-        navigate(`/viewusercourse/${state.id}`)
+        navigate(`/editcourse/${state.id}`)
     }
 
 
@@ -97,11 +104,24 @@ const DetailCourse: FC = () => {
     }
 
     function Quiz() {
-        throw new Error('Function not implemented.')
+        navigate(`/quiz/${state.id}`)
     }
+    const [reject, setReject] = useState<any>(false)
+    const clickReject = () => {
+        setReject(!reject)
+    }
+    const { updateReject } = useReject()
+    const test = state.reject ? state.reject : ''
+    const newtest = test.reject
+    console.log("🚀 ~ file: DetailCourse.tsx:117 ~ newtest", newtest)
+    const onSubmit = async () => {
+        getValues()
+        console.log("🚀 ~ file: DetailCourse.tsx:122 ~ onSubmit ~ getValues", getValues())
+        if (getValues()) {
+            updateReject(getValues())
+        }
 
-
-
+    }
     return (
         <div className='home'>
             <Sidebar />
@@ -119,28 +139,47 @@ const DetailCourse: FC = () => {
                                     </Typography>
 
                                 </Grid>
-                                <Grid container mb={3} item spacing={2} >
-                                    <Grid item>
-                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                                            viewDetailUser()
-                                        }}>View User</Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button sx={{ mr: 1 }} color={isButtonEnabled === true ? 'success' : 'error'} onClick={() => {
-                                            checkName()
-                                        }}>Check Name</Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button sx={{ mr: 1 }} color='info' onClick={() => {
-                                            Quiz()
-                                        }}>Create Quiz</Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button sx={{ mr: 1 }} color='warning' onClick={() => {
-                                            onClickEdit()
-                                        }}>Edit</Button>
-                                    </Grid>
-                                </Grid>
+                                {state.approval === false ?
+                                    <>
+                                        <Grid container mb={3} item spacing={2} >
+                                            <Grid item>
+                                                <Button sx={{ mr: 1 }} color='error' onClick={() => {
+                                                    clickReject()
+                                                }}>Reject</Button>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button sx={{ mr: 1 }} color='warning' onClick={() => {
+                                                    onClickEdit()
+                                                }}>Edit</Button>
+                                            </Grid>
+
+                                        </Grid>
+                                    </> :
+                                    <>
+                                        <Grid container mb={3} item spacing={2} >
+                                            <Grid item>
+                                                <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                                    viewDetailUser()
+                                                }}>View User</Button>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button sx={{ mr: 1 }} color={isButtonEnabled === true ? 'success' : 'error'} onClick={() => {
+                                                    checkName()
+                                                }}>Check Name</Button>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button sx={{ mr: 1 }} color='info' onClick={() => {
+                                                    Quiz()
+                                                }}>Create Quiz</Button>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button sx={{ mr: 1 }} color='warning' onClick={() => {
+                                                    onClickEdit()
+                                                }}>Edit</Button>
+                                            </Grid>
+                                        </Grid>
+
+                                    </>}
 
 
 
@@ -312,9 +351,37 @@ const DetailCourse: FC = () => {
                                                 </Typography>
                                             </Grid>
                                         </Grid>
+
                                     </Grid>
                                 </Grid>
                             </Grid>
+                            {newtest && <>
+                                <Grid sx={{ width: '100%' }}>
+                                    <Typography variant="body2" mb={1} mr={8} >
+                                        Reject Comment
+                                    </Typography>
+
+                                    <Typography variant="body2" mb={1} mr={8} borderBottom={1} borderColor={'red'}>
+                                        {newtest}
+                                    </Typography>
+
+                                </Grid>
+
+                            </>}
+                            {reject == true ?
+                                <>
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <Grid container justifyContent={'center'} sx={{ width: '100%' }}>
+                                            <ControllerTextField fullWidth multiline maxRows={10} minRows={5} formprop={myForm} name={"reject"} label={'Description'} />
+                                        </Grid>
+                                        <Grid container justifyContent={'center'} sx={{ mt: 2, }}>
+                                            <Button type='submit' sx={{ width: 100, height: 40 }}>Send</Button>
+                                        </Grid>
+                                    </form>
+                                </> :
+                                <>
+
+                                </>}
 
                         </Box>
                     </div>

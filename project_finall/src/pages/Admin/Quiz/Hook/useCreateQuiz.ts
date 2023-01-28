@@ -6,57 +6,23 @@ import { isCloseLoading, isShowLoading } from '../../../../store/slices/loadingS
 import { useAppDispatch, useAppSelector } from '../../../../store/useHooksStore'
 import { Lookup, typeCourseOnline_Onside } from '../../../../types/type';
 import axios from 'axios';
+import { QuizType } from '../Quiz';
 
-export interface TypeCourses {
-    title: string,
-    subtitle: string,
-    description: string,
-    category: Lookup | null,
-    start_register: Date | any,
-    End_register: Date | any,
 
-    start_learn: Date | any,
-    end_learn: Date | any,
 
-    start_time: Date | any,
-    end_time: Date | any,
-    course_date?: string,
-    course_date_time: string | null,
-    course_status?: Lookup[],
-    what_will_student_learn_in_your_course: string[],
-    the_course_consists: string[],
-    who_is_this_course: string,
-    linkteammeeting: string,
-    whataretherequirement: string,
-    image: string,
-    teaching_assistant?: string,
-    Pricing: number,
-    pricing: number,
-    create_byName?: string,
-    Approval: boolean,
-    min_people: string,
-    image_create: string,
-    max_people: string,
-
-    btn_quiz?: boolean,
-    btn_check_name?: boolean | string,
-    reject?: any
-}
-
-export const UseCreateCourse = () => {
+export const useCreateQuiz = () => {
     const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth);
     const dispatch = useAppDispatch()
-    const addCourse = async (params: TypeCourses) => {
+    const addQuiz = async (params: QuizType, id: any) => {
         console.log("🚀 ~ file: useCreateCourse.ts:49 ~ addCourse ~ params", params)
         try {
-            console.log('addcourse !! ')
             dispatch(isShowLoading())
             dispatch(openAlertSuccess('addCourseSuccess'))
-            console.log('addcourse !! ')
-            const url = `${import.meta.env.VITE_REACT_APP_API}course/addcourse`
+            console.log('quiz !! ')
+            const url = `${import.meta.env.VITE_REACT_APP_API}course/createquiz/${id}`
             try {
                 axios.defaults.withCredentials = true
-                await axios.post<TypeCourses>(url, params)
+                await axios.post<QuizType>(url, params)
                 return true
             } catch (err) {
                 return false
@@ -68,7 +34,7 @@ export const UseCreateCourse = () => {
             dispatch(isCloseLoading())
         }
     }
-    return { addCourse }
+    return { addQuiz }
 }
 
 

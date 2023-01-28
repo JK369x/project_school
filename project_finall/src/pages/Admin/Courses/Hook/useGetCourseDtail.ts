@@ -45,6 +45,7 @@ export const useGetCourseDetail = () => {
         id_document: "",
         btn_quiz: false,
         btn_check_name: false,
+        reject: "",
     })
 
     useEffect(() => {

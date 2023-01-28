@@ -39,6 +39,8 @@ import { setCourseStore } from "../store/slices/courseSlice";
 import CheckName from "../pages/Admin/Checkname/CheckName";
 import ViewUserJoinCourse from "../pages/Admin/Courses/ViewUserJoinCourse";
 import { setbtnStore } from "../store/slices/buttonSlice";
+import Quiz from "../pages/Admin/Quiz/Quiz";
+import AddTeacher from "../pages/Teacher/RegisterTeacher";
 
 
 
@@ -126,6 +128,9 @@ const RouteAllPage: FC = () => {
             <Route path="/category_course" element={<CategoryCourse />} />
             <Route path="/viewuserjoincourse/:id" element={<ViewUserJoinCourse />} />
             <Route path="/checkname" element={<CheckName />} />
+            <Route path="/quiz/:id" element={<Quiz />} />
+            <Route path="/createteacher" element={<AddTeacher />} />
+
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

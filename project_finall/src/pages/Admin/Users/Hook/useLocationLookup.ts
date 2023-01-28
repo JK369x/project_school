@@ -5,6 +5,8 @@ import axios from 'axios'
 import { useAppDispatch } from '../../../../store/useHooksStore'
 import { isShowLoading, isCloseLoading } from '../../../../store/slices/loadingSlice'
 
+
+
 interface LocationDatatype {
 	amphure: {
 		tambon: {
@@ -36,9 +38,12 @@ export const useLocationLookup = () => {
 	const getData = async () => {
 		try {
 			dispatch(isShowLoading())
+			axios.defaults.withCredentials = false
 			const result = await axios.get(
-				'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json',
+				'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json', {
+			}
 			)
+			console.log("🚀 ~ file: useLocationLookup.ts:44 ~ getData ~ result", result)
 			setData(result.data)
 			setProvince(result.data.map((e: LocationDatatype) => ({ id: e.id, label: e.name_th })))
 		} catch (error) {
@@ -56,20 +61,17 @@ export const useLocationLookup = () => {
 	const getTambon = (pid: number, aid: number) => {
 		const filterProvince = data.filter((e) => e.id === pid)[0]
 		const filterAmphure = filterProvince.amphure.filter((e) => e.id == aid)[0]
-		setTambon(filterAmphure.tambon.map((e: any) => ({ id: e.id, label: e.name_th, zipcode:e.zip_code }))) //!เราเอาค่าตำบลนี้ไปใช้ต่อจาก zip_code เลยใช้ zipcode แทน
+		setTambon(filterAmphure.tambon.map((e: any) => ({ id: e.id, label: e.name_th, zipcode: e.zip_code }))) //!เราเอาค่าตำบลนี้ไปใช้ต่อจาก zip_code เลยใช้ zipcode แทน
 	}
 	const getZipcode = (tid: number) => {
-		
-		const filltertambon = tambon.filter((e)=> e.id === tid)
-		const fillterzipcode = filltertambon.map((e:any)=>({id: e.id, label:e.zipcode}))
+
+		const filltertambon = tambon.filter((e) => e.id === tid)
+		const fillterzipcode = filltertambon.map((e: any) => ({ id: e.id, label: e.zipcode }))
 		//! find return {}
 		//! filter return [{}]
 		setZipcode(fillterzipcode)
 	}
-	// console.log(tambon)
-	return { province, amphure, getAmphure, tambon, getTambon,zipcode,getZipcode }
+	return { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode }
 }
-// function useAppDispacth() {
-// 	throw new Error('Function not implemented.')
-// }
+
 

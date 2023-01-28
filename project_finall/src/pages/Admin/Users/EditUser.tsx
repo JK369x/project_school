@@ -24,8 +24,7 @@ import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSli
 import { setAuthStore } from '../../../store/slices/authSlice'
 
 const EditUser: FC = () => {
-    const [images, setImages] = useState<any>([]);
-    const [imageURLs, setImageURLs] = useState<any>([]);
+
     const dispatch = useAppDispatch()
 
     const { state } = useGetDetailUser()
@@ -131,7 +130,6 @@ const EditUser: FC = () => {
                                     </Grid>
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
                                         {uploadState.status !== 'none' ? `${uploadState.progress}%` : uploadState.fileName}
-
                                     </Grid>
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mb: 2 }}>
                                         <UploadButton label={'Upload'} onUploadChange={onUploadImage} />
@@ -221,6 +219,7 @@ const EditUser: FC = () => {
                                         <Button label='Submit' type='submit' />
                                     </Grid>
                                 </Grid>
+
 
                             </form>
                         </Box>

@@ -21,6 +21,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { storage } from '../firebase/config_firebase'
 import { doc, getDoc } from 'firebase/firestore';
 import { AccountCollection } from '../firebase/createCollection';
+import { Grid } from '@mui/material';
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -70,16 +71,10 @@ export default function AccountMenu() {
 
     return (
         <>
-            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                <Typography sx={{
-                    minWidth: 100, '&:hover': {
-                        color: '#0085ea',
-                    }
-                }}>
-                    <span onClick={ClickCateGory}>
-                        Category
-                    </span>
-                </Typography>
+
+
+            <Grid container alignItems={'center'} sx={{ mr: 3 }}>
+
                 <Typography sx={{ minWidth: 100 }}>{displayName}</Typography>
                 <Tooltip title="Account settings">
                     <IconButton
@@ -93,66 +88,70 @@ export default function AccountMenu() {
                         <Avatar src={photoURL ? photoURL : '#'} sx={{ width: 32, height: 32 }}>M</Avatar>
                     </IconButton>
                 </Tooltip>
-            </Box>
-            <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
-                PaperProps={{
-                    elevation: 0,
-                    sx: {
-                        overflow: 'visible',
-                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                        mt: 1.5,
-                        '& .MuiAvatar-root': {
-                            width: 32,
-                            height: 32,
-                            ml: -0.5,
-                            mr: 1,
-                        },
-                        '&:before': {
-                            content: '""',
-                            display: 'block',
-                            position: 'absolute',
-                            top: 0,
-                            right: 14,
-                            width: 10,
-                            height: 10,
-                            bgcolor: 'background.paper',
-                            transform: 'translateY(-50%) rotate(45deg)',
-                            zIndex: 0,
-                        },
-                    },
-                }}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            >
-                <MenuItem>
-                    <Avatar /> Profile
-                </MenuItem>
 
-                <Divider />
-                <MenuItem>
-                    <ListItemIcon onClick={ClickFavorite}>
-                        <FavoriteIcon color='error' fontSize="small" />
-                    </ListItemIcon>
-                    <span onClick={ClickFavorite}>Favorite</span>
-                </MenuItem>
-                <MenuItem>
-                    <ListItemIcon>
-                        <Settings color='info' fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                </MenuItem>
-                <MenuItem onClick={onClickLogOut}>
-                    <ListItemIcon>
-                        <Logout color='disabled' fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                </MenuItem>
-            </Menu>
+                <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={open}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                    PaperProps={{
+                        elevation: 0,
+                        sx: {
+                            overflow: 'visible',
+                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            mt: 1.5,
+                            '& .MuiAvatar-root': {
+                                width: 32,
+                                height: 32,
+                                ml: -0.5,
+                                mr: 1,
+                            },
+                            '&:before': {
+                                content: '""',
+                                display: 'block',
+                                position: 'absolute',
+                                top: 0,
+                                right: 14,
+                                width: 10,
+                                height: 10,
+                                bgcolor: 'background.paper',
+                                transform: 'translateY(-50%) rotate(45deg)',
+                                zIndex: 0,
+                            },
+                        },
+                    }}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                    <MenuItem>
+                        <Avatar /> Profile
+                    </MenuItem>
+
+                    <Divider />
+                    <MenuItem>
+                        <ListItemIcon onClick={ClickFavorite}>
+                            <FavoriteIcon color='error' fontSize="small" />
+                        </ListItemIcon>
+                        <span onClick={ClickFavorite}>Favorite</span>
+                    </MenuItem>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <Settings color='info' fontSize="small" />
+                        </ListItemIcon>
+                        Settings
+                    </MenuItem>
+                    <MenuItem onClick={onClickLogOut}>
+                        <ListItemIcon>
+                            <Logout color='disabled' fontSize="small" />
+                        </ListItemIcon>
+                        Logout
+                    </MenuItem>
+                </Menu>
+            </Grid>
+
+
+
         </>
     );
 }

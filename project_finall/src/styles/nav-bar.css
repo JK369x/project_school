@@ -16,8 +16,10 @@ a{
 
 .side-nav-bar-end{
     display: flex;
+    justify-content: center;
     align-items: center;
     margin-right: 13px;
+    width: 100%;
 }
 .nva-bar-in{
     margin-right: 30px;

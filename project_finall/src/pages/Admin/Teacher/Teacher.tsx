@@ -39,19 +39,22 @@ const Teacher: FC = () => {
   const viewDetailUser = (data: UserListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
     // setDetailUser(data)
-    navigate(`/detailuser/${data.id}`)
+    navigate(`/detailuser/${data.id_document}`)
 
   }
 
-  let newdata = data.filter((item:any)=> item.status.id === "4")
+  let newdata = data.filter((item: any) => item.status.id === "4")
   console.log("🚀 ~ file: Teacher.tsx:49 ~ newdata", newdata)
 
 
+  const CreateTeacher = () => {
+    navigate(`/createteacher`)
 
+  }
   const columnOptions: TableColumnOptions[] = [
 
     {
-      width:'100',
+      width: '100',
       alignHeader: 'left',
       alignValue: 'left',
       label: 'ID',
@@ -73,7 +76,7 @@ const Teacher: FC = () => {
       value: 'status.label',
     },
     {
-      width:'200',
+      width: '200',
       alignHeader: 'left',
       alignValue: 'center',
       label: 'Action',
@@ -102,8 +105,8 @@ const Teacher: FC = () => {
                 <Typography variant="h1" component="h1" ml={3}>
                   Teacher
                 </Typography>
-                <Button sx={{ width: '80px', height: '40px', mr: 3 }} color='success'>
-                  + ADD
+                <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={CreateTeacher}>
+                  + ADD Teacher
                 </Button>
               </Grid>
               <Grid item xs={12}>

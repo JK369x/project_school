@@ -41,7 +41,7 @@ const User: FC = () => {
     navigate(`/detailuser/${data.id_document}`)
 
   }
-
+  let newdata = data.filter((item: any) => item.status.id !== "4")
 
   const columnOptions: TableColumnOptions[] = [
 
@@ -97,12 +97,12 @@ const User: FC = () => {
                 <Typography variant="h1" component="h1" ml={3}>
                   Users
                 </Typography>
-                <Button sx={{ width: '80px', height: '40px', mr: 3 }} color='success'>
-                  + ADD
+                <Button sx={{ width: '120px', height: '40px', mr: 3 }} color='success'>
+                  + ADD User
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
+                <Table isSelectTable columnOptions={columnOptions} dataSource={newdata.map((e, index) => {
                   return {
                     ...e,
                     countID: index + 1,

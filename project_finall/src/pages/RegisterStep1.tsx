@@ -147,7 +147,7 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     options={tambon} // load options
                     fullWidth
                 />
-                {/* //! property name must same params */}
+
                 <ControllerAutocomplete
                     formprop={myForm}
                     name={'zipCode'}
@@ -155,7 +155,11 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     options={zipcode} // load options
                     fullWidth
                 />
+
+
             </Grid>
+
+
 
             <Grid container justifyContent={'right'}>
                 <Button type="button"
@@ -168,6 +172,8 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 <Button type="button" onClick={handleNext} sx={{ mr: 1 }}>Next</Button>
                 <Button type="button" onClick={handleComplete}>Complete Step</Button>
             </Grid>
+
+
         </>
 
     )

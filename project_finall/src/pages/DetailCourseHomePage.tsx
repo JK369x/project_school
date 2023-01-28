@@ -24,6 +24,9 @@ import CheckName from './Admin/Checkname/CheckName'
 import { useStatusButtonCheckName } from './Admin/Courses/Hook/useStatusButtonCheckName'
 import { useGetAllJoinCourse } from './Admin/Courses/Hook/useGetAllJoinCourse'
 import BoyIcon from '@mui/icons-material/Boy';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import { useUploadFile } from '../file/useUploadFile'
+import { UploadButton } from '../framework/control'
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
   const { JoinCourse } = useGetAllJoinCourse()
@@ -93,7 +96,8 @@ const DetailCourseHomePage = () => {
   useEffect(() => {
     setCountJoin(newjoin)
   }, [newjoin])
-
+  const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
+  const { uploadFile, uploadState } = useUploadFile()
   const uid_login = useAppSelector(({ auth: uid }) => uid)
   const { joinCourse } = UserJoinCourse()
   const { outCourse } = UserOutCourse()
@@ -135,6 +139,14 @@ const DetailCourseHomePage = () => {
     }
   }
 
+  const onUploadImage = (files: FileList | null) => {
+    if (files) {
+      uploadFile(files[0], `myImages/${uid}/`)
+    }
+    const get_url = uploadState.downloadURL
+    console.log("🚀 ~ file: DetailCourseHomePage.tsx:147 ~ onUploadImage ~ get_url", get_url)
+  }
+
   return (
     <>
       <Navbar />
@@ -152,6 +164,8 @@ const DetailCourseHomePage = () => {
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }}>
               <Grid container xs={6} alignItems={'center'} >
+                {/* <Button variant="contained" sx={{ mr: 1, backgroundColor: '#4e3fd3' }} onClick={() => ClickTransaction()} startIcon={<PostAddIcon />}>แนบสลีป</Button> */}
+                <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />
                 {uid_course?.some((params: any) => params === state.id) ? (<>
                   <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
                 </>) : (<>

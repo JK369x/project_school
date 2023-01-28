@@ -138,7 +138,7 @@ const Approval: FC = () => {
                                         }}>View</Button>
                                         <Button sx={{ mr: 0 }} color='error' onClick={() => {
                                             reject(e)
-                                        }}>reject</Button>
+                                        }}>Delete</Button>
                                     </>,
                                 imageTitle:
                                     <>

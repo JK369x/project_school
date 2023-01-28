@@ -1,0 +1,41 @@
+
+import { isCloseLoading, isShowLoading } from "../../../store/slices/loadingSlice";
+import { useAppDispatch } from "../../../store/useHooksStore";
+import { Lookup } from "../../../types/type";
+import axios from 'axios';
+
+export interface TeacherType {
+    email: string
+    password: string
+    confirmPassword: string
+    firstName: string
+    lastName: string
+    birthday: string
+    about?: string
+    image_rul?: string | null
+    province: Lookup | null
+    amphure: Lookup | null
+    tambon: Lookup | null
+    zipCode: Lookup | null
+    agency: string | number
+}
+
+
+
+export const useCreateTeacher = () => {
+    const dispatch = useAppDispatch();
+    const addTeacher = async (params: TeacherType) => {
+        const url = `${import.meta.env.VITE_REACT_APP_API}user/register`
+        dispatch(isShowLoading());
+        try {
+            axios.defaults.withCredentials = true
+            await axios.post<TeacherType>(url, params)
+            return true
+        } catch (err) {
+            return false
+        } finally {
+            dispatch(isCloseLoading())
+        }
+    }
+    return { addTeacher }
+}

@@ -28,6 +28,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { setAuthStore } from '../store/slices/authSlice';
 import Favorite from '@mui/icons-material/Favorite';
 import { OtherHouses } from '@mui/icons-material';
+import imagebg from '../assets/logo-rmutt/Slide1.jpeg'
+import imagebg1 from '../assets/logo-rmutt/rmutt-l.jpg'
+import logo from '../assets/logo-rmutt/Logo-RMUTT-A4-stork-5-01.png'
+import BodyCenterPage from './BodycenterPage';
 const PageHome = () => {
     const { CourseLists } = useGetCourseLists()
     const data = CourseLists
@@ -69,11 +73,16 @@ const PageHome = () => {
         dots: true,
         infinite: true,
         arrows: false,
-        speed: 500,
+        speed: 3000,
         slidesToShow: 3,
         slidesToScroll: 1,
+        autoplay: true,
+
+        autoplaySpeed: 2000,
+        cssEase: "linear",
 
         responsive: [
+
             {
                 breakpoint: 1424,
                 settings: {
@@ -154,7 +163,13 @@ const PageHome = () => {
     const allcategoryClick = () => {
         setCategory('')
     }
-
+    const settings1 = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    };
     // let newdata = data
     // if (Category) {
     //     newdata = data.filter((item: any) => item.category.label === Category)
@@ -165,24 +180,57 @@ const PageHome = () => {
     return (
         <>
             <Navbar />
-            <Box
-                sx={{
-                    position: "relative",
-                    width: '100%',
-                    height: 650,
-                    opacity: 0.1,
-                    backgroundColor: '#000000',
-                    // '&:hover': {
-                    //     backgroundColor: 'primary.main',
-                    //     opacity: [0.9, 0.8, 0.7],
-                    // },
-                }}>
-            </Box>
+            <Slider {...settings1}>
+                <Grid container justifyContent={'center'} sx={{ mb: -1, }} >
+                    <Box
+                        sx={{
+                            position: "relative",
+                            width: '100%',
+                            height: 1000,
+                            maxHeight: '1600',
+                            backgroundImage: `url(${imagebg})`,
+                            backgroundSize: 'contain',
+                        }}>
+                    </Box>
 
 
-            <Grid container justifyContent={'space-between'} alignItems={'center'} alignContent={'center'} sx={{ width: '100%', height: 650, position: "absolute", top: 65, }}>
+                </Grid>
+                <Grid container justifyContent={'center'} sx={{ mb: -1, }} >
+                    <Box
+                        sx={{
+                            position: "relative",
+                            width: '100%',
+                            height: 1000,
+                            maxHeight: '1600',
+                            backgroundImage: `url(${imagebg})`,
+                            backgroundSize: 'contain',
+                        }}>
+                    </Box>
 
-                <Grid item xs={6} sx={{ ml: 6 }}>
+
+                </Grid>
+            </Slider>
+            <BodyCenterPage />
+            {/* <Grid container justifyContent={'center'} sx={{ mt: 1, mb: -1 }}>
+                <Box
+                    sx={{
+                        position: "relative",
+                        width: '100%',
+                        height: 850,
+                        backgroundImage: `url(${imagebg})`,
+                        backgroundSize: 'contain',
+
+
+                    }}>
+                </Box>
+
+            </Grid> */}
+
+
+
+            {/* <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} sx={{ width: '100%', height: 650, position: "absolute", top: 65, }}>
+
+                <Grid item xs={12} sx={{ ml: 6 }}>
                     <Grid sx={{ mb: 3, ml: 3 }}>
                         <Typography gutterBottom variant="h2" component="h2" color={"black"}>
                             คอร์สเรียนเพิ่มทักษะทาง<br />ด้านวิศวกรรมคอมพิวเตอร์
@@ -203,19 +251,17 @@ const PageHome = () => {
                         </Search>
                     </Grid>
                 </Grid>
-                <Grid item xs={3} sx={{ mr: 6 }}>
-                    <Image src={HeaderLogo} width={350} height={350} />
-                </Grid>
-            </Grid>
+
+            </Grid>  */}
             <Box
                 sx={{ width: '100%', height: 830, backgroundColor: '#000000' }}>
-                <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ ml: 2, }}>
-                    <Typography variant="h2" component="h2" color='#ffffff' sx={{ mt: 7 }}>
+                <Grid container justifyContent={'center'} sx={{ ml: 2, }}>
+                    <Typography variant="h1" component="h2" color='#ffffff' sx={{ mt: 7 }}>
                         👨🏻‍💻  หลักสูตรที่แนะนำ
                     </Typography>
                 </Grid>
-                <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ ml: 2, }}>
-                    <Typography gutterBottom variant="body2" color='#ffffff' >
+                <Grid container justifyContent={'center'} sx={{ ml: 2, }}>
+                    <Typography gutterBottom variant="h5" color='#ffffff' >
                         เรามีหลักสูตรที่พร้อมพัฒนาคุณให้เข้าใจ และ ปฏิบัติได้จริง
                     </Typography>
                 </Grid>
