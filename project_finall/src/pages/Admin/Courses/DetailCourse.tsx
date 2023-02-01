@@ -24,6 +24,8 @@ import { useStatusButtonCheckName } from './Hook/useStatusButtonCheckName'
 import { ControllerTextField } from '../../../framework/control'
 import { useForm } from 'react-hook-form'
 import { useReject } from './Hook/useRejectCourse'
+import TableQuiz from '../Quiz/TableQuiz'
+import { useGetAllQuiz } from '../Quiz/Hook/useGetAllQuiz'
 const DetailCourse: FC = () => {
     const { state } = useGetCourseDetail()
     const { BtnstatusCheckName, btnCheckName, setbtnCheckName } = useStatusButtonCheckName()
@@ -75,7 +77,6 @@ const DetailCourse: FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-
     const onClickViewUser = () => {
         navigate(`/viewuserjoincourse/${state.id}`)
 
@@ -86,7 +87,7 @@ const DetailCourse: FC = () => {
     })
     const { handleSubmit, getValues, setValue } = myForm
 
-    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
     console.log("🚀 ~ file: DetailCourse.tsx:83 ~ isButtonEnabled", isButtonEnabled)
 
     const onClickEdit = () => {
@@ -382,10 +383,10 @@ const DetailCourse: FC = () => {
                                 <>
 
                                 </>}
-
                         </Box>
                     </div>
                 </div>
+                <TableQuiz />
             </div>
         </div >
 

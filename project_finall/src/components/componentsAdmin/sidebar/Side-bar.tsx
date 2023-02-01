@@ -17,9 +17,11 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../../../firebase/config_firebase';
-import { useAppDispatch } from '../../../store/useHooksStore';
+import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore';
 import { setAuthStore } from '../../../store/slices/authSlice';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { setCourseStore } from '../../../store/slices/courseSlice';
+import axios from 'axios';
 
 export const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -48,22 +50,39 @@ export const Sidebar = () => {
   const onClickTeacher = () => {
     navigate('/teacher')
   }
-  const onClickLogOut = () => {
+  const onClickLogOut = async () => {
+    await axios.get(`${import.meta.env.VITE_REACT_APP_API}auth/signout`)
     signOut(auth).then(() => {
       // Sign-out successful.
+
       dispatch(
         setAuthStore({
           uid: null,
+          email: null,
           displayName: null,
           status: null,
+          favorite: null,
+          photoURL: null
           // photoURL: user.photoURL as any,
         }),
+      )
+
+      dispatch(setCourseStore({
+        uid_course: null,
+      }),
       )
     }).catch((error) => {
       console.log("🚀 ~ file: Navbar.tsx:21 ~ signOut ~ error", error)
       // An error happened.
     });
     navigate('/adminlogin')
+  }
+
+  const { uid } = useAppSelector(({ auth }) => auth)
+  console.log("🚀 ~ file: Side-bar.tsx:82 ~ Sidebar ~ uid", uid)
+
+  const onClickProfile = () => {
+    navigate(`/profile/${uid}`)
   }
 
 
@@ -127,7 +146,7 @@ export const Sidebar = () => {
           <p className="title">USER</p>
           <li>
             <AccountBoxIcon className='icon' />
-            <span>Profile</span>
+            <span onClick={onClickProfile}>Profile</span>
           </li>
           <li>
             <LogoutIcon className='icon' />

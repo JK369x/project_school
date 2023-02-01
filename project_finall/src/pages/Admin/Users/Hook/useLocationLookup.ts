@@ -37,12 +37,13 @@ export const useLocationLookup = () => {
 
 	const getData = async () => {
 		try {
+			const options = {
+				withCredentials: false,
+			};
 			dispatch(isShowLoading())
-			axios.defaults.withCredentials = false
+			// axios.defaults.withCredentials = false
 			const result = await axios.get(
-				'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json', {
-			}
-			)
+				'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json', options)
 			console.log("🚀 ~ file: useLocationLookup.ts:44 ~ getData ~ result", result)
 			setData(result.data)
 			setProvince(result.data.map((e: LocationDatatype) => ({ id: e.id, label: e.name_th })))
@@ -55,13 +56,13 @@ export const useLocationLookup = () => {
 
 	const getAmphure = (id: number) => {
 		const newdata = data.filter((e) => e.id === id)[0]
-		setAmphure(newdata.amphure.map((e: any) => ({ id: e.id, label: e.name_th })))
+		setAmphure(newdata.amphure?.map((e: any) => ({ id: e.id, label: e.name_th })))
 	}
 
 	const getTambon = (pid: number, aid: number) => {
 		const filterProvince = data.filter((e) => e.id === pid)[0]
 		const filterAmphure = filterProvince.amphure.filter((e) => e.id == aid)[0]
-		setTambon(filterAmphure.tambon.map((e: any) => ({ id: e.id, label: e.name_th, zipcode: e.zip_code }))) //!เราเอาค่าตำบลนี้ไปใช้ต่อจาก zip_code เลยใช้ zipcode แทน
+		setTambon(filterAmphure.tambon?.map((e: any) => ({ id: e.id, label: e.name_th, zipcode: e.zip_code }))) //!เราเอาค่าตำบลนี้ไปใช้ต่อจาก zip_code เลยใช้ zipcode แทน
 	}
 	const getZipcode = (tid: number) => {
 

@@ -109,9 +109,8 @@ const Register = (props: Props) => {
   const dispatch = useAppDispatch()
 
   const { addUser } = useCreateAcc()
-  const { handleSubmit, getValues } = myForm
+  const { handleSubmit, getValues, setValue } = myForm
   const navigate = useNavigate()
-
   const onSubmit = async () => {
     handleComplete()
     const email = getValues('email')
@@ -119,13 +118,14 @@ const Register = (props: Props) => {
     const password = getValues('password')
 
     if (getValues()) {
+      console.log("🚀 ~ file: Register.tsx:121 ~ onSubmit ~ getValues()", getValues())
       try {
         dispatch(isShowLoading())
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-        const user = userCredential.user
-        const uid = userCredential.user.uid
+        // const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        // const user = userCredential.user
+        // const uid = userCredential.user.uid
         addUser(getValues())
-        console.log(user)
+        // console.log(user)
         navigate('/login')
       } catch (error) {
         console.log(error)
@@ -174,7 +174,7 @@ const Register = (props: Props) => {
                   <form onSubmit={handleSubmit(onSubmit)}>
                     {/* //?component={'span'} variant={'body2'} */}
 
-                    <Typography  variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
+                    <Typography variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
 
                       {activeStep === 0 && (
 

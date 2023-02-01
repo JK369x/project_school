@@ -2,12 +2,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 //import register
 //MUI
-import * as React from 'react';
 import { useEffect, useState } from "react";
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepButton from '@mui/material/StepButton';
+
 import Typography from '@mui/material/Typography';
 import { Lookup } from "../../types/type";
 import Grid from '@mui/material/Grid';
@@ -16,19 +12,17 @@ import Navbar from '../../components/componentsAdmin/navbar/Navbar'
 //HOOK
 
 //firebase
-import { auth } from '../../firebase/config_firebase'
 import { useAppDispatch, useAppSelector } from "../../store/useHooksStore";
 import { isCloseLoading, isShowLoading } from "../../store/slices/loadingSlice";
 //redux
-import { useNavigate } from "react-router-dom";
-import { Footer } from "../../components/Footer";
+
 import Sidebar from "../../components/componentsAdmin/sidebar/Side-bar";
 import { TeacherType, useCreateTeacher } from "./Hook/CreateTeacher";
 import { ControllerAutocomplete, ControllerTextField, UploadButton } from "../../framework/control";
-import NativePickers from "../components/DatePicker";
 import { useLocationLookup } from "../Admin/Users/Hook/useLocationLookup";
 import { Avatar, Stack, TextField } from "@mui/material";
 import { useUploadFile } from "../../file/useUploadFile";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -88,16 +82,23 @@ const AddTeacher = () => {
     const dispatch = useAppDispatch()
 
     const [birthday, setBirthday] = useState<any>(new Date());
-
+    const navigate = useNavigate()
     const onSubmit = async () => {
         setValue('birthday', birthday)
         console.log('getvaluse!!!!', getValues())
         if (getValues()) {
             try {
+
+                dispatch(isShowLoading());
                 await addTeacher(getValues())
+
             } catch (error) {
                 console.log(error)
 
+            } finally {
+                console.log('create teacher!!')
+                dispatch(isCloseLoading());
+                navigate(`/teacher`)
             }
         }
     }
@@ -167,6 +168,7 @@ const AddTeacher = () => {
                                                 InputLabelProps={{
                                                     shrink: true,
                                                 }}
+                                                onChange={(event) => setBirthday(event.target.value)}
                                             />
                                         </Stack>
                                     </Grid>

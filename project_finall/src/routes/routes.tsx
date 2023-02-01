@@ -41,6 +41,8 @@ import ViewUserJoinCourse from "../pages/Admin/Courses/ViewUserJoinCourse";
 import { setbtnStore } from "../store/slices/buttonSlice";
 import Quiz from "../pages/Admin/Quiz/Quiz";
 import AddTeacher from "../pages/Teacher/RegisterTeacher";
+import Profile from "../pages/Admin/Users/Profile";
+import ShowQuiz from "../pages/Admin/Quiz/ShowQuiz";
 
 
 
@@ -57,19 +59,18 @@ const RouteAllPage: FC = () => {
         autoSignIn()
     }, [])
     const autoSignIn = async () => {
-        console.log('autosme ')
+        console.log('============ send token ====================')
         const url = `${import.meta.env.VITE_REACT_APP_API}auth/me`
         axios.defaults.withCredentials = true
         try {
 
             const autoSignIn = await axios.get(url)
             console.log("🚀 ~ file: routes.tsx:59 ~ autoSignIn ~ autoSignIn", autoSignIn)
-            const data = autoSignIn.data.user.payload
+            const data = autoSignIn.data.user.payload.image_rul
             const user_data = autoSignIn.data.data_new
             const new_favorite = user_data.favorite
             const new_email = user_data.email
             const new_join = user_data.course_join
-            console.log("🚀 ~ file: routes.tsx:67 ~ autoSignIn ~ new_join", new_join)
             const new_status = user_data.status
             const firstName = user_data.firstName
             const lastName = user_data.lastName
@@ -82,6 +83,7 @@ const RouteAllPage: FC = () => {
                 displayName,
                 status: new_status,
                 favorite: new_favorite,
+                photoURL: data,
             }))
             dispatch(setCourseStore({
                 uid_course: new_join,
@@ -93,7 +95,7 @@ const RouteAllPage: FC = () => {
             console.log("🚀 ~ filse: middleware.ts:18 ~ autoSignIn ~ err", err)
 
         }
-        console.log("🚀===================")
+        console.log("🚀========== success set redux =========")
     }
 
 
@@ -130,7 +132,8 @@ const RouteAllPage: FC = () => {
             <Route path="/checkname" element={<CheckName />} />
             <Route path="/quiz/:id" element={<Quiz />} />
             <Route path="/createteacher" element={<AddTeacher />} />
-
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/showquiz" element={<ShowQuiz />} />
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

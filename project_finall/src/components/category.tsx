@@ -20,7 +20,7 @@ export default function IconBreadcrumbs() {
                 underline="hover"
                 sx={{ display: 'flex', alignItems: 'center' }}
                 color="inherit"
-                href="/"
+
                 onClick={ClickCateGory}
             >
                 <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
@@ -30,7 +30,6 @@ export default function IconBreadcrumbs() {
                 underline="hover"
                 sx={{ display: 'flex', alignItems: 'center' }}
                 color="inherit"
-                href="/material-ui/getting-started/installation/"
                 onClick={ClickCateGory}
             >
                 <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
@@ -40,7 +39,6 @@ export default function IconBreadcrumbs() {
                 underline="hover"
                 sx={{ display: 'flex', alignItems: 'center' }}
                 color="inherit"
-                href="/material-ui/getting-started/installation/"
                 onClick={ClickCateGory}
             >
                 <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />

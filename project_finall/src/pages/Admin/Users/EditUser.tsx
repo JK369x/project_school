@@ -24,58 +24,58 @@ import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSli
 import { setAuthStore } from '../../../store/slices/authSlice'
 
 const EditUser: FC = () => {
-
-    const dispatch = useAppDispatch()
-
-    const { state } = useGetDetailUser()
-    console.log("🚀 ~ file: EditUser.tsx:32 ~ state", state)
-    const { updateUser } = useUpdateUser()
-
-
-
-
     const myForm = useForm<{ data: UserListsType }>({})
-
-    const { uploadFile, uploadState } = useUploadFile()
     const { watch, handleSubmit, getValues, setValue } = myForm
-    const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
-    const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     const changeProvince = watch('data.province')
     const changeAmphure = watch('data.amphure')
     const changeTambon = watch('data.tambon')
+    useEffect(() => {
+        if (changeProvince) {
+            getAmphure(parseInt(`${changeProvince.id}`))
+        }
+    }, [changeProvince])
+    useEffect(() => {
+        if (changeProvince && changeAmphure) {
+            console.log('gettambomasd!!!')
+            getTambon(parseInt(`${changeProvince.id}`), parseInt(`${changeAmphure.id}`))
+        }
+    }, [changeAmphure])
+    useEffect(() => {
+        if (changeTambon) {
+            getZipcode(parseInt(`${changeTambon.id}`))
+        }
+    }, [changeTambon])
+
+
+    const { updateUser } = useUpdateUser()
+    const dispatch = useAppDispatch()
+
+    const { uploadFile, uploadState } = useUploadFile()
+
+    const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
+    const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
+
+
+
+
+
+
 
     const onUploadImage = (files: FileList | null) => {
         if (files) {
             uploadFile(files[0], `myImages/${uid}/`)
         }
     }
+
+
+
+    const { state } = useGetDetailUser()
     useEffect(() => {
-        myForm.setValue('data', state
-        )
+        myForm.setValue('data', state)
         if (uploadState.downloadURL) {
             myForm.setValue('data.image_rul', uploadState.downloadURL)
         }
-    }, [state, uploadState.downloadURL])
-
-    // //!error 
-    // useEffect(() => {
-    //     if (changeProvince) {
-    //         getAmphure(parseInt(`${changeProvince.id}`))
-    //     }
-    // }, [changeProvince])
-    // //!error 
-    // useEffect(() => {
-    //     if (changeProvince && changeAmphure) {
-    //         getTambon(parseInt(`${changeProvince.id}`), parseInt(`${changeAmphure.id}`))
-    //     }
-    // }, [changeAmphure])
-    // //!error 
-    // useEffect(() => {
-    //     if (changeTambon) {
-    //         getZipcode(parseInt(`${changeTambon.id}`))
-    //     }
-    // }, [changeTambon])
-
+    }, [state])
     const onSubmit = async () => {
 
 
@@ -168,7 +168,6 @@ const EditUser: FC = () => {
                                         <Grid item xs={3}>
 
                                             <ControllerAutocomplete
-
                                                 formprop={myForm}
                                                 name={'data.amphure'}
                                                 label={'Amphure'}

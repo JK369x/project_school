@@ -1,5 +1,5 @@
-import { Button } from '@mui/material';
-import { useEffect } from 'react';
+import { Button, Stack, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { FC } from 'react'
 // /* Importing the type of the object returned by the useForm hook. */
 import { UseFormReturn } from "react-hook-form";
@@ -57,7 +57,9 @@ export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, h
 }
 
 export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, handleBack, activeStep }) => {
-    const { register } = myForm
+    const { register, setValue } = myForm
+    const [birthday, setBirthday] = useState<any>(new Date());
+    setValue('birthday', birthday)
     return (
         <>
             <Grid container justifyContent={'center'} style={{ padding: '10px', }}>
@@ -75,6 +77,22 @@ export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 </Grid>
                 <Grid item xs={12}>
                     <ControllerAutocomplete fullWidth options={role} formprop={myForm} name={'status'} label={'Status'} />
+                </Grid>
+                <Grid item xs={12}>
+                    <Stack component="form" noValidate spacing={3}>
+                        <TextField
+                            id="date"
+                            label="Birthday"
+                            type="date"
+                            value={birthday}
+                            defaultValue="2017-05-24"
+                            sx={{ width: '100%' }}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={(event) => setBirthday(event.target.value)}
+                        />
+                    </Stack>
                 </Grid>
             </Grid>
             <Grid container justifyContent={'Right'}>

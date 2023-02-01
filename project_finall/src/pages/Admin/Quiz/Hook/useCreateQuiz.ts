@@ -13,23 +13,25 @@ import { QuizType } from '../Quiz';
 export const useCreateQuiz = () => {
     const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth);
     const dispatch = useAppDispatch()
-    const addQuiz = async (params: QuizType, id: any) => {
-        console.log("🚀 ~ file: useCreateCourse.ts:49 ~ addCourse ~ params", params)
+    const addQuiz = async (params: any, id: any, { start_quiz, end_quiz }: any, title: any) => {
+        console.log("🚀 ~ file: useCreateQuiz.ts:17 ~ addQuiz ~ title", title)
+        const newdata = title.title
+        console.log("######title", newdata)
         try {
             dispatch(isShowLoading())
-            dispatch(openAlertSuccess('addCourseSuccess'))
+            dispatch(openAlertSuccess('create quiz!!'))
             console.log('quiz !! ')
             const url = `${import.meta.env.VITE_REACT_APP_API}course/createquiz/${id}`
             try {
                 axios.defaults.withCredentials = true
-                await axios.post<QuizType>(url, params)
+                await axios.post<any>(url, { params, start_quiz, end_quiz, newdata })
                 return true
             } catch (err) {
                 return false
             }
         } catch (err) {
             console.log(err)
-            dispatch(openAlertError('addCourseError'))
+            dispatch(openAlertError('check detail quiz!!'))
         } finally {
             dispatch(isCloseLoading())
         }

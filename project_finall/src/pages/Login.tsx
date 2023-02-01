@@ -54,14 +54,15 @@ const Login = (props: Props) => {
       axios.defaults.withCredentials = true
       const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
       const user = res.data.user
-      console.log("🚀 ~ file: Login.tsx:55 ~ onSubmit ~ res", res)
+      console.log("🚀 ~ file: Login.tsx:57 ~ onSubmit ~ user", user)
+      const image = user.image_rul
+      console.log("🚀 ~ file: Login.tsx:58 ~ onSubmit ~ image", image)
       const user_email = user.email
       const user_displayName = user.display_name
       const user_status = user.status
       const user_id = user.id_document
       const user_favorite = user.favorite
       const user_course = res.data.data.course_join
-      console.log("🚀 ~ file: Login.tsx:64 ~ onSubmit ~ user_course", user_course)
 
       if (user) {
         dispatch(setAuthStore({
@@ -70,11 +71,11 @@ const Login = (props: Props) => {
           displayName: user_displayName,
           status: user_status,
           favorite: user_favorite,
+          photoURL: image,
         }))
 
         dispatch(setCourseStore({
           uid_course: user_course,
-
         }),
         )
       }

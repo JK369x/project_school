@@ -77,8 +77,16 @@ const AddCategory: FC = () => {
                                 <Typography variant="h1" component="h1" ml={3}>
                                     Add Category
                                 </Typography>
-                                <ControllerTextField formprop={myForm} name={"Category_Title"} label={'Category Title'} />
-                                <Button label='Submit' type='submit' />
+                                <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} spacing={1}>
+                                    <Grid item xs={8}>
+                                        <ControllerTextField fullWidth formprop={myForm} name={"Category_Title"} label={'Category Title'} />
+
+                                    </Grid>
+                                    <Grid item xs={3} sx={{ mt: 2 }}>
+                                        <Button label='Submit' type='submit' />
+                                    </Grid>
+
+                                </Grid>
                             </form>
                         </Grid>
                     </div>

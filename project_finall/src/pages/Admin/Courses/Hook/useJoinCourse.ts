@@ -21,7 +21,7 @@ export const UserJoinCourse = () => {
         console.log("🚀 ~ file: useJoinCourse.ts:21 ~ joinCourse ~ params", params)
         try {
             dispatch(isShowLoading())
-            dispatch(openAlertSuccess('addCourseSuccess'))
+            dispatch(openAlertSuccess('Join Course '))
             const url = `${import.meta.env.VITE_REACT_APP_API}course/joincourse/${params}`
             try {
                 axios.defaults.withCredentials = true
@@ -36,7 +36,7 @@ export const UserJoinCourse = () => {
             }
         } catch (err) {
             console.log(err)
-            dispatch(openAlertError('addCourseError'))
+            dispatch(openAlertError('Check Detail'))
         } finally {
             dispatch(isCloseLoading())
         }

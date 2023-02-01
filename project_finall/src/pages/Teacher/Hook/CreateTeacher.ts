@@ -1,4 +1,5 @@
 
+import { openAlertError, openAlertSuccess } from "../../../store/slices/alertSlice";
 import { isCloseLoading, isShowLoading } from "../../../store/slices/loadingSlice";
 import { useAppDispatch } from "../../../store/useHooksStore";
 import { Lookup } from "../../../types/type";
@@ -26,15 +27,14 @@ export const useCreateTeacher = () => {
     const dispatch = useAppDispatch();
     const addTeacher = async (params: TeacherType) => {
         const url = `${import.meta.env.VITE_REACT_APP_API}user/register`
-        dispatch(isShowLoading());
         try {
             axios.defaults.withCredentials = true
             await axios.post<TeacherType>(url, params)
+            dispatch(openAlertSuccess('Create Teacher !!'))
             return true
         } catch (err) {
+            dispatch(openAlertError('check info'))
             return false
-        } finally {
-            dispatch(isCloseLoading())
         }
     }
     return { addTeacher }

@@ -30,7 +30,7 @@ const Teacher: FC = () => {
     openConfirmDialog({
       textContent: 'deleteUser',
       onConfirm: async () => {
-        await deleteUser(data.id)
+        await deleteUser(data.id_document)
         getUserLists()
       },
     })

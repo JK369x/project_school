@@ -72,7 +72,6 @@ const AddCourse = () => {
     //? waiting set Default value form
     const myForm = useForm<TypeCourses>({
         //! can useDefault onChange
-
     })
     const [choices, setChoices] = useState<string[]>([]);
     const [numOfChoices, setNumOfChoices] = useState(1);

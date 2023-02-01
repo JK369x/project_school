@@ -34,17 +34,20 @@ const LoginAdmin = () => {
             axios.defaults.withCredentials = true
             const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
             const user = res.data.user.email
-            const {displayName,id_document,status,favorite} = user
-            console.log("🚀 ~ file: Login.tsx:57 ~ onSubmit ~ user", user)
-          
+            const image = res.data.user.image_rul
+            const id_document = res.data.user.id_document
+            const Name = res.data.user.displayName
+            const user_favorite = res.data.user.favorite
+            const user_status = res.data.user.status
+            console.log("first login status user :", user_status)
             dispatch(setAuthStore({
-              uid: id_document,
-              email: user,
-              displayName,
-              status,
-              favorite,
+                uid: id_document,
+                email: user,
+                displayName: Name,
+                status: user_status,
+                favorite: user_favorite,
+                photoURL: image,
             }))
-
             navigator('/dashboard')
 
         } catch (error) {

@@ -27,8 +27,12 @@ import BoyIcon from '@mui/icons-material/Boy';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useUploadFile } from '../file/useUploadFile'
 import { UploadButton } from '../framework/control'
+import { useGetFavorite } from './Admin/favorite/useGetFavorite'
+import { setAuthStore } from '../store/slices/authSlice'
+import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:35 ~ DetailCourseHomePage ~ state", state)
   const { JoinCourse } = useGetAllJoinCourse()
   const newdata = JoinCourse.map((item) => {
     return item.count_number
@@ -76,10 +80,33 @@ const DetailCourseHomePage = () => {
     hour12: false,
     timeZone: 'Asia/Bangkok'
   })
-
-
+  const { uid, status, displayName, photoURL, favorite, email } = useAppSelector(({ auth }) => auth)
+  const { FavoriteList } = useGetFavorite()
+  const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
+  const { addFavorite } = useCreateFavorite()
   const Clickfavorite = (item: string) => {
-
+    try {
+      let favorite: string[] = [...favorite_user ?? []]
+      if (favorite.some((params) => params === item)) {
+        favorite = favorite.filter((params) => params !== item)
+        addFavorite(favorite, uid_login.uid!)
+      } else {
+        //! เอาออก
+        favorite.push(item)
+        addFavorite(favorite, uid_login.uid!)
+      }
+      dispatch(setAuthStore({
+        //* ชื่อเหมือนกันไม่ต้อง :
+        uid,
+        email,
+        displayName,
+        status,
+        favorite,
+      }),
+      )
+    } catch (err) {
+      console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
+    }
   }
 
 
@@ -96,7 +123,6 @@ const DetailCourseHomePage = () => {
   useEffect(() => {
     setCountJoin(newjoin)
   }, [newjoin])
-  const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
   const { uploadFile, uploadState } = useUploadFile()
   const uid_login = useAppSelector(({ auth: uid }) => uid)
   const { joinCourse } = UserJoinCourse()
@@ -106,10 +132,8 @@ const DetailCourseHomePage = () => {
   const course_id = useAppSelector(({ course: { uid_course } }) => uid_course)
   const dispatch = useDispatch()
   const [countJoin, setCountJoin] = useState(newjoin)
-  console.log("🚀 ~ file: DetailCourseHomePage.tsx:101 ~ DetailCourseHomePage ~ countJoin", countJoin)
   const ClickDeleteCourseJoin = (datacourse: string) => {
     let course: string[] = [...course_id ?? []]
-
     try {
       console.log("course ", course)
       if (course.some((prams) => prams === datacourse)) {
@@ -128,10 +152,8 @@ const DetailCourseHomePage = () => {
         joinCourse(datacourse)
         addJoinCourse(course, uid_login.uid!)
       }
-
       dispatch(setCourseStore({
         uid_course: course,
-
       }),
       )
     } catch (err) {
@@ -146,7 +168,9 @@ const DetailCourseHomePage = () => {
     const get_url = uploadState.downloadURL
     console.log("🚀 ~ file: DetailCourseHomePage.tsx:147 ~ onUploadImage ~ get_url", get_url)
   }
-
+  console.log('date now ', new Date().toLocaleDateString())
+  const newdate = state.End_register
+  console.log('date =', new Date(newdate).toLocaleDateString())
   return (
     <>
       <Navbar />
@@ -164,8 +188,10 @@ const DetailCourseHomePage = () => {
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }}>
               <Grid container xs={6} alignItems={'center'} >
-                {/* <Button variant="contained" sx={{ mr: 1, backgroundColor: '#4e3fd3' }} onClick={() => ClickTransaction()} startIcon={<PostAddIcon />}>แนบสลีป</Button> */}
-                <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />
+                {new Date(state.End_register).toLocaleDateString() >= new Date().toLocaleDateString() ? <>
+                  <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />
+
+                </> : ''}
                 {uid_course?.some((params: any) => params === state.id) ? (<>
                   <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
                 </>) : (<>
@@ -175,7 +201,7 @@ const DetailCourseHomePage = () => {
                   <CheckName id={state.id} />
                 </>}
                 <IconButton onClick={() => Clickfavorite(state.id)}
-                  color={'error'}
+                  color={favorite_user?.some((params: any) => params === state.id) ? 'error' : 'inherit'}
                   sx={{
                     zIndex: 2,
                     borderRadius: '0.2',

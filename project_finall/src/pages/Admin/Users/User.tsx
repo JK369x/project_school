@@ -97,9 +97,7 @@ const User: FC = () => {
                 <Typography variant="h1" component="h1" ml={3}>
                   Users
                 </Typography>
-                <Button sx={{ width: '120px', height: '40px', mr: 3 }} color='success'>
-                  + ADD User
-                </Button>
+
               </Grid>
               <Grid item xs={12}>
                 <Table isSelectTable columnOptions={columnOptions} dataSource={newdata.map((e, index) => {

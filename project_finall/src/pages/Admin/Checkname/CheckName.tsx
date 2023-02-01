@@ -77,11 +77,12 @@ export default function CheckName(id_course: any) {
     const { register, handleSubmit, getValues, setValue } = myForm
 
     const onSubmit = async (data: CheckNameType) => {
-        clickCheckName(id_course.id)
         if (data) {
             try {
+                clickCheckName(id_course.id)
 
             } catch (err) {
+                console.log("🚀 ~ file: CheckName.tsx:85 ~ onSubmit ~ err", err)
 
             }
         }
