@@ -89,7 +89,7 @@ const AddCourse = () => {
             setImage(e.target.files[0]);
     }
 
-
+    const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
         getValues()
@@ -130,8 +130,9 @@ const AddCourse = () => {
                         setValue('start_time', new Date(start_time))
                         setValue('end_time', new Date(end_time))
 
-                        // setValue('what_will_student_learn_in_your_course', [...getValues(what_will_learn), ""])
                         setValue('image', url)
+                        setValue('image_create', photoURL ? photoURL : '')
+                        setValue('about', about ? about : '')
                         if (getValues()) {
                             try {
                                 addCourse(getValues())

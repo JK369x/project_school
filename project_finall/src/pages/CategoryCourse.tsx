@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import AccountMenu from '../components/Account_menu'
 import { Navbar } from '../components/Navbar'
 import { useGetCategoryLists } from './Admin/Categorys/Hook/useGetCategory'
-import { Box, Card, CardActions, Grid, Typography, CardMedia, CardContent } from '@mui/material'
+import { Box, Card, CardActions, Grid, Typography, CardMedia, CardContent, Breadcrumbs, Link, Chip } from '@mui/material'
 import Image from '../components/Image/Image'
 import teacher from '../assets/photo-1573166364524-d9dbfd8bbf83.avif'
 import { CourseListsType, useGetCourseLists } from './Admin/Courses/Hook/useGetCourse'
-import { Avatar, IconButton, Rating } from '@mui/material';
+import { Avatar, Rating } from '@mui/material';
 import react from 'react'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -14,7 +14,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
 import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
 import { setAuthStore } from '../store/slices/authSlice'
+import { useNavigate } from 'react-router-dom'
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
 const CategoryCourse = () => {
+
+  
+
   const { CourseLists } = useGetCourseLists()
   const data = CourseLists
   const { CategoryLists, useGetCategory } = useGetCategoryLists()
@@ -27,12 +34,12 @@ const CategoryCourse = () => {
   const queryCategory = (category: any) => {
     setCategory(category)
   }
-
+  const navigate = useNavigate()
   const allcategoryClick = () => {
     setCategory('')
   }
   const onClickCard = (data: CourseListsType) => {
-
+    navigate(`/detailcoursehomepage/${data.id_document}`)
   }
   const labels: { [index: string]: string } = {
     0.5: 'Useless',
@@ -90,10 +97,8 @@ const CategoryCourse = () => {
   return (
     <>
       <Navbar />
-      <Grid container justifyContent={'center'} sx={{ mt: 5, }}>
-        <Grid container justifyContent={'center'}  >
-          <Image src={teacher} width={1100} height={350}></Image>
-        </Grid>
+      <Grid container justifyContent={'center'} sx={{}}>
+
         <Grid container justifyContent={'center'} maxWidth={'75rem'} >
           <Grid container justifyContent={'center'} mt={3}>
             <Typography variant="h5" component="h5" color={'black'}>
@@ -103,32 +108,19 @@ const CategoryCourse = () => {
 
 
           <Grid container justifyContent={'center'} >
-            <Typography variant='h6' sx={{
-              mr: 1, '&:hover': {
-                cursor: 'pointer',
-                color: '#0085ea'
-              }
-            }}>
-              <span onClick={() => { allcategoryClick() }}>
-
-                All
-              </span>
-            </Typography>
-            {dataCategoryLists.map((item, index) => {
-              return (<React.Fragment key={index}>
-                <Typography variant='h6' sx={{
-                  mr: 1, '&:hover': {
-                    cursor: 'pointer',
-                    color: '#0085ea'
-                  }
-                }}>
-                  <span onClick={() => { queryCategory(item) }}>
-
-                    {item}
-                  </span>
-                </Typography>
-              </React.Fragment>)
-            })}
+            <Grid item xs={12} sx={{ mb: 2 }}>
+              <Typography variant="h5" component="h5" color={'black'}>
+                เลือกหมวดหมู่ที่คุณสนใจ
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Chip label="All" onClick={() => { allcategoryClick() }} color='primary' sx={{ width: 60, mr: 1 }} />
+              {dataCategoryLists.map((item, index) => {
+                return (<React.Fragment key={index}>
+                  <Chip label={item} onClick={() => { queryCategory(item) }} color='primary' sx={{ maxWidth: 150, mr: 1 }} />
+                </React.Fragment>)
+              })}
+            </Grid>
 
           </Grid>
 

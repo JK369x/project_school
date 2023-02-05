@@ -11,7 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
 export default function QuestionCard(props: any) {
-    const { question = {}, questionNumber, submitAnswer } = props;
+    const { newdata = {}, questionNumber, submitAnswer } = props;
     const [value, setValue] = React.useState(null);
 
     const handleChangeRadio = (e: any) => {
@@ -28,18 +28,23 @@ export default function QuestionCard(props: any) {
             <Card variant="outlined">
                 <CardContent>
 
-                    <Typography variant="h5" component="div">
+                    <Typography variant="h2" component="div">
                         Question {questionNumber}
                     </Typography>
 
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {question.title}
+                    <Typography variant="h4" sx={{ mb: 1.5 }} color="text.secondary">
+                        {newdata.question}
                     </Typography>
 
                     <FormControl>
                         <RadioGroup name="radio-group-quiz" value={value} onChange={handleChangeRadio}>
-                            {question.options.map((o: any, i: any) => {
-                                return <FormControlLabel key={i + 1} value={i + 1} control={<Radio />} label={o.description} />
+                            {Array(newdata)?.map((o: any, i: any) => {
+                                return (<React.Fragment >
+                                    <FormControlLabel name={`A.${i}`} value={"A"} control={<Radio />} label={o.A} />
+                                    <FormControlLabel name={`B.${i}`} value={"B"} control={<Radio />} label={o.B} />
+                                    <FormControlLabel name={`C.${i}`} value={"C"} control={<Radio />} label={o.C} />
+                                    <FormControlLabel name={`D.${i}`} value={"D"} control={<Radio />} label={o.D} />
+                                </React.Fragment>)
                             })}
                         </RadioGroup>
                     </FormControl>

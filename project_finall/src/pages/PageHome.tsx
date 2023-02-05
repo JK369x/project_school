@@ -48,7 +48,7 @@ const PageHome = () => {
 
 
     const onClickCard = (data: CourseListsType) => {
-        navigate(`detailcoursehomepage/${data.id_document}`)
+        navigate(`/detailcoursehomepage/${data.id_document}`)
     }
 
     const labels: { [index: string]: string } = {

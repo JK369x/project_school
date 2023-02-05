@@ -23,13 +23,14 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {
 		//! เป็น type ของ action 
-		setAuthStore: (state, { payload: { uid, email, displayName, photoURL, status, favorite } }: PayloadAction<AuthState>) => {
+		setAuthStore: (state, { payload: { uid, email, displayName, photoURL, status, favorite, about } }: PayloadAction<AuthState>) => {
 			state.uid = uid
 			state.email = email
 			state.displayName = displayName
 			state.photoURL = photoURL
 			state.status = status
 			state.favorite = favorite
+			state.about = about
 
 		},
 
@@ -40,6 +41,7 @@ export const authSlice = createSlice({
 			delete state.photoURL
 			delete state.status
 			delete state.favorite
+			delete state.about
 		},
 	},
 })

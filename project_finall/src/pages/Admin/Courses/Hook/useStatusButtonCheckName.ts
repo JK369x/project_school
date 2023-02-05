@@ -7,10 +7,10 @@ import { setbtnStore } from '../../../../store/slices/buttonSlice';
 
 
 export const useStatusButtonCheckName = () => {
-    const [btnCheckName, setbtnCheckName] = useState<any>(false);
+
     const dispatch = useDispatch()
     const BtnstatusCheckName = async (id: string, status: boolean) => {
-        console.log("🚀 ~ file: useStatusButtonCheckName.ts:13 ~ BtnstatusCheckName ~ status", status)
+        console.log("click check name update =", status)
 
         try {
 
@@ -29,5 +29,5 @@ export const useStatusButtonCheckName = () => {
         }
     }
 
-    return { btnCheckName, setbtnCheckName, BtnstatusCheckName }
+    return { BtnstatusCheckName }
 }

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Avatar, Box, IconButton, } from '@mui/material'
+import { Avatar, Box, IconButton, Stack, TextField, } from '@mui/material'
 import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
 import Sidebar from '../../../components/componentsAdmin/sidebar/Side-bar'
 import './User.scss'
@@ -36,7 +36,6 @@ const EditUser: FC = () => {
     }, [changeProvince])
     useEffect(() => {
         if (changeProvince && changeAmphure) {
-            console.log('gettambomasd!!!')
             getTambon(parseInt(`${changeProvince.id}`), parseInt(`${changeAmphure.id}`))
         }
     }, [changeAmphure])
@@ -53,13 +52,20 @@ const EditUser: FC = () => {
     const { uploadFile, uploadState } = useUploadFile()
 
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
-    const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
+    const { displayName, uid, photoURL, favorite, about } = useAppSelector(({ auth }) => auth)
 
 
 
 
 
+    const { state } = useGetDetailUser()
 
+    useEffect(() => {
+        myForm.setValue('data', state)
+        if (uploadState.downloadURL) {
+            myForm.setValue('data.image_rul', uploadState.downloadURL)
+        }
+    }, [state])
 
     const onUploadImage = (files: FileList | null) => {
         if (files) {
@@ -68,37 +74,45 @@ const EditUser: FC = () => {
     }
 
 
-
-    const { state } = useGetDetailUser()
+    console.log("🚀 ~ file: EditUser.tsx:84 ~ onSubmit ~ getValues", getValues().data)
+    const newdate = state.birthday ? state.birthday : ''
+    const [birthday, setBirthday] = useState<any | null>(newdate);
     useEffect(() => {
-        myForm.setValue('data', state)
-        if (uploadState.downloadURL) {
-            myForm.setValue('data.image_rul', uploadState.downloadURL)
-        }
-    }, [state])
+        setBirthday(newdate)
+    }, [newdate])
+    console.log("🚀 ~ file: EditUser.tsx:74 ~ birthday", birthday)
     const onSubmit = async () => {
-
+        setValue('data.birthday', birthday === "" ? newdate : birthday)
+        setValue('data.image_rul', uploadState.downloadURL ? uploadState.downloadURL : state.image_rul)
 
         if (getValues()) {
             console.log("🚀 ~ file: EditUser.tsx:84 ~ onSubmit ~ getValues", getValues().data)
             const id = myForm.getValues().data.id_document
             const firstName = getValues().data.firstName
             const lastName = getValues().data.lastName
+            const email = getValues().data.email
             const ImageUrl = getValues().data.image_rul
             const statusUpdata = getValues().data.status
-
+            const about = getValues().data.about
             const displayName = `${firstName} ${lastName}`
             if (await updateUser(getValues().data, id)) {
 
                 dispatch(openAlertSuccess('changeProfileSuccess'))
-                dispatch(
-                    setAuthStore({
-                        uid,
-                        displayName,
-                        status: statusUpdata,
-                        favorite,
-                        photoURL: ImageUrl,
-                    }),)
+                if (uid === id) {
+                    dispatch(
+                        setAuthStore({
+                            uid,
+                            email,
+                            displayName,
+                            status: statusUpdata,
+                            favorite,
+                            photoURL: ImageUrl,
+                            about
+                        }),)
+
+                } else {
+                    console.log('id other')
+                }
 
             } else {
                 dispatch(openAlertError('changeProfileError'))
@@ -212,6 +226,27 @@ const EditUser: FC = () => {
                                         </Grid>
                                         <Grid item xs={2} >
                                             <ControllerTextField fullWidth formprop={myForm} name={"data.status.label"} label={'Status'} />
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mt: 2 }}>
+                                        <Grid item xs={6}>
+
+                                            <Stack component="form" spacing={3}>
+                                                <TextField
+                                                    id="date"
+                                                    label="Birthday"
+                                                    type="date"
+                                                    value={birthday}
+                                                    defaultValue={newdate}
+                                                    sx={{ width: '100%' }}
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    onChange={(event) => setBirthday(event.target.value)}
+                                                />
+                                            </Stack>
+                                            {state.status?.id != 1 ? <ControllerTextField fullWidth multiline minRows={4} maxRows={2} formprop={myForm} name={"data.about"} label={'About'} /> : ""}
+
                                         </Grid>
                                     </Grid>
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mt: 2 }}>

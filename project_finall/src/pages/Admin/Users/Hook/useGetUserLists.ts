@@ -8,6 +8,7 @@ import axios from 'axios';
 export type UserListsType = {
     id: string
     id_document: string
+    about: string
 } & IFormInput
 //! & เพิ่ม id form input
 

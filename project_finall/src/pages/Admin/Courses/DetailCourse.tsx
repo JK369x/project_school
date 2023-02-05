@@ -25,12 +25,16 @@ import { ControllerTextField } from '../../../framework/control'
 import { useForm } from 'react-hook-form'
 import { useReject } from './Hook/useRejectCourse'
 import TableQuiz from '../Quiz/TableQuiz'
-import { useGetAllQuiz } from '../Quiz/Hook/useGetAllQuiz'
+
+import { useGetStatusBtnCheckName } from './Hook/useGetStatusBtnCheckName'
 const DetailCourse: FC = () => {
     const { state } = useGetCourseDetail()
-    const { BtnstatusCheckName, btnCheckName, setbtnCheckName } = useStatusButtonCheckName()
-    console.log("🚀 ~ file: DetailCourse.tsx:27 ~ btnCheckName", btnCheckName)
-    console.log("🚀 ~ file: DetailCourse.tsx:23 ~ state", state)
+    const { BtnstatusCheckName } = useStatusButtonCheckName()
+    const { btnStatus } = useGetStatusBtnCheckName(state.id)
+    console.log("from hook =", btnStatus)
+
+
+
     //*start register course
     const Start_Register_Date = new Date(state.start_register).toLocaleDateString();
     const Start_Register_Time = new Date(state.start_register).toLocaleTimeString('en-Us', {
@@ -72,8 +76,6 @@ const DetailCourse: FC = () => {
         timeZone: 'Asia/Bangkok'
     })
 
-
-
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
@@ -87,8 +89,11 @@ const DetailCourse: FC = () => {
     })
     const { handleSubmit, getValues, setValue } = myForm
 
-    const [isButtonEnabled, setIsButtonEnabled] = useState(true);
-    console.log("🚀 ~ file: DetailCourse.tsx:83 ~ isButtonEnabled", isButtonEnabled)
+    const [isButtonEnabled, setIsButtonEnabled] = useState(btnStatus);
+    useEffect(() => {
+        setIsButtonEnabled(btnStatus)
+    }, [btnStatus])
+    console.log("isButtonEnabled =", isButtonEnabled)
 
     const onClickEdit = () => {
         navigate(`/editcourse/${state.id}`)
@@ -100,8 +105,8 @@ const DetailCourse: FC = () => {
     }
 
     function checkName() {
+        BtnstatusCheckName(state.id, !isButtonEnabled)
         setIsButtonEnabled(!isButtonEnabled)
-        BtnstatusCheckName(state.id, isButtonEnabled)
     }
 
     function Quiz() {
@@ -386,7 +391,7 @@ const DetailCourse: FC = () => {
                         </Box>
                     </div>
                 </div>
-                <TableQuiz />
+                <TableQuiz id_course={state.id} />
             </div>
         </div >
 

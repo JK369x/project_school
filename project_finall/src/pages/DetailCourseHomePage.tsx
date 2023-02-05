@@ -30,6 +30,7 @@ import { UploadButton } from '../framework/control'
 import { useGetFavorite } from './Admin/favorite/useGetFavorite'
 import { setAuthStore } from '../store/slices/authSlice'
 import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
+import SimpleAccordion from './Admin/Quiz/Accordion'
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
   console.log("🚀 ~ file: DetailCourseHomePage.tsx:35 ~ DetailCourseHomePage ~ state", state)
@@ -80,7 +81,7 @@ const DetailCourseHomePage = () => {
     hour12: false,
     timeZone: 'Asia/Bangkok'
   })
-  const { uid, status, displayName, photoURL, favorite, email } = useAppSelector(({ auth }) => auth)
+  const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
   const { FavoriteList } = useGetFavorite()
   const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
   const { addFavorite } = useCreateFavorite()
@@ -102,6 +103,8 @@ const DetailCourseHomePage = () => {
         displayName,
         status,
         favorite,
+        photoURL,
+        about,
       }),
       )
     } catch (err) {
@@ -115,9 +118,9 @@ const DetailCourseHomePage = () => {
   const navigate = useNavigate()
 
 
-
-  function onClickEdit() {
-
+  const ClickQuiz = (id_course: string) => {
+    console.log(id_course)
+    // navigate(`/quizuser/${id_course}/${}`)
   }
 
   useEffect(() => {
@@ -187,16 +190,22 @@ const DetailCourseHomePage = () => {
           </Grid>
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }}>
-              <Grid container xs={6} alignItems={'center'} >
-                {new Date(state.End_register).toLocaleDateString() >= new Date().toLocaleDateString() ? <>
+              <Grid container xs={12} alignItems={'center'} >
+
+                {new Date(state.End_register).toLocaleDateString() <= new Date().toLocaleDateString() ? <>
                   <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />
 
-                </> : ''}
-                {uid_course?.some((params: any) => params === state.id) ? (<>
-                  <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
-                </>) : (<>
-                  <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
-                </>)}
+                </> : <>
+                  {uid_course?.some((params: any) => params === state.id) ?
+                    (<>
+                      <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
+                    </>) :
+                    (<>
+                      <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
+                    </>)}
+
+                </>}
+
                 {state.btn_check_name == "true" && <>
                   <CheckName id={state.id} />
                 </>}
@@ -207,7 +216,7 @@ const DetailCourseHomePage = () => {
                     borderRadius: '0.2',
                     bottom: 0,
                   }}>
-                  <FavoriteIcon />
+                  <FavoriteIcon sx={{ ml: 2, mr: 1 }} />
                 </IconButton>
 
                 <IconButton
@@ -238,18 +247,12 @@ const DetailCourseHomePage = () => {
                   }}>
                   <Chip label={`${countJoin} คนที่อยู่ในคิว`} color="info" variant="outlined" icon={<BoyIcon />} />
                 </IconButton>
-              </Grid>
-
-              <Grid item container justifyContent={'flex-end'} xs={6} sx={{ pr: 6, pt: 0.5 }}>
                 <Typography variant="h6" sx={{ ml: 4 }} color={'#0F0F0F'} >
                   ฿{state.pricing.toLocaleString()}
                 </Typography>
-
-
               </Grid>
-              <Grid>
 
-              </Grid>
+
 
             </Grid>
             <Grid container >
@@ -328,7 +331,8 @@ const DetailCourseHomePage = () => {
                 เกี่ยวกับผู้สอน
               </Typography>
               <Typography variant="body2" mb={2} sx={{ maxHeight: 70, }} >
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam iusto ratione repellat aperiam nobis esse vitae exercitationem aut quo incidunt eius quis consequuntur, est assumenda possimus, rem velit nulla voluptate.
+                {state.about ? state.about : 'รอการกรอกข้อมูล'}
+
               </Typography>
             </Grid>
 
@@ -342,7 +346,7 @@ const DetailCourseHomePage = () => {
 
       </Box>
 
-      <Box sx={{ width: '100%', backgroundColor: '#1C1D1F', paddingLeft: 5 }}>
+      <Box sx={{ width: '100%', backgroundColor: '#1C1D1F', paddingLeft: 5, paddingRight: 5 }}>
         <Grid container justifyContent={'center'}>
           <Typography variant="h3" mb={2} color={'#FFFFFF'} sx={{ mt: 2 }} >
             รายละเอียดหลักสูตร📝
@@ -371,9 +375,7 @@ const DetailCourseHomePage = () => {
               คุณจะได้อะไรจากการเรียนรู้หลักสูตรนี้?
             </Typography>
 
-            {/* <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
-              {state.what_will_student_learn_in_your_course}<br />
-            </Typography> */}
+
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
             </Typography>
             {state.what_will_student_learn_in_your_course.map((params: any, index: number) => {
@@ -396,10 +398,6 @@ const DetailCourseHomePage = () => {
                 </Typography>
               </React.Fragment>)
             })}
-
-          </Grid>
-
-          <Grid item xs={6}>
             <Typography variant="h6" mb={1} color={'#FFFFFF'}  >
               ข้อกำหนดเบื้องต้นสำหรับการเรียนหลักสูตรนี้?
             </Typography>
@@ -424,6 +422,13 @@ const DetailCourseHomePage = () => {
             <Typography marginLeft={2} variant="body2" mb={1} mr={8} color={'#FFFFFF'}>
               {state.min_people}
             </Typography>
+          </Grid>
+
+          <Grid item xs={6} >
+            <Typography variant="h3" mb={1} mr={8} color={'#FFFFFF'} >
+              ทำแบบทดสอบ
+            </Typography>
+            <SimpleAccordion id={state.id} />
           </Grid>
         </Grid>
       </Box>

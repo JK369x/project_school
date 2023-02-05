@@ -18,11 +18,8 @@ import AddCategory from "../pages/Admin/Categorys/AddCategory";
 import Registor from "../pages/Register";
 import { useAppDispatch, useAppSelector } from "../store/useHooksStore";
 import PageHome from "../pages/PageHome";
-import { onAuthStateChanged } from "firebase/auth";
 import { setAuthStore } from "../store/slices/authSlice";
-import { auth } from "../firebase/config_firebase";
-import { doc, getDoc } from "firebase/firestore";
-import { AccountCollection } from "../firebase/createCollection";
+
 import Approval from "../pages/Admin/Approval/Approval";
 import DetailCourse from "../pages/Admin/Courses/DetailCourse";
 import EditCourse from "../pages/Admin/Courses/EditCourse";
@@ -31,25 +28,26 @@ import RegisterTeacher from "../pages/Admin/RegisterTeacher";
 import Teacher from "../pages/Admin/Teacher/Teacher";
 import Favorite from "../pages/Favorite";
 import DetailCourseHomePage from "../pages/DetailCourseHomePage";
-import { middleware } from "../middleware/middleware";
 import axios from "axios";
 import EditCategory from "../pages/Admin/Categorys/EditCategory";
 import DetailCategory from "../pages/Admin/Categorys/DetailCtegory";
 import { setCourseStore } from "../store/slices/courseSlice";
 import CheckName from "../pages/Admin/Checkname/CheckName";
 import ViewUserJoinCourse from "../pages/Admin/Courses/ViewUserJoinCourse";
-import { setbtnStore } from "../store/slices/buttonSlice";
 import Quiz from "../pages/Admin/Quiz/Quiz";
 import AddTeacher from "../pages/Teacher/RegisterTeacher";
 import Profile from "../pages/Admin/Users/Profile";
 import ShowQuiz from "../pages/Admin/Quiz/ShowQuiz";
+import DetailQuiz from "../pages/Admin/Quiz/DetailQuiz";
+import QuestionCard from "../pages/Admin/Quiz/QuestionCard";
+import SimpleAccordion from "../pages/Admin/Quiz/Accordion";
 
 
 
 
 const RouteAllPage: FC = () => {
 
-    const { email, status, photoURL, favorite } = useAppSelector(({ auth }) => auth)
+    const { email, status, photoURL, favorite, about } = useAppSelector(({ auth }) => auth)
     const auth_uid = email !== undefined && email !== null
 
 
@@ -133,7 +131,10 @@ const RouteAllPage: FC = () => {
             <Route path="/quiz/:id" element={<Quiz />} />
             <Route path="/createteacher" element={<AddTeacher />} />
             <Route path="/profile/:id" element={<Profile />} />
-            <Route path="/showquiz" element={<ShowQuiz />} />
+            <Route path="/showquiz/:id/:id_quiz" element={<ShowQuiz />} />
+            <Route path="/detailquiz/:id/:id_quiz" element={<DetailQuiz />} />
+            <Route path="/quizuser/:id_course/:id_quiz" element={<QuestionCard />} />
+            <Route path="/accordion" element={<SimpleAccordion />} />
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

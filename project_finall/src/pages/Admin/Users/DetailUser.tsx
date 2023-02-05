@@ -76,7 +76,7 @@ const DetailUser: FC = () => {
                     </Grid>
                     <Grid>
                       <Typography variant="h4" ml={5} color='#555454'>
-                        Age:
+                        Birthday: {state.birthday}
                       </Typography>
                     </Grid>
                     <Grid>

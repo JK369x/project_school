@@ -95,10 +95,9 @@ const Profile: FC = () => {
                                                         Email: {state.email}
                                                     </Typography>
                                                 </Grid>
-
                                                 <Grid>
                                                     <Typography variant="h4" ml={5} color='#555454'>
-                                                        Age:
+                                                        Birthday: {state.birthday}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid>
@@ -139,6 +138,11 @@ const Profile: FC = () => {
                                                     </Typography>
                                                 </Grid>
 
+                                                <Grid>
+                                                    <Typography variant="h4" ml={5} color='#555454'>
+                                                        Status: {state.about}
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
 

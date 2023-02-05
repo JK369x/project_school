@@ -37,10 +37,11 @@ export interface TypeCourses {
     min_people: string,
     image_create: string,
     max_people: string,
-
+    location: string,
     btn_quiz?: boolean,
     btn_check_name?: boolean | string,
     reject?: any
+    about?: string
 }
 
 export const UseCreateCourse = () => {

@@ -111,7 +111,7 @@ const Course: FC = () => {
 
 
             </Grid>
-            <Table isSelectTable columnOptions={columnOptions} dataSource={newdata.map((e, index) => {
+            <Table columnOptions={columnOptions} dataSource={newdata.map((e, index) => {
               return {
                 ...e,
                 countID: index + 1,

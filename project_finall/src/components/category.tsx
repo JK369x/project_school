@@ -6,13 +6,24 @@ import HomeIcon from '@mui/icons-material/Home';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import GrainIcon from '@mui/icons-material/Grain';
 import { useNavigate } from 'react-router-dom';
-
-
-
+import CategoryIcon from '@mui/icons-material/Category';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 export default function IconBreadcrumbs() {
     const navigate = useNavigate()
     const ClickCateGory = () => {
         navigate('/category_course')
+    }
+    const Home = () => {
+        navigate('/')
+    }
+
+    const lecturer = () => {
+        navigate('/')
+    }
+
+    const contacts = () => {
+        navigate('/')
     }
     return (
         <Breadcrumbs aria-label="breadcrumb">
@@ -21,10 +32,10 @@ export default function IconBreadcrumbs() {
                 sx={{ display: 'flex', alignItems: 'center' }}
                 color="inherit"
 
-                onClick={ClickCateGory}
+                onClick={Home}
             >
                 <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-                Categorys
+                Home
             </Link>
             <Link
                 underline="hover"
@@ -32,17 +43,26 @@ export default function IconBreadcrumbs() {
                 color="inherit"
                 onClick={ClickCateGory}
             >
-                <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-                Lecturer
+                <CategoryIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+                Course
             </Link>
             <Link
                 underline="hover"
                 sx={{ display: 'flex', alignItems: 'center' }}
                 color="inherit"
-                onClick={ClickCateGory}
+                onClick={lecturer}
             >
-                <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-                Contact
+                <LocalLibraryIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+                Lecturers
+            </Link>
+            <Link
+                underline="hover"
+                sx={{ display: 'flex', alignItems: 'center' }}
+                color="inherit"
+                onClick={contacts}
+            >
+                <ContactSupportIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+                Contacts
             </Link>
 
         </Breadcrumbs>
