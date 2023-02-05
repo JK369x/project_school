@@ -18,9 +18,9 @@ import { useNavigate } from 'react-router-dom'
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-const CategoryCourse = () => {
+import SearchBar from '@mkyy/mui-search-bar';
 
-  
+const CategoryCourse = () => {
 
   const { CourseLists } = useGetCourseLists()
   const data = CourseLists
@@ -97,11 +97,11 @@ const CategoryCourse = () => {
   return (
     <>
       <Navbar />
-      <Grid container justifyContent={'center'} sx={{}}>
+      <Grid container justifyContent={'center'} sx={{ backgroundColor: '#1d1d1d' }}>
 
         <Grid container justifyContent={'center'} maxWidth={'75rem'} >
           <Grid container justifyContent={'center'} mt={3}>
-            <Typography variant="h5" component="h5" color={'black'}>
+            <Typography variant="h5" component="h5" color={'#fff'}>
               เรียนรู้ทักษะวิชาชีพที่เป็นที่ต้องการ
             </Typography>
           </Grid>
@@ -109,9 +109,12 @@ const CategoryCourse = () => {
 
           <Grid container justifyContent={'center'} >
             <Grid item xs={12} sx={{ mb: 2 }}>
-              <Typography variant="h5" component="h5" color={'black'}>
+              <Typography variant="h5" component="h5" color={'#fff'}>
                 เลือกหมวดหมู่ที่คุณสนใจ
               </Typography>
+            </Grid>
+            <Grid item xs={12} >
+              <SearchBar />
             </Grid>
             <Grid item xs={12}>
               <Chip label="All" onClick={() => { allcategoryClick() }} color='primary' sx={{ width: 60, mr: 1 }} />
