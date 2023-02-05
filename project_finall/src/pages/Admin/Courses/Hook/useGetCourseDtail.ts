@@ -48,6 +48,7 @@ export const useGetCourseDetail = () => {
         reject: "",
         location: "",
         create_by_id: "",
+        updateDate: "",
     })
 
     useEffect(() => {

@@ -34,6 +34,7 @@ import SimpleAccordion from './Admin/Quiz/Accordion'
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
   console.log("🚀 ~ file: DetailCourseHomePage.tsx:35 ~ DetailCourseHomePage ~ state", state)
+
   const { JoinCourse } = useGetAllJoinCourse()
   const newdata = JoinCourse.map((item) => {
     return item.count_number
@@ -189,8 +190,13 @@ const DetailCourseHomePage = () => {
 
         <Grid container spacing={3} sx={{ mt: 0.1, pl: 1, mb: 3 }}>
           <Grid item container justifyContent={'center'} xs={4} >
-            <Image src={state.image} width={400} height={350} />
+            <Grid>
+              <Image src={state.image} width={400} height={350} />
+              <Typography variant="h6"  >
+                {`อัพเดทล่าสุด ${new Date(state.updateDate._seconds).toLocaleString()}`}
+              </Typography>
 
+            </Grid>
           </Grid>
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }}>
