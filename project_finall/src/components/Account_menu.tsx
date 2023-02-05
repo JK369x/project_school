@@ -22,6 +22,8 @@ import { storage } from '../firebase/config_firebase'
 import { doc, getDoc } from 'firebase/firestore';
 import { AccountCollection } from '../firebase/createCollection';
 import { Grid } from '@mui/material';
+import axios from 'axios';
+import { setCourseStore } from '../store/slices/courseSlice';
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -41,24 +43,22 @@ export default function AccountMenu() {
 
 
 
-    const onClickLogOut = () => {
-        signOut(auth).then(() => {
-            dispatch(
-                setAuthStore({
-                    uid: null,
-                    email: null,
-                    displayName: null,
-                    status: null,
-                    favorite: null,
-                    // photoURL: user.photoURL as any,
-                }),
-            )
-
-        }).catch((error) => {
-            console.log("🚀 ~ file: Navbar.tsx:21 ~ signOut ~ error", error)
-            // An error happened.
-        });
-
+    const onClickLogOut = async () => {
+        await axios.get(`${import.meta.env.VITE_REACT_APP_API}auth/signout`)
+        dispatch(
+            setAuthStore({
+                uid: null,
+                email: null,
+                displayName: null,
+                status: null,
+                favorite: null,
+                photoURL: null
+            }),
+        )
+        dispatch(setCourseStore({
+            uid_course: null,
+        }),
+        )
         navigate('/')
     }
 

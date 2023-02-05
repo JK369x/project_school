@@ -41,6 +41,8 @@ import ShowQuiz from "../pages/Admin/Quiz/ShowQuiz";
 import DetailQuiz from "../pages/Admin/Quiz/DetailQuiz";
 import QuestionCard from "../pages/Admin/Quiz/QuestionCard";
 import SimpleAccordion from "../pages/Admin/Quiz/Accordion";
+import AllTeacher from "../pages/AllTeacher";
+import DetailTeacher from "../pages/DetailTeacher";
 
 
 
@@ -135,6 +137,8 @@ const RouteAllPage: FC = () => {
             <Route path="/detailquiz/:id/:id_quiz" element={<DetailQuiz />} />
             <Route path="/quizuser/:id_course/:id_quiz" element={<QuestionCard />} />
             <Route path="/accordion" element={<SimpleAccordion />} />
+            <Route path="/teacheralllist" element={<AllTeacher />} />
+            <Route path="/detailtecher/:id" element={<DetailTeacher />} />
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

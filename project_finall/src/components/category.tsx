@@ -19,7 +19,7 @@ export default function IconBreadcrumbs() {
     }
 
     const lecturer = () => {
-        navigate('/')
+        navigate('/teacheralllist')
     }
 
     const contacts = () => {

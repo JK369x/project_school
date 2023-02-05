@@ -42,6 +42,7 @@ export interface TypeCourses {
     btn_check_name?: boolean | string,
     reject?: any
     about?: string
+    create_by_id: string
 }
 
 export const UseCreateCourse = () => {

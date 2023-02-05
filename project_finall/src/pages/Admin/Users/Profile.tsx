@@ -78,8 +78,11 @@ const Profile: FC = () => {
                                         </Grid>
                                     </> : <>
                                         <Grid container item>
-                                            <Grid container ml={3} mr={3} item xs={1}>
-                                                <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, mr: 5 }} />
+                                            <Grid container item xs={1}>
+                                                <Grid item sx={{ m: 'auto' }}>
+                                                    <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, mr: 5 }} />
+
+                                                </Grid>
                                             </Grid>
                                             <Grid ml={1} item xs={6} >
                                                 <Grid item container mt={0}>
@@ -140,7 +143,7 @@ const Profile: FC = () => {
 
                                                 <Grid>
                                                     <Typography variant="h4" ml={5} color='#555454'>
-                                                        Status: {state.about}
+                                                        About: {state.about}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -152,7 +155,7 @@ const Profile: FC = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }

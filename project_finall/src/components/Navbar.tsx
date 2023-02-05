@@ -47,7 +47,7 @@ export const Navbar = () => {
   return (
 
     <>
-      <Grid container justifyContent={'space-between'} alignContent={'center'} alignItems={'center'} sx={{ backgroundColor: '#ffffff' }}>
+      <Grid container justifyContent={'space-between'} alignContent={'center'} alignItems={'center'} borderBottom={1} sx={{ backgroundColor: '#ffffff' }}>
         <Grid sx={{ mt: 1, ml: 5 }}>
           <img src={logo} alt="" width={150} height={50} onClick={onClickHome} />
 
@@ -58,9 +58,7 @@ export const Navbar = () => {
               color: '#0085ea',
             }
           }}>
-            {/* <span onClick={ClickCateGory}>
-              Categorys
-            </span> */}
+
             <IconBreadcrumbs />
           </Typography>
         </Grid>

@@ -163,6 +163,10 @@ const DetailCourseHomePage = () => {
       console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
     }
   }
+  // const enddate = new Date(state.End_register).toLocaleDateString()
+  // console.log("🚀 ~ file: DetailCourseHomePage.tsx:167 ~ DetailCourseHomePage ~ enddate", enddate)
+  // const bewdate = new Date().toLocaleDateString()
+  // console.log("🚀 ~ file: DetailCourseHomePage.tsx:168 ~ DetailCourseHomePage ~ bewdate", bewdate)
 
   const onUploadImage = (files: FileList | null) => {
     if (files) {
@@ -171,9 +175,9 @@ const DetailCourseHomePage = () => {
     const get_url = uploadState.downloadURL
     console.log("🚀 ~ file: DetailCourseHomePage.tsx:147 ~ onUploadImage ~ get_url", get_url)
   }
-  console.log('date now ', new Date().toLocaleDateString())
+  console.log('date now ', new Date())
   const newdate = state.End_register
-  console.log('date =', new Date(newdate).toLocaleDateString())
+  console.log('date =', new Date(newdate))
   return (
     <>
       <Navbar />
@@ -192,19 +196,20 @@ const DetailCourseHomePage = () => {
             <Grid item container xs={12} sx={{ mb: 1 }}>
               <Grid container xs={12} alignItems={'center'} >
 
-                {new Date(state.End_register).toLocaleDateString() <= new Date().toLocaleDateString() ? <>
-                  <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />
+                {new Date(state.End_register) <= new Date() ?
+                  <>
+                    <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />
+                  </> :
+                  <>
+                    {uid_course?.some((params: any) => params === state.id) ?
+                      (<>
+                        <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
+                      </>) :
+                      (<>
+                        <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
+                      </>)}
 
-                </> : <>
-                  {uid_course?.some((params: any) => params === state.id) ?
-                    (<>
-                      <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
-                    </>) :
-                    (<>
-                      <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
-                    </>)}
-
-                </>}
+                  </>}
 
                 {state.btn_check_name == "true" && <>
                   <CheckName id={state.id} />
@@ -310,30 +315,30 @@ const DetailCourseHomePage = () => {
                 </Typography>
               </Grid>
             </Grid>
-
-            <Grid>
-              <Typography variant="h6" mr={2}  >
-                วิทธยากร
-              </Typography>
-
-              <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} >
-                <Avatar src={state.image_create} sx={{ border: '3px solid #aebfd0', width: 90, height: 90 }} />
-              </Grid>
-              <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} >
-                <Typography variant="body2" mb={2}  >
+            <Typography variant="h6" mr={2}  >
+              วิทธยากร
+            </Typography>
+            <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'}>
+              <Grid>
+                <Avatar src={state.image_create} sx={{ border: '3px solid #aebfd0', width: 90, height: 90, m: 'auto' }} />
+                <Typography variant="body2" sx={{ mt: 1, mb: 1 }}  >
                   {state.create_byName}
                 </Typography>
+              </Grid>
 
 
+            </Grid>
+            <Grid container justifyContent={'flex-start'} alignItems={'center'}>
+
+              <Grid item>
+                <Typography variant="body2"   >
+                  เกี่ยวกับผู้สอน
+                </Typography>
+                <Typography variant="body2" mb={2} sx={{ maxHeight: 70, }} >
+                  {state.about ? state.about : 'รอการกรอกข้อมูล'}
+                </Typography>
 
               </Grid>
-              <Typography variant="body2"   >
-                เกี่ยวกับผู้สอน
-              </Typography>
-              <Typography variant="body2" mb={2} sx={{ maxHeight: 70, }} >
-                {state.about ? state.about : 'รอการกรอกข้อมูล'}
-
-              </Typography>
             </Grid>
 
 

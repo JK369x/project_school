@@ -52,30 +52,21 @@ export const Sidebar = () => {
   }
   const onClickLogOut = async () => {
     await axios.get(`${import.meta.env.VITE_REACT_APP_API}auth/signout`)
-    signOut(auth).then(() => {
-      // Sign-out successful.
-
-      dispatch(
-        setAuthStore({
-          uid: null,
-          email: null,
-          displayName: null,
-          status: null,
-          favorite: null,
-          photoURL: null
-          // photoURL: user.photoURL as any,
-        }),
-      )
-
-      dispatch(setCourseStore({
-        uid_course: null,
+    dispatch(
+      setAuthStore({
+        uid: null,
+        email: null,
+        displayName: null,
+        status: null,
+        favorite: null,
+        photoURL: null
+        // photoURL: user.photoURL as any,
       }),
-      )
-    }).catch((error) => {
-      console.log("🚀 ~ file: Navbar.tsx:21 ~ signOut ~ error", error)
-      // An error happened.
-    });
+    )
     navigate('/adminlogin')
+
+
+
   }
 
   const { uid } = useAppSelector(({ auth }) => auth)
