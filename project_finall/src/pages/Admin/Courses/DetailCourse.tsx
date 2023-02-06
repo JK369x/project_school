@@ -27,10 +27,14 @@ import { useReject } from './Hook/useRejectCourse'
 import TableQuiz from '../Quiz/TableQuiz'
 
 import { useGetStatusBtnCheckName } from './Hook/useGetStatusBtnCheckName'
+import { useGetStatusBtnComment } from '../Comment/Hook/useGetStatusBtnComment'
+import { useUpdateBtnComment } from '../Comment/Hook/useUpdateBtnComment'
 const DetailCourse: FC = () => {
     const { state } = useGetCourseDetail()
     const { BtnstatusCheckName } = useStatusButtonCheckName()
     const { btnStatus } = useGetStatusBtnCheckName(state.id)
+    const { BtnstatusComment } = useUpdateBtnComment()
+    const { btnComment } = useGetStatusBtnComment(state.id)
     console.log("from hook =", btnStatus)
 
 
@@ -90,9 +94,11 @@ const DetailCourse: FC = () => {
     const { handleSubmit, getValues, setValue } = myForm
 
     const [isButtonEnabled, setIsButtonEnabled] = useState(btnStatus);
+    const [isButtonEnabled1, setIsButtonEnabled1] = useState(btnStatus);
     useEffect(() => {
         setIsButtonEnabled(btnStatus)
-    }, [btnStatus])
+        setIsButtonEnabled1(btnComment)
+    }, [btnStatus, btnComment])
     console.log("isButtonEnabled =", isButtonEnabled)
 
     const onClickEdit = () => {
@@ -111,6 +117,10 @@ const DetailCourse: FC = () => {
 
     function Quiz() {
         navigate(`/quiz/${state.id}`)
+    }
+    const Comment = () => {
+        BtnstatusComment(state.id, !isButtonEnabled1)
+        setIsButtonEnabled1(!isButtonEnabled1)
     }
     const [reject, setReject] = useState<any>(false)
     const clickReject = () => {
@@ -169,9 +179,9 @@ const DetailCourse: FC = () => {
                                                 }}>View User</Button>
                                             </Grid>
                                             <Grid item>
-                                                <Button sx={{ mr: 1 }} color={isButtonEnabled === true ? 'success' : 'error'} onClick={() => {
-                                                    checkName()
-                                                }}>Check Name</Button>
+                                                <Button sx={{ mr: 1 }} color='warning' onClick={() => {
+                                                    onClickEdit()
+                                                }}>Edit</Button>
                                             </Grid>
                                             <Grid item>
                                                 <Button sx={{ mr: 1 }} color='info' onClick={() => {
@@ -179,9 +189,14 @@ const DetailCourse: FC = () => {
                                                 }}>Create Quiz</Button>
                                             </Grid>
                                             <Grid item>
-                                                <Button sx={{ mr: 1 }} color='warning' onClick={() => {
-                                                    onClickEdit()
-                                                }}>Edit</Button>
+                                                <Button sx={{ mr: 1 }} color={isButtonEnabled === true ? 'success' : 'error'} onClick={() => {
+                                                    checkName()
+                                                }}>Check Name</Button>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button sx={{ mr: 1 }} color={isButtonEnabled1 === true ? 'success' : 'error'} onClick={() => {
+                                                    Comment()
+                                                }}>Comment</Button>
                                             </Grid>
                                         </Grid>
 

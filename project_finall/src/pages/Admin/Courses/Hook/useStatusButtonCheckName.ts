@@ -11,9 +11,7 @@ export const useStatusButtonCheckName = () => {
     const dispatch = useDispatch()
     const BtnstatusCheckName = async (id: string, status: boolean) => {
         console.log("click check name update =", status)
-
         try {
-
             const url = `${import.meta.env.VITE_REACT_APP_API}course/updatebtncheckname/${id}/${status}`
             axios.defaults.withCredentials = true
             const statusBtn = await axios.put(url, { status })

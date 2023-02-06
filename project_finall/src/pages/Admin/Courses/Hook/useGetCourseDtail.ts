@@ -49,6 +49,7 @@ export const useGetCourseDetail = () => {
         location: "",
         create_by_id: "",
         updateDate: "",
+        btn_comment: false,
     })
 
     useEffect(() => {

@@ -10,7 +10,7 @@ import { FC, useEffect, useState } from 'react'
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
 import { useDeleteCourse } from './Hook/useDeleteCourse'
-import { Button, Chip } from '@mui/material'
+import { Avatar, Button, Chip } from '@mui/material'
 //react dom 
 import { useNavigate, useParams } from 'react-router-dom'
 import { Typography } from '@mui/material'
@@ -23,7 +23,8 @@ import { useUpdateApprovalJoinCourse } from './Hook/useUpdateApprovalJoinCourse'
 import { useGetCourseDetail } from './Hook/useGetCourseDtail'
 import { useGetAllJoinCourseApproval } from './Hook/useGetAllJoinCoruseApproval'
 import { useDeleteJoinCourse } from './Hook/useDeleteJoinCourse'
-
+import logo from '../../../assets/360_F_246677065_FY7a89FprqE1iKgPpEVSKDVOWMBTS2MX.jpg'
+import ViewDetailTransaction from '../Approval/ViewDetailTransaction'
 const ViewUserJoinCourse: FC = () => {
     const { JoinCourse, getUserJoinCourse } = useGetAllJoinCourse()
     const data = JoinCourse
@@ -41,7 +42,7 @@ const ViewUserJoinCourse: FC = () => {
 
     const delItem = (data: CourseJoinType) => {
         openConfirmDialog({
-            textContent: 'deleteCourse',
+            textContent: 'Delete User in Course ?',
             onConfirm: async () => {
                 await deleteJoinCourse(state.id, data.id_document)
                 getUserJoinCourse()
@@ -63,6 +64,50 @@ const ViewUserJoinCourse: FC = () => {
         getUserJoinCourseApproval()
         getUserJoinCourse()
     }
+    const columnOptions1: TableColumnOptions[] = [
+
+        {
+            width: '100',
+            alignHeader: 'center',
+            alignValue: 'center',
+            label: 'ID',
+            value: 'countID',
+        },
+
+        {
+
+            alignHeader: 'left',
+            alignValue: 'right',
+            label: 'User',
+            value: 'imageTitle',
+        },
+
+
+        {
+            width: '100',
+            alignHeader: 'left',
+            alignValue: 'left',
+            label: 'Transaction',
+            value: 'transaction',
+        },
+
+        {
+            width: '100',
+            alignHeader: 'left',
+            alignValue: 'left',
+            label: 'Approval',
+            value: 'approval',
+        },
+
+        {
+            width: '200',
+            alignHeader: 'left',
+            alignValue: 'center',
+            label: 'Action',
+            value: 'delitem',
+        },
+
+    ]
     const columnOptions: TableColumnOptions[] = [
 
         {
@@ -74,20 +119,17 @@ const ViewUserJoinCourse: FC = () => {
         },
 
         {
-            width: '50',
+            width: '200',
             alignHeader: 'center',
             alignValue: 'center',
-            label: 'Course',
+            label: 'Receipt',
             value: 'imageTitle',
         },
-        {
-            alignValue: 'left',
-            value: 'courseName',
-        },
+
         {
             alignHeader: 'left',
             alignValue: 'left',
-            label: 'Name User',
+            label: 'User Name',
             value: 'name_join',
         },
         {
@@ -97,13 +139,7 @@ const ViewUserJoinCourse: FC = () => {
             label: 'Transaction',
             value: 'transaction',
         },
-        {
-            width: '100',
-            alignHeader: 'left',
-            alignValue: 'left',
-            label: 'Pricing',
-            value: 'pricing',
-        },
+
         {
             width: '100',
             alignHeader: 'left',
@@ -113,7 +149,7 @@ const ViewUserJoinCourse: FC = () => {
         },
 
         {
-            width: '400',
+            width: '300',
             alignHeader: 'left',
             alignValue: 'center',
             label: 'Action',
@@ -138,25 +174,24 @@ const ViewUserJoinCourse: FC = () => {
                         <Grid container spacing={2} sx={{ mt: 2 }}>
                             <Grid container justifyContent={'space-between'} alignItems={'center'} >
                                 <Typography variant="h1" component="h1" ml={3}>
-                                    Approval
+                                    Users in Course
                                 </Typography>
-                                <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCourse()} >+Add course</Button>
                             </Grid>
 
 
                         </Grid>
                         <Grid sx={{ height: 1200, maxHeight: 2000 }}>
 
-                            <Table columnOptions={columnOptions} dataSource={data_approval.map((e, index) => {
+                            <Table columnOptions={columnOptions1} dataSource={data_approval.map((e, index) => {
                                 return {
                                     ...e,
-                                    transaction: <Chip label={e.transaction == false ? 'รอการโอนเงิน' : 'ชำระเงินแล้ว'} color="success" />,
+                                    transaction: <Chip label={e.image ? 'ชำระเงินแล้ว' : 'รอการโอนเงิน'} color="success" />,
                                     approval: <Chip label={e.approval == true ? 'อนุมัติ' : true} color="primary" />,
                                     countID: index + 1,
                                     delitem: <>
-                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                        {/* <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                             approval(e)
-                                        }}>Approval</Button>
+                                        }}>Approval</Button> */}
                                         <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                             viewDetailCourse(e)
                                         }}>View</Button>
@@ -164,8 +199,9 @@ const ViewUserJoinCourse: FC = () => {
                                             delItem(e)
                                         }}>Delete</Button>
                                     </>,
-                                    imageTitle: <Grid >
-                                        <Image src={e.image_course} width={90} height={60} />
+                                    imageTitle: <Grid container justifyContent={'flex-start'} alignItems={'center'} >
+                                        <Avatar src={e.image_user} sx={{ width: 50, height: 50, mr: 3 }}></Avatar>
+                                        {e.name_join}
                                     </Grid>,
                                 }
                             })} defaultRowsPerPage={10} />
@@ -183,32 +219,32 @@ const ViewUserJoinCourse: FC = () => {
                                 <Typography variant="h1" component="h1" ml={3}>
                                     Wait Approval
                                 </Typography>
-                                <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCourse()} >+Add course</Button>
+
                             </Grid>
 
 
                         </Grid>
                         <Grid sx={{ height: 1200, maxHeight: 2000 }}>
-
                             <Table columnOptions={columnOptions} dataSource={data.map((e, index) => {
                                 return {
                                     ...e,
-                                    transaction: <Chip label={e.transaction == false ? 'รอการโอนเงิน' : 'ชำระเงินแล้ว'} color="error" />,
+                                    transaction: <Chip label={e.image ? 'ชำระเงินแล้ว' : 'รอการโอนเงิน'} color={e.image ? 'primary' : 'error'} />,
                                     approval: <Chip label={e.approval == false ? 'รอการอนุมัติ' : true} color="warning" />,
                                     countID: index + 1,
                                     delitem: <>
-                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                                            approval(e)
-                                        }}>Approval</Button>
-                                        <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                                            viewDetailCourse(e)
-                                        }}>View</Button>
-                                        <Button sx={{ mr: 0 }} color='error' onClick={() => {
-                                            delItem(e)
-                                        }}>Delete</Button>
+                                        <Grid container justifyContent={'center'}>
+                                            <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                                approval(e)
+                                            }}>Approval</Button>
+                                            <ViewDetailTransaction image={e.image} date={e.date_transaction} pricing={e.pricing} name={e.name_join} coursename={e.courseName} />
+                                            <Button sx={{ ml: 1 }} color='error' onClick={() => {
+                                                delItem(e)
+                                            }}>Delete</Button>
+
+                                        </Grid>
                                     </>,
                                     imageTitle: <Grid >
-                                        <Image src={e.image_course} width={90} height={60} />
+                                        <Image src={e.image ? e.image : logo} width={100} height={140} />
                                     </Grid>,
                                 }
                             })} defaultRowsPerPage={10} />

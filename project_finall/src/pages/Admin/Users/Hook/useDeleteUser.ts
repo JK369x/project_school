@@ -32,22 +32,22 @@ export const useDeleteUser = () => {
 };
 
 
-export const useDeleteCourse = () => {
-    const dispatch = useAppDispatch();
-    const deleteCourse = async (id: string) => {
-        try {
-            dispatch(isShowLoading());
-            await deleteDoc(doc(CourseCollection, id));
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        } finally {
-            dispatch(isCloseLoading());
-        }
-    };
+// export const useDeleteCourse = () => {
+//     const dispatch = useAppDispatch();
+//     const deleteCourse = async (id: string) => {
+//         try {
+//             dispatch(isShowLoading());
+//             await deleteDoc(doc(CourseCollection, id));
+//             return true;
+//         } catch (error) {
+//             console.log(error);
+//             return false;
+//         } finally {
+//             dispatch(isCloseLoading());
+//         }
+//     };
 
-    return { deleteCourse };
-};
+//     return { deleteCourse };
+// };
 
 

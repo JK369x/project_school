@@ -31,6 +31,9 @@ import { useGetFavorite } from './Admin/favorite/useGetFavorite'
 import { setAuthStore } from '../store/slices/authSlice'
 import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
 import SimpleAccordion from './Admin/Quiz/Accordion'
+import UploadReceipt from './UploadReceipt'
+import { stat } from 'fs'
+import CommentCourse from './Admin/Comment/CommentCourse'
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
   console.log("🚀 ~ file: DetailCourseHomePage.tsx:35 ~ DetailCourseHomePage ~ state", state)
@@ -119,10 +122,7 @@ const DetailCourseHomePage = () => {
   const navigate = useNavigate()
 
 
-  const ClickQuiz = (id_course: string) => {
-    console.log(id_course)
-    // navigate(`/quizuser/${id_course}/${}`)
-  }
+
 
   useEffect(() => {
     setCountJoin(newjoin)
@@ -169,12 +169,8 @@ const DetailCourseHomePage = () => {
   // const bewdate = new Date().toLocaleDateString()
   // console.log("🚀 ~ file: DetailCourseHomePage.tsx:168 ~ DetailCourseHomePage ~ bewdate", bewdate)
 
-  const onUploadImage = (files: FileList | null) => {
-    if (files) {
-      uploadFile(files[0], `myImages/${uid}/`)
-    }
-    const get_url = uploadState.downloadURL
-    console.log("🚀 ~ file: DetailCourseHomePage.tsx:147 ~ onUploadImage ~ get_url", get_url)
+  const onClickUpload = () => {
+    navigate(`/useuploadreceipt/`)
   }
   console.log('date now ', new Date())
   const newdate = state.End_register
@@ -186,8 +182,6 @@ const DetailCourseHomePage = () => {
         <Typography variant="h2" sx={{ ml: 4, mt: 2 }} color={'#0F0F0F'} >
           👨🏻‍💻เรียนรู้ทักษะใหม่ให้ทันเทรนโลกปัจจุบัน
         </Typography>
-
-
         <Grid container spacing={3} sx={{ mt: 0.1, pl: 1, mb: 3 }}>
           <Grid item container justifyContent={'center'} xs={4} >
             <Grid>
@@ -204,7 +198,7 @@ const DetailCourseHomePage = () => {
 
                 {new Date(state.End_register) <= new Date() ?
                   <>
-                    <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />
+                    <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
                   </> :
                   <>
                     {uid_course?.some((params: any) => params === state.id) ?
@@ -214,9 +208,17 @@ const DetailCourseHomePage = () => {
                       (<>
                         <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
                       </>)}
-
                   </>}
-
+                {/* {uid_course?.some((params: any) => params === state.id) ?
+                  (<>
+                    <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
+                  </>) :
+                  (<>
+                    <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
+                  </>)} */}
+                {state.btn_comment == "true" && <>
+                  <CommentCourse id={state.id} />
+                </>}
                 {state.btn_check_name == "true" && <>
                   <CheckName id={state.id} />
                 </>}

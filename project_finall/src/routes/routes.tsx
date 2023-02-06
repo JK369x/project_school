@@ -43,6 +43,8 @@ import QuestionCard from "../pages/Admin/Quiz/QuestionCard";
 import SimpleAccordion from "../pages/Admin/Quiz/Accordion";
 import AllTeacher from "../pages/AllTeacher";
 import DetailTeacher from "../pages/DetailTeacher";
+import UploadReceipt from "../pages/UploadReceipt";
+import CommentCourse from "../pages/Admin/Comment/CommentCourse";
 
 
 
@@ -130,6 +132,7 @@ const RouteAllPage: FC = () => {
             <Route path="/category_course" element={<CategoryCourse />} />
             <Route path="/viewuserjoincourse/:id" element={<ViewUserJoinCourse />} />
             <Route path="/checkname" element={<CheckName />} />
+            <Route path="/comment" element={<CommentCourse />} />
             <Route path="/quiz/:id" element={<Quiz />} />
             <Route path="/createteacher" element={<AddTeacher />} />
             <Route path="/profile/:id" element={<Profile />} />
@@ -139,6 +142,7 @@ const RouteAllPage: FC = () => {
             <Route path="/accordion" element={<SimpleAccordion />} />
             <Route path="/teacheralllist" element={<AllTeacher />} />
             <Route path="/detailtecher/:id" element={<DetailTeacher />} />
+            <Route path="/useuploadreceipt" element={<UploadReceipt />} />
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

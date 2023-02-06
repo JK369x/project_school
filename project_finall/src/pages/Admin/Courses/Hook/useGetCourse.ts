@@ -10,6 +10,7 @@ export type CourseListsType = {
     approval?: any
     id_document: string
     updateDate: any
+    btn_comment: any
 } & TypeCourses
 //! & เพิ่ม id form input
 

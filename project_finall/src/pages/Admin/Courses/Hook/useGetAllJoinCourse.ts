@@ -16,6 +16,10 @@ export interface CourseJoinType {
     transaction: boolean | null
     transaction_image: string
     count_number: number | string
+    image: any
+    date_transaction: any
+    pricing: number | string
+    image_user?: any
 }
 
 

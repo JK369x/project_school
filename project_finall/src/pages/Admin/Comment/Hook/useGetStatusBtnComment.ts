@@ -3,24 +3,23 @@ import { useAppDispatch } from '../../../../store/useHooksStore'
 import { isShowLoading, isCloseLoading } from '../../../../store/slices/loadingSlice'
 import axios from 'axios';
 
-export const useGetStatusBtnCheckName = (id: string) => {
+export const useGetStatusBtnComment = (id: string) => {
     const dispatch = useAppDispatch();
-    const [btnStatus, setBtnStatus] = useState(false)
+    const [btnComment, setBtnComment] = useState(false)
 
     useEffect(() => {
-        getBtnCheckName()
+        getBtnComment()
     }, [id])
 
-    const getBtnCheckName = async () => {
+    const getBtnComment = async () => {
         dispatch(isShowLoading());
         try {
-            const url = `${import.meta.env.VITE_REACT_APP_API}course/checknamebtn/${id}`
+            const url = `${import.meta.env.VITE_REACT_APP_API}course/btncomment/${id}`
             axios.defaults.withCredentials = true
             //! edit form before post 
             const getAllCourse = await axios.get(url)
             const result = getAllCourse.data
-            // console.log(" get btn:", result)
-            setBtnStatus(result)
+            setBtnComment(result)
 
         } catch (error) {
             console.log(error)
@@ -30,6 +29,5 @@ export const useGetStatusBtnCheckName = (id: string) => {
     }
 
 
-    return { btnStatus, getBtnCheckName }
+    return { btnComment, getBtnComment }
 }
-

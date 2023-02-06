@@ -10,7 +10,6 @@ import { useUpdateApproval } from './Hook/useGetupdateApproval'
 
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
-import { useDeleteCourse } from '../Users/Hook/useDeleteUser'
 import { Button } from '@mui/material'
 //react dom 
 import { useNavigate } from 'react-router-dom'
@@ -19,6 +18,7 @@ import '../Dashboard/Dashboard.scss'
 import { CourseListsType, useGetCourseLists } from '../Courses/Hook/useGetCourse'
 import { useGetApproval } from './Hook/useGetApproval'
 import Image from '../../../components/Image/Image'
+import { useDeleteCourse } from '../Courses/Hook/useDeleteCourse'
 
 const Approval: FC = () => {
 
@@ -117,7 +117,7 @@ const Approval: FC = () => {
                                 <Typography variant="h1" component="h1" ml={3}>
                                     Approval
                                 </Typography>
-                                <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCourse()} >+Add course</Button>
+
                             </Grid>
 
 
