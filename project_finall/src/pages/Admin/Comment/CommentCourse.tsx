@@ -91,7 +91,7 @@ export default function CommentCourse(id_course: any) {
 
     return (
         <div>
-            <Button onClick={handleClickOpen}>
+            <Button onClick={handleClickOpen} sx={{ mr: 1 }}>
                 Comment
             </Button>
             <BootstrapDialog

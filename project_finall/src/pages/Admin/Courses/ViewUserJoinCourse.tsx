@@ -50,7 +50,9 @@ const ViewUserJoinCourse: FC = () => {
             },
         })
     }
-
+    const viewNameCheck = () => {
+        navigate(`/viewnamecheck/${state.id}`)
+    }
     const viewDetailCourse = (data: CourseJoinType) => {
         console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
         navigate(`/detailcourse/${data.id_document}`)
@@ -177,7 +179,9 @@ const ViewUserJoinCourse: FC = () => {
                                     Users in Course
                                 </Typography>
                             </Grid>
-
+                            <Button sx={{ ml: 3, mt: 2, mb: 2 }} color='success' onClick={() => {
+                                viewNameCheck()
+                            }}>View Name Check</Button>
 
                         </Grid>
                         <Grid sx={{ height: 1200, maxHeight: 2000 }}>

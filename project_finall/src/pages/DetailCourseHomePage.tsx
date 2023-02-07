@@ -209,13 +209,7 @@ const DetailCourseHomePage = () => {
                         <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
                       </>)}
                   </>}
-                {/* {uid_course?.some((params: any) => params === state.id) ?
-                  (<>
-                    <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
-                  </>) :
-                  (<>
-                    <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
-                  </>)} */}
+
                 {state.btn_comment == "true" && <>
                   <CommentCourse id={state.id} />
                 </>}

@@ -12,7 +12,6 @@ import DetailUser from "../pages/Admin/Users/DetailUser";
 import EditUser from "../pages/Admin/Users/EditUser";
 import Course from "../pages/Admin/Courses/Couse";
 import AddCourse from "../pages/Admin/Courses/AddCourse";
-import Page from "../pages/page";
 import Category from "../pages/Admin/Categorys/Category";
 import AddCategory from "../pages/Admin/Categorys/AddCategory";
 import Registor from "../pages/Register";
@@ -45,6 +44,8 @@ import AllTeacher from "../pages/AllTeacher";
 import DetailTeacher from "../pages/DetailTeacher";
 import UploadReceipt from "../pages/UploadReceipt";
 import CommentCourse from "../pages/Admin/Comment/CommentCourse";
+import ViewAllComment from "../pages/Admin/Comment/ViewAllComment";
+import ViewAllNameCheck from "../pages/Admin/Checkname/ViewAllNameCheck";
 
 
 
@@ -143,6 +144,8 @@ const RouteAllPage: FC = () => {
             <Route path="/teacheralllist" element={<AllTeacher />} />
             <Route path="/detailtecher/:id" element={<DetailTeacher />} />
             <Route path="/useuploadreceipt" element={<UploadReceipt />} />
+            <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
+            <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

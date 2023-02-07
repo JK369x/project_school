@@ -14,7 +14,7 @@ const DetailTeacher = () => {
     return (<>
         <Navbar />
 
-        <Box sx={{ backgroundColor: '#1e1f1f', height: '100vh', display: "flex", alignItems: "start" }}>
+        <Box sx={{ backgroundColor: '#1e1f1f', display: "flex", alignItems: "start", pb: 3 }}>
             <Container >
                 <Card sx={{ mt: 5, pt: 5, pl: 15, pr: 15, }}>
                     <CardContent>
@@ -67,7 +67,7 @@ const DetailTeacher = () => {
                     {data.map((item: any, index: number) => {
                         return (<React.Fragment key={index}>
                             <Card sx={{ backgroundColor: '#ffffff', pt: 1, pl: 1, mb: 2 }}  >
-                                <Grid container justifyContent={'space-between'}  >
+                                <Grid container justifyContent={'space-between'} sx={{}} >
                                     <Grid item xs={3}>
                                         <img src={item.image} alt="" width='300' height='250' />
                                     </Grid>

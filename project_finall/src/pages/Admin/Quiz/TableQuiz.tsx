@@ -128,7 +128,7 @@ const TableQuiz: FC<{ id_course: any }> = (props: any) => {
                                 countID: index + 1,
                                 Status: <Chip label={e.status_quiz === "true" ? 'open quiz' : 'closs quiz'} color={e.status_quiz === 'true' ? 'primary' : 'error'} />,
                                 delitem: <>
-                                    <Button sx={{ mr: 1 }} color={e.status_quiz === 'true' ? 'error' : 'error'} onClick={() => {
+                                    <Button sx={{ mr: 1 }} color={e.status_quiz === 'true' ? 'primary' : 'error'} onClick={() => {
                                         OpenQuiz(e)
                                     }}>Lunch Quiz</Button>
                                     <Button sx={{ mr: 1 }} color='success' onClick={() => {
