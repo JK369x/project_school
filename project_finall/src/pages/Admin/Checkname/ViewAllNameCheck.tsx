@@ -31,7 +31,7 @@ const ViewAllNameCheck = () => {
     }
 
     const viewDetailUser = (data: any) => {
-        // navigate(`/detailquiz/${id_course_detail}/${quiz.id_document}`)
+        navigate(`/viewdetailuserincourse/${data.id_user}/${id_course}`)
 
     }
 
@@ -50,6 +50,12 @@ const ViewAllNameCheck = () => {
             alignHeader: 'left',
             label: 'Name',
             value: 'name',
+        },
+        {
+            alignValue: 'left',
+            alignHeader: 'left',
+            label: 'Email',
+            value: 'email_user',
         },
         {
             alignValue: 'left',

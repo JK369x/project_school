@@ -5,6 +5,7 @@ import { Table } from '../../../framework/control'
 import { TableColumnOptions } from '../../../framework/control/Table/Table'
 import Grid from '@mui/material/Grid/Grid'
 import { FC, useEffect, useState } from 'react'
+import { CSVLink } from "react-csv";
 
 
 //controller
@@ -28,17 +29,20 @@ import ViewDetailTransaction from '../Approval/ViewDetailTransaction'
 const ViewUserJoinCourse: FC = () => {
     const { JoinCourse, getUserJoinCourse } = useGetAllJoinCourse()
     const data = JoinCourse
+    console.log("data_approval false", data)
     const { JoinCourseApproval, getUserJoinCourseApproval } = useGetAllJoinCourseApproval()
     const data_approval = JoinCourseApproval
+    console.log("🚀 ~ file: ViewUserJoinCourse.tsx:33 ~ data_approval", data_approval)
+    const username = data_approval.map((item: any, index: any) => {
+        return { user_name: item.name_join, user_email: item.email_user, ID: index + 1 }
+    })
+    console.log("🚀 ~ file: ViewUserJoinCourse.tsx:38 ~ username ~ username", username)
     const { state } = useGetCourseDetail()
-    console.log("🚀 ~ file: ViewUserJoinCourse.tsx:29 ~ state", state)
-    console.log("🚀 ~ file: ViewUserJoinCourse.tsx:27 ~ data", data)
+
     const { openConfirmDialog } = useDialog()
     const { deleteJoinCourse } = useDeleteJoinCourse()
     const navigate = useNavigate()
-    // console.log("🚀 ~ file: User.tsx:20 ~ data", data)
-    // const newdata = data.filter((item) => item.approval === true)
-    // console.log("🚀 ~ file: Couse.tsx:32 ~ newdata", newdata)
+
 
     const delItem = (data: CourseJoinType) => {
         openConfirmDialog({
@@ -53,14 +57,15 @@ const ViewUserJoinCourse: FC = () => {
     const viewNameCheck = () => {
         navigate(`/viewnamecheck/${state.id}`)
     }
-    const viewDetailCourse = (data: CourseJoinType) => {
+    const viewDetailCourse = (data_approval: CourseJoinType) => {
         console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
-        navigate(`/detailcourse/${data.id_document}`)
+        navigate(`/viewdetailuserincourse/${data_approval.id_user}/${state.id}`)
     }
 
-    const onClickAddCourse = () => {
-        navigate('/addcourses')
+    const printReceipt = () => {
+
     }
+
     const approval = async (data: CourseJoinType) => {
         await useUpdateApprovalJoinCourse(state.id, data.id_document)
         getUserJoinCourseApproval()
@@ -83,6 +88,12 @@ const ViewUserJoinCourse: FC = () => {
             label: 'User',
             value: 'imageTitle',
         },
+        {
+            alignValue: 'left',
+            alignHeader: 'left',
+            label: 'Email',
+            value: 'email_user',
+        },
 
 
         {
@@ -102,8 +113,8 @@ const ViewUserJoinCourse: FC = () => {
         },
 
         {
-            width: '200',
-            alignHeader: 'left',
+            width: '400',
+            alignHeader: 'center',
             alignValue: 'center',
             label: 'Action',
             value: 'delitem',
@@ -159,6 +170,12 @@ const ViewUserJoinCourse: FC = () => {
         },
 
     ]
+    const headers = [
+        { label: "ID", key: "ID" },
+        { label: "Name", key: "user_name" },
+        { label: "Email", key: "user_email" }
+    ];
+
 
     return (
         <div className='home'>
@@ -174,14 +191,20 @@ const ViewUserJoinCourse: FC = () => {
                 <div className="listContainer">
                     <div className="listTitle">
                         <Grid container spacing={2} sx={{ mt: 2 }}>
-                            <Grid container justifyContent={'space-between'} alignItems={'center'} >
-                                <Typography variant="h1" component="h1" ml={3}>
-                                    Users in Course
-                                </Typography>
+                            <Typography variant="h1" component="h1" ml={3}>
+                                Users in Course
+                            </Typography>
+                            <Grid container justifyContent={'flex-start'} alignItems={'center'} >
+                                <Button sx={{ ml: 3, mt: 2, mb: 2, mr: 2 }} color='success' onClick={() => {
+                                    viewNameCheck()
+                                }}>View Name Check</Button>
+                                <Button>
+                                    <CSVLink style={{ color: '#fff' }} data={username} headers={headers} filename={`username${new Date()}`}
+                                        target="_blank">
+                                        Export CSV
+                                    </CSVLink>
+                                </Button>
                             </Grid>
-                            <Button sx={{ ml: 3, mt: 2, mb: 2 }} color='success' onClick={() => {
-                                viewNameCheck()
-                            }}>View Name Check</Button>
 
                         </Grid>
                         <Grid sx={{ height: 1200, maxHeight: 2000 }}>
@@ -196,6 +219,9 @@ const ViewUserJoinCourse: FC = () => {
                                         {/* <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                             approval(e)
                                         }}>Approval</Button> */}
+                                        <Button sx={{ mr: 1 }} color='info' onClick={() => {
+                                            printReceipt()
+                                        }}>Print Receipt</Button>
                                         <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                             viewDetailCourse(e)
                                         }}>View</Button>

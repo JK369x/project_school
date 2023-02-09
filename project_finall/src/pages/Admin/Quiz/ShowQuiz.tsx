@@ -13,7 +13,8 @@ function ShowQuiz() {
     const { id, id_quiz } = useParams<{ id: string, id_quiz: string }>();
     const { stateQuiz } = useGetDetailQuiz(id)
     const newdata = stateQuiz.quiz?.params ?? ''
-
+    const title_props = stateQuiz.quiz?.newdata ?? ''
+    console.log("🚀 ~ file: ShowQuiz.tsx:17 ~ ShowQuiz ~ title_props", title_props)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<never[]>([]);
     const finishedQuiz = currentQuestionIndex === newdata.length;
@@ -43,7 +44,7 @@ function ShowQuiz() {
                 height: "100vh", display: "flex", alignItems: "center"
             }}>
                 <Container maxWidth="lg" >
-                    {finishedQuiz ? <Result restartQuiz={restartQuiz} answers={answers} /> : <QuestionCard newdata={currentQuestion} questionNumber={currentQuestionIndex + 1}
+                    {finishedQuiz ? <Result restartQuiz={restartQuiz} answers={answers} title_quiz={title_props} /> : <QuestionCard newdata={currentQuestion} questionNumber={currentQuestionIndex + 1}
                         submitAnswer={submitAnswer} />}
 
                 </Container>

@@ -46,6 +46,7 @@ import UploadReceipt from "../pages/UploadReceipt";
 import CommentCourse from "../pages/Admin/Comment/CommentCourse";
 import ViewAllComment from "../pages/Admin/Comment/ViewAllComment";
 import ViewAllNameCheck from "../pages/Admin/Checkname/ViewAllNameCheck";
+import ViewDetailUserInCourse from "../pages/Admin/Checkname/ViewDetailUserInCourse";
 
 
 
@@ -146,6 +147,7 @@ const RouteAllPage: FC = () => {
             <Route path="/useuploadreceipt" element={<UploadReceipt />} />
             <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
             <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
+            <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}
