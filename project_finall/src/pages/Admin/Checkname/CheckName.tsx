@@ -100,7 +100,7 @@ export default function CheckName(id_course: any) {
     }
     return (
         <div>
-            <Button onClick={handleClickOpen} sx={{ mr: 1 }}>
+            <Button onClick={handleClickOpen} sx={{ mr: 1, ml: 1 }}>
                 เช็คชื่อ
             </Button>
             <BootstrapDialog

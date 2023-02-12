@@ -25,13 +25,17 @@ export default function Result(props: any) {
     const newdata = stateQuiz.quiz?.params ?? []
     const navigate = useNavigate()
     const { addScore } = useAddScoreQuiz()
+
     const correctAnswers = useMemo(() => {
         return newdata.filter((q: any, i: number) => {
             console.log('user กดมาทีละครั้ง', (answers[i]))
             console.log('เฉลย', q?.answer)
+
             return q?.answer === (answers[i]);
         }).length;
     }, [answers, newdata])
+
+
     const myForm = useForm<scoretype>({})
     const { getValues, setValue, handleSubmit } = myForm
 

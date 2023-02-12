@@ -82,7 +82,7 @@ const ViewUserJoinCourse: FC = () => {
         },
 
         {
-
+            width: '350',
             alignHeader: 'left',
             alignValue: 'right',
             label: 'User',
@@ -113,7 +113,7 @@ const ViewUserJoinCourse: FC = () => {
         },
 
         {
-            width: '400',
+            width: '300',
             alignHeader: 'center',
             alignValue: 'center',
             label: 'Action',
@@ -219,9 +219,9 @@ const ViewUserJoinCourse: FC = () => {
                                         {/* <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                             approval(e)
                                         }}>Approval</Button> */}
-                                        <Button sx={{ mr: 1 }} color='info' onClick={() => {
+                                        {/* <Button sx={{ mr: 1 }} color='info' onClick={() => {
                                             printReceipt()
-                                        }}>Print Receipt</Button>
+                                        }}>Print Receipt</Button> */}
                                         <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                             viewDetailCourse(e)
                                         }}>View</Button>

@@ -1,4 +1,4 @@
-import { Avatar, Button, Chip, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Chip, Grid, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { Table } from "../../../framework/control";
 import { useDialog } from "../../../Hook/dialog/useDialog";
@@ -8,6 +8,7 @@ import Navbar from "../../../components/componentsAdmin/navbar/Navbar";
 import { useGetNameCheckById } from "./useGetNameCheckById";
 import { useGetDetailuserById } from "./useGetDtailuserById";
 import { useGetScoreById } from "./useGetScoreById";
+import ChartUserQuiz from "../Chart/ChartUserQuiz";
 
 const ViewDetailUserInCourse = () => {
     const { IdnameCheck, getNameCheckById } = useGetNameCheckById()
@@ -120,6 +121,9 @@ const ViewDetailUserInCourse = () => {
                                 <Typography variant="h1" component="h1" ml={3}>
                                     Chart
                                 </Typography>
+                                <Box sx={{ height: 500 }}>
+                                    <ChartUserQuiz score_props={scoreall} />
+                                </Box>
                             </div>
                         </div>
 
@@ -130,48 +134,51 @@ const ViewDetailUserInCourse = () => {
                                 <Typography variant="h1" component="h1" ml={3}>
                                     User Detail
                                 </Typography>
-                                <Grid container justifyContent={'center'} sx={{ mt: 2, mb: 2 }} >
-                                    <Avatar src={state.image_rul ? state.image_rul : ''} sx={{ width: 250, height: 250, m: 'auto' }} />
-                                </Grid>
-                                <Grid container justifyContent={'center'} >
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        Name: {`${state.firstName} ${state.lastName}`}
-                                    </Typography>
-                                </Grid>
-                                <Grid container justifyContent={'center'} >
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        Email: {state.email}
-                                    </Typography>
-                                </Grid>
-                                <Grid container justifyContent={'center'} >
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        Birthday: {state.birthday}
-                                    </Typography>
-                                </Grid>
-                                <Grid container justifyContent={'center'} >
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        Job: {state.job}
-                                    </Typography>
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        Agency: {state.agency}
-                                    </Typography>
-                                </Grid>
-                                <Grid container justifyContent={'center'} >
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        Province: {state.province?.label}
-                                    </Typography>
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        Amphure: {state.amphure?.label}
-                                    </Typography>
-                                </Grid>
-                                <Grid container justifyContent={'center'} >
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        Tambon: {state.tambon?.label}
-                                    </Typography>
-                                    <Typography variant="h6" component="h1" ml={3}>
-                                        zipCode: {state.zipCode?.label}
-                                    </Typography>
-                                </Grid>
+                                <Box sx={{ height: 500 }}>
+
+                                    <Grid container justifyContent={'center'} sx={{}} >
+                                        <Avatar src={state.image_rul ? state.image_rul : ''} sx={{ width: 250, height: 250, m: 'auto' }} />
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} >
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            Name: {`${state.firstName} ${state.lastName}`}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} >
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            Email: {state.email}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} >
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            Birthday: {state.birthday}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} >
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            Job: {state.job}
+                                        </Typography>
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            Agency: {state.agency}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} >
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            Province: {state.province?.label}
+                                        </Typography>
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            Amphure: {state.amphure?.label}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} >
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            Tambon: {state.tambon?.label}
+                                        </Typography>
+                                        <Typography variant="h6" component="h1" ml={3}>
+                                            zipCode: {state.zipCode?.label}
+                                        </Typography>
+                                    </Grid>
+                                </Box>
                             </div>
                         </div>
                     </Grid>

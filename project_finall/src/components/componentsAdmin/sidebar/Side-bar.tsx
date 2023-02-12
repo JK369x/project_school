@@ -70,7 +70,6 @@ export const Sidebar = () => {
   }
 
   const { uid } = useAppSelector(({ auth }) => auth)
-  console.log("🚀 ~ file: Side-bar.tsx:82 ~ Sidebar ~ uid", uid)
 
   const onClickProfile = () => {
     navigate(`/profile/${uid}`)

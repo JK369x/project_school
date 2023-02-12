@@ -10,7 +10,7 @@ import { useGetUserLists } from './Hook/useGetUserLists'
 //controller
 import { useDialog } from '../../../Hook/dialog/useDialog'
 import { useDeleteUser } from './Hook/useDeleteUser'
-import { Box, } from '@mui/material'
+import { Box, Link, } from '@mui/material'
 import Button from "../../../framework/control/Button/Button";
 //react dom 
 import { useNavigate, useParams } from 'react-router-dom'
@@ -45,110 +45,98 @@ const Profile: FC = () => {
                     <div className="listTitle">
                         <Box sx={{ width: '100%' }}>
                             <Grid >
-                                <Grid container justifyContent={'space-between'} item xs={12} sx={{ m: 0, p: 0 }}>
-                                    <Typography variant="h2" mb={2}  >
-                                        INFORMATION
-                                    </Typography>
-                                    <Button label='Edit' onClick={() => onClickEdit()} />
-                                </Grid>
+
+                                <Typography variant="h2" mb={2}  >
+                                    INFORMATION
+                                </Typography>
+
                                 {state.status?.id === '10' ?
                                     <>
-                                        <Grid container item>
-                                            <Grid container ml={3} mr={3} item xs={1}>
-                                                <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, mr: 5 }} />
-                                            </Grid>
-                                            <Grid ml={1} item xs={6} >
-                                                <Grid item container mt={0}>
-                                                    <Typography variant="h3" ml={5} color='#555454'>
-                                                        {state.firstName}
-                                                    </Typography>
-                                                    <Typography variant="h3" ml={2} color='#555454'>
-                                                        {state.lastName}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Email: {state.email}
-                                                    </Typography>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Change Password
-                                                    </Typography>
-                                                </Grid>
-                                            </Grid>
+                                        <Grid container justifyContent={'center'} sx={{ mt: 5 }}>
+                                            <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 250, height: 250, }} />
                                         </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h3" color='#555454'>
+                                                {`${state.firstName}  ${state.lastName}`}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Email: {state.email}
+                                            </Typography>
+                                        </Grid>
+
                                     </> : <>
-                                        <Grid container item>
-                                            <Grid container item xs={1}>
-                                                <Grid item sx={{ m: 'auto' }}>
-                                                    <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, mr: 5 }} />
-
-                                                </Grid>
-                                            </Grid>
-                                            <Grid ml={1} item xs={6} >
-                                                <Grid item container mt={0}>
-                                                    <Typography variant="h3" ml={5} color='#555454'>
-                                                        {state.firstName}
-                                                    </Typography>
-                                                    <Typography variant="h3" ml={2} color='#555454'>
-                                                        {state.lastName}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Email: {state.email}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Birthday: {state.birthday}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Province: {state.province?.label ?? '-'}
-                                                        {/* //! ?? if province false = '-' */}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Tumbon: {state.tambon?.label}
-                                                        {/* //! tambon? มีค่าอยู่หรือป่าว */}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Aumphure: {state.amphure?.label}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        ZipCode: {state.zipCode?.label}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Address: {state.address}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Agency: {state.agency}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        Status: {state.status?.label}
-                                                    </Typography>
-                                                </Grid>
-
-                                                <Grid>
-                                                    <Typography variant="h4" ml={5} color='#555454'>
-                                                        About: {state.about}
-                                                    </Typography>
-                                                </Grid>
-                                            </Grid>
+                                        <Grid container justifyContent={'center'} sx={{ mt: 5 }}>
+                                            <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 250, height: 250, }} />
                                         </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h3" color='#555454'>
+                                                {`${state.firstName}  ${state.lastName}`}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Email: {state.email}
+                                            </Typography>
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Birthday: {state.birthday}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Province: {state.province?.label ?? '-'}
+                                                {/* //! ?? if province false = '-' */}
+                                            </Typography>
 
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Tumbon: {state.tambon?.label}
+                                                {/* //! tambon? มีค่าอยู่หรือป่าว */}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Aumphure: {state.amphure?.label}
+                                            </Typography>
+
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                ZipCode: {state.zipCode?.label}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Address: {state.address}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Agency: {state.agency}
+                                            </Typography>
+                                            <Typography variant="h4" ml={5} color='#555454'>
+                                                Status: {state.status?.label}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Typography variant="h4" color='#555454' sx={{ width: 800, mt: 1, mb: 2 }}>
+                                                About: {state.about}
+                                            </Typography>
+
+                                        </Grid>
+                                        <Grid container justifyContent={'center'}>
+                                            <Link
+                                                sx={{ mr: 2 }}
+                                                component="button"
+                                                variant="body2"
+                                                onClick={() => {
+                                                    navigate(`/resetpassword/${id}`)
+                                                }}
+                                            >
+                                                Reset Password
+                                            </Link>
+                                            <Button label='Edit' onClick={() => onClickEdit()} />
+
+
+                                        </Grid>
                                     </>}
                             </Grid>
                         </Box>

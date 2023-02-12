@@ -91,7 +91,7 @@ const User: FC = () => {
         </div>
         <div className="listContainer">
           <div className="listTitle">
-            <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid container spacing={2} >
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
 
                 <Typography variant="h1" component="h1" ml={3}>

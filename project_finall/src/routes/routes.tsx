@@ -47,7 +47,9 @@ import CommentCourse from "../pages/Admin/Comment/CommentCourse";
 import ViewAllComment from "../pages/Admin/Comment/ViewAllComment";
 import ViewAllNameCheck from "../pages/Admin/Checkname/ViewAllNameCheck";
 import ViewDetailUserInCourse from "../pages/Admin/Checkname/ViewDetailUserInCourse";
-
+import Pdftest from "../pages/test/Pdftes";
+import ChartUserQuiz from "../pages/Admin/Chart/ChartUserQuiz";
+import ResetPassword from "../pages/Admin/Users/ResetPassword";
 
 
 
@@ -147,7 +149,11 @@ const RouteAllPage: FC = () => {
             <Route path="/useuploadreceipt" element={<UploadReceipt />} />
             <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
             <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
+            <Route path="/pdftest" element={<Pdftest />} />
+            <Route path="/resetpassword/:id" element={<ResetPassword />} />
             <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
+            {/* <Route path="/widgetuser" element={<Widget />} /> */}
+            {/* <Route path="/chartjsquiz" element={<ChartUserQuiz />} /> */}
             <Route
                 path="*"
                 element={<>{email === null ? <NotFoundPage /> : null}</>}

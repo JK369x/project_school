@@ -24,11 +24,42 @@ import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSli
 import { setAuthStore } from '../../../store/slices/authSlice'
 
 const EditUser: FC = () => {
+    const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode, data, getData } = useLocationLookup()
+    const { state } = useGetDetailUser()
+
+    const newdate = state.birthday ? state.birthday : ''
+    const [birthday, setBirthday] = useState<any | null>(newdate);
     const myForm = useForm<{ data: UserListsType }>({})
     const { watch, handleSubmit, getValues, setValue } = myForm
+    const { updateUser } = useUpdateUser()
+    const dispatch = useAppDispatch()
+
+    const { uploadFile, uploadState } = useUploadFile()
+
+    const { displayName, uid, photoURL, favorite, about } = useAppSelector(({ auth }) => auth)
+
+
+    const onUploadImage = (files: FileList | null) => {
+        if (files) {
+            uploadFile(files[0], `myImages/${uid}/`)
+        }
+    }
+
+
+
+
+    useEffect(() => {
+        myForm.setValue('data', state)
+        if (uploadState.downloadURL, data) {
+            myForm.setValue('data.image_rul', uploadState.downloadURL)
+        }
+        setBirthday(newdate)
+    }, [data])
+
     const changeProvince = watch('data.province')
     const changeAmphure = watch('data.amphure')
     const changeTambon = watch('data.tambon')
+
     useEffect(() => {
         if (changeProvince) {
             getAmphure(parseInt(`${changeProvince.id}`))
@@ -45,42 +76,6 @@ const EditUser: FC = () => {
         }
     }, [changeTambon])
 
-
-    const { updateUser } = useUpdateUser()
-    const dispatch = useAppDispatch()
-
-    const { uploadFile, uploadState } = useUploadFile()
-
-    const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
-    const { displayName, uid, photoURL, favorite, about } = useAppSelector(({ auth }) => auth)
-
-
-
-
-
-    const { state } = useGetDetailUser()
-
-    useEffect(() => {
-        myForm.setValue('data', state)
-        if (uploadState.downloadURL) {
-            myForm.setValue('data.image_rul', uploadState.downloadURL)
-        }
-    }, [state])
-
-    const onUploadImage = (files: FileList | null) => {
-        if (files) {
-            uploadFile(files[0], `myImages/${uid}/`)
-        }
-    }
-
-
-    console.log("🚀 ~ file: EditUser.tsx:84 ~ onSubmit ~ getValues", getValues().data)
-    const newdate = state.birthday ? state.birthday : ''
-    const [birthday, setBirthday] = useState<any | null>(newdate);
-    useEffect(() => {
-        setBirthday(newdate)
-    }, [newdate])
-    console.log("🚀 ~ file: EditUser.tsx:74 ~ birthday", birthday)
     const onSubmit = async () => {
         setValue('data.birthday', birthday === "" ? newdate : birthday)
         setValue('data.image_rul', uploadState.downloadURL ? uploadState.downloadURL : state.image_rul)

@@ -14,7 +14,7 @@ const DetailTeacher = () => {
     return (<>
         <Navbar />
 
-        <Box sx={{ backgroundColor: '#1e1f1f', display: "flex", alignItems: "start", pb: 3 }}>
+        <Box sx={{ backgroundColor: '#1e1f1f', display: "flex", alignItems: "start", pb: 3, height: '100vh' }}>
             <Container >
                 <Card sx={{ mt: 5, pt: 5, pl: 15, pr: 15, }}>
                     <CardContent>

@@ -92,13 +92,30 @@ const CategoryCourse = () => {
     }
 
   }
-
+  const title_course = data.map((item: any) => { return item.title })
   let newdata = data
   if (Category) {
     newdata = data.filter((item: any) => item.category.label === Category)
   } else {
     newdata = data
   }
+
+  const [textFieldValue, setTextFieldValue] = useState<any>('')
+  console.log("🚀======e", textFieldValue)
+  const handleSearch = async (labelOptionValue: any) => {
+    const newdata: any = data.filter((item: any) => item.title == labelOptionValue)
+    console.log("newdata", newdata)
+    console.log('+++++++', labelOptionValue);
+    if (newdata.length > 0) {
+      const id_doc = await newdata.map((item: any) => { return item.id_document })
+      console.log("🚀 ~ file: CategoryCourse.tsx:111 ~ handleSearch ~ id_doc", id_doc)
+
+      navigate(`/detailcoursehomepage/${id_doc[0]}`)
+
+    } else {
+      console.log("click again")
+    }
+  };
   return (
     <>
       <Navbar />
@@ -134,7 +151,12 @@ const CategoryCourse = () => {
                 })}
               </Grid>
               <Grid sx={{ mr: 5.5 }}>
-                <SearchBar />
+                <SearchBar
+                  value={textFieldValue}
+                  onChange={newValue => setTextFieldValue(newValue)}
+                  onSearch={() => { handleSearch(textFieldValue) }}
+                  options={title_course} />
+
               </Grid>
             </Grid>
 

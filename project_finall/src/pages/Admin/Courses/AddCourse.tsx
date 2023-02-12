@@ -111,12 +111,10 @@ const AddCourse = () => {
                     }
                 },
                 (error) => {
-                    // Handle unsuccessful uploads
                     console.log("🚀 ~ file: AddCourse.tsx:157 ~ onSubmit ~ error", error)
                 },
                 () => {
-                    // Handle successful uploads on complete
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+
                     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                         //! can use url don't have useSate 
                         console.log('File available at', url);

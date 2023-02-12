@@ -1,3 +1,4 @@
+import { async } from '@firebase/util';
 import { useState, useEffect } from 'react'
 import { Lookup } from '../../../../types/type'
 import axios from 'axios'
@@ -37,13 +38,9 @@ export const useLocationLookup = () => {
 
 	const getData = async () => {
 		try {
-			const options = {
-				withCredentials: false,
-			};
 			dispatch(isShowLoading())
-			// axios.defaults.withCredentials = false
-			const result = await axios.get(
-				'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json', options)
+			const url = `${import.meta.env.VITE_REACT_APP_API}provice/getapiprovince/`
+			const result = await axios.get(url)
 			console.log("🚀 ~ file: useLocationLookup.ts:44 ~ getData ~ result", result)
 			setData(result.data)
 			setProvince(result.data.map((e: LocationDatatype) => ({ id: e.id, label: e.name_th })))
@@ -54,9 +51,17 @@ export const useLocationLookup = () => {
 		}
 	}
 
-	const getAmphure = (id: number) => {
-		const newdata = data.filter((e) => e.id === id)[0]
-		setAmphure(newdata.amphure?.map((e: any) => ({ id: e.id, label: e.name_th })))
+	const getAmphure = async (id: number) => {
+		console.log("🚀 ~ file: useLocationLookup.ts:61 ~ getAmphure ~ id", id)
+
+		if (data.length > 0) {
+			const newdata = data.filter((e) => e.id === id)[0]
+			setAmphure(newdata.amphure.map((e: any) => ({ id: e.id, label: e.name_th })))
+		} else {
+			alert('wait data')
+			const newdata = data.filter((e) => e.id === id)[0]
+			setAmphure(newdata.amphure.map((e: any) => ({ id: e.id, label: e.name_th })))
+		}
 	}
 
 	const getTambon = (pid: number, aid: number) => {
@@ -72,7 +77,7 @@ export const useLocationLookup = () => {
 		//! filter return [{}]
 		setZipcode(fillterzipcode)
 	}
-	return { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode }
+	return { data, province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode, getData }
 }
 
 
