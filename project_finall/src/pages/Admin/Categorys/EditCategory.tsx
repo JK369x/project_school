@@ -78,15 +78,20 @@ const EditCategory: FC = () => {
                 <Navbar />
                 <div className="listContainer">
                     <div className="listTitle">
-                        <Grid container>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <Typography variant="h1" component="h1" ml={3}>
-                                    Add Category
-                                </Typography>
-                                <ControllerTextField formprop={myForm} name={"data.Category_Title"} label={'Category Title'} />
-                                <Button label='Submit' type='submit' />
-                            </form>
-                        </Grid>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <Typography variant="h1" component="h1" ml={3}>
+                                Add Category
+                            </Typography>
+                            <Grid container justifyContent={'flex-start'} alignContent={'center'} alignItems={'center'}>
+                                <Grid item xs={1}>
+                                    <ControllerTextField formprop={myForm} name={"data.Category_Title"} label={'Category Title'} />
+                                </Grid>
+                                <Grid item xs={2} sx={{ ml: 2, mt: 2.4 }}>
+                                    <Button label='Submit' type='submit' />
+
+                                </Grid>
+                            </Grid>
+                        </form>
                     </div>
                 </div>
             </div>

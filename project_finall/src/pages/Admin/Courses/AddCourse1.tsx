@@ -39,8 +39,6 @@ import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlic
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
 
 import { useGetCategoryLists } from '../Categorys/Hook/useGetCategory'
-import { Moment } from 'moment'
-import moment from 'moment'
 
 
 
@@ -48,14 +46,14 @@ import moment from 'moment'
 
 
 const AddCourse = () => {
-    const [start_register, setStart_register] = useState<Moment | null>(moment());
-    const [End_register, setEnd_register] = useState<Moment | null>(moment());
+    const [start_register, setStart_register] = useState<Date>(new Date());
+    const [End_register, setEnd_register] = useState<Date>(new Date());
 
-    const [start_learn, setStart_learn] = useState<Moment | null>(moment());
-    const [end_learn, setEnd_learn] = useState<Moment | null>(moment());
+    const [start_learn, setStart_learn] = useState<Date>(new Date());
+    const [end_learn, setEnd_learn] = useState<Date>(new Date());
 
-    const [start_time, setStart_time] = useState<Moment | null>(moment());
-    const [end_time, setEnd_time] = useState<Moment | null>(moment());
+    const [start_time, setStart_time] = useState<Date>(new Date());
+    const [end_time, setEnd_time] = useState<Date>(new Date());
 
 
     const [image, setImage] = useState<any>(null);
@@ -94,7 +92,6 @@ const AddCourse = () => {
     }
 
     const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
-    console.log("🚀 ~ file: AddCourse.tsx:97 ~ AddCourse ~ about", about)
     const { handleSubmit, getValues, setValue } = myForm
     const onSubmit = async () => {
         getValues()
@@ -124,14 +121,14 @@ const AddCourse = () => {
                         //! can use url don't have useSate 
                         console.log('File available at', url);
 
-                        setValue('start_register', moment(start_register))
-                        setValue('End_register', moment(End_register))
+                        setValue('start_register', new Date(start_register))
+                        setValue('End_register', new Date(End_register))
 
-                        setValue('start_learn', moment(start_learn))
-                        setValue('end_learn', end_learn)
+                        setValue('start_learn', new Date(start_learn))
+                        setValue('end_learn', new Date(end_learn))
 
-                        setValue('start_time', moment(start_time))
-                        setValue('end_time', moment(end_time))
+                        setValue('start_time', new Date(start_time))
+                        setValue('end_time', new Date(end_time))
 
                         setValue('image', url)
                         setValue('image_create', photoURL ? photoURL : '')
@@ -177,7 +174,7 @@ const AddCourse = () => {
                                 <ControllerTextField fullWidth multiline maxRows={4} minRows={2} formprop={myForm} name={"description"} label={'description'} />
 
 
-                                {/* <img src={image ? image : ''} width={250} height={250} alt="" /> */}
+                                <img src={image ? image : ''} width={250} height={250} alt="" />
 
                                 <Grid container spacing={1}>
                                     <Grid item xs={3}>
@@ -287,12 +284,10 @@ const AddCourse = () => {
                                 </Typography>
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <DateTimePicker
-                                        disableMaskedInput
                                         renderInput={(props) => <TextField {...props} />}
                                         label="Start Registration"
                                         value={start_register}
-                                        inputFormat="D MMMM YYYY H:mm"
-                                        ampm={false}
+                                        // inputFormat="dd.MM.yyyy"
                                         onChange={(newValue: any) => {
                                             setStart_register(newValue);
                                         }}
@@ -301,12 +296,9 @@ const AddCourse = () => {
                                         To
                                     </Typography>
                                     <DateTimePicker
-                                        disableMaskedInput
                                         renderInput={(props) => <TextField {...props} />}
                                         label="End Registration"
                                         value={End_register}
-                                        inputFormat="D MMMM YYYY H:mm"
-                                        ampm={false}
                                         onChange={(newValue: any) => {
                                             setEnd_register(newValue);
                                         }}
@@ -319,10 +311,8 @@ const AddCourse = () => {
                                 </Typography>
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <DatePicker
-                                        disableMaskedInput
                                         label="start-course"
                                         value={start_learn}
-                                        inputFormat="D MMM YYYY "
                                         onChange={(newValue: any) => {
                                             setStart_learn(newValue);
                                         }}
@@ -334,10 +324,8 @@ const AddCourse = () => {
                                         To
                                     </Typography>
                                     <DatePicker
-                                        disableMaskedInput
                                         label="end-course"
                                         value={end_learn}
-                                        inputFormat="D MMM YYYY "
                                         onChange={(newValue: any) => {
                                             setEnd_learn(newValue);
                                         }}
@@ -353,7 +341,6 @@ const AddCourse = () => {
                                     <TimePicker
                                         label="start-time"
                                         value={start_time}
-                                        ampm={false}
                                         onChange={(newValue: any) => {
                                             setStart_time(newValue);
                                         }}
@@ -365,7 +352,6 @@ const AddCourse = () => {
                                     <TimePicker
                                         label="end-start"
                                         value={end_time}
-                                        ampm={false}
                                         onChange={(newValue: any) => {
                                             setEnd_time(newValue);
                                         }}
@@ -374,19 +360,16 @@ const AddCourse = () => {
                                 </Grid>
 
                                 <Grid container spacing={1} sx={{ mb: 2 }} alignContent={'center'} alignItems={'center'} >
-                                    <Grid item xs={12}>
-                                        <ControllerTextField fullWidth formprop={myForm} name={"location"} label={'Location'} />
-                                    </Grid>
-                                    <Grid item xs={2}>
+                                    <Grid item xs={3}>
                                         <ControllerTextField fullWidth formprop={myForm} name={"min_people"} label={'Min people'} />
                                     </Grid>
-                                    <Grid item xs={2}>
+                                    <Grid item xs={3}>
                                         <ControllerTextField fullWidth formprop={myForm} name={"max_people"} label={'Max people'} />
                                     </Grid>
-                                    <Grid item xs={2}>
+                                    <Grid item xs={3}>
                                         <ControllerTextField fullWidth formprop={myForm} name={"pricing"} label={'pricing'} />
                                     </Grid>
-                                    <Grid container justifyContent={'center'} item xs={12} sx={{ mt: 2.3 }}>
+                                    <Grid item xs={3} sx={{ mt: 2.3 }}>
                                         <Button type='submit' label='Submit' />
                                     </Grid>
                                 </Grid>

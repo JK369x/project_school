@@ -29,6 +29,7 @@ import TableQuiz from '../Quiz/TableQuiz'
 import { useGetStatusBtnCheckName } from './Hook/useGetStatusBtnCheckName'
 import { useGetStatusBtnComment } from '../Comment/Hook/useGetStatusBtnComment'
 import { useUpdateBtnComment } from '../Comment/Hook/useUpdateBtnComment'
+import moment from 'moment'
 const DetailCourse: FC = () => {
     const { state } = useGetCourseDetail()
     console.log("🚀 ~ file: DetailCourse.tsx:34 ~ state", state)
@@ -41,7 +42,8 @@ const DetailCourse: FC = () => {
 
 
     //*start register course
-    const Start_Register_Date = new Date(state.start_register).toLocaleDateString();
+    // const Start_Register_Date = new Date(state.start_register).toLocaleDateString();
+    const Start_Register_Date = moment(state.start_register).format('DD-MM-YYYY')
     const Start_Register_Time = new Date(state.start_register).toLocaleTimeString('en-Us', {
         hour: 'numeric',
         minute: 'numeric',
@@ -50,7 +52,7 @@ const DetailCourse: FC = () => {
     });
 
     //*end register course
-    const End_Register_Date = new Date(state.End_register).toLocaleDateString();
+    const End_Register_Date = moment(state.End_register).format('DD-MM-YYYY')
     const End_Register_Time = new Date(state.End_register).toLocaleTimeString('en-Us', {
         hour: 'numeric',
         minute: 'numeric',
@@ -59,8 +61,8 @@ const DetailCourse: FC = () => {
     });
 
     //*start course and End course
-    const Start_Course_Time = new Date(state.start_learn).toLocaleDateString()
-    const End_Course_Time = new Date(state.end_learn).toLocaleDateString()
+    const Start_Course_Time = moment(state.start_learn).format('DD-MM-YYYY')
+    const End_Course_Time = moment(state.end_learn).format('DD-MM-YYYY')
 
     //*Course Date
     const Course_Date = Array.from(state.course_date!).map((params: any, index: number) => {
@@ -291,11 +293,17 @@ const DetailCourse: FC = () => {
                                     <Typography variant="body2" mb={2}  >
                                         {state.create_byName}
                                     </Typography>
+                                    <Typography variant="body2"  >
+                                        Location
+                                    </Typography>
+                                    <Typography variant="body2" mb={2}  >
+                                        {state.location}
+                                    </Typography>
                                     <Typography variant="body2"   >
                                         About
                                     </Typography>
                                     <Typography variant="body2" mb={2}  >
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam iusto ratione repellat aperiam nobis esse vitae exercitationem aut quo incidunt eius quis consequuntur, est assumenda possimus, rem velit nulla voluptate.
+                                        {state.about ? state.about : 'รอการกรอกข้อมูล'}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={8}>
@@ -351,6 +359,15 @@ const DetailCourse: FC = () => {
                                         <Typography variant="body2" mb={2}  >
                                             {state.teaching_assistant}
                                         </Typography>
+                                        <Typography variant="body2"  >
+                                            Create Date
+                                        </Typography>
+
+                                        <Typography variant="body2" mb={2}  >
+                                            {moment(state.createDate?._seconds * 1000).format('D-MM-YYYY')}
+                                        </Typography>
+
+
                                         <Grid container justifyContent={'end'}>
                                             <Grid>
                                                 <Typography variant="body2" mb={1} mr={8} >

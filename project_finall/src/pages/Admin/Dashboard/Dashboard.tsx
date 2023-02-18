@@ -56,6 +56,7 @@ const Dashboard = () => {
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
+
   months.forEach(month => {
     counts[month] = 0;
   });

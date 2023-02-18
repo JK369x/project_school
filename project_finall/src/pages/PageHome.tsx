@@ -33,6 +33,8 @@ import imagebg1 from '../assets/logo-rmutt/rmutt-l.jpg'
 import logo from '../assets/logo-rmutt/Logo-RMUTT-A4-stork-5-01.png'
 import BodyCenterPage from './BodycenterPage';
 import GoogleButton from 'react-google-button';
+import { Footer } from '../components/Footer';
+import { useGetBanner } from './Admin/Banner/useGetBanner';
 const PageHome = () => {
     const { CourseLists } = useGetCourseLists()
     const data = CourseLists
@@ -44,7 +46,10 @@ const PageHome = () => {
     // )
 
     const [Category, setCategory] = useState<any>('')
-
+    const { banner } = useGetBanner()
+    const image_banner1 = banner[0]?.banner1
+    const image_banner2 = banner[0]?.banner2
+    const api_banner = banner[0]?.default_banner
     const navigate = useNavigate()
 
 
@@ -181,79 +186,67 @@ const PageHome = () => {
     return (
         <>
             <Navbar />
-            <Slider {...settings1}>
-                <Grid container justifyContent={'center'} sx={{ mb: -1, }} >
-                    <Box
-                        sx={{
-                            position: "relative",
-                            width: '100%',
-                            height: 1000,
-                            maxHeight: '1600',
-                            backgroundImage: `url(${imagebg})`,
-                            backgroundSize: 'contain',
-                        }}>
-                    </Box>
+
+            {api_banner === 'true' ? <>
+                <Slider {...settings1}>
+                    <Grid container justifyContent={'center'} sx={{ mb: -1, }} >
+                        <Box
+                            sx={{
+                                position: "relative",
+                                width: '100%',
+                                height: 1000,
+                                maxHeight: '1600',
+                                backgroundImage: `url(${imagebg})`,
+                                backgroundSize: 'contain',
+                            }}>
+                        </Box>
+                    </Grid>
+                    <Grid container justifyContent={'center'} sx={{ mb: -1, }} >
+                        <Box
+                            sx={{
+                                position: "relative",
+                                width: '100%',
+                                height: 1000,
+                                maxHeight: '1600',
+                                backgroundImage: `url(${imagebg})`,
+                                backgroundSize: 'contain',
+                            }}>
+                        </Box>
+                    </Grid>
+                </Slider>
+            </> : <>
+                <Slider {...settings1}>
+                    <Grid container justifyContent={'center'} sx={{ mb: -1, }} >
+                        <Box
+                            sx={{
+                                position: "relative",
+                                width: '100%',
+                                height: 1000,
+                                maxHeight: '1600',
+                                backgroundSize: 'contain',
+                            }}>
+                            <img src={image_banner1} alt="" style={{ height: 1000, width: '100%' }} />
+                        </Box>
+                    </Grid>
+                    <Grid container justifyContent={'center'} sx={{ mb: -1, }} >
+                        <Box
+                            sx={{
+                                position: "relative",
+                                width: '100%',
+                                height: 1000,
+                                maxHeight: '1600',
+                                backgroundSize: 'contain',
+                            }}>
+                            <img src={image_banner2} alt="" style={{ height: 1000, width: '100%' }} />
+                        </Box>
+                    </Grid>
+                </Slider>
+            </>}
 
 
-                </Grid>
-                <Grid container justifyContent={'center'} sx={{ mb: -1, }} >
-                    <Box
-                        sx={{
-                            position: "relative",
-                            width: '100%',
-                            height: 1000,
-                            maxHeight: '1600',
-                            backgroundImage: `url(${imagebg})`,
-                            backgroundSize: 'contain',
-                        }}>
-                    </Box>
 
-
-                </Grid>
-            </Slider>
             <BodyCenterPage />
-            {/* <Grid container justifyContent={'center'} sx={{ mt: 1, mb: -1 }}>
-                <Box
-                    sx={{
-                        position: "relative",
-                        width: '100%',
-                        height: 850,
-                        backgroundImage: `url(${imagebg})`,
-                        backgroundSize: 'contain',
 
-
-                    }}>
-                </Box>
-
-            </Grid> */}
-
-
-
-            {/* <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} sx={{ width: '100%', height: 650, position: "absolute", top: 65, }}>
-
-                <Grid item xs={12} sx={{ ml: 6 }}>
-                    <Grid sx={{ mb: 3, ml: 3 }}>
-                        <Typography gutterBottom variant="h2" component="h2" color={"black"}>
-                            คอร์สเรียนเพิ่มทักษะทาง<br />ด้านวิศวกรรมคอมพิวเตอร์
-                        </Typography>
-                        <Typography gutterBottom variant="h6" >
-                            พบกับวิทยากร ที่จะช่วยอัปสกิล ให้คุณเก่งขึ้น
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </Search>
-                    </Grid>
-                </Grid>
-
-            </Grid>  */}
             <Box
                 sx={{ width: '100%', height: 830, backgroundColor: '#000000' }}>
                 <Grid container justifyContent={'center'} sx={{ ml: 2, }}>
@@ -266,33 +259,6 @@ const PageHome = () => {
                         เรามีหลักสูตรที่พร้อมพัฒนาคุณให้เข้าใจ และ ปฏิบัติได้จริง
                     </Typography>
                 </Grid>
-
-                <Grid container justifyContent={'center'} sx={{ mb: 2 }}>
-                    {/* <Button color="secondary"
-                        disabled={false}
-                        size="medium"
-                        variant="outlined"
-                        sx={{ borderRadius: 50, mt: 2, ml: 2 }}
-                        onClick={() => { allcategoryClick() }}
-                    >
-                        All
-                    </Button> */}
-                    {/* {dataCategoryLists.map((item, index) => {
-                        return (<react.Fragment key={index}>
-                            <Button
-                                color='secondary'
-                                disabled={false}
-                                size="medium"
-                                variant="outlined"
-                                sx={{ borderRadius: 50, mt: 2, ml: 2 }}
-                                onClick={() => { queryCategory(item) }}
-                            >
-                                {item}
-                            </Button>
-                        </react.Fragment>)
-                    })} */}
-                </Grid>
-
 
 
                 <Grid sx={{ flexGrow: 1 }} container spacing={2}>
@@ -465,8 +431,7 @@ const PageHome = () => {
                                             cursor: 'pointer',
                                         }
                                     }}
-                                        /* It's a prop that adds a shadow to the
-                                        card. */
+
                                         raised={true}>
                                         <CardMedia
                                             onClick={() => { onClickCard(item) }}
@@ -549,7 +514,6 @@ const PageHome = () => {
                                             <Grid container justifyContent={'space-between'} >
                                                 <Grid item sx={{ mr: 1 }}>
                                                     <Rating name="read-only" value={5} getLabelText={getLabelText} readOnly />
-
                                                 </Grid>
                                                 <Grid item >
                                                     <Typography>
@@ -567,15 +531,12 @@ const PageHome = () => {
                                             </Grid>
                                         </CardContent>
                                         <CardActions sx={{ mt: 1.5, borderTop: '1px solid rgb(210, 210, 210)' }}>
-
                                             <Grid container>
                                                 <CalendarMonthIcon sx={{ color: '#0085ea' }} />
                                                 {Array.from(item.course_date!).map((params: any, index: number) => {
                                                     return (index !== 0 ? ' - ' + params.label : params.label)
                                                 })}
                                             </Grid>
-
-
                                         </CardActions>
                                     </Card>
                                 </Grid>
@@ -592,7 +553,7 @@ const PageHome = () => {
 
 
 
-
+            <Footer />
         </>
     )
 }

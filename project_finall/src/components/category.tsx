@@ -23,7 +23,7 @@ export default function IconBreadcrumbs() {
     }
 
     const contacts = () => {
-        navigate('/')
+        navigate('/contacts')
     }
     return (
         <Breadcrumbs aria-label="breadcrumb">

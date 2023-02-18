@@ -11,6 +11,7 @@ export type CourseListsType = {
     id_document: string
     updateDate: any
     btn_comment: any
+    createDate: any
 } & TypeCourses
 //! & เพิ่ม id form input
 

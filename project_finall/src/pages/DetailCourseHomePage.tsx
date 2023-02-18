@@ -34,6 +34,7 @@ import SimpleAccordion from './Admin/Quiz/Accordion'
 import UploadReceipt from './UploadReceipt'
 import { stat } from 'fs'
 import CommentCourse from './Admin/Comment/CommentCourse'
+import moment from 'moment'
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
   console.log("🚀 ~ file: DetailCourseHomePage.tsx:35 ~ DetailCourseHomePage ~ state", state)
@@ -46,7 +47,7 @@ const DetailCourseHomePage = () => {
 
   console.log("🚀 ~ file: DetailCourseHomePage.tsx:33 ~ DetailCourseHomePage ~ newjoin", newjoin)
   //*start register course
-  const Start_Register_Date = new Date(state.start_register).toLocaleDateString();
+  const Start_Register_Date = moment(state.start_register).format('DD-MM-YYYY')
   const Start_Register_Time = new Date(state.start_register).toLocaleTimeString('en-Us', {
     hour: 'numeric',
     minute: 'numeric',
@@ -55,7 +56,7 @@ const DetailCourseHomePage = () => {
   });
 
   //*end register course
-  const End_Register_Date = new Date(state.End_register).toLocaleDateString();
+  const End_Register_Date = moment(state.End_register).format('DD-MM-YYYY')
   const End_Register_Time = new Date(state.End_register).toLocaleTimeString('en-Us', {
     hour: 'numeric',
     minute: 'numeric',
@@ -64,11 +65,11 @@ const DetailCourseHomePage = () => {
   });
 
   //*start course and End course
-  const Start_Course_Time = new Date(state.start_learn).toLocaleDateString()
-  const End_Course_Time = new Date(state.end_learn).toLocaleDateString()
+  const Start_Course_Time = moment(state.start_learn).format('DD-MM-YYYY')
+  const End_Course_Time = moment(state.end_learn).format('DD-MM-YYYY')
 
   //*Course Date
-  const Course_Date = Array.from(state.course_date!).map((params: any, index: number) => {
+  const Course_Date = Array.from(state.course_date ? state.course_date : '').map((params: any, index: number) => {
     return (index !== 0 ? ' - ' + params.label : params.label)
   })
 
@@ -172,9 +173,16 @@ const DetailCourseHomePage = () => {
   const onClickUpload = () => {
     navigate(`/useuploadreceipt/`)
   }
-  console.log('date now ', new Date())
-  const newdate = state.End_register
-  console.log('date =', new Date(newdate))
+  // const newdate = state.End_register
+  // const currentDate = moment();
+  // const startDate = moment(state.start_register);
+  // console.log("🚀 ~ file: DetailCourseHomePage.tsx:180 ~ startDate", startDate)
+  // const endDate = moment(state.End_register)
+  // console.log("🚀 ~ file: DetailCourseHomePage.tsx:182 ~ endDate", endDate)
+
+  // const isInRange = currentDate.isBetween(startDate, endDate);
+  // console.log("======================", isInRange)
+
   return (
     <>
       <Navbar />
@@ -187,7 +195,8 @@ const DetailCourseHomePage = () => {
             <Grid>
               <Image src={state.image} width={400} height={350} />
               <Typography variant="h6"  >
-                {`อัพเดทล่าสุด ${new Date(state.updateDate._seconds).toLocaleString()}`}
+                {/* {`อัพเดทล่าสุด ${new Date(state.updateDate._seconds ? state.updateDate._seconds * 1000 : '').toLocaleString()}`} */}
+                {`อัพเดทล่าสุด ${moment(new Date(state.updateDate._seconds ? state.updateDate._seconds * 1000 : '')).format('D MMM YYYY H:mm')}`}
               </Typography>
 
             </Grid>
@@ -195,11 +204,8 @@ const DetailCourseHomePage = () => {
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }}>
               <Grid container xs={12} alignItems={'center'} >
-
-                {new Date(state.End_register) <= new Date() ?
-                  <>
-                    <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
-                  </> :
+                {/* {new Date(state.End_register) <= new Date() ? */}
+                {moment().isBetween(moment(state.start_register), moment(state.End_register)) ?
                   <>
                     {uid_course?.some((params: any) => params === state.id) ?
                       (<>
@@ -208,6 +214,9 @@ const DetailCourseHomePage = () => {
                       (<>
                         <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
                       </>)}
+                  </> :
+                  <>
+                    <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
                   </>}
 
                 {state.btn_comment == "true" && <>
@@ -339,18 +348,10 @@ const DetailCourseHomePage = () => {
                 <Typography variant="body2" mb={2} sx={{ maxHeight: 70, }} >
                   {state.about ? state.about : 'รอการกรอกข้อมูล'}
                 </Typography>
-
               </Grid>
             </Grid>
-
-
-
-
-
-
           </Grid>
         </Grid>
-
       </Box>
 
       <Box sx={{ width: '100%', backgroundColor: '#1C1D1F', paddingLeft: 5, paddingRight: 5 }}>
@@ -424,17 +425,22 @@ const DetailCourseHomePage = () => {
               {state.teaching_assistant}
             </Typography>
             <Typography variant="body2" mb={1} mr={8} color={'#FFFFFF'} >
-              จำนวนคนขั้นต่ำในการเปิดหลักสูตร
+              Location
             </Typography>
             <Typography marginLeft={2} variant="body2" mb={1} mr={8} color={'#FFFFFF'}>
-              {state.min_people}
+              {state.location}
             </Typography>
           </Grid>
 
           <Grid item xs={6} >
-            <Typography variant="h3" mb={1} mr={8} color={'#FFFFFF'} >
-              ทำแบบทดสอบ
-            </Typography>
+            <Grid container>
+              <Typography variant="h3" mb={1} mr={1} color={'#FFFFFF'} >
+                ทำแบบทดสอบ
+              </Typography>
+              <Typography variant="h3" color={'primary'} >
+                Quiz
+              </Typography>
+            </Grid>
             <SimpleAccordion id={state.id} />
           </Grid>
         </Grid>

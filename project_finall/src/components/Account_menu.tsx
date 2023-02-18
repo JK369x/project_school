@@ -39,10 +39,6 @@ export default function AccountMenu() {
     const { email, status, displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     console.log("🚀 ~ file: Account_menu.tsx:37 ~ AccountMenu ~ displayName", displayName)
 
-
-
-
-
     const onClickLogOut = async () => {
         await axios.get(`${import.meta.env.VITE_REACT_APP_API}auth/signout`)
         dispatch(
@@ -52,7 +48,8 @@ export default function AccountMenu() {
                 displayName: null,
                 status: null,
                 favorite: null,
-                photoURL: null
+                photoURL: null,
+                about: null
             }),
         )
         dispatch(setCourseStore({
@@ -64,6 +61,9 @@ export default function AccountMenu() {
 
     const ClickCateGory = () => {
         navigate('/category_course')
+    }
+    const ClickProfile = () => {
+        navigate(`/profiledetailuser_user/${uid}`)
     }
     const ClickFavorite = () => {
         navigate('/favorite')
@@ -125,7 +125,10 @@ export default function AccountMenu() {
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
                     <MenuItem>
-                        <Avatar /> Profile
+                        <ListItemIcon onClick={ClickProfile}>
+                            <Avatar />
+                        </ListItemIcon>
+                        <span onClick={ClickProfile}>Profile</span>
                     </MenuItem>
 
                     <Divider />

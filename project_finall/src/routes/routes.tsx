@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import Nextregistor from "../pages/Nextregistor";
@@ -50,6 +49,11 @@ import ViewDetailUserInCourse from "../pages/Admin/Checkname/ViewDetailUserInCou
 import Pdftest from "../pages/test/Pdftes";
 import ChartUserQuiz from "../pages/Admin/Chart/ChartUserQuiz";
 import ResetPassword from "../pages/Admin/Users/ResetPassword";
+import ReplyComment from "../pages/Admin/Comment/ReplyComment";
+import Contacts from "../pages/Contacts";
+import Banner from "../pages/Admin/Banner/Banner";
+import ProFileUserFontEnd from "../pages/ProFileUserFontEnd";
+import EditProfileUser from "../pages/EditProfileUser";
 
 
 
@@ -81,7 +85,7 @@ const RouteAllPage: FC = () => {
             const firstName = user_data.firstName
             const lastName = user_data.lastName
             const new_id_document = user_data.id_document
-
+            const user_about = user_data.about
             const displayName = `${firstName} ${lastName}`
             dispatch(setAuthStore({
                 uid: new_id_document,
@@ -90,6 +94,7 @@ const RouteAllPage: FC = () => {
                 status: new_status,
                 favorite: new_favorite,
                 photoURL: data,
+                about: user_about,
             }))
             dispatch(setCourseStore({
                 uid_course: new_join,
@@ -150,7 +155,12 @@ const RouteAllPage: FC = () => {
             <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
             <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
             <Route path="/pdftest" element={<Pdftest />} />
+            <Route path="/replycomment/:id_course/:id_comment" element={<ReplyComment />} />
             <Route path="/resetpassword/:id" element={<ResetPassword />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/banner" element={<Banner />} />
+            <Route path="/usereditprofile/:id" element={<EditProfileUser />} />
+            <Route path="/profiledetailuser_user/:id" element={<ProFileUserFontEnd />} />
             <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
             {/* <Route path="/widgetuser" element={<Widget />} /> */}
             {/* <Route path="/chartjsquiz" element={<ChartUserQuiz />} /> */}

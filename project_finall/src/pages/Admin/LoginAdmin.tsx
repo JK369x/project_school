@@ -39,7 +39,8 @@ const LoginAdmin = () => {
             const Name = res.data.user.displayName
             const user_favorite = res.data.user.favorite
             const user_status = res.data.user.status
-            console.log("first login status user :", user_status)
+            const user_about = res.data.user.about
+            console.log("first login status user :", res.data)
             dispatch(setAuthStore({
                 uid: id_document,
                 email: user,
@@ -47,6 +48,7 @@ const LoginAdmin = () => {
                 status: user_status,
                 favorite: user_favorite,
                 photoURL: image,
+                about: user_about,
             }))
             navigator('/dashboard')
 

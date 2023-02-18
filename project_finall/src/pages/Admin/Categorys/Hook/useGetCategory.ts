@@ -16,7 +16,6 @@ export type CategoryListsType = {
 export const useGetCategoryLists = () => {
     const dispatch = useAppDispatch();
     const [CategoryLists, setCategoryLists] = useState<CategoryListsType[]>([])
-    console.log("🚀 ~ file: useGetCategory.ts:17 ~ useGetCategoryLists ~ CategoryLists", CategoryLists)
     useEffect(() => {
         useGetCategory()
     }, [])
@@ -28,9 +27,9 @@ export const useGetCategoryLists = () => {
             axios.defaults.withCredentials = true
             const getCategory = await axios.get(url)
             const result = getCategory.data
-     
+
             setCategoryLists(
-                result.map((e:any) => {
+                result.map((e: any) => {
                     return {
                         ...e,
                     }

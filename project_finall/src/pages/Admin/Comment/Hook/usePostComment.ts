@@ -13,6 +13,8 @@ export interface TypeComment {
     ratting?: any
     comment_user?: string
     date_comment?: any
+    reply?: string
+    status_reply?: string
 }
 
 export const usePostComment = () => {

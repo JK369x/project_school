@@ -16,7 +16,13 @@ const BodyCenterPage = () => {
 
     const navigate = useNavigate()
 
+    const courseAll = () => {
+        navigate(`/category_course`)
+    }
 
+    const teacherAll = () => {
+        navigate(`/teacheralllist`)
+    }
 
     return (
         <>
@@ -38,10 +44,10 @@ const BodyCenterPage = () => {
                         <Grid >
                             <Grid container>
 
-                                <Typography gutterBottom variant="h4" color='#010000' sx={{ mr: 1 }} >
+                                <Typography gutterBottom variant="h4" color='#010000' sx={{ mr: 1, mt: 2 }} >
                                     เรียนกับเหล่าวิทยากร พร้อมทั้งใบรับ
                                 </Typography>
-                                <Typography variant="h5" color='#e74c0a' >
+                                <Typography variant="h5" color='#e74c0a' sx={{ mt: 2 }} >
                                     certificate 📝
                                 </Typography>
                             </Grid>
@@ -57,12 +63,12 @@ const BodyCenterPage = () => {
                                 </Typography>
                             </Grid>
                             <Grid item sx={{ mr: 9, mt: 2 }}>
-                                <Button>
+                                <Button sx={{ mr: 2 }} onClick={courseAll}>
                                     <Typography variant="h5" color='#ffffff' >
                                         เลือกหลักสูตรที่คุณสนใจ
                                     </Typography>
                                 </Button>
-                                <Button sx={{ backgroundColor: '#656565', ml: 1 }}>
+                                <Button onClick={teacherAll} sx={{ backgroundColor: '#656565', ml: 1 }}>
                                     <Typography variant="h5" color='#ffffff' >
                                         รู้จักกับเหล่าวิทยากร
                                     </Typography>

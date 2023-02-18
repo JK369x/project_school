@@ -21,7 +21,7 @@ export const useUploadFile = () => {
 		downloadURL: '',
 		fileName: '',
 	})
-	const uploadFile = (file: File, path: string = '') => {
+	const uploadFile = async (file: File, path: string = '') => {
 		try {
 			dispatch(isShowLoading())
 			const storageRef = ref(storage, `${path}${file.name}`)

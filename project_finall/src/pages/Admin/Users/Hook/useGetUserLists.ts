@@ -10,6 +10,7 @@ export type UserListsType = {
     id_document: string
     about: string
     salt: string
+    createDate: any
 } & IFormInput
 //! & เพิ่ม id form input
 

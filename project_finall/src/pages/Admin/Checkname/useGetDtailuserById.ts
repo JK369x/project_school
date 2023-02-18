@@ -30,6 +30,7 @@ export const useGetDetailuserById = () => {
         about: "",
         image_rul: null,
         id_document: "",
+        salt: "",
     })
 
 

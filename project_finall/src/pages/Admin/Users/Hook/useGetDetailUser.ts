@@ -35,6 +35,7 @@ export const useGetDetailUser = () => {
         image_rul: null,
         id_document: "",
         salt: "",
+        createDate: "",
     })
 
 

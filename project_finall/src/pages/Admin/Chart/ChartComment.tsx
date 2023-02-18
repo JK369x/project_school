@@ -28,38 +28,37 @@ const options: any = {
         },
         title: {
             display: true,
-            text: 'Chart Quiz',
+            text: 'Chart Comment',
 
         },
     },
 };
 
 
-const ChartUserQuiz = (props: any) => {
+const ChartComment = (props: any) => {
     const datascore = props.score_props
     console.log("🚀 ~ file: ChartUserQuiz.tsx:27 ~ ChartUserQuiz ~ datascore", datascore)
-    const data_labels = datascore.map((item: any, index: number) => {
-        return `Quiz ${index + 1}`
-    })
-    const score_quiz = datascore.map((item: any, index: number) => {
-        return item.total_score
-    })
+    // const data_labels = datascore.map((item: any, index: number) => {
+    //     return `Quiz ${index + 1}`
+    // })
+
     const full_score = datascore.map((item: any, index: number) => {
-        return item.full_score
+        return item.ratting
     })
-    console.log("🚀 ~ file: ChartUserQuiz.tsx:61 ~ constscore_quiz=datascore.map ~ score_quiz", score_quiz)
-    console.log("🚀 ~ file: ChartUserQuiz.tsx:56 ~ ChartUserQuiz ~ newdata", data_labels)
+    const sum = full_score.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
+    const average = sum / full_score.length;
+    console.log("🚀 ~ file: ChartComment.tsx:51 ~ constfull_score=datascore.map ~ full_score", full_score)
     const dataChart = {
-        labels: data_labels,
+        labels: ["comment count"],
         datasets: [
             {
-                label: 'total score',
-                data: score_quiz.map((item: any) => item),
+                label: 'จำนวน comment',
+                data: datascore.map((item: any) => datascore.length),
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             },
             {
-                label: 'full score',
-                data: full_score.map((item: any) => item),
+                label: 'คะแนนเฉลี่ย',
+                data: full_score.map((item: any) => average),
                 backgroundColor: 'rgba(32, 205, 55, 0.5)',
             },
         ]
@@ -67,10 +66,10 @@ const ChartUserQuiz = (props: any) => {
 
 
     return <>
-        <Grid container justifyContent={'center'} sx={{ height: 500 }}>
+        <Grid container justifyContent={'center'} sx={{ height: 820 }}>
             <Bar options={options} data={dataChart} />;
 
         </Grid>
     </>
 }
-export default ChartUserQuiz
+export default ChartComment

@@ -1,4 +1,4 @@
-import { Button, Chip, Grid, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { Table } from "../../../framework/control";
 import { useDialog } from "../../../Hook/dialog/useDialog";
@@ -8,13 +8,12 @@ import { useGetAllComment } from "./Hook/useGetAllComment";
 import Sidebar from "../../../components/componentsAdmin/sidebar/Side-bar";
 import Navbar from "../../../components/componentsAdmin/navbar/Navbar";
 import { useDeleteComment } from "./Hook/useDeleteComment";
+import ChartComment from "../Chart/ChartComment";
 const ViewAllComment = () => {
     const { id } = useParams<{ id: string }>();
     const id_course = id !== undefined ? id : ''
-    console.log("🚀 ~ file: ViewAllComment.tsx:12 ~ ViewAllComment ~ id_course", id_course)
     const { viewcomment, getAllComment } = useGetAllComment(id_course)
     const data = viewcomment
-    console.log("🚀 ~ file: ViewAllComment.tsx:15 ~ ViewAllComment ~ data", data)
     const { deleteComment } = useDeleteComment()
 
     const { openConfirmDialog } = useDialog()
@@ -35,7 +34,9 @@ const ViewAllComment = () => {
     }
 
     const viewDetailUser = (dataComment: TypeComment) => {
-        // navigate(`/detailquiz/${id_course_detail}/${quiz.id_document}`)
+        console.log(dataComment)
+        console.table(dataComment)
+        navigate(`/replycomment/${id_course}/${dataComment.id_document}`)
 
     }
 
@@ -75,8 +76,8 @@ const ViewAllComment = () => {
             value: 'comment_user',
         },
         {
-            width: '300',
-            alignHeader: 'left',
+
+            alignHeader: 'center',
             alignValue: 'center',
             label: 'Action',
             value: 'delitem',
@@ -89,17 +90,23 @@ const ViewAllComment = () => {
             <Sidebar />
             <div className="homeContainer">
                 <Navbar />
-                <div className="listContainer">
-                    <div className="listTitle">
-                        <Grid container spacing={2} sx={{ mt: 2 }}>
-                            <Grid container justifyContent={'space-between'} alignItems={'center'} >
-
+                <Grid container sx={{ mt: 2 }}>
+                    <Grid item xs={6} >
+                        <div className="listContainer">
+                            <div className="listTitle">
                                 <Typography variant="h1" component="h1" ml={3}>
-                                    Comment
+                                    Chart Comment
                                 </Typography>
-
-                            </Grid>
-                            <Grid item xs={12}>
+                                <ChartComment score_props={data} />
+                            </div>
+                        </div>
+                    </Grid>
+                    <Grid item xs={6} sx={{ height: 800 }}>
+                        <div className="listContainer">
+                            <div className="listTitle">
+                                <Typography variant="h1" component="h1" ml={3}>
+                                    Comment Detail
+                                </Typography>
                                 <Table columnOptions={columnOptions} dataSource={data.map((e: any, index: number) => {
                                     return {
                                         ...e,
@@ -108,7 +115,6 @@ const ViewAllComment = () => {
                                             {new Date(e.date_comment).toLocaleString()}
                                         </>,
                                         delitem: <>
-
                                             <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                                 viewDetailUser(e)
                                             }}>View</Button>
@@ -118,10 +124,12 @@ const ViewAllComment = () => {
                                         </>
                                     }
                                 })} defaultRowsPerPage={10} />
-                            </Grid>
-                        </Grid>
-                    </div>
-                </div>
+
+                            </div>
+                        </div>
+                    </Grid>
+
+                </Grid>
             </div>
         </div>
 

@@ -94,7 +94,6 @@ const ResetPassword = () => {
 
                                     </>}
                                 </Grid>
-
                             </form>
                         </Box>
                     </div>

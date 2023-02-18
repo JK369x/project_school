@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAppDispatch } from '../../../store/useHooksStore';
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice';
 
-export const useGetScoreById = (id: string) => {
+export const useGetScoreById = (id: string, id_course: string) => {
     console.log("id user", id)
     const dispatch = useAppDispatch();
     const [scoreall, setScoreAll] = useState([])
@@ -15,7 +15,7 @@ export const useGetScoreById = (id: string) => {
     const getAllScore = async () => {
         dispatch(isShowLoading());
         try {
-            const url = `${import.meta.env.VITE_REACT_APP_API}course/getscorebyid/${id}`
+            const url = `${import.meta.env.VITE_REACT_APP_API}course/getscorebyid/${id}/${id_course}`
             axios.defaults.withCredentials = true
             //! edit form before post 
             const getAllCourse = await axios.get(url)
@@ -35,5 +35,5 @@ export const useGetScoreById = (id: string) => {
     }
 
 
-    return { scoreall, setScoreAll }
+    return { scoreall, setScoreAll, getAllScore }
 }

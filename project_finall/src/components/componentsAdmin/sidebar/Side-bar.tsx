@@ -50,6 +50,9 @@ export const Sidebar = () => {
   const onClickTeacher = () => {
     navigate('/teacher')
   }
+  const onClickBanner = () => {
+    navigate('/banner')
+  }
   const onClickLogOut = async () => {
     await axios.get(`${import.meta.env.VITE_REACT_APP_API}auth/signout`)
     dispatch(
@@ -114,7 +117,7 @@ export const Sidebar = () => {
           <p className="title">USEFUL</p>
           <li>
             <QueryStatsIcon className='icon' />
-            <span>Stats</span>
+            <span onClick={onClickBanner}>Banner</span>
           </li>
           <li>
             <NotificationsIcon className='icon' />

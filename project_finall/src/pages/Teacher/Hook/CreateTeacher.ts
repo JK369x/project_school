@@ -19,6 +19,7 @@ export interface TeacherType {
     tambon: Lookup | null
     zipCode: Lookup | null
     agency: string | number
+    createDate: any
 }
 
 

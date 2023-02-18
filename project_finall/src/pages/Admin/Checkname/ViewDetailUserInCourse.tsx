@@ -9,25 +9,45 @@ import { useGetNameCheckById } from "./useGetNameCheckById";
 import { useGetDetailuserById } from "./useGetDtailuserById";
 import { useGetScoreById } from "./useGetScoreById";
 import ChartUserQuiz from "../Chart/ChartUserQuiz";
+import { useDeleteCheckName } from "./useDeleteCheckName";
+import { useDeleteQuizScore } from "../Quiz/Hook/useDeleteQuizScore";
+import moment from "moment";
 
 const ViewDetailUserInCourse = () => {
     const { IdnameCheck, getNameCheckById } = useGetNameCheckById()
     const data = IdnameCheck
-    // const { deleteComment } = useDeleteComment()
+    const { id_course } = useParams<{ id_course: string }>()
+    const { deleteCheckName } = useDeleteCheckName()
+    const { deleteQuizScore } = useDeleteQuizScore()
+
     const { state } = useGetDetailuserById()
     const { openConfirmDialog } = useDialog()
     const navigate = useNavigate()
-    const { scoreall } = useGetScoreById(state.id_document)
+    const { scoreall, getAllScore } = useGetScoreById(state.id_document, id_course!)
     console.log("🚀 ~ file: ViewDetailUserInCourse.tsx:22 ~ ViewDetailUserInCourse ~ scoreall", scoreall)
-
+    //!แก้ให้แสดง quiz เฉพาะ course นั้นๆ 
+    //!ลบ quiz
 
     const delItem = (data: any) => {
         const new_id = data.id_document !== undefined ? data.id_document : ''
+        console.log("id document = ", new_id)
         openConfirmDialog({
-            textContent: 'deleteQuiz',
+            textContent: 'Delete Check Name',
             onConfirm: async () => {
-                // await deleteComment(id_course, new_id)
-                // getAllComment()
+                await deleteCheckName(id_course!, new_id)
+                getNameCheckById()
+            },
+        })
+    }
+
+    const deleteQuiz = (data: any) => {
+        const new_id = data.id_document !== undefined ? data.id_document : ''
+        console.log("id document = ", new_id)
+        openConfirmDialog({
+            textContent: 'Delete Score Quiz',
+            onConfirm: async () => {
+                await deleteQuizScore(state.id_document, new_id)
+                getAllScore()
             },
         })
     }
@@ -121,12 +141,9 @@ const ViewDetailUserInCourse = () => {
                                 <Typography variant="h1" component="h1" ml={3}>
                                     Chart
                                 </Typography>
-                                <Box sx={{ height: 500 }}>
-                                    <ChartUserQuiz score_props={scoreall} />
-                                </Box>
+                                <ChartUserQuiz score_props={scoreall} />
                             </div>
                         </div>
-
                     </Grid>
                     <Grid item xs={6}>
                         <div className="listContainer">
@@ -140,7 +157,7 @@ const ViewDetailUserInCourse = () => {
                                         <Avatar src={state.image_rul ? state.image_rul : ''} sx={{ width: 250, height: 250, m: 'auto' }} />
                                     </Grid>
                                     <Grid container justifyContent={'center'} >
-                                        <Typography variant="h6" component="h1" ml={3}>
+                                        <Typography variant="h6" component="h1" ml={3} sx={{ mt: 2 }}>
                                             Name: {`${state.firstName} ${state.lastName}`}
                                         </Typography>
                                     </Grid>
@@ -195,7 +212,7 @@ const ViewDetailUserInCourse = () => {
                                         ...e,
                                         countID: index + 1,
                                         Status: <>
-                                            {new Date(e.date_check_name).toLocaleString()}
+                                            {moment(e.date_check_name).format('DD/MM/YYYY h:mm')}
                                         </>,
 
                                         delitem: <>
@@ -223,7 +240,7 @@ const ViewDetailUserInCourse = () => {
                                         ...e,
                                         countID: index + 1,
                                         Status: <>
-                                            {new Date(e.createDate._seconds).toLocaleString()}
+                                            {moment(e.createDate._seconds * 1000).format('DD/MM/YYYY h:mm')}
                                         </>,
                                         Score: <>
                                             <Typography variant="h6" component="h1" ml={3}>
@@ -231,11 +248,9 @@ const ViewDetailUserInCourse = () => {
                                             </Typography>
                                         </>,
                                         delitem: <>
-                                            {/* <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                                                viewDetailUser(e)
-                                            }}>View</Button> */}
+
                                             <Button sx={{ mr: 0 }} color='error' onClick={() => {
-                                                delItem(e)
+                                                deleteQuiz(e)
                                             }}>Delete</Button>
                                         </>
                                     }
