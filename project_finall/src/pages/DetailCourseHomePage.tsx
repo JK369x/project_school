@@ -165,23 +165,12 @@ const DetailCourseHomePage = () => {
       console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
     }
   }
-  // const enddate = new Date(state.End_register).toLocaleDateString()
-  // console.log("🚀 ~ file: DetailCourseHomePage.tsx:167 ~ DetailCourseHomePage ~ enddate", enddate)
-  // const bewdate = new Date().toLocaleDateString()
-  // console.log("🚀 ~ file: DetailCourseHomePage.tsx:168 ~ DetailCourseHomePage ~ bewdate", bewdate)
+
 
   const onClickUpload = () => {
     navigate(`/useuploadreceipt/`)
   }
-  // const newdate = state.End_register
-  // const currentDate = moment();
-  // const startDate = moment(state.start_register);
-  // console.log("🚀 ~ file: DetailCourseHomePage.tsx:180 ~ startDate", startDate)
-  // const endDate = moment(state.End_register)
-  // console.log("🚀 ~ file: DetailCourseHomePage.tsx:182 ~ endDate", endDate)
 
-  // const isInRange = currentDate.isBetween(startDate, endDate);
-  // console.log("======================", isInRange)
 
   return (
     <>

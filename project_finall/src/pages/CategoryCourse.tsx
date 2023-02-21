@@ -160,7 +160,8 @@ const CategoryCourse = () => {
       <Navbar />
       <Box sx={{
         backgroundColor: '#1e1f1f',
-        p: 4
+        p: 4,
+        minHeight: '100vh',
       }}>
         <Grid container justifyContent={'center'} sx={{ backgroundColor: '#1e1f1f' }} >
           <Grid container justifyContent={'center'} maxWidth={'75rem'} >

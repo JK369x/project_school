@@ -98,9 +98,7 @@ const Course: FC = () => {
 
   ]
   const handleSearch = async (labelOptionValue: any) => {
-    console.log("🚀 ~ file: Couse.tsx:98 ~ handleSearch ~ labelOptionValue", labelOptionValue)
     const data_search: any = newdata.filter((item: any) => item.title == labelOptionValue)
-    console.log("🚀 ~ file: Couse.tsx:103 ~ handleSearch ~ data_search", data_search)
     if (data_search.length > 0) {
       setDataList(data_search)
     } else {

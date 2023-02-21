@@ -45,12 +45,12 @@ const AllTeacher = () => {
         setDataList(teacherLists)
     }, [teacherLists])
     const handleBefore = (date: any) => {
-        console.log("🚀 ~ file: Testgrid.tsx:18 ~ handleChange ~ date", moment(date).format('DD/MM/YYYY'))
-        setDateBefore(date)
+        const date_time = new Date(date).toDateString()
+        setDateBefore(moment(date_time))
     };
     const handleAfter = (date: any) => {
-        console.log("🚀 ~ file: Testgrid.tsx:18 ~ handleChange ~ date", moment(date).format('DD/MM/YYYY'))
-        setDateAfter(date)
+        const date_time = new Date(date).toDateString()
+        setDateAfter(moment(date_time))
     };
     const clickcalendar = () => {
         console.log('btn =', btncalendar)
@@ -74,14 +74,14 @@ const AllTeacher = () => {
     }
     return (<>
         <Navbar />
-        <Box sx={{ backgroundColor: '#1e1f1f', p: 4 }}>
+        <Box sx={{ backgroundColor: '#1e1f1f', height: '100%', minHeight: '100vh', p: 4 }}>
             <Container>
 
                 <Typography variant="h2" component="div" color={"#fff"} sx={{ ml: 6 }}>
                     รายชื่อวิทยากร
                 </Typography>
 
-                <Grid container justifyContent={'space-between'} alignContent={'flex-end'} alignItems={'flex-end'} sx={{ width: '100%', }} >
+                <Grid container justifyContent={'space-between'} alignContent={'flex-end'} alignItems={'flex-end'} sx={{ width: '100%' }} >
                     <Grid item sx={{ ml: 6 }}>
                         {btncalendar && <>
                             <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -144,7 +144,7 @@ const AllTeacher = () => {
 
             {datalist.map((item: any, index: number) => {
                 return (<React.Fragment key={index}>
-                    <Grid container justifyContent={'center'}  >
+                    <Grid container justifyContent={'center'}   >
                         <Card sx={{ width: 1045, mb: 2, mt: 3, p: 3 }}>
                             <CardContent >
                                 <Typography variant="h4" component="div">

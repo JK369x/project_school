@@ -54,6 +54,7 @@ import Contacts from "../pages/Contacts";
 import Banner from "../pages/Admin/Banner/Banner";
 import ProFileUserFontEnd from "../pages/ProFileUserFontEnd";
 import EditProfileUser from "../pages/EditProfileUser";
+import Calculate from "../pages/Admin/Calculate";
 
 
 
@@ -162,6 +163,7 @@ const RouteAllPage: FC = () => {
             <Route path="/usereditprofile/:id" element={<EditProfileUser />} />
             <Route path="/profiledetailuser_user/:id" element={<ProFileUserFontEnd />} />
             <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
+            <Route path="/calculate" element={<Calculate />} />
             {/* <Route path="/widgetuser" element={<Widget />} /> */}
             {/* <Route path="/chartjsquiz" element={<ChartUserQuiz />} /> */}
             <Route

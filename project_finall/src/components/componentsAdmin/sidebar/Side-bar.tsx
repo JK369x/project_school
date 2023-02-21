@@ -42,7 +42,7 @@ export const Sidebar = () => {
     navigate('/category')
   }
   const onClickCalculate = () => {
-    navigate('/category')
+    navigate('/calculate')
   }
   const onClickApproval = () => {
     navigate('/approval')
@@ -126,7 +126,7 @@ export const Sidebar = () => {
           <p className="title">SERVICE</p>
           <li>
             <SettingsSystemDaydreamIcon className='icon' />
-            <span>Calculate Queue</span>
+            <span onClick={onClickCalculate}>Calculate Queue</span>
           </li>
           <li>
             <PsychologyIcon className='icon' />

@@ -19,6 +19,7 @@ import { Line } from 'react-chartjs-2';
 import { Box } from '@mui/system';
 import { useGetCourseLists } from '../Courses/Hook/useGetCourse';
 import { useGetUserLists } from '../Users/Hook/useGetUserLists';
+import { useGetAllJoinCourseCategory } from './useGetallJoinCourseCategory';
 
 ChartJS.register(
   CategoryScale,
@@ -32,8 +33,9 @@ ChartJS.register(
 );
 const Dashboard = () => {
   const { CourseLists } = useGetCourseLists()
+  const { getJoinCategory } = useGetAllJoinCourseCategory()
+  console.log("🚀 ~ file: Dashboard.tsx:37 ~ Dashboard ~ getJoinCategory", getJoinCategory)
   const { userLists } = useGetUserLists()
-  console.log("🚀 ~ file: Dashboard.tsx:36 ~ Dashboard ~ userLists", userLists)
   const userListss = userLists.map((item: any, index: any) => {
     const y_now = new Date().getFullYear()
     let data_now = new Date(item.createDate?._seconds * 1000).getFullYear()
@@ -46,11 +48,7 @@ const Dashboard = () => {
     }
   })
 
-  const datenew = CourseLists.map((item: any, index: any) => {
-    const y_now = new Date().getFullYear()
 
-    return new Date(item.createDate._seconds * 1000).toDateString()
-  })
   console.log("🚀 ~ file: Dashboard.tsx:40 ~ userListss ~ userListss", userListss)
   const counts: { [key: string]: number } = {};
   const months = [
@@ -91,16 +89,11 @@ const Dashboard = () => {
     labels: months,
     datasets: [
       {
-        fill: true,
         label: 'Total User',
         data: count.map((item: any, index: number) => { return item.value }),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
-
-
       },
-
-
     ],
   };
   return (
@@ -119,7 +112,7 @@ const Dashboard = () => {
             Dashboard
           </div>
           <Box>
-            <Line options={options} data={data} />;
+            <Line options={options} data={data} height={100} />
           </Box>
 
         </div>
