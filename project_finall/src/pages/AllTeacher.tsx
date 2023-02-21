@@ -29,9 +29,8 @@ const AllTeacher = () => {
         console.log("newdata", newdata)
         console.log('+++++++', labelOptionValue);
         if (newdata.length > 0) {
-            const id_doc = await newdata.map((item: any) => { return item.id_document })
-            console.log("🚀 ~ file: CategoryCourse.tsx:111 ~ handleSearch ~ id_doc", id_doc)
-            navigate(`/detailtecher/${id_doc[0]}`)
+            const id_doc = await newdata.filter((item: any) => item.firstName === label[0])
+            setDataList(id_doc)
         } else {
             console.log("click again")
         }
@@ -55,6 +54,9 @@ const AllTeacher = () => {
     const clickcalendar = () => {
         console.log('btn =', btncalendar)
         setBtncalendar(!btncalendar)
+    }
+    const CancelResearch = () => {
+        setDataList(teacherLists)
     }
     const onclickSearch = () => {
         console.log(`before ${moment(datebefore)} after ${moment(dateafter)}`)
@@ -134,7 +136,9 @@ const AllTeacher = () => {
                                 value={textFieldValue}
                                 onChange={newValue => setTextFieldValue(newValue)}
                                 onSearch={() => { handleSearch(textFieldValue) }}
-                                options={title_name} />
+                                options={title_name}
+                                onCancelResearch={() => { CancelResearch() }}
+                            />
 
                         </Grid>
                     </Grid>

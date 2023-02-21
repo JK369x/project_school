@@ -142,6 +142,9 @@ const Course: FC = () => {
     setBtncalendar(!btncalendar)
 
   }
+  const CancelResearch = () => {
+    setDataList(newdata)
+  }
   return (
     <div className='home'>
       <Sidebar />
@@ -213,6 +216,7 @@ const Course: FC = () => {
                 onChange={newValue => setTextFieldValue(newValue)}
                 onSearch={() => { handleSearch(textFieldValue) }}
                 options={title_course} style={{ color: "#100d0d", border: '1px solid #121010' }}
+                onCancelResearch={() => { CancelResearch() }}
               />
             </Grid>
             <Table columnOptions={columnOptions} dataSource={datalist.map((e, index) => {

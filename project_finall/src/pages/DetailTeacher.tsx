@@ -48,7 +48,7 @@ const DetailTeacher = () => {
                                 <Typography ml={1} variant="h6" color='#000000'>
                                     {state.birthday ? new Date(state.birthday).toLocaleDateString() : ""}
                                 </Typography>
-                                <Typography variant="h6" mr={1}  >
+                                <Typography variant="h6" mr={1}   >
                                     อีเมลย์
                                 </Typography>
                                 <Typography ml={1} variant="h6" color='#000000'>

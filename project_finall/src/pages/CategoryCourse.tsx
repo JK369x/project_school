@@ -109,11 +109,9 @@ const CategoryCourse = () => {
     console.log("newdata", newdata)
     console.log('+++++++', labelOptionValue);
     if (newdata.length > 0) {
-      const id_doc = await newdata.map((item: any) => { return item.id_document })
+      const id_doc = await newdata.filter((item: any) => item.title === labelOptionValue)
       console.log("🚀 ~ file: CategoryCourse.tsx:111 ~ handleSearch ~ id_doc", id_doc)
-
-      navigate(`/detailcoursehomepage/${id_doc[0]}`)
-
+      setCourseData(id_doc)
     } else {
       console.log("click again")
     }
@@ -139,6 +137,9 @@ const CategoryCourse = () => {
     console.log("🚀 ~ file: Testgrid.tsx:18 ~ handleChange ~ date", moment(date).format('DD/MM/YYYY'))
     setDateAfter(date)
   };
+  const CancelResearch = () => {
+    setCourseData(newdata)
+  }
   const onclickSearch = () => {
     console.log(`before ${moment(datebefore)} after ${moment(dateafter)}`)
     const coursedata = newdata.filter((item) => {
@@ -241,14 +242,15 @@ const CategoryCourse = () => {
                     value={textFieldValue}
                     onChange={newValue => setTextFieldValue(newValue)}
                     onSearch={() => { handleSearch(textFieldValue) }}
-                    options={title_course} />
+                    options={title_course}
+                    onCancelResearch={() => { CancelResearch() }} />
                 </Grid>
               </Grid>
             </Grid>
 
             <Grid sx={{ flexGrow: 1, mt: 2 }} container spacing={2}>
               <Grid item xs={12}>
-                <Grid container justifyContent="center" spacing={5}>
+                <Grid container justifyContent="flex-start" sx={{ ml: 0.4 }} spacing={5}>
 
                   {corusedata.map((item, index) => {
                     if (item.approval === true) {

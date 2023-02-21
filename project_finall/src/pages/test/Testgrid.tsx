@@ -7,19 +7,26 @@ import { Button, TextField } from "@mui/material";
 import 'moment-timezone';
 import { useForm } from "react-hook-form";
 import { useGetBanner } from "../Admin/Banner/useGetBanner";
-
+import { Document, Page, Text, PDFDownloadLink } from '@react-pdf/renderer'
 interface timetype {
   time: any
 }
-
+const PDFFile = () => {
+  return (
+    <Document>
+      <Page>
+        <Text>
+          Test
+        </Text>
+      </Page>
+    </Document>
+  )
+}
 const Testgrid = () => {
   const [selectedDate, setDate] = useState<Moment | null>(moment());
   const [value, setValues] = useState<Moment>(moment())
   const [valueTime, setValueTime] = useState<Moment>(moment())
-  const { banner } = useGetBanner()
-  console.log("🚀 ~ file: Testgrid.tsx:21 ~ Testgrid ~ banner", banner[0]?.banner1)
-  Array(banner).map((item: any) => {
-  })
+
   const handleChange = (date: any) => {
     setDate(date)
   };
@@ -47,7 +54,9 @@ const Testgrid = () => {
   return (
 
     <>
-
+      <PDFDownloadLink document={<PDFFile />} fileName={'testPDF'}>
+        loadPDF
+      </PDFDownloadLink>
       <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="en-gb">
         <DesktopDatePicker
           label="Select Value"

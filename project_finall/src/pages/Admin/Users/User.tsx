@@ -110,6 +110,9 @@ const User: FC = () => {
     const date_time = new Date(date).toDateString()
     setDateAfter(moment(date_time))
   };
+  const CancelResearch = () => {
+    setDataList(newdata)
+  }
   const onclickSearch = () => {
     console.log(`before ${moment(datebefore)} after ${moment(dateafter)}`)
     const coursedata = datalist.filter((item) => {
@@ -176,7 +179,6 @@ const User: FC = () => {
                         // border: '1px solid #ced4da',
                       }} />}
                     />
-
                     <DesktopDatePicker
                       label="Select Value"
                       inputFormat="DD/MM/YYYY"
@@ -207,6 +209,7 @@ const User: FC = () => {
                   onChange={newValue => setTextFieldValue(newValue)}
                   onSearch={() => { handleSearch(textFieldValue) }}
                   options={firstName_lastName} style={{ color: "#100d0d", border: '1px solid #121010' }}
+                  onCancelResearch={() => { CancelResearch() }}
                 />
               </Grid>
               <Table isSelectTable columnOptions={columnOptions} dataSource={datalist.map((e, index) => {
