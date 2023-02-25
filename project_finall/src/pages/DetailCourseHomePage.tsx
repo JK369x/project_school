@@ -35,6 +35,7 @@ import UploadReceipt from './UploadReceipt'
 import { stat } from 'fs'
 import CommentCourse from './Admin/Comment/CommentCourse'
 import moment from 'moment'
+import { Footer } from '../components/Footer'
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
   console.log("🚀 ~ file: DetailCourseHomePage.tsx:35 ~ DetailCourseHomePage ~ state", state)
@@ -167,9 +168,6 @@ const DetailCourseHomePage = () => {
   }
 
 
-  const onClickUpload = () => {
-    navigate(`/useuploadreceipt/`)
-  }
 
 
   return (
@@ -349,8 +347,7 @@ const DetailCourseHomePage = () => {
             รายละเอียดหลักสูตร📝
           </Typography>
         </Grid>
-        <Grid container justifyContent={'center'}>
-
+        <Grid container justifyContent={'center'} sx={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10 }}>
           <Grid item xs={12}>
             <Typography variant="body2" mb={2} color={'secondary'}  >
               {state.course_status?.map((params, index) => {
@@ -365,14 +362,11 @@ const DetailCourseHomePage = () => {
             <Typography variant="body2" mb={2} color={'#FFFFFF'}  >
               {state.subtitle}
             </Typography>
-
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={3}>
             <Typography variant="h6" mb={1} color={'#FFFFFF'} >
               คุณจะได้อะไรจากการเรียนรู้หลักสูตรนี้?
             </Typography>
-
-
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
             </Typography>
             {state.what_will_student_learn_in_your_course.map((params: any, index: number) => {
@@ -382,12 +376,9 @@ const DetailCourseHomePage = () => {
                 </Typography>
               </React.Fragment>)
             })}
-
-
             <Typography variant="h6" mb={1} color={'#FFFFFF'} >
               หลักสูตรประกอบไปด้วย?
             </Typography>
-
             {state.the_course_consists.map((params: any, index: number) => {
               return (<React.Fragment key={index}>
                 <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
@@ -395,6 +386,14 @@ const DetailCourseHomePage = () => {
                 </Typography>
               </React.Fragment>)
             })}
+            <Typography variant="body2" mb={1} mr={8} color={'#FFFFFF'} >
+              Location
+            </Typography>
+            <Typography marginLeft={2} variant="body2" mb={1} mr={8} color={'#FFFFFF'}>
+              {state.location}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
             <Typography variant="h6" mb={1} color={'#FFFFFF'}  >
               ข้อกำหนดเบื้องต้นสำหรับการเรียนหลักสูตรนี้?
             </Typography>
@@ -413,12 +412,6 @@ const DetailCourseHomePage = () => {
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
               {state.teaching_assistant}
             </Typography>
-            <Typography variant="body2" mb={1} mr={8} color={'#FFFFFF'} >
-              Location
-            </Typography>
-            <Typography marginLeft={2} variant="body2" mb={1} mr={8} color={'#FFFFFF'}>
-              {state.location}
-            </Typography>
           </Grid>
 
           <Grid item xs={6} >
@@ -434,7 +427,7 @@ const DetailCourseHomePage = () => {
           </Grid>
         </Grid>
       </Box>
-
+      <Footer />
 
 
 

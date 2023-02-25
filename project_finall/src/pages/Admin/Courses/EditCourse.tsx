@@ -24,6 +24,8 @@ import { DateTimePicker } from '@mui/x-date-pickers'
 import { useGetCategoryLists } from '../Categorys/Hook/useGetCategory'
 import { CourseListsType } from './Hook/useGetCourse'
 import { useGetCourseDetail } from './Hook/useGetCourseDtail'
+import moment, { Moment } from 'moment'
+import { useNavigate } from 'react-router-dom'
 
 const EditCourse: FC = () => {
     const [image, setImage] = useState<any>(null);
@@ -35,11 +37,6 @@ const EditCourse: FC = () => {
     const dataCategory = getCategoryLists.map((item, index) => {
         return (item.Category_Title)
     })
-    useEffect(() => {
-        myForm.setValue('data', state)
-        console.log("🚀 ~ file: EditCourse.tsx:47 ~ useEffect ~ state", state)
-    }, [state])
-
     const myForm = useForm<{ data: CourseListsType }>({
         //!defaultValues
         // defaultValues
@@ -50,28 +47,42 @@ const EditCourse: FC = () => {
         if (e.target.files[0])
             setImage(e.target.files[0]);
     }
-    const Start_Register_Date = new Date(state.start_register)
-    const [start_register, setStart_register] = useState<Date>(Start_Register_Date);
 
-    const End_Register_Date = new Date(state.End_register)
-    const [end_register, setEnd_register] = useState<Date>(End_Register_Date);
+    const navigate = useNavigate()
+    const Start_Register_Date = moment(state.start_register)
+    const [start_register, setStart_register] = useState<Moment>(Start_Register_Date);
+
+    const End_Register_Date = moment(state.End_register)
+    const [end_register, setEnd_register] = useState<Moment>(End_Register_Date);
 
 
-    const Start_Course_Time = new Date(state.start_learn)
-    const [start_learn, setStart_learn] = useState<Date>(Start_Course_Time);
+    const Start_Course_Time = moment(state.start_learn)
+    const [start_learn, setStart_learn] = useState<Moment>(Start_Course_Time);
 
-    const End_Course_Time = new Date(state.end_learn)
-    const [end_learn, setEnd_learn] = useState<Date>(End_Course_Time);
+    const End_Course_Time = moment(state.end_learn)
+    const [end_learn, setEnd_learn] = useState<Moment>(End_Course_Time);
 
-    const start_course_learn = new Date(state.start_time)
-    const [start_time, setStart_time] = useState<Date>(start_course_learn);
+    const start_course_learn = moment(state.start_time)
+    const [start_time, setStart_time] = useState<Moment>(start_course_learn);
 
-    const start_course_end = new Date(state.end_time)
-    const [end_time, setEnd_time] = useState<Date>(start_course_end);
-
+    const start_course_end = moment(state.end_time)
+    const [end_time, setEnd_time] = useState<Moment>(start_course_end);
+    useEffect(() => {
+        myForm.setValue('data', state)
+        setStart_register(Start_Register_Date)
+        setEnd_register(End_Register_Date)
+        setStart_learn(Start_Course_Time)
+        setEnd_learn(End_Course_Time)
+        setStart_time(start_course_learn)
+        setEnd_time(start_course_end)
+    }, [state])
     const Course_Date = Array.from(state.course_date!).map((params: any, index: number) => {
         return (index !== 0 ? ' - ' + params.label : params.label)
     })
+    // useEffect(() => {
+    //     myForm.setValue('data', state)
+    //     console.log("🚀 ~ file: EditCourse.tsx:47 ~ useEffect ~ state", state)
+    // }, [state,])
 
     const { watch, handleSubmit, getValues, setValue } = myForm
 
@@ -89,18 +100,20 @@ const EditCourse: FC = () => {
     }
 
     const onSubmit = async () => {
-        setValue('data.start_register', new Date(start_register))
-        setValue('data.End_register', new Date(end_register))
+        setValue('data.start_register', moment(start_register))
+        setValue('data.End_register', moment(end_register))
 
-        setValue('data.start_learn', new Date(start_learn))
-        setValue('data.end_learn', new Date(end_learn))
+        setValue('data.start_learn', moment(start_learn))
+        setValue('data.end_learn', moment(end_learn))
 
-        setValue('data.start_time', new Date(start_time))
-        setValue('data.end_time', new Date(end_time))
+        setValue('data.start_time', moment(start_time))
+        setValue('data.end_time', moment(end_time))
         if (getValues()) {
             try {
                 const id = myForm.getValues().data.id
-                updateCourse(getValues().data, id)
+                await updateCourse(getValues().data, id)
+                navigate(`/detailcourse/${id}`)
+
             } catch (error) {
                 console.log("🚀 ~ file: EditUser.tsx:55 ~ onClickSubmitEdit ~ error", error)
             }
@@ -108,7 +121,6 @@ const EditCourse: FC = () => {
 
     }
 
-    console.log("🚀 ~ file: EditCourse.tsx:73 ~ getValues", getValues())
     return (
         <div className='home'>
             <Sidebar />
@@ -130,14 +142,9 @@ const EditCourse: FC = () => {
                                     </Grid>
                                 </Grid>
                                 <ControllerTextField fullWidth multiline maxRows={4} minRows={2} formprop={myForm} name={"data.description"} label={'description'} />
-
-
-
-
                                 <Grid container spacing={1}>
                                     <Grid item xs={3}>
                                         <ControllerAutocomplete
-
                                             fullWidth
                                             formprop={myForm}
                                             name={'data.category'}
@@ -242,23 +249,29 @@ const EditCourse: FC = () => {
                                 </Typography>
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <DateTimePicker
-                                        renderInput={(props) => <TextField {...props} />}
+                                        disableMaskedInput
                                         label="Start Registration"
-                                        value={Start_Register_Date}
+                                        value={start_register}
+                                        inputFormat="D MMMM YYYY H:mm"
+                                        ampm={false}
                                         onChange={(newValue: any) => {
                                             setStart_register(newValue);
                                         }}
+                                        renderInput={(props) => <TextField {...props} />}
                                     />
                                     <Typography variant="body2" m={2}>
                                         To
                                     </Typography>
                                     <DateTimePicker
-                                        renderInput={(props) => <TextField {...props} />}
+                                        disableMaskedInput
                                         label="End Registration"
-                                        value={End_Register_Date}
+                                        value={end_register}
+                                        inputFormat="D MMMM YYYY H:mm"
+                                        ampm={false}
                                         onChange={(newValue: any) => {
                                             setEnd_register(newValue);
                                         }}
+                                        renderInput={(props) => <TextField {...props} />}
                                     />
                                 </Grid>
 
@@ -268,8 +281,10 @@ const EditCourse: FC = () => {
                                 </Typography>
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <DatePicker
+                                        disableMaskedInput
                                         label="start-course"
-                                        value={Start_Course_Time}
+                                        inputFormat="D MMM YYYY "
+                                        value={start_learn}
                                         onChange={(newValue: any) => {
                                             setStart_learn(newValue);
                                         }}
@@ -279,8 +294,10 @@ const EditCourse: FC = () => {
                                         To
                                     </Typography>
                                     <DatePicker
+                                        disableMaskedInput
                                         label="end-course"
-                                        value={End_Course_Time}
+                                        value={end_learn}
+                                        inputFormat="D MMM YYYY "
                                         onChange={(newValue: any) => {
                                             setEnd_learn(newValue);
                                         }}
@@ -296,7 +313,8 @@ const EditCourse: FC = () => {
                                 <Grid container alignContent={'center'} alignItems={'center'} >
                                     <TimePicker
                                         label="start-time"
-                                        value={start_course_learn}
+                                        value={start_time}
+                                        ampm={false}
                                         onChange={(newValue: any) => {
                                             setStart_time(newValue);
                                         }}
@@ -307,7 +325,8 @@ const EditCourse: FC = () => {
                                     </Typography>
                                     <TimePicker
                                         label="end-start"
-                                        value={start_course_end}
+                                        ampm={false}
+                                        value={end_time}
                                         onChange={(newValue: any) => {
                                             setEnd_time(newValue);
                                         }}
@@ -316,6 +335,9 @@ const EditCourse: FC = () => {
                                 </Grid>
 
                                 <Grid container spacing={1} sx={{ mb: 2 }} alignContent={'center'} alignItems={'center'} >
+                                    <Grid item xs={12}>
+                                        <ControllerTextField fullWidth formprop={myForm} name={"data.location"} label={'Location'} />
+                                    </Grid>
                                     <Grid item xs={3}>
                                         <ControllerTextField fullWidth formprop={myForm} name={"data.min_people"} label={'Min people'} />
                                     </Grid>

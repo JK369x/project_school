@@ -56,6 +56,7 @@ import ProFileUserFontEnd from "../pages/ProFileUserFontEnd";
 import EditProfileUser from "../pages/EditProfileUser";
 import Calculate from "../pages/Admin/Calculate";
 import HomeView from "../pages/test/Views";
+import ReceiptUser from "../pages/ReceiptUser";
 
 
 
@@ -165,7 +166,8 @@ const RouteAllPage: FC = () => {
             <Route path="/profiledetailuser_user/:id" element={<ProFileUserFontEnd />} />
             <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
             <Route path="/calculate" element={<Calculate />} />
-            <Route path="/viewpdf" element={<HomeView />} />
+            <Route path="/viewpdf/:id_user/:id_document" element={<HomeView />} />
+            <Route path="/requestreceipt/:id" element={<ReceiptUser />} />
             {/* <Route path="/widgetuser" element={<Widget />} /> */}
             {/* <Route path="/chartjsquiz" element={<ChartUserQuiz />} /> */}
             <Route

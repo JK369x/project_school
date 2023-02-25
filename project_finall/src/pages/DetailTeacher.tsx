@@ -69,6 +69,9 @@ const DetailTeacher = () => {
                                         <img src={item.image} alt="" width='300' height='250' />
                                     </Grid>
                                     <Grid item xs={8} sx={{ pl: 3 }}>
+                                        <Typography variant="h6" color='primary'  >
+                                            {item.approval === false ? 'คอร์สกำลังจะเปิดในอนาคต' : ''}
+                                        </Typography>
                                         <Typography variant="h6" mr={2}  >
                                             Title
                                         </Typography>
@@ -86,8 +89,16 @@ const DetailTeacher = () => {
                                         <Typography variant="h6" color='#000000'  >
                                             {item.subtitle}
                                         </Typography>
-                                        <Grid container justifyContent={'space-between'} alignItems={'flex-end'} sx={{ mt: 2 }}>
-                                            <Button sx={{ mt: 2 }}>Learn more</Button>
+
+                                        <Grid container justifyContent={'space-between'} alignItems={'flex-end'} sx={{ mt: 'auto' }}>
+                                            {item.approval === false ? <>
+                                                <Button variant="contained" disabled>
+                                                    Learn more
+                                                </Button>
+                                            </> : <>
+
+                                                <Button sx={{ mt: 2 }}>Learn more</Button>
+                                            </>}
                                             <Typography variant="h6" color='#000000' mt={2} sx={{ mr: 3 }}  >
                                                 {`${item.pricing.toLocaleString()} THB`}
                                             </Typography>
@@ -95,7 +106,6 @@ const DetailTeacher = () => {
                                     </Grid>
                                 </Grid>
                             </Card>
-
                         </React.Fragment>)
                     })}
                 </Card>

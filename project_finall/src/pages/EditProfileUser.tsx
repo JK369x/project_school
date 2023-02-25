@@ -106,8 +106,8 @@ const EditProfileUser = () => {
     return (
         <>
             <Navbar />
-            <Box sx={{ backgroundColor: '#1e1f1f', height: '100vh', p: 4 }}>
-                <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, height: '900', borderRadius: '5px', pb: 4 }}>
+            <Box sx={{ backgroundColor: '#1e1f1f', minHeight: '100vh', p: 4 }}>
+                <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, borderRadius: '5px', pb: 4 }}>
                     <Grid sx={{ mt: 2 }} container justifyContent={'center'}>
                         <Typography gutterBottom variant="h1" mt={6}>
                             Profile

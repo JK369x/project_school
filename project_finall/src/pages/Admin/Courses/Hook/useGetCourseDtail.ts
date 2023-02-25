@@ -50,6 +50,7 @@ export const useGetCourseDetail = () => {
         create_by_id: "",
         updateDate: "",
         btn_comment: false,
+        createDate: ""
     })
 
     useEffect(() => {

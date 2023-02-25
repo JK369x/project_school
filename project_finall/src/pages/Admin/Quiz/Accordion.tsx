@@ -9,6 +9,8 @@ import { Key } from '@mui/icons-material';
 import { time } from 'console';
 import { Button, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
+import { Footer } from '../../../components/Footer';
 
 export default function SimpleAccordion(props: any) {
     const newId = props.id
@@ -21,11 +23,11 @@ export default function SimpleAccordion(props: any) {
         navigate(`/showquiz/${newId}/${quizall}`)
     }
     return (
-        <div>
+        <>
             {quiz.map((item: any, index: number) => {
                 return (<React.Fragment key={index}>
 
-                    <Accordion disabled={item.status_quiz == "false" ? true : false} >
+                    <Accordion disabled={item.status_quiz == "false" ? true : false} sx={{ maxWidth: 900 }} >
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
@@ -40,13 +42,13 @@ export default function SimpleAccordion(props: any) {
                                     Start Quiz
                                 </Typography>
                                 <Typography>
-                                    {item.start_quiz}
+                                    {moment(item.start_quiz).format("H:mm")}
                                 </Typography>
                                 <Typography color='primary' sx={{ mr: 2, ml: 2 }}>
                                     End Quiz
                                 </Typography>
                                 <Typography>
-                                    {item.end_quiz}
+                                    {moment(item.end_quiz).format("H:mm")}
                                 </Typography>
                                 <Typography color='primary' sx={{ mr: 1, ml: 2 }}>
                                     จำนวน
@@ -60,6 +62,7 @@ export default function SimpleAccordion(props: any) {
 
                 </React.Fragment>)
             })}
-        </div>
+
+        </>
     );
 }

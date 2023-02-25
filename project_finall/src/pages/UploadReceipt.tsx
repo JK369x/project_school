@@ -12,11 +12,13 @@ import { useForm } from 'react-hook-form';
 import { Grid } from '@mui/material';
 import moment from 'moment';
 import { useState } from 'react';
-import { useAppSelector } from '../store/useHooksStore';
+import { useAppDispatch, useAppSelector } from '../store/useHooksStore';
 import { UploadButton } from '../framework/control';
 import { useUploadFile } from '../file/useUploadFile';
 import imagereceipt from '../assets/receipt.jpg'
 import { UpdateTransaction } from './Admin/Approval/Hook/useUploadTransaction';
+import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice';
+import { ReceiptType } from './Receipt/Hook/useGetAllReceiptByIdUser';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -31,15 +33,7 @@ export interface DialogTitleProps {
     children?: React.ReactNode;
     onClose: () => void;
 }
-interface ReceiptType {
-    date: any
-    // price: string | number
-    // id_course: string
-    // id_user: string
-    // name_course: string
-    // name_user: string
-    image_url: string
-}
+
 function BootstrapDialogTitle(props: DialogTitleProps) {
     const { children, onClose, ...other } = props;
 
@@ -65,7 +59,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 }
 
 export default function UploadReceipt(props: any) {
-
+    const dispatch = useAppDispatch()
     const { email, uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
     const [open, setOpen] = React.useState(false);
     const [radioValue, setRadioValue] = useState("");
@@ -82,7 +76,7 @@ export default function UploadReceipt(props: any) {
 
     const onUploadImage = (files: FileList | null) => {
         if (files) {
-            uploadFile(files[0], `myImages/${uid}/`)
+            uploadFile(files[0], `myImages/receipt/${uid}/`)
         }
         const get_url = uploadState.downloadURL
         console.log("🚀 ~ file: DetailCourseHomePage.tsx:147 ~ onUploadImage ~ get_url", get_url)
@@ -103,10 +97,13 @@ export default function UploadReceipt(props: any) {
         setValue('image_url', uploadState.downloadURL ? uploadState.downloadURL : 'ไม่พบรูปภาพ')
         if (getValues()) {
             try {
-                UpdateTransaction(id_course, id_user, getValues())
+                await UpdateTransaction(id_course, id_user, getValues())
+                dispatch(openAlertSuccess('ส่งใบเสร็จสำเร็จ'))
+                setOpen(false);
             } catch (err) {
+                dispatch(openAlertError('เกิดข้อผิดพลาดการส่งใบเสร็จ !!'))
                 console.log("🚀 ~ file: CheckName.tsx:85 ~ onSubmit ~ err", err)
-
+                return false
             }
         }
     }
@@ -136,7 +133,7 @@ export default function UploadReceipt(props: any) {
                             </Grid>
                             <Grid item xs={8}>
                                 <Typography sx={{ mb: 1 }} >
-                                    Date : {new Date().toLocaleString()}
+                                    Date : {moment().format('DD/MM/YYYY H:mm')}
                                 </Typography>
                                 <Typography sx={{ mb: 1 }} >
                                     Title : {props.title_props}
@@ -145,10 +142,10 @@ export default function UploadReceipt(props: any) {
                                     Price {props.price_props}
                                 </Typography>
                                 <Typography sx={{ mb: 1 }} >
-                                    Start Course {props.start_props}
+                                    Start Course {moment(props.start_props).format('DD/MM/YYYY')}
                                 </Typography>
                                 <Typography sx={{ mb: 1 }} >
-                                    End Corse {props.end_props}
+                                    End Corse {moment(props.end_props).format('DD/MM/YYYY')}
                                 </Typography>
 
                                 <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />

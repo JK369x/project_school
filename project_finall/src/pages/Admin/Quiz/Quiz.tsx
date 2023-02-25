@@ -30,6 +30,8 @@ import '../Dashboard/Dashboard.scss'
 import { useCreateQuiz } from './Hook/useCreateQuiz'
 import { TimePicker } from '@material-ui/pickers'
 import { DesktopTimePicker } from '@mui/x-date-pickers'
+import { Moment } from 'moment'
+import moment from 'moment'
 export interface QuizType {
     question: string;
     A: string;
@@ -116,22 +118,18 @@ const Quiz: FC = () => {
 
     }
 
-    const [start, setStart] = useState<Date>(
-        new Date()
+    const [start, setStart] = useState<Moment>(
+        moment()
     );
 
-    const [end, setEnd] = useState<Date>(
-        new Date()
+    const [end, setEnd] = useState<Moment>(
+        moment()
     );
 
     const onSubmit = async () => {
-        const start_quiz = new Date(start).toLocaleTimeString('en-US', {
-            timeZone: 'Asia/Bangkok'
-        });
+        const start_quiz = moment(start)
         console.log(start_quiz)
-        const end_quiz = new Date(end).toLocaleTimeString('en-US', {
-            timeZone: 'Asia/Bangkok'
-        });
+        const end_quiz = moment(end)
 
         const title = getValues()
         console.log("🚀 ~ file: Quiz.tsx:137 ~ onSubmit ~ getValues()", getValues())
@@ -161,6 +159,7 @@ const Quiz: FC = () => {
                                     <DesktopTimePicker
                                         label="Start Quiz"
                                         value={start}
+                                        ampm={false}
                                         onChange={(newValue: any) => {
                                             setStart(newValue);
                                         }}
@@ -172,6 +171,7 @@ const Quiz: FC = () => {
                                     <DesktopTimePicker
                                         label="End Quiz"
                                         value={end}
+                                        ampm={false}
                                         onChange={(newValue: any) => {
                                             setEnd(newValue);
                                         }}

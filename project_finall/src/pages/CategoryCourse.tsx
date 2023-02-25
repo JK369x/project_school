@@ -58,7 +58,7 @@ const CategoryCourse = () => {
   function getLabelText(value: number) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
   }
-  const { uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
+  const { uid, status, displayName, photoURL, about, email } = useAppSelector(({ auth }) => auth)
   const dispatch = useAppDispatch()
   const uid_login = useAppSelector(({ auth: uid }) => uid)
   const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
@@ -84,6 +84,9 @@ const CategoryCourse = () => {
           displayName: displayName,
           status: status,
           favorite,
+          photoURL,
+          about,
+          email,
         }),
         )
       } catch (err) {

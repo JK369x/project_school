@@ -1,34 +1,85 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navbar } from '../components/Navbar'
 import { Box, Container } from '@mui/system'
 import { Avatar, Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, Rating, Typography } from '@mui/material'
 import { useGetFavorite } from './Admin/favorite/useGetFavorite'
 import { CourseListsType, useGetCourseLists } from './Admin/Courses/Hook/useGetCourse'
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import react from 'react'
-import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
-import { setAuthStore } from '../store/slices/authSlice'
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import PDFFile from '../pages/test/Views'
 import { useNavigate } from 'react-router-dom'
 import { useGetDetailUser } from './Admin/Users/Hook/useGetDetailUser'
 import { Footer } from '../components/Footer'
+import { Table } from '../framework/control'
+import { TableColumnOptions } from '../framework/control/Table/Table'
+import { useDialog } from '../Hook/dialog/useDialog'
+import { useGetAllReceiptByIdUser } from './Receipt/Hook/useGetAllReceiptByIdUser'
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 const ProFileUserFontEnd = () => {
     const { state } = useGetDetailUser()
     console.log("🚀 ~ file: ProFileUserFontEnd.tsx:18 ~ ProFileUserFontEnd ~ state", state)
 
     const { uid, status, displayName, photoURL, favorite, email } = useAppSelector(({ auth }) => auth)
+    const { ReceiptUser, getReceiptUser } = useGetAllReceiptByIdUser()
+    const tracsaction_true = ReceiptUser.filter((item: any) => item.transaction === true)
+    console.log("🚀 ~ file: ProFileUserFontEnd.tsx:25 ~ ProFileUserFontEnd ~ tracsaction_true:", tracsaction_true)
 
     const navigate = useNavigate()
     const EditUser = () => {
         navigate(`/usereditprofile/${state.id_document}`)
     }
+    const { openConfirmDialog } = useDialog()
+    const columnOptions: TableColumnOptions[] = [
+
+        {
+            width: '100',
+            alignHeader: 'left',
+            alignValue: 'left',
+            label: 'ID',
+            value: 'countID',
+        },
+        {
+            width: '50',
+            alignHeader: 'center',
+            alignValue: 'center',
+            label: 'Course',
+            value: 'imageTitle',
+        },
+        {
+
+            alignValue: 'left',
+            value: 'courseName',
+        },
+
+        {
+            alignValue: 'left',
+            alignHeader: 'left',
+            label: 'Pricing',
+            value: 'price',
+        },
+        {
+            width: '200',
+            alignHeader: 'center',
+            alignValue: 'center',
+            label: 'Action',
+            value: 'delitem',
+        },
+
+
+    ]
+
+    const viewDetailUser = (data: any) => {
+        console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
+        navigate(`/viewpdf/${data.id_user}/${data.id_document}`)
+
+    }
+
+
     return (
         <>
             <Navbar />
             <Box sx={{ backgroundColor: '#1e1f1f', minHeight: '100vh', p: 4 }}>
-                <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, height: 900, borderRadius: '5px', pb: 4 }}>
+                <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, borderRadius: '5px', pb: 4 }}>
                     <Grid sx={{ mt: 2 }} container justifyContent={'center'}>
                         <Typography gutterBottom variant="h1" mt={6}>
                             Profile
@@ -95,6 +146,32 @@ const ProFileUserFontEnd = () => {
                         </Grid>
                     </Grid>
                 </Container>
+                <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, borderRadius: '5px', pb: 4 }}>
+                    <Grid sx={{ mt: 2 }} container justifyContent={'flex-start'}>
+                        <Typography gutterBottom variant="h1" mt={6}>
+                            Receipt
+                        </Typography>
+                    </Grid>
+                    <Table columnOptions={columnOptions} dataSource={tracsaction_true.map((e: any, index: number) => {
+                        return {
+                            ...e,
+                            countID: index + 1,
+                            delitem: <>
+                                <PDFDownloadLink document={<PDFFile pricing_course={e.pricing} title_course={e.courseName} date_transaction={e.date_transaction} detail_user={state} />} fileName={'testPDF'}>
+                                    <Button sx={{ mr: 1 }} color='primary' onClick={() => {
+                                    }}>Download</Button>
+                                </PDFDownloadLink>
+                            </>,
+                            imageTitle: <Grid >
+                                <img src={e.image_course} width={90} height={60} />
+                            </Grid>,
+                            price: e.pricing.toLocaleString(),
+                        }
+                    })} defaultRowsPerPage={10} />
+                </Container>
+                {/* <PDFViewer width='100%' height='1000px'>
+                    <PDFFile />
+                </PDFViewer> */}
             </Box>
             <Footer />
         </>

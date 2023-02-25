@@ -219,22 +219,23 @@ const Teacher: FC = () => {
                   options={firstName_lastName} style={{ color: "#100d0d", border: '1px solid #121010' }}
                 />
               </Grid>
-              <Table isSelectTable columnOptions={columnOptions} dataSource={datalist.map((e, index) => {
-                return {
-                  ...e,
-                  countID: index + 1,
-                  delitem: <>
-                    <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                      viewDetailUser(e)
-                    }}>View</Button>
-                    <Button sx={{ mr: 0 }} color='error' onClick={() => {
-                      delItem(e)
-                    }}>Delete</Button>
-                  </>
-                }
-              })} defaultRowsPerPage={10} />
-
             </Grid>
+            <Table isSelectTable columnOptions={columnOptions} dataSource={datalist.map((e, index) => {
+              return {
+                ...e,
+                countID: index + 1,
+                delitem: <>
+                  <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                    viewDetailUser(e)
+                  }}>View</Button>
+                  <Button sx={{ mr: 0 }} color='error' onClick={() => {
+                    delItem(e)
+                  }}>Delete</Button>
+                </>
+              }
+            })} defaultRowsPerPage={10} />
+
+
           </div>
         </div>
       </div>

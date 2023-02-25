@@ -1,7 +1,7 @@
 export interface Lookup {
     id: string | number
-    label: string 
-    zipcode?: string |number
+    label: string
+    zipcode?: string | number
 }
 
 
@@ -13,7 +13,7 @@ export const roleWeek: Lookup[] = [{
     label: 'อังคาร',
 }, {
     id: '3',
-    label: 'พุทธ',
+    label: 'พุธ',
 },
 {
     id: '4',
@@ -34,11 +34,11 @@ export const roleWeek: Lookup[] = [{
 ]
 
 
-export const typeCourseOnline_Onside: Lookup[] =[{
+export const typeCourseOnline_Onside: Lookup[] = [{
     id: '1',
     label: 'ONLINE',
 }, {
     id: '2',
-    label: 'ONSIDE',
+    label: 'ONSITE',
 },
 ]

@@ -12,15 +12,13 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useEffect, useState } from 'react';
-import { signOut } from 'firebase/auth';
+
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore';
-import { auth } from '../firebase/config_firebase'
 import { setAuthStore } from '../store/slices/authSlice';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { storage } from '../firebase/config_firebase'
-import { doc, getDoc } from 'firebase/firestore';
-import { AccountCollection } from '../firebase/createCollection';
+
+import ReceiptIcon from '@mui/icons-material/Receipt';
 import { Grid } from '@mui/material';
 import axios from 'axios';
 import { setCourseStore } from '../store/slices/courseSlice';
@@ -67,6 +65,9 @@ export default function AccountMenu() {
     }
     const ClickFavorite = () => {
         navigate('/favorite')
+    }
+    const ClickRecipt = () => {
+        navigate(`/requestreceipt/${uid}`)
     }
 
     return (
@@ -136,14 +137,20 @@ export default function AccountMenu() {
                         <ListItemIcon onClick={ClickFavorite}>
                             <FavoriteIcon color='error' fontSize="small" />
                         </ListItemIcon>
-                        <span onClick={ClickFavorite}>Favorite</span>
+                        <span onClick={ClickFavorite}>Course</span>
                     </MenuItem>
                     <MenuItem>
-                        <ListItemIcon>
-                            <Settings color='info' fontSize="small" />
+                        <ListItemIcon onClick={ClickRecipt}>
+                            <ReceiptIcon color='info' fontSize="small" />
                         </ListItemIcon>
-                        Settings
+                        <span onClick={ClickRecipt}>Receipt</span>
                     </MenuItem>
+                    {/* <MenuItem>
+                        <ListItemIcon onClick={ClickRecipt}>
+                            <ReceiptIcon color='info' fontSize="small" />
+                        </ListItemIcon>
+                        <span onClick={ClickRecipt}>Receipt</span>
+                    </MenuItem> */}
                     <MenuItem onClick={onClickLogOut}>
                         <ListItemIcon>
                             <Logout color='disabled' fontSize="small" />

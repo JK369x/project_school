@@ -219,6 +219,7 @@ const Course: FC = () => {
                 onCancelResearch={() => { CancelResearch() }}
               />
             </Grid>
+
             <Table columnOptions={columnOptions} dataSource={datalist.map((e, index) => {
               return {
                 ...e,
