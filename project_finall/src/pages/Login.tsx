@@ -9,19 +9,14 @@ import { useNavigate } from 'react-router-dom'
 //MUI
 import Grid from '@mui/material/Grid';
 import { ControllerTextField } from '../framework/control/TextField/Controller';
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 //firebase
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase/config_firebase'
+
 import { isCloseLoading, isShowLoading } from '../store/slices/loadingSlice';
 import { setAuthStore } from '../store/slices/authSlice';
-import { AccountCollection } from '../firebase/createCollection'
-import { doc, getDoc } from 'firebase/firestore';
+
 //google
-import GoogleButton from 'react-google-button'
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { async } from '@firebase/util';
-import { Footer } from '../components/Footer';
+
 import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -96,6 +91,7 @@ const Login = (props: Props) => {
   return (
     <>
       <Navbar />
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
           <Grid item xs={6}>
@@ -116,7 +112,8 @@ const Login = (props: Props) => {
           </Grid>
         </Grid>
       </form>
-      <Footer />
+
+
     </>
   )
 }

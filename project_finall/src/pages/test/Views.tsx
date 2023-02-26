@@ -93,7 +93,7 @@ const PDFFile = (props: any) => {
 
     const formattedDate = moment().format('DD MM YYYY');
     return (
-        <Document>
+        <Document creator='RMUTT'>
             <Page size="A4" style={styles.page}>
                 <View style={styles.section}>
                     <View style={styles.headerUser}>
@@ -172,26 +172,3 @@ const PDFFile = (props: any) => {
 };
 export default PDFFile
 
-// const HomeView: FC = () => {
-//     const [showPDF, setShowPDF] = useState(false);
-//     const { id_user } = useParams<{ id_user: string }>()
-//     return (
-//         <>
-//             home{' '}
-//             <div>
-//                 <PDFDownloadLink document={<PDFFile id_user_props={id_user} />} fileName={'testPDF'}>
-//                     {({ blob, url, loading, error }) =>
-//                         loading ? 'Loading document...' : 'Download'
-//                     }
-//                 </PDFDownloadLink>
-//                 <button onClick={() => setShowPDF(true)}>Show PDF</button>
-//             </div>
-//             {showPDF && (
-//                 <PDFViewer width='100%' height='1000px'>
-//                     <PDFFile />
-//                 </PDFViewer>
-//             )}
-//         </>
-//     );
-// };
-// export default HomeView

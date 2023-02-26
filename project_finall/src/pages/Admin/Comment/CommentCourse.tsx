@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useAppSelector } from '../../../store/useHooksStore';
 import { ControllerTextField } from '../../../framework/control';
 import { TypeComment, usePostComment } from './Hook/usePostComment';
+import moment from 'moment';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -65,7 +66,7 @@ export default function CommentCourse(id_course: any) {
     const [valueComment, setValueComment] = React.useState<number | null>(0);
     const handleClickOpen = () => {
         setValue('name_user', displayName ? displayName : '')
-        setValue('date_comment', date_now)
+        setValue('date_comment', moment(date_now))
         setOpen(true);
     };
     const handleClose = () => {
@@ -108,7 +109,7 @@ export default function CommentCourse(id_course: any) {
                             สวัสดีคุณ {displayName}
                         </Typography>
                         <Typography sx={{ width: 500, mb: 2 }} >
-                            {new Date().toLocaleString()}
+                            {moment().format('DD/MM/YYYY H:mm')}
                         </Typography>
                         <Grid container>
                             <Typography component="legend">ให้คะแนน</Typography>

@@ -26,7 +26,8 @@ import { isCloseLoading, isShowLoading } from "../store/slices/loadingSlice";
 //redux
 import { useNavigate } from "react-router-dom";
 import { Footer } from "../components/Footer";
-
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 
 
@@ -99,11 +100,60 @@ const Register = (props: Props) => {
     handleNext();
   };
 
+  const schema = yup.object({
+    email: yup.string()
+      .required(('กรุณากรอกอีเมล') as string)
+      .min(3, 'ความยาวอีเมลต้องมากกว่า 3 ตัวอักษร')
+      .email('รูปแบบอีเมลย์ไม่ถูกต้อง')
+    ,
+    password: yup.string().required(('กรุณากรอกรหัสผ่าน'))
+      .min(4, ('ความยาวอีเมลต้องมากกว่า 4 ตัวอักษร'))
+      .max(20, ('ความยาวอีเมลต้องมีความยาวน้อยกว่า 20 ตัวอักษร'))
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\*)(?=.*\S).*$/,
+        'รหัสผ่านต้องประกอบด้วยตัวอักษรตัวเล็ก (a-z) และตัวใหญ่ (A-Z) อย่างน้อย 1 ตัว และสัญลักษณ์พิเศษ (*) อย่างน้อย 1 ตัว'
+      )
+    ,
+    confirmPassword: yup.string()
+      .required('กรุณากรอกยืนยันรหัสผ่าน')
+      .oneOf([yup.ref('password'), ''], 'รหัสผ่านไม่ตรงกัน')
+    ,
+    id_verify: yup.string().required('กรุณากรอกรหัสบัตรประชาชน').min(13, ('รหัสบัตรประชาชนต้องไม่ต่ำกว่า 13 ตัวอักษร')).max(13, ('รหัสบัตรประชาชนต้องมีความยาวไม่เกิน 13 ตัวอักษร'))
+    ,
+    firstName: yup.string().required('กรุณากรอกชื่อ').trim().lowercase().max(20, ('ชื่อมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
+    ,
+    lastName: yup.string().required('กรุณากรอกนามสกุล').trim().lowercase().max(20, ('นามสกุลมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
+    ,
+    agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท')
+    ,
+    job: yup.string().required('กรุณากรอกอาชีพของคุณ')
+    ,
+    birthday: yup.date().min(new Date(2022, 0, 1), ('test'))
+    ,
 
+  })
   const myForm = useForm<IFormInput>({
     //! can useDefault onChange
-
-
+    mode: 'onChange',
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      firstName: '',
+      lastName: '',
+      job: '',
+      birthday: new Date,
+      province: null,
+      amphure: null,
+      tambon: null,
+      zipCode: null,
+      agency: '',
+      status: null,
+      about: '',
+      image_rul: '',
+      id_verify: '',
+    }
   })
   //redux
   const dispatch = useAppDispatch()
@@ -113,19 +163,10 @@ const Register = (props: Props) => {
   const navigate = useNavigate()
   const onSubmit = async () => {
     handleComplete()
-    const email = getValues('email')
-    console.log(email)
-    const password = getValues('password')
-
     if (getValues()) {
-      console.log("🚀 ~ file: Register.tsx:121 ~ onSubmit ~ getValues()", getValues())
       try {
         dispatch(isShowLoading())
-        // const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-        // const user = userCredential.user
-        // const uid = userCredential.user.uid
         addUser(getValues())
-        // console.log(user)
         navigate('/login')
       } catch (error) {
         console.log(error)
@@ -138,75 +179,76 @@ const Register = (props: Props) => {
   return (
     <>
       <Navbar />
-      <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
-        <Grid item xs={6}>
-          <Typography variant="h1" align="center" >
-            ลงทะเบียน
-          </Typography>
-          <Box sx={{ width: '100%' }}>
+      <Box sx={{ display: 'flex', backgroundColor: '#ffffff', alignItems: 'center' }}>
+        <Grid container justifyContent={'center'} sx={{ mt: 15 }} >
+          <Grid item xs={6}>
+            <Typography variant="h1" align="center" >
+              ลงทะเบียน
+            </Typography>
+            <Box sx={{ width: '100%' }}>
 
-            <Stepper nonLinear activeStep={activeStep}>
-              {steps.map((label, index) => (
-                <Step key={label} completed={completed[index]}>
-                  <StepButton color="inherit" onClick={handleStep(index)}>
-                    {label}
-                  </StepButton>
-                </Step>
-              ))}
-            </Stepper>
+              <Stepper nonLinear activeStep={activeStep}>
+                {steps.map((label, index) => (
+                  <Step key={label} completed={completed[index]}>
+                    <StepButton color="inherit" onClick={handleStep(index)}>
+                      {label}
+                    </StepButton>
+                  </Step>
+                ))}
+              </Stepper>
 
 
-            <div>
+              <div>
 
-              {allStepsCompleted() ? (
-                <React.Fragment>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
-                      All steps completed - you&apos;re finished
-                    </Typography>
-                    <Box>
-                      <Button primary type={"submit"} label={'Finish'} />
-                    </Box>
-                  </form>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* //?component={'span'} variant={'body2'} */}
+                {allStepsCompleted() ? (
+                  <React.Fragment>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <Typography sx={{ mt: 2, mb: 1 }}>
+                        All steps completed - you&apos;re finished
+                      </Typography>
+                      <Box>
+                        <Button primary type={"submit"} label={'Finish'} />
+                      </Box>
+                    </form>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      {/* //?component={'span'} variant={'body2'} */}
 
-                    <Typography variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
+                      <Typography variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
 
-                      {activeStep === 0 && (
+                        {activeStep === 0 && (
 
-                        <RegisterStep1 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
-                      )
+                          <RegisterStep1 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
+                        )
 
-                      }{activeStep === 1 && (
-                        <RegisterStep2 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
-                      )
+                        }{activeStep === 1 && (
+                          <RegisterStep2 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
+                        )
 
-                      }{activeStep === 2 && (
-                        <RegisterStep3 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
-                      )}
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                      {activeStep !== steps.length &&
-                        (completed[activeStep] &&
-                          <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                            {activeStep + 1} already completed
-                          </Typography>
+                        }{activeStep === 2 && (
+                          <RegisterStep3 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
                         )}
-                    </Box>
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                        {activeStep !== steps.length &&
+                          (completed[activeStep] &&
+                            <Typography variant="caption" sx={{ display: 'inline-block' }}>
+                              {activeStep + 1} already completed
+                            </Typography>
+                          )}
+                      </Box>
 
-                  </form>
-                </React.Fragment>
-              )}
-            </div>
-          </Box>
+                    </form>
+                  </React.Fragment>
+                )}
+              </div>
+            </Box>
 
+          </Grid>
         </Grid>
-      </Grid>
-      <Footer />
+      </Box>
     </>
   )
 }

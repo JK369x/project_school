@@ -9,6 +9,7 @@ import { setAuthStore } from '../store/slices/authSlice'
 import Account_menu from './Account_menu'
 import logo from '../assets/logo-rmutt/20210202-logo-RMUTT-News.png'
 import IconBreadcrumbs from './category'
+import { positions } from '@mui/system'
 export const Navbar = () => {
   const navigate = useNavigate()
   const onClickHome = () => {
@@ -65,22 +66,34 @@ export const Navbar = () => {
         <Grid>
           {!auth_email ? (
             <>
-              <div className="nva-bar-in">
-                <a href='#' onClick={onClickLogin}>เข้าสู่ระบบ</a>
-              </div>
-              <a href='#' onClick={onClickLogin}>ลงทะเบียน</a>
+              <Grid container justifyContent={'center'}>
 
+                <Typography mr={2} sx={{
+                  '&:hover': {
+                    color: '#0085ea',
+                  },
+                  cursor: "pointer"
+                }} >
+                  <span onClick={onClickLogin}>เข้าสู่ระบบ</span>
+                </Typography>
+                <Typography mr={5} sx={{
+                  '&:hover': {
+                    color: '#0085ea',
+                  },
+                  cursor: "pointer"
+                }}>
+                  <span onClick={onClickLogin}>ลงทะเบียน</span>
+                </Typography>
+
+              </Grid>
             </>
           ) : (
             <>
               <Account_menu />
             </>
           )}
-
         </Grid>
-
-      </Grid>
-
+      </Grid >
     </>
 
 

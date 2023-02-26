@@ -14,7 +14,7 @@ export interface IFormInput {
     firstName: string
     lastName: string
     job: string
-    birthday: string
+    birthday: Date | null
     address: string
     province: Lookup | null
     amphure: Lookup | null
@@ -24,6 +24,7 @@ export interface IFormInput {
     status: Lookup | null
     about?: string
     image_rul?: string | null
+    id_verify: string
 }
 
 

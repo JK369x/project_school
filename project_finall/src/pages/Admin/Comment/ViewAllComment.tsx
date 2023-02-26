@@ -9,6 +9,7 @@ import Sidebar from "../../../components/componentsAdmin/sidebar/Side-bar";
 import Navbar from "../../../components/componentsAdmin/navbar/Navbar";
 import { useDeleteComment } from "./Hook/useDeleteComment";
 import ChartComment from "../Chart/ChartComment";
+import moment from "moment";
 const ViewAllComment = () => {
     const { id } = useParams<{ id: string }>();
     const id_course = id !== undefined ? id : ''
@@ -111,9 +112,8 @@ const ViewAllComment = () => {
                                     return {
                                         ...e,
                                         countID: index + 1,
-                                        Status: <>
-                                            {new Date(e.date_comment).toLocaleString()}
-                                        </>,
+                                        Status: moment(e.date_comment).format('DD MM YYYY H:mm')
+                                        ,
                                         delitem: <>
                                             <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                                 viewDetailUser(e)

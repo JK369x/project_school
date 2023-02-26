@@ -32,7 +32,7 @@ export interface DialogTitleProps {
 interface CheckNameType {
     check_day: any
     radio: string
-
+    email: string
 }
 function BootstrapDialogTitle(props: DialogTitleProps) {
     const { children, onClose, ...other } = props;
@@ -65,14 +65,15 @@ export default function CheckName(id_course: any) {
     const [open, setOpen] = React.useState(false);
     const [radioValue, setRadioValue] = useState("");
     const handleClickOpen = () => {
-        setValue('check_day', date_now)
+        setValue('check_day', moment())
+        // setValue('email', email ?? '')
         setOpen(true);
     };
     const handleClose = () => {
 
         setOpen(false);
     };
-    let date_now = new Date()
+
     const myForm = useForm<CheckNameType>()
     const { register, handleSubmit, getValues, setValue } = myForm
 
@@ -80,10 +81,8 @@ export default function CheckName(id_course: any) {
         if (data) {
             try {
                 clickCheckName(id_course.id)
-
             } catch (err) {
                 console.log("🚀 ~ file: CheckName.tsx:85 ~ onSubmit ~ err", err)
-
             }
         }
         console.log("🚀 ~ file: CheckName.tsx:71 ~ onSubmit ~ data", data)
@@ -116,10 +115,10 @@ export default function CheckName(id_course: any) {
                         <Typography variant='h3' sx={{ width: 500 }} gutterBottom>
                             สวัสดีคุณ {displayName}
                         </Typography>
-                        <Grid container>
+                        <Grid container >
                             <input {...register("radio")} type="radio" value="check" onClick={() => setRadioValue("check")} />
-                            <Typography sx={{ width: 500 }} >
-                                {new Date().toLocaleString()}
+                            <Typography sx={{ width: 500, alignItems: 'center' }} >
+                                {moment().format('DD/MM/YYYY H:mm')}
                             </Typography>
                         </Grid>
                     </DialogContent>

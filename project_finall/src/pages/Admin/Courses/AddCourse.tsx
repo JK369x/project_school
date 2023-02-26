@@ -304,6 +304,7 @@ const AddCourse = () => {
                                         disableMaskedInput
                                         renderInput={(props) => <TextField {...props} />}
                                         label="End Registration"
+
                                         value={End_register}
                                         inputFormat="D MMMM YYYY H:mm"
                                         ampm={false}

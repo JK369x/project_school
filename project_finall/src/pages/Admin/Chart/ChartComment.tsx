@@ -66,10 +66,7 @@ const ChartComment = (props: any) => {
 
 
     return <>
-        <Grid container justifyContent={'center'} sx={{ height: 820 }}>
-            <Bar options={options} data={dataChart} />;
-
-        </Grid>
+        <Bar options={options} data={dataChart} width={600} height={400} />
     </>
 }
 export default ChartComment

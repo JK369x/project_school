@@ -12,6 +12,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@firebase/storage": "^0.10.0",
+    "@hookform/resolvers": "^2.9.11",
     "@material-ui/pickers": "^3.3.10",
     "@mkyy/mui-search-bar": "^0.5.2",
     "@mui/material": "^5.10.14",
@@ -49,7 +50,8 @@
     "react-slick": "^0.29.0",
     "sass": "^1.56.1",
     "slick-carousel": "^1.8.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "yup": "^1.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",

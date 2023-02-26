@@ -64,6 +64,9 @@ export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, h
         <>
             <Grid container justifyContent={'center'} style={{ padding: '10px', }}>
                 <Grid item xs={12}>
+                    <ControllerTextField fullWidth formprop={myForm} name={"id_verify"} label={'ID Card'} />
+                </Grid>
+                <Grid item xs={12}>
                     <ControllerTextField fullWidth formprop={myForm} name={"firstName"} label={'FirstName'} />
                 </Grid>
                 <Grid item xs={12}>
@@ -78,6 +81,7 @@ export const RegisterStep2: FC<Props> = ({ handleNext, myForm, handleComplete, h
                 <Grid item xs={12}>
                     <ControllerAutocomplete fullWidth options={role} formprop={myForm} name={'status'} label={'Status'} />
                 </Grid>
+
                 <Grid item xs={12}>
                     <Stack component="form" noValidate spacing={3}>
                         <TextField

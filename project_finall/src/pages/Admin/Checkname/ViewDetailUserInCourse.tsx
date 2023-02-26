@@ -168,7 +168,7 @@ const ViewDetailUserInCourse = () => {
                                     </Grid>
                                     <Grid container justifyContent={'center'} >
                                         <Typography variant="h6" component="h1" ml={3}>
-                                            Birthday: {state.birthday}
+                                            Birthday: {moment(state.birthday).format('DD MM YYYY')}
                                         </Typography>
                                     </Grid>
                                     <Grid container justifyContent={'center'} >
