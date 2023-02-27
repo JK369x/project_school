@@ -117,7 +117,6 @@ const RouteAllPage: FC = () => {
     return (
         <Routes>
             <Route path="/" element={<PageHome />} />
-            {/* <Route path="/pagehome" element={<PageHome />} /> */}
             <Route path="/favorite" element={<Favorite />} />
             <Route path="/adminlogin" element={<LoginAdmin />} />
             <Route path="/registerteacher" element={<RegisterTeacher />} />
@@ -127,7 +126,6 @@ const RouteAllPage: FC = () => {
             <Route path="/detailcategory/:id" element={<DetailCategory />} />
             <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/nextregistor" element={<Nextregistor />} />
             <Route path="/testgrid" element={<Testgrid />} />
             <Route path="/users" element={<User />} />
             <Route path="/dashboard" element={<Dashboard />} />

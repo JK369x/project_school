@@ -13,6 +13,7 @@ import {
 
 }
     from '../../../framework/control';
+import * as yup from 'yup'
 import { useForm } from "react-hook-form";
 import { UserListsType } from "./Hook/useGetUserLists";
 import { useGetDetailUser } from './Hook/useGetDetailUser'
@@ -22,6 +23,7 @@ import { useUploadFile } from '../../../file/useUploadFile'
 import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
 import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice'
 import { setAuthStore } from '../../../store/slices/authSlice'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const EditUser: FC = () => {
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode, data, getData } = useLocationLookup()
@@ -29,7 +31,27 @@ const EditUser: FC = () => {
 
     const newdate = state.birthday ? state.birthday : ''
     const [birthday, setBirthday] = useState<any | null>(newdate);
-    const myForm = useForm<{ data: UserListsType }>({})
+    const schema = yup.object({
+        data: yup.object({
+            email: yup.string()
+                .required(('กรุณากรอกอีเมล'))
+                .min(3, 'ความยาวอีเมลต้องมากกว่า 3 ตัวอักษร')
+                .email('รูปแบบอีเมลย์ไม่ถูกต้อง')
+            ,
+            firstName: yup.string().required('กรุณากรอกชื่อ').trim().lowercase().max(20, ('ชื่อมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
+            ,
+            lastName: yup.string().required('กรุณากรอกนามสกุล').trim().lowercase().max(20, ('นามสกุลมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
+            ,
+            agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท')
+            ,
+            id_verify: yup.string().required('กรุณากรอกรหัสบัตรประชาชน').min(13, ('รหัสบัตรประชาชนต้องไม่ต่ำกว่า 13 ตัวอักษร')).max(13, ('รหัสบัตรประชาชนต้องมีความยาวไม่เกิน 13 ตัวอักษร'))
+            ,
+        })
+    })
+    const myForm = useForm<{ data: UserListsType }>({
+        mode: 'onChange',
+        resolver: yupResolver(schema),
+    })
     const { watch, handleSubmit, getValues, setValue } = myForm
     const { updateUser } = useUpdateUser()
     const dispatch = useAppDispatch()
@@ -91,7 +113,6 @@ const EditUser: FC = () => {
             const about = getValues().data.about
             const displayName = `${firstName} ${lastName}`
             if (await updateUser(getValues().data, id)) {
-
                 dispatch(openAlertSuccess('changeProfileSuccess'))
                 if (uid === id) {
                     dispatch(
@@ -223,9 +244,8 @@ const EditUser: FC = () => {
                                             <ControllerTextField fullWidth formprop={myForm} name={"data.status.label"} label={'Status'} />
                                         </Grid>
                                     </Grid>
-                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mt: 2 }}>
-                                        <Grid item xs={6}>
-
+                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2} >
+                                        <Grid item xs={3}>
                                             <Stack component="form" spacing={3}>
                                                 <TextField
                                                     id="date"
@@ -241,7 +261,9 @@ const EditUser: FC = () => {
                                                 />
                                             </Stack>
                                             {state.status?.id != 1 ? <ControllerTextField fullWidth multiline minRows={4} maxRows={2} formprop={myForm} name={"data.about"} label={'About'} /> : ""}
-
+                                        </Grid>
+                                        <Grid item xs={3} sx={{ mb: 2 }}>
+                                            <ControllerTextField fullWidth formprop={myForm} name={"data.id_verify"} label={'ID CARD'} />
                                         </Grid>
                                     </Grid>
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mt: 2 }}>

@@ -66,7 +66,6 @@ const CategoryCourse = () => {
     //! ?? ถ้าไม่ใช่่ undefine and false
     if (uid) {
       try {
-
         let favorite: string[] = [...favorite_user ?? []]
         if (favorite.some((params) => params === item)) {
           //! เอาออก

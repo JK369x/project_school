@@ -25,7 +25,6 @@ const Category: FC = () => {
   const { openConfirmDialog } = useDialog()
   const { deleteCategory } = useDeleteCateGory()
   const navigate = useNavigate()
-  //  const [detailUser, setDetailUser] = useState<UserListsType>()
   console.log("🚀 ~ file: User.tsx:20 ~ data", data)
 
 
@@ -41,7 +40,6 @@ const Category: FC = () => {
 
   const viewDetailUser = (data: CategoryListsType) => {
     console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
-    // setDetailUser(data)
     navigate(`/detailcategory/${data.id}`)
 
   }
@@ -82,11 +80,6 @@ const Category: FC = () => {
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
-        <div className="widgets">
-
-        </div>
-        <div className="charts">
-        </div>
         <div className="listContainer">
           <div className="listTitle">
             <Grid container spacing={2} sx={{ mt: 2 }}>
@@ -98,7 +91,7 @@ const Category: FC = () => {
                 <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={() => onClickAddCategory()} >+Add course</Button>
               </Grid>
               <Grid item xs={12}>
-                <Table isSelectTable columnOptions={columnOptions} dataSource={data.map((e, index) => {
+                <Table columnOptions={columnOptions} dataSource={data.map((e, index) => {
                   return {
                     ...e,
                     countID: index + 1,
@@ -115,11 +108,9 @@ const Category: FC = () => {
               </Grid>
             </Grid>
           </div>
-
         </div>
       </div>
     </div>
-
   )
 }
 

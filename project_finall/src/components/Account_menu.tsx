@@ -12,7 +12,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useEffect, useState } from 'react';
-
+import SchoolIcon from '@mui/icons-material/School';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore';
 import { setAuthStore } from '../store/slices/authSlice';
@@ -134,23 +134,18 @@ export default function AccountMenu() {
 
                     <Divider />
                     <MenuItem>
+                        <ListItemIcon onClick={ClickRecipt}>
+                            <SchoolIcon color='info' fontSize="small" />
+                        </ListItemIcon>
+                        <span onClick={ClickRecipt}>Course</span>
+                    </MenuItem>
+                    <MenuItem>
                         <ListItemIcon onClick={ClickFavorite}>
                             <FavoriteIcon color='error' fontSize="small" />
                         </ListItemIcon>
-                        <span onClick={ClickFavorite}>Course</span>
+                        <span onClick={ClickFavorite}>Favorite
+                        </span>
                     </MenuItem>
-                    <MenuItem>
-                        <ListItemIcon onClick={ClickRecipt}>
-                            <ReceiptIcon color='info' fontSize="small" />
-                        </ListItemIcon>
-                        <span onClick={ClickRecipt}>Receipt</span>
-                    </MenuItem>
-                    {/* <MenuItem>
-                        <ListItemIcon onClick={ClickRecipt}>
-                            <ReceiptIcon color='info' fontSize="small" />
-                        </ListItemIcon>
-                        <span onClick={ClickRecipt}>Receipt</span>
-                    </MenuItem> */}
                     <MenuItem onClick={onClickLogOut}>
                         <ListItemIcon>
                             <Logout color='disabled' fontSize="small" />

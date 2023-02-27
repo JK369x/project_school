@@ -213,7 +213,7 @@ const User: FC = () => {
                 />
               </Grid>
             </Grid>
-            <Table isSelectTable columnOptions={columnOptions} dataSource={datalist.map((e, index) => {
+            <Table columnOptions={columnOptions} dataSource={datalist.map((e, index) => {
               return {
                 ...e,
                 countID: index + 1,

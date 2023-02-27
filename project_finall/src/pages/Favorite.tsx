@@ -13,8 +13,7 @@ import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
 import { setAuthStore } from '../store/slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 const Favorite = () => {
-    const { FavoriteList } = useGetFavorite()
-    const { CourseLists } = useGetCourseLists()
+    const { FavoriteList, getFavoriteLists } = useGetFavorite()
     const favorite_data = FavoriteList
 
     const { uid, status, displayName, photoURL, favorite, email } = useAppSelector(({ auth }) => auth)
@@ -30,10 +29,12 @@ const Favorite = () => {
             if (favorite.some((params) => params === item)) {
                 favorite = favorite.filter((params) => params !== item)
                 addFavorite(favorite, uid_login.uid!)
+                getFavoriteLists()
             } else {
                 //! เอาออก
                 favorite.push(item)
                 addFavorite(favorite, uid_login.uid!)
+                getFavoriteLists()
             }
             dispatch(setAuthStore({
                 //* ชื่อเหมือนกันไม่ต้อง :
@@ -42,6 +43,7 @@ const Favorite = () => {
                 displayName,
                 status,
                 favorite,
+                photoURL,
             }),
             )
         } catch (err) {

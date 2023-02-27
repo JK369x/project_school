@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { RegisterStep1, RegisterStep2, RegisterStep3 } from './RegisterStep1'
 //MUI
 import * as React from 'react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -17,10 +17,7 @@ import { Navbar } from "../components/Navbar";
 //HOOK
 import { useCreateAcc } from './Admin/Users/Hook/useCreateAcc'
 import { IFormInput } from './Admin/Users/Hook/useCreateAcc'
-//firebase
-import { addDoc, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase/config_firebase'
+
 import { useAppDispatch } from "../store/useHooksStore";
 import { isCloseLoading, isShowLoading } from "../store/slices/loadingSlice";
 //redux
@@ -130,6 +127,7 @@ const Register = (props: Props) => {
     ,
     birthday: yup.date().min(new Date(2022, 0, 1), ('test'))
     ,
+    address: yup.string().required('กรุณากรอกชื่อ'),
 
   })
   const myForm = useForm<IFormInput>({
@@ -157,23 +155,41 @@ const Register = (props: Props) => {
   })
   //redux
   const dispatch = useAppDispatch()
+  const { handleSubmit, getValues, setValue, setError, clearErrors, watch } = myForm
+  const password = watch('password')
+  const confirmPassword = watch('confirmPassword')
+  useEffect(() => {
+    if (confirmPassword && password) {
+      if (password !== confirmPassword)
+        setError('confirmPassword', { message: ('รหัสผ่านไม่ตรงกัน') as string })
+      else clearErrors(['confirmPassword'])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [password])
 
   const { addUser } = useCreateAcc()
-  const { handleSubmit, getValues, setValue } = myForm
   const navigate = useNavigate()
   const onSubmit = async () => {
+    console.log('test')
     handleComplete()
     if (getValues()) {
       try {
         dispatch(isShowLoading())
-        addUser(getValues())
-        navigate('/login')
+        const data = await addUser(getValues())
+        if (data === true) {
+          navigate('/login')
+        } else {
+          console.log("🚀 ~ file: Register.tsx:180 ~ onSubmit ~ data:", data)
+          setError('email', { message: (`${data}`) })
+          setActiveStep(0);
+        }
       } catch (error) {
         console.log(error)
-
       } finally {
         dispatch(isCloseLoading())
       }
+    } else {
+      console.log("🚀 ~ file: Register.tsx:180 ~ onSubmit ~ dat")
     }
   }
   return (

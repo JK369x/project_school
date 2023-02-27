@@ -52,8 +52,6 @@ export const useLocationLookup = () => {
 	}
 
 	const getAmphure = async (id: number) => {
-		console.log("🚀 ~ file: useLocationLookup.ts:61 ~ getAmphure ~ id", id)
-
 		if (data.length > 0) {
 			const newdata = data.filter((e) => e.id === id)[0]
 			setAmphure(newdata.amphure.map((e: any) => ({ id: e.id, label: e.name_th })))

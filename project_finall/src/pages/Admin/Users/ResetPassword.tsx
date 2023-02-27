@@ -7,9 +7,10 @@ import { ControllerTextField } from "../../../framework/control"
 import { useForm } from "react-hook-form"
 import { useGetDetailUser } from "./Hook/useGetDetailUser"
 import bcrypt from "bcryptjs";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useUpdatePassWord } from "./Hook/useUpdatePassword"
-
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from 'yup'
 export interface ResetpasswordType {
     password_input: string
     password_firebase: string
@@ -24,8 +25,40 @@ const ResetPassword = () => {
     const { state } = useGetDetailUser()
     const [btnNext, setBtnNext] = useState(false)
     console.log("🚀 ~ file: ResetPassword.tsx:19 ~ ResetPassword ~ state", state)
-    const myForm = useForm<ResetpasswordType>({})
-    const { handleSubmit, getValues, setValue } = myForm
+    const schema = yup.object({
+        password_new: yup.string().required(('กรุณากรอกรหัสผ่าน'))
+            .min(4, ('ความยาวอีเมลต้องมากกว่า 4 ตัวอักษร'))
+            .max(20, ('ความยาวอีเมลต้องมีความยาวน้อยกว่า 20 ตัวอักษร'))
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\*)(?=.*\S).*$/,
+                'รหัสผ่านต้องประกอบด้วยตัวอักษรตัวเล็ก (a-z) และตัวใหญ่ (A-Z) อย่างน้อย 1 ตัว และสัญลักษณ์พิเศษ (*) อย่างน้อย 1 ตัว'
+            )
+        ,
+        password_confirm: yup.string()
+            .required('กรุณากรอกยืนยันรหัสผ่าน')
+            .oneOf([yup.ref('password_new'), ''], 'รหัสผ่านไม่ตรงกัน')
+        ,
+        password_input: yup.string().required(('กรุณากรอกรหัสผ่าน'))
+            .min(4, ('ความยาวอีเมลต้องมากกว่า 4 ตัวอักษร'))
+            .max(20, ('ความยาวอีเมลต้องมีความยาวน้อยกว่า 20 ตัวอักษร'))
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\*)(?=.*\S).*$/,
+                'รหัสผ่านต้องประกอบด้วยตัวอักษรตัวเล็ก (a-z) และตัวใหญ่ (A-Z) อย่างน้อย 1 ตัว และสัญลักษณ์พิเศษ (*) อย่างน้อย 1 ตัว'
+            )
+        ,
+
+    })
+    const myForm = useForm<ResetpasswordType>({
+        //! can useDefault onChange
+        mode: 'onChange',
+        resolver: yupResolver(schema),
+        defaultValues: {
+            password_input: '',
+            password_new: '',
+            password_confirm: '',
+        }
+    })
+    const { handleSubmit, getValues, setValue, setError, clearErrors, watch } = myForm
     const { updatePassword } = useUpdatePassWord()
     const onClickNext = async () => {
         const password = getValues().password_input
@@ -38,9 +71,20 @@ const ResetPassword = () => {
             console.log("Passwords match!");
             setBtnNext(!btnNext)
         } else {
-            console.log("Passwords do not match.");
+            setError('password_input', { message: ('รหัสผ่านไม่ถูกต้อง') as string })
+
         }
     }
+    const password = watch('password_new')
+    const confirmPassword = watch('password_confirm')
+    useEffect(() => {
+        if (confirmPassword && password) {
+            if (password !== confirmPassword)
+                setError('password_confirm', { message: ('รหัสผ่านไม่ตรงกัน') as string })
+            else clearErrors(['password_confirm'])
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [password])
     const onSubmit = async () => {
         const salt = bcrypt.genSaltSync()
         const password = bcrypt.hashSync(getValues().password_confirm, salt)
@@ -81,10 +125,10 @@ const ResetPassword = () => {
                                     </Grid>
                                     {btnNext === true ? <>
                                         <Grid container justifyContent={'center'} >
-                                            <ControllerTextField sx={{ mr: 1, width: 400 }} formprop={myForm} name={"password_new"} label={'New password'} />
+                                            <ControllerTextField sx={{ mr: 1, width: 400 }} type="password" formprop={myForm} name={"password_new"} label={'New password'} />
                                         </Grid>
                                         <Grid container justifyContent={'center'} >
-                                            <ControllerTextField sx={{ mr: 1, width: 400 }} formprop={myForm} name={"password_confirm"} label={'Confirm Password'} />
+                                            <ControllerTextField sx={{ mr: 1, width: 400 }} type="password" formprop={myForm} name={"password_confirm"} label={'Confirm Password'} />
                                         </Grid>
                                         <Grid container justifyContent={'center'} >
                                             <Button type="submit" sx={{ mt: 2, mb: 1, ml: 36, width: 100 }} >Submit</Button>

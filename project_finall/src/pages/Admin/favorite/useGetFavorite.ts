@@ -47,5 +47,5 @@ export const useGetFavorite = () => {
             dispatch(isCloseLoading())
         }
     }
-    return { FavoriteList }
+    return { FavoriteList, getFavoriteLists }
 }

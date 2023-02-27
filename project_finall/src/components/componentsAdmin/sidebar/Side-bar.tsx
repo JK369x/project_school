@@ -62,14 +62,11 @@ export const Sidebar = () => {
         displayName: null,
         status: null,
         favorite: null,
-        photoURL: null
-        // photoURL: user.photoURL as any,
+        photoURL: null,
+        about: null
       }),
     )
     navigate('/adminlogin')
-
-
-
   }
 
   const { uid } = useAppSelector(({ auth }) => auth)

@@ -21,6 +21,8 @@ import { useUpdateUser } from './Admin/Users/Hook/useUpdateUser'
 import { useUploadFile } from '../file/useUploadFile'
 import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice'
 import { ControllerAutocomplete, ControllerTextField, UploadButton } from '../framework/control'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 const EditProfileUser = () => {
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode, data, getData } = useLocationLookup()
     const { state } = useGetDetailUser()
@@ -29,11 +31,31 @@ const EditProfileUser = () => {
     const { uploadFile, uploadState } = useUploadFile()
     const newdate = state.birthday ? state.birthday : ''
     const [birthday, setBirthday] = useState<any | null>(newdate);
-    const myForm = useForm<{ data: UserListsType }>({})
-    const { watch, handleSubmit, getValues, setValue } = myForm
+
+
     const { updateUser } = useUpdateUser()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const schema = yup.object({
+        data: yup.object({
+            email: yup.string()
+                .required(('กรุณากรอกอีเมล'))
+                .min(3, 'ความยาวอีเมลต้องมากกว่า 3 ตัวอักษร')
+                .email('รูปแบบอีเมลย์ไม่ถูกต้อง')
+            ,
+            firstName: yup.string().required('กรุณากรอกชื่อ').trim().lowercase().max(20, ('ชื่อมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
+            ,
+            lastName: yup.string().required('กรุณากรอกนามสกุล').trim().lowercase().max(20, ('นามสกุลมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
+            ,
+            agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท')
+            ,
+        })
+    })
+    const myForm = useForm<{ data: UserListsType }>({
+        mode: 'onChange',
+        resolver: yupResolver(schema),
+    })
+    const { watch, handleSubmit, getValues, setValue } = myForm
     const onUploadImage = (files: FileList | null) => {
         if (files) {
             const file = files[0];
@@ -114,8 +136,6 @@ const EditProfileUser = () => {
                         </Typography>
                     </Grid>
                     <form onSubmit={handleSubmit(onSubmit)}>
-
-
                         <Grid container justifyContent={'center'} >
                             <Grid container justifyContent={'center'} item xs={12}>
                                 <Avatar alt="Remy Sharp" src={uploadState.downloadURL ? uploadState.downloadURL : state.image_rul ? state.image_rul : ''} sx={{ width: 300, height: 300, mb: 4, mt: 3 }} />
@@ -152,17 +172,14 @@ const EditProfileUser = () => {
                                             options={amphure} // load options
                                         />
                                     </Grid>
-
                                 </Grid>
                                 <Grid container justifyContent={'center'} item xs={12} spacing={2}>
-
                                     <Grid item xs={2.35}>
                                         <ControllerAutocomplete
                                             formprop={myForm}
                                             name={'data.tambon'}
                                             label={'Tambon'}
                                             options={tambon} // load options
-
                                         />
                                     </Grid>
                                     <Grid item xs={2.35}>
@@ -171,7 +188,6 @@ const EditProfileUser = () => {
                                             name={'data.zipCode'}
                                             label={'Zip'}
                                             options={zipcode} // load options
-
                                         />
                                     </Grid>
                                 </Grid>
@@ -183,7 +199,7 @@ const EditProfileUser = () => {
                                     <ControllerTextField formprop={myForm} name={"data.status.label"} label={'Status'} />
                                 </Grid>
                                 <Grid container justifyContent={'center'} item xs={12}>
-
+                                    <ControllerTextField sx={{ width: 440, mb: 1 }} formprop={myForm} name={"data.id_verify"} label={'ID CARD'} />
                                 </Grid>
                                 <Grid container justifyContent={'center'} item xs={12}>
                                     <Stack component="form" spacing={3}>
@@ -200,7 +216,6 @@ const EditProfileUser = () => {
                                             onChange={(event) => setBirthday(event.target.value)}
                                         />
                                     </Stack>
-
                                 </Grid>
                                 <Button sx={{ mt: 2, width: 150, height: 50 }} type='submit' >Submit</Button>
                             </Grid>

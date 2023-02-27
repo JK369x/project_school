@@ -18,6 +18,9 @@ export const Navbar = () => {
   const onClickLogin = () => {
     navigate('/login')
   }
+  const onClicRegister = () => {
+    navigate('/registor')
+  }
 
   const onClickLogOut = () => {
     signOut(auth).then(() => {
@@ -27,6 +30,8 @@ export const Navbar = () => {
           email: null,
           displayName: null,
           status: null,
+          photoURL: null,
+          about: null,
           // photoURL: user.photoURL as any,
         }),
       )
@@ -82,7 +87,7 @@ export const Navbar = () => {
                   },
                   cursor: "pointer"
                 }}>
-                  <span onClick={onClickLogin}>ลงทะเบียน</span>
+                  <span onClick={onClicRegister}>ลงทะเบียน</span>
                 </Typography>
 
               </Grid>
