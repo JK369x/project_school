@@ -151,7 +151,7 @@ const ViewDetailUserInCourse = () => {
                                 <Typography variant="h1" component="h1" ml={3}>
                                     User Detail
                                 </Typography>
-                                <Box sx={{ height: 500 }}>
+                                <Box sx={{ minHeight: 500 }}>
 
                                     <Grid container justifyContent={'center'} sx={{}} >
                                         <Avatar src={state.image_rul ? state.image_rul : ''} sx={{ width: 250, height: 250, m: 'auto' }} />
@@ -216,9 +216,7 @@ const ViewDetailUserInCourse = () => {
                                         </>,
 
                                         delitem: <>
-                                            {/* <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                                                viewDetailUser(e)
-                                            }}>View</Button> */}
+
                                             <Button sx={{ mr: 0 }} color='error' onClick={() => {
                                                 delItem(e)
                                             }}>Delete</Button>

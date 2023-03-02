@@ -26,7 +26,7 @@ import { Footer } from "../components/Footer";
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-
+import email from '../assets/email.png'
 
 type Props = {}
 
@@ -125,8 +125,7 @@ const Register = (props: Props) => {
     ,
     job: yup.string().required('กรุณากรอกอาชีพของคุณ')
     ,
-    birthday: yup.date().min(new Date(2022, 0, 1), ('test'))
-    ,
+
     address: yup.string().required('กรุณากรอกชื่อ'),
 
   })
@@ -219,12 +218,20 @@ const Register = (props: Props) => {
                 {allStepsCompleted() ? (
                   <React.Fragment>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you&apos;re finished
-                      </Typography>
-                      <Box>
-                        <Button primary type={"submit"} label={'Finish'} />
-                      </Box>
+                      <Grid container justifyContent={'center'}>
+                        <Grid container justifyContent={'center'} sx={{ mt: 8 }} item xs={12} >
+                          <Typography variant="h2" sx={{ mt: 2, mb: 1 }}>
+                            กรุณาตรวจสอบอีเมลของคุณหลักจากกดปุ่มสำเร็จ
+                          </Typography>
+                        </Grid>
+                        <Grid container justifyContent={'center'} sx={{ mb: 5, mt: 3 }} item xs={12} >
+                          <img src={email} width={250} height={250} alt="" />
+                        </Grid>
+                        <Box>
+                          <Button primary type={"submit"} label={'Finish'} />
+                        </Box>
+
+                      </Grid>
                     </form>
                   </React.Fragment>
                 ) : (

@@ -15,6 +15,7 @@ import { TableColumnOptions } from '../framework/control/Table/Table'
 import { useDialog } from '../Hook/dialog/useDialog'
 import { useGetAllReceiptByIdUser } from './Receipt/Hook/useGetAllReceiptByIdUser'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
+import moment from 'moment'
 const ProFileUserFontEnd = () => {
     const { state } = useGetDetailUser()
     console.log("🚀 ~ file: ProFileUserFontEnd.tsx:18 ~ ProFileUserFontEnd ~ state", state)
@@ -108,7 +109,7 @@ const ProFileUserFontEnd = () => {
                                     Job: {state.job}
                                 </Typography>
                                 <Typography variant="h4" ml={2} color='#555454'>
-                                    Birthday: {state.birthday}
+                                    Birthday: {moment(state.birthday).format('DD/MM/YYYY')}
                                 </Typography>
                             </Grid>
                             <Grid container justifyContent={'center'} item xs={12}>

@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore';
 import { setAuthStore } from '../store/slices/authSlice';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import { Grid } from '@mui/material';
 import axios from 'axios';
@@ -57,8 +57,8 @@ export default function AccountMenu() {
         navigate('/')
     }
 
-    const ClickCateGory = () => {
-        navigate('/category_course')
+    const ClickCerificate = () => {
+        navigate('/certificate/${uid}')
     }
     const ClickProfile = () => {
         navigate(`/profiledetailuser_user/${uid}`)
@@ -144,6 +144,13 @@ export default function AccountMenu() {
                             <FavoriteIcon color='error' fontSize="small" />
                         </ListItemIcon>
                         <span onClick={ClickFavorite}>Favorite
+                        </span>
+                    </MenuItem>
+                    <MenuItem>
+                        <ListItemIcon onClick={ClickCerificate}>
+                            <WorkspacePremiumIcon color='warning' fontSize="small" />
+                        </ListItemIcon>
+                        <span onClick={ClickCerificate}>Certificate
                         </span>
                     </MenuItem>
                     <MenuItem onClick={onClickLogOut}>

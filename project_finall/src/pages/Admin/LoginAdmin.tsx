@@ -21,9 +21,7 @@ const LoginAdmin = () => {
     const navigator = useNavigate()
     const dispatch = useAppDispatch()
     const myForm = useForm<IFormInput>()
-    const RegisterTeacher = () => {
-        navigator('/registerteacher')
-    }
+
     //react-form
     const { handleSubmit, getValues } = myForm;
     const onSubmit = async () => {
@@ -40,7 +38,7 @@ const LoginAdmin = () => {
             const user_favorite = res.data.user.favorite
             const user_status = res.data.user.status
             const user_about = res.data.user.about
-            console.log("first login status user :", res.data)
+            console.table(res.data.user)
             dispatch(setAuthStore({
                 uid: id_document,
                 email: user,

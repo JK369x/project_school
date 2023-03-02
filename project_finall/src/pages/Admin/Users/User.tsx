@@ -44,7 +44,7 @@ const User: FC = () => {
     navigate(`/detailuser/${data.id_document}`)
 
   }
-  let newdata = data.filter((item: any) => item.status.id !== "4")
+  let newdata = data.filter((item: any) => item.status.id !== "4" && item.status.id !== "10")
 
   const columnOptions: TableColumnOptions[] = [
 

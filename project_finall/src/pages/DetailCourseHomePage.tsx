@@ -8,9 +8,7 @@ import Grid from '@mui/material/Grid/Grid'
 import Image from '../components/Image/Image'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import PersonIcon from '@mui/icons-material/Person';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
+import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { UserJoinCourse } from './Admin/Courses/Hook/useJoinCourse'
 import { useAppSelector } from '../store/useHooksStore'
@@ -35,18 +33,18 @@ import UploadReceipt from './UploadReceipt'
 import { stat } from 'fs'
 import CommentCourse from './Admin/Comment/CommentCourse'
 import moment from 'moment'
+import SchoolIcon from '@mui/icons-material/School';
 import { Footer } from '../components/Footer'
 const DetailCourseHomePage = () => {
   const { state } = useGetCourseDetail()
-  console.log("🚀 ~ file: DetailCourseHomePage.tsx:35 ~ DetailCourseHomePage ~ state", state)
 
   const { JoinCourse } = useGetAllJoinCourse()
-  const newdata = JoinCourse.map((item) => {
-    return item.count_number
-  })
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:44 ~ JoinCourse:", state)
+  // const newdata = JoinCourse.map((item) => {
+  //   return item.count_number
+  // })
   const newjoin = JoinCourse.length
 
-  console.log("🚀 ~ file: DetailCourseHomePage.tsx:33 ~ DetailCourseHomePage ~ newjoin", newjoin)
   //*start register course
   const Start_Register_Date = moment(state.start_register).format('DD-MM-YYYY')
   const Start_Register_Time = new Date(state.start_register).toLocaleTimeString('en-Us', {
@@ -199,19 +197,29 @@ const DetailCourseHomePage = () => {
                         <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='error' startIcon={<PersonRemoveIcon />}> ออกคิว</Button>
                       </>) :
                       (<>
-                        <Button variant="contained" sx={{ mr: 1 }} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
+                        <Button variant="contained" sx={{ mr: 1 }} disabled={Number(state.max_people) <= countJoin ? true : false} onClick={() => ClickDeleteCourseJoin(state.id)} color='primary' startIcon={<PersonAddIcon />}>เข้าคิว</Button>
                       </>)}
                   </> :
-                  <>
-                    <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
-                  </>}
-
+                  (<>
+                    {moment().isBetween(state.start_learn, state.end_learn) ? (<>
+                      <Button variant="contained" sx={{ mr: 1 }} disabled startIcon={<CastForEducationIcon />}>คอร์สอยู่ระหว่างการเรียน</Button>
+                    </>) : (<>
+                      {moment().isAfter(state.end_learn) ? (<>
+                        <Button variant="contained" sx={{ mr: 1 }} disabled startIcon={<SchoolIcon />}>หลักสูตรนี้จบการเรียนแล้ว</Button>
+                      </>) : (<>
+                        <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
+                      </>)}
+                    </>)}
+                  </>)}
                 {state.btn_comment == "true" && <>
                   <CommentCourse id={state.id} />
                 </>}
                 {state.btn_check_name == "true" && <>
                   <CheckName id={state.id} />
                 </>}
+
+
+
                 <IconButton onClick={() => Clickfavorite(state.id)}
                   color={favorite_user?.some((params: any) => params === state.id) ? 'error' : 'inherit'}
                   sx={{
@@ -239,7 +247,7 @@ const DetailCourseHomePage = () => {
                     bottom: 0,
                     color: '#b30a0a',
                   }}>
-                  <Chip icon={<BoyIcon />} label={`${state.min_people} ที่นั่งสูงสุด`} color="success" variant="outlined" />
+                  <Chip icon={<BoyIcon />} label={`${state.max_people} ที่นั่งสูงสุด`} color="success" variant="outlined" />
                 </IconButton>
                 <IconButton
                   sx={{

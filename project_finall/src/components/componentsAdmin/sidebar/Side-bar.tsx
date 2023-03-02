@@ -14,16 +14,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import VerifiedIcon from '@mui/icons-material/Verified';
 //react dom 
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '../../../firebase/config_firebase';
+
 import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore';
 import { setAuthStore } from '../../../store/slices/authSlice';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { setCourseStore } from '../../../store/slices/courseSlice';
 import axios from 'axios';
-
 export const Sidebar = () => {
+  const { email, status, photoURL, favorite, about, uid } = useAppSelector(({ auth }) => auth)
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
 
@@ -69,7 +67,6 @@ export const Sidebar = () => {
     navigate('/adminlogin')
   }
 
-  const { uid } = useAppSelector(({ auth }) => auth)
 
   const onClickProfile = () => {
     navigate(`/profile/${uid}`)
@@ -107,10 +104,12 @@ export const Sidebar = () => {
             <CategoryIcon className='icon' />
             <span onClick={onClickCategory}>Category</span>
           </li>
-          <li>
-            <VerifiedIcon className='icon' />
-            <span onClick={onClickApproval}>Approval</span>
-          </li>
+          {status?.id === '10' && (<>
+            <li>
+              <VerifiedIcon className='icon' />
+              <span onClick={onClickApproval}>Approval</span>
+            </li>
+          </>)}
           <p className="title">USEFUL</p>
           <li>
             <QueryStatsIcon className='icon' />

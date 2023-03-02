@@ -5,11 +5,7 @@ import { Avatar, Button, Card, CardActions, CardContent, CardMedia, Grid, IconBu
 import { useGetFavorite } from './Admin/favorite/useGetFavorite'
 import { CourseListsType, useGetCourseLists } from './Admin/Courses/Hook/useGetCourse'
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import react from 'react'
-import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
+
 import { setAuthStore } from '../store/slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { useGetDetailUser } from './Admin/Users/Hook/useGetDetailUser'

@@ -57,13 +57,16 @@ import EditProfileUser from "../pages/EditProfileUser";
 import Calculate from "../pages/Admin/Calculate";
 import HomeView from "../pages/test/Views";
 import ReceiptUser from "../pages/ReceiptUser";
+import LoginSuccess from "../pages/LoginSuccess";
+import Certificate from "../pages/Certificate/Certifacate";
 
 
 
 const RouteAllPage: FC = () => {
 
-    const { email, status, photoURL, favorite, about } = useAppSelector(({ auth }) => auth)
-    const auth_uid = email !== undefined && email !== null
+    const { email, status, photoURL, favorite, about, uid } = useAppSelector(({ auth }) => auth)
+
+    const auth_uid = uid !== undefined && uid !== null
 
 
     const dispatch = useAppDispatch()
@@ -71,12 +74,12 @@ const RouteAllPage: FC = () => {
     useEffect(() => {
         autoSignIn()
     }, [])
+
     const autoSignIn = async () => {
         console.log('============ send token ====================')
         const url = `${import.meta.env.VITE_REACT_APP_API}auth/me`
         axios.defaults.withCredentials = true
         try {
-
             const autoSignIn = await axios.get(url)
             console.log("🚀 ~ file: routes.tsx:59 ~ autoSignIn ~ autoSignIn", autoSignIn)
             const data = autoSignIn.data.user.payload.image_rul
@@ -85,6 +88,7 @@ const RouteAllPage: FC = () => {
             const new_email = user_data.email
             const new_join = user_data.course_join
             const new_status = user_data.status
+            console.log("🚀 ~ file: routes.tsx:88 ~ autoSignIn ~ new_status:", new_status)
             const firstName = user_data.firstName
             const lastName = user_data.lastName
             const new_id_document = user_data.id_document
@@ -107,70 +111,115 @@ const RouteAllPage: FC = () => {
 
         } catch (err) {
             console.log("🚀 ~ filse: middleware.ts:18 ~ autoSignIn ~ err", err)
+            return false
 
         }
-        console.log("🚀========== success set redux =========")
+
     }
 
 
 
     return (
         <Routes>
-            <Route path="/" element={<PageHome />} />
-            <Route path="/favorite" element={<Favorite />} />
-            <Route path="/adminlogin" element={<LoginAdmin />} />
-            <Route path="/registerteacher" element={<RegisterTeacher />} />
-            <Route path="/registor" element={<Registor />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/editcategory/:id" element={<EditCategory />} />
-            <Route path="/detailcategory/:id" element={<DetailCategory />} />
-            <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/testgrid" element={<Testgrid />} />
-            <Route path="/users" element={<User />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/detailuser/:id" element={<DetailUser />} />
-            <Route path="/editUser/:id" element={<EditUser />} />
-            <Route path="/detailcourse/:id" element={<DetailCourse />} />
-            <Route path="/editcourse/:id" element={<EditCourse />} />
-            <Route path="/courses" element={<Course />} />
-            <Route path="/addcourses" element={<AddCourse />} />
-            <Route path="/teacher" element={<Teacher />} />
-            <Route path="/category" element={<Category />} />
-            <Route path="/addcategory" element={<AddCategory />} />
-            <Route path="/approval" element={<Approval />} />
-            <Route path="/category_course" element={<CategoryCourse />} />
-            <Route path="/viewuserjoincourse/:id" element={<ViewUserJoinCourse />} />
-            <Route path="/checkname" element={<CheckName />} />
-            <Route path="/comment" element={<CommentCourse />} />
-            <Route path="/quiz/:id" element={<Quiz />} />
-            <Route path="/createteacher" element={<AddTeacher />} />
-            <Route path="/profile/:id" element={<Profile />} />
-            <Route path="/showquiz/:id/:id_quiz" element={<ShowQuiz />} />
-            <Route path="/detailquiz/:id/:id_quiz" element={<DetailQuiz />} />
-            <Route path="/quizuser/:id_course/:id_quiz" element={<QuestionCard />} />
-            <Route path="/accordion" element={<SimpleAccordion />} />
-            <Route path="/teacheralllist" element={<AllTeacher />} />
-            <Route path="/detailtecher/:id" element={<DetailTeacher />} />
-            <Route path="/useuploadreceipt" element={<UploadReceipt />} />
-            <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
-            <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
-            <Route path="/pdftest" element={<Pdftest />} />
-            <Route path="/replycomment/:id_course/:id_comment" element={<ReplyComment />} />
-            <Route path="/resetpassword/:id" element={<ResetPassword />} />
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/banner" element={<Banner />} />
-            <Route path="/usereditprofile/:id" element={<EditProfileUser />} />
-            <Route path="/profiledetailuser_user/:id" element={<ProFileUserFontEnd />} />
-            <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
-            <Route path="/calculate" element={<Calculate />} />
-            <Route path="/viewpdf/:id_user/:id_document" element={<HomeView />} />
-            <Route path="/requestreceipt/:id" element={<ReceiptUser />} />
-            {/* <Route path="/widgetuser" element={<Widget />} /> */}
-            {/* <Route path="/chartjsquiz" element={<ChartUserQuiz />} /> */}
+            {!auth_uid ? (
+                <>
+                //!admin
+                    <Route path="/adminlogin" element={<LoginAdmin />} />
+                //*user
+                    <Route path="/" element={<PageHome />} />
+                    <Route path="/registor" element={<Registor />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/category_course" element={<CategoryCourse />} />
+                    <Route path="/teacheralllist" element={<AllTeacher />} />
+                    <Route path="/contacts" element={<Contacts />} />
+                    <Route path="/detailtecher/:id" element={<DetailTeacher />} />
+                    <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />
+                    <Route path="/loginsuccess" element={<LoginSuccess />} />
+                </>)
+
+                :
+
+                (<>
+                    {status?.id === '4' && (<>
+                        <Route path="/registerteacher" element={<RegisterTeacher />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/users" element={<User />} />
+                        <Route path="/teacher" element={<Teacher />} />
+                        <Route path="/courses" element={<Course />} />
+                        <Route path="/category" element={<Category />} />
+                        <Route path="/addcategory" element={<AddCategory />} />
+                        <Route path="/calculate" element={<Calculate />} />
+                        <Route path="/banner" element={<Banner />} />
+                        <Route path="/profile/:id" element={<Profile />} />
+                        <Route path="/resetpassword/:id" element={<ResetPassword />} />
+                        <Route path="/editcourse/:id" element={<EditCourse />} />
+                        <Route path="/addcourses" element={<AddCourse />} />
+                        <Route path="/viewuserjoincourse/:id" element={<ViewUserJoinCourse />} />
+                        <Route path="/replycomment/:id_course/:id_comment" element={<ReplyComment />} />
+                        <Route path="/createteacher" element={<AddTeacher />} />
+                        <Route path="/quiz/:id" element={<Quiz />} />
+                        <Route path="/detailquiz/:id/:id_quiz" element={<DetailQuiz />} />
+                        <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
+                        <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
+                        <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
+                    </>)}
+                    {status?.id === '10' && (<>
+                        <Route path="/registerteacher" element={<RegisterTeacher />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/users" element={<User />} />
+                        <Route path="/teacher" element={<Teacher />} />
+                        <Route path="/courses" element={<Course />} />
+                        <Route path="/category" element={<Category />} />
+                        <Route path="/addcategory" element={<AddCategory />} />
+                        <Route path="/calculate" element={<Calculate />} />
+                        <Route path="/banner" element={<Banner />} />
+                        <Route path="/profile/:id" element={<Profile />} />
+                        <Route path="/resetpassword/:id" element={<ResetPassword />} />
+                        <Route path="/editcourse/:id" element={<EditCourse />} />
+                        <Route path="/addcourses" element={<AddCourse />} />
+                        <Route path="/viewuserjoincourse/:id" element={<ViewUserJoinCourse />} />
+                        <Route path="/replycomment/:id_course/:id_comment" element={<ReplyComment />} />
+                        <Route path="/createteacher" element={<AddTeacher />} />
+                        <Route path="/quiz/:id" element={<Quiz />} />
+                        <Route path="/detailquiz/:id/:id_quiz" element={<DetailQuiz />} />
+                        <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
+                        <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
+                        <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
+                        <Route path="/approval" element={<Approval />} />
+                    </>)}
+                //!admin
+                    //*user
+                    <Route path="/" element={<PageHome />} />
+                    <Route path="/favorite" element={<Favorite />} />
+                    <Route path="/editcategory/:id" element={<EditCategory />} />
+                    <Route path="/detailcategory/:id" element={<DetailCategory />} />
+                    <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />
+                    <Route path="/detailuser/:id" element={<DetailUser />} />
+                    <Route path="/profiledetailuser_user/:id" element={<ProFileUserFontEnd />} />
+                    <Route path="/editUser/:id" element={<EditUser />} />
+                    <Route path="/detailcourse/:id" element={<DetailCourse />} />
+                    <Route path="/showquiz/:id/:id_quiz" element={<ShowQuiz />} />
+                    <Route path="/category_course" element={<CategoryCourse />} />
+                    <Route path="/contacts" element={<Contacts />} />
+                    <Route path="/teacheralllist" element={<AllTeacher />} />
+                    <Route path="/quizuser/:id_course/:id_quiz" element={<QuestionCard />} />
+                    <Route path="/detailtecher/:id" element={<DetailTeacher />} />
+                    <Route path="/useuploadreceipt" element={<UploadReceipt />} />
+                    <Route path="/usereditprofile/:id" element={<EditProfileUser />} />
+                    <Route path="/viewpdf/:id_user/:id_document" element={<HomeView />} />
+                    <Route path="/requestreceipt/:id" element={<ReceiptUser />} />
+                    <Route path="/certificate/:id" element={<Certificate />} />
+                    {/* <Route path="/checkname" element={<CheckName />} />
+                    <Route path="/comment" element={<CommentCourse />} /> */}
+                    {/* <Route path="/accordion" element={<SimpleAccordion />} /> */}
+               //?test
+                    <Route path="/testgrid" element={<Testgrid />} />
+                    <Route path="/pdftest" element={<Pdftest />} />
+                </>)
+            }
             <Route
                 path="*"
-                element={<>{email === null ? <NotFoundPage /> : null}</>}
+                element={<>{uid === null ? <NotFoundPage /> : null}</>}
             />
         </Routes>
     )

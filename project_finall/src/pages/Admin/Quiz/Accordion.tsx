@@ -26,7 +26,6 @@ export default function SimpleAccordion(props: any) {
         <>
             {quiz.map((item: any, index: number) => {
                 return (<React.Fragment key={index}>
-
                     <Accordion disabled={item.status_quiz == "false" ? true : false} sx={{ maxWidth: 900 }} >
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -37,20 +36,20 @@ export default function SimpleAccordion(props: any) {
                         </AccordionSummary>
                         <AccordionDetails>
                             <Grid container alignContent={'center'} alignItems={'center'}>
-                                <Button onClick={() => { clickQuiz(item.id_document) }}>เริ่มทำ quiz</Button>
+                                <Button disabled={moment().isBetween(moment(item.start_quiz), moment(item.end_quiz)) ? false : true} onClick={() => { clickQuiz(item.id_document) }}>เริ่มทำ quiz</Button>
                                 <Typography color='primary' sx={{ mr: 2, ml: 2 }}>
                                     Start Quiz
                                 </Typography>
                                 <Typography>
                                     {moment(item.start_quiz).format("H:mm")}
                                 </Typography>
-                                <Typography color='primary' sx={{ mr: 2, ml: 2 }}>
+                                <Typography color='error' sx={{ mr: 2, ml: 2 }}>
                                     End Quiz
                                 </Typography>
                                 <Typography>
                                     {moment(item.end_quiz).format("H:mm")}
                                 </Typography>
-                                <Typography color='primary' sx={{ mr: 1, ml: 2 }}>
+                                <Typography color='#129216' sx={{ mr: 1, ml: 2 }}>
                                     จำนวน
                                 </Typography>
                                 <Typography>

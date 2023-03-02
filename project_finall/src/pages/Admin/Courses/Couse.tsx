@@ -22,15 +22,25 @@ import { Box } from '@mui/system'
 import SearchBar from '@mkyy/mui-search-bar'
 import moment, { Moment } from 'moment'
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { useAppSelector } from '../../../store/useHooksStore'
 
 const Course: FC = () => {
-
+  const { displayName, uid, photoURL, favorite, about, status } = useAppSelector(({ auth }) => auth)
   const { CourseLists, getCourseLists } = useGetCourseLists()
   const data = CourseLists
   const { openConfirmDialog } = useDialog()
   const { deleteCourse } = useDeleteCourse()
   const navigate = useNavigate()
-  const newdata = data.filter((item) => item.approval === true)
+
+  const newdata = data.filter((item) => {
+    if (status?.id === '4') {
+      return item.approval === true && item.create_by_id === uid
+    }
+    if (status?.id === '10') {
+      return item.approval === true
+    }
+  })
+
 
   const delItem = (data: CourseListsType) => {
     openConfirmDialog({

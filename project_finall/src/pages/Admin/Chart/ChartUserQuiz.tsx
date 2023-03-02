@@ -21,7 +21,7 @@ ChartJS.register(
 );
 
 const options: any = {
-    // responsive: true,
+    responsive: true,
     plugins: {
         legend: {
             position: 'top' as const,
@@ -67,8 +67,8 @@ const ChartUserQuiz = (props: any) => {
 
 
     return <>
-        <Grid container justifyContent={'center'} sx={{ height: 500 }}>
-            <Bar options={options} data={dataChart} />;
+        <Grid container justifyContent={'center'} sx={{ minHeight: 500, minWidth: 500, maxHeight: 500 }}>
+            <Bar options={options} data={dataChart} />
 
         </Grid>
     </>

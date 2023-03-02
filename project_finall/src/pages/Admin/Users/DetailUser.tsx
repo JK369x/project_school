@@ -20,6 +20,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useGetDetailUser } from './Hook/useGetDetailUser'
 import { Typography, Avatar } from '@mui/material'
 import { useAppSelector } from '../../../store/useHooksStore'
+import moment from 'moment'
 
 const DetailUser: FC = () => {
 
@@ -76,7 +77,7 @@ const DetailUser: FC = () => {
                     </Grid>
                     <Grid>
                       <Typography variant="h4" ml={5} color='#555454'>
-                        Birthday: {state.birthday}
+                        Birthday: {moment(state.birthday).format('DD/MM/YYYY')}
                       </Typography>
                     </Grid>
                     <Grid>

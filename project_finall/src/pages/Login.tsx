@@ -49,9 +49,8 @@ const Login = (props: Props) => {
       axios.defaults.withCredentials = true
       const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
       const user = res.data.user
-      console.log("🚀 ~ file: Login.tsx:57 ~ onSubmit ~ user", user)
+      console.table(user)
       const image = user.image_rul
-      console.log("🚀 ~ file: Login.tsx:58 ~ onSubmit ~ image", image)
       const user_email = user.email
       const user_displayName = user.display_name
       const user_status = user.status
