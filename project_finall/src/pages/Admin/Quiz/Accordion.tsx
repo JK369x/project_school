@@ -15,13 +15,13 @@ import { Footer } from '../../../components/Footer';
 export default function SimpleAccordion(props: any) {
     const newId = props.id
     const navigate = useNavigate()
-    console.log("🚀 ~ file: Accordion.tsx:11 ~ SimpleAccordion ~ newId", newId)
     const { quiz } = useGetAllQuiz()
-    console.log("🚀 ~ file: Accordion.tsx:13 ~ SimpleAccordion ~ quiz", quiz)
     const clickQuiz = (quizall: any) => {
         console.log("=====", quizall)
         navigate(`/showquiz/${newId}/${quizall}`)
     }
+    const timedate = moment()
+    console.log("🚀 ~ file: Accordion.tsx:24 ~ SimpleAccordion ~ timedate:", moment(moment(timedate).format('HH:mm')))
     return (
         <>
             {quiz.map((item: any, index: number) => {
@@ -36,7 +36,7 @@ export default function SimpleAccordion(props: any) {
                         </AccordionSummary>
                         <AccordionDetails>
                             <Grid container alignContent={'center'} alignItems={'center'}>
-                                <Button disabled={moment().isBetween(moment(item.start_quiz), moment(item.end_quiz)) ? false : true} onClick={() => { clickQuiz(item.id_document) }}>เริ่มทำ quiz</Button>
+                                <Button disabled={moment(moment(timedate).format('2023-01-01 hh:mm')) > moment(moment(item.start_quiz).format('2023-01-01 hh:mm')) && moment(moment(timedate).format('2023-01-01 hh:mm')) < moment(moment(item.end_quiz).format('2023-01-01 hh:mm')) ? false : true} onClick={() => { clickQuiz(item.id_document) }}>เริ่มทำ quiz</Button>
                                 <Typography color='primary' sx={{ mr: 2, ml: 2 }}>
                                     Start Quiz
                                 </Typography>

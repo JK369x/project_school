@@ -58,7 +58,7 @@ export default function AccountMenu() {
     }
 
     const ClickCerificate = () => {
-        navigate('/certificate/${uid}')
+        navigate(`/certificate/${uid}`)
     }
     const ClickProfile = () => {
         navigate(`/profiledetailuser_user/${uid}`)

@@ -43,9 +43,9 @@ export default function Result(props: any) {
 
     const myForm = useForm<scoretype>({})
     const { getValues, setValue, handleSubmit } = myForm
-
+    const date_now = moment()
     const onSubmit = async () => {
-        if (moment().isBefore(timeQuiz_start)) {
+        if (moment(moment(date_now).format('2023-01-01 hh:mm')) <= moment(moment(timeQuiz_start).format('2023-01-01 hh:mm'))) {
             setValue('id_user', uid ? uid : '')
             setValue('id_quiz', id_quiz ? id_quiz : '')
             setValue('id_course', id ? id : '')
@@ -55,7 +55,7 @@ export default function Result(props: any) {
             if (getValues()) {
                 console.log("🚀 ~ file: Result.tsx:47 ~ onSubmit ~ getValues()", getValues())
                 await addScore(getValues())
-                navigate(`/detailcoursehomepage/${id}`)
+                // navigate(`/detailcoursehomepage/${id}`)
             } else {
                 console.log(' not Values ')
             }
@@ -80,7 +80,7 @@ export default function Result(props: any) {
                     <Button onClick={restartQuiz} variant="outlined">
                         Retry
                     </Button>
-                    <Button type='submit' variant="outlined">
+                    <Button type='submit' variant="outlined" disabled={moment(moment(date_now).format('2023-01-01 hh:mm')) <= moment(moment(timeQuiz_start).format('2023-01-01 hh:mm')) ? false : true}>
                         Submit
                     </Button>
                 </CardActions>

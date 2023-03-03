@@ -1,40 +1,42 @@
+import { useParams } from 'react-router-dom';
 
 import axios from 'axios';
 import { useAppDispatch } from '../../../store/useHooksStore';
 import { useEffect, useState } from 'react';
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice';
 export type ScoreType = {
-    createDate?: any
-    full_score?: number
-    id_course?: string
-    id_quiz?: string
-    id_user?: string
-    title_quiz?: string
-    total_score?: number
+    title?: string
+    start_learn?: string
+    end_learn?: string
+    score_quiz?: number
+    score_user?: number
+    create_by?: string
+    image_course?: string
 }
 //! & เพิ่ม id form input
 
 //! uid คืออะไรที่เกี่ยวข้องกับตัวเอง
 
-export const useGetUserLists = () => {
+export const useGetScoreUserAll = () => {
     const dispatch = useAppDispatch();
-    const [userLists, setUserLists] = useState<ScoreType[]>([])
+    const { id } = useParams<{ id: string }>()
+    const [certificateLists, setCertificateLists] = useState<ScoreType[]>([])
     useEffect(() => {
-        getUserLists()
+        getAllScore()
     }, [])
 
-    const getUserLists = async () => {
+    const getAllScore = async () => {
         try {
             dispatch(isShowLoading());
-            const url = `${import.meta.env.VITE_REACT_APP_API}user/alluser`
+            const url = `${import.meta.env.VITE_REACT_APP_API}user/createcertificate/${id}`
             axios.defaults.withCredentials = true
             const getDetailUser = await axios.get(url)
             const result = getDetailUser.data
-            setUserLists(
+            setCertificateLists(
                 result.map((e: any) => {
                     return {
                         ...e,
-                        id_document: e.id_document
+
                     }
                 }) as ScoreType[]
             )
@@ -44,6 +46,6 @@ export const useGetUserLists = () => {
             dispatch(isCloseLoading())
         }
     }
-    return { userLists, getUserLists }
+    return { certificateLists, getAllScore }
 }
 
