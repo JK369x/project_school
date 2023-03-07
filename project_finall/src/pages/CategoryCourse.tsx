@@ -132,12 +132,12 @@ const CategoryCourse = () => {
 
   }
   const handleBefore = (date: any) => {
-    console.log("🚀 ~ file: Testgrid.tsx:18 ~ handleChange ~ date", moment(date).format('DD/MM/YYYY'))
-    setDateBefore(date)
+    const date_time = new Date(date).toDateString()
+    setDateBefore(moment(date_time))
   };
   const handleAfter = (date: any) => {
-    console.log("🚀 ~ file: Testgrid.tsx:18 ~ handleChange ~ date", moment(date).format('DD/MM/YYYY'))
-    setDateAfter(date)
+    const date_time = new Date(date).toDateString()
+    setDateAfter(moment(date_time))
   };
   const CancelResearch = () => {
     setCourseData(newdata)

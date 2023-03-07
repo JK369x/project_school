@@ -53,13 +53,13 @@ const BodyCenterPage = () => {
                             </Grid>
                             <Grid>
                                 <Typography gutterBottom variant="h4" color='#010000' >
-                                    &bull; สามารถดาวโหลด application เพื่อเพิ่มความสะดวก
+                                    &bull; สามารถดาวน์โหลด application เพื่อเพิ่มความสะดวก
                                 </Typography>
                                 <Typography gutterBottom variant="h4" color='#010000' >
                                     &bull; สามารถทำแบบทดสอบ quiz เพื่อทดสอบความรู้
                                 </Typography>
                                 <Typography gutterBottom variant="h4" color='#010000' >
-                                    &bull; เรียนมีให้เลือกทั้ง 2 รูปแบบ online & onside
+                                    &bull; เรียนมีให้เลือกทั้ง 2 รูปแบบ online & onsite
                                 </Typography>
                             </Grid>
                             <Grid item sx={{ mr: 9, mt: 2 }}>

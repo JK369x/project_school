@@ -49,7 +49,7 @@ const DetailTeacher = () => {
                                     {state.birthday ? new Date(state.birthday).toLocaleDateString() : ""}
                                 </Typography>
                                 <Typography variant="h6" mr={1}   >
-                                    อีเมลย์
+                                    อีเมล
                                 </Typography>
                                 <Typography ml={1} variant="h6" color='#000000'>
                                     {state.email ? state.email : ""}

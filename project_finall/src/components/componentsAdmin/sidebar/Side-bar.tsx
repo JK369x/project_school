@@ -1,14 +1,11 @@
 import './Side-bar.scss';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import StoreIcon from '@mui/icons-material/Store';
 import SchoolIcon from '@mui/icons-material/School';
 import CategoryIcon from '@mui/icons-material/Category';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsSystemDaydreamIcon from '@mui/icons-material/SettingsSystemDaydream';
-import PsychologyIcon from '@mui/icons-material/Psychology';
-import SettingsIcon from '@mui/icons-material/Settings';
+
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -115,23 +112,13 @@ export const Sidebar = () => {
             <QueryStatsIcon className='icon' />
             <span onClick={onClickBanner}>Banner</span>
           </li>
-          <li>
-            <NotificationsIcon className='icon' />
-            <span>Notifications</span>
-          </li>
+
           <p className="title">SERVICE</p>
           <li>
             <SettingsSystemDaydreamIcon className='icon' />
             <span onClick={onClickCalculate}>Calculate Queue</span>
           </li>
-          <li>
-            <PsychologyIcon className='icon' />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsIcon className='icon' />
-            <span>Setting</span>
-          </li>
+
           <p className="title">USER</p>
           <li>
             <AccountBoxIcon className='icon' />
@@ -145,8 +132,7 @@ export const Sidebar = () => {
         </ul>
       </div>
       <div className="bottom">
-        <div className="colorOption"></div>
-        <div className="colorOption"></div>
+
       </div>
     </div>
   )

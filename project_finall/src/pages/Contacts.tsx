@@ -14,7 +14,7 @@ const Contacts = () => {
                 <Grid container justifyContent={'center'} alignItems={'center'} sx={{ backgroundColor: '#fff', p: 3 }}>
                     <Grid container justifyContent={'center'} item >
                         <Typography variant="h3" mb={3} mt={3}>
-                            ติดต่อคณะวิศวกรรมคอมพิวเตอร์
+                            ติดต่อภาควิชาวิศวกรรมคอมพิวเตอร์
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>

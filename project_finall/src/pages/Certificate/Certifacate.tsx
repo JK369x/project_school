@@ -7,9 +7,14 @@ import { Table } from "../../framework/control"
 import { TableColumnOptions } from "../../framework/control/Table/Table"
 import { useNavigate } from "react-router-dom"
 import { ScoreType } from './Hook/useGetScoreUserAll'
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer"
+import CreatePDF from "./CreatePDF"
+import { useGetDetailUser } from "../Admin/Users/Hook/useGetDetailUser"
 const Certificate = () => {
     const { certificateLists } = useGetScoreUserAll()
     console.log("🚀 ~ file: Certifacate.tsx:8 ~ Certificate ~ certificateLists:", certificateLists)
+    const { state } = useGetDetailUser()
+    console.log("🚀 ~ file: Certifacate.tsx:16 ~ Certificate ~ state:", state)
     const columnOptions: TableColumnOptions[] = [
 
         {
@@ -68,14 +73,18 @@ const Certificate = () => {
                                 <img src={e.image_course} width={90} height={60} />
                             </Grid>,
                             delitem: <>
-                                <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                                    viewDetailUser(e)
-                                }}>View</Button>
+                                <PDFDownloadLink document={<CreatePDF createby={e.create_by} title={e.title} course_end={e.end_learn} detail={state} />} fileName={'testPDF'}>
+                                    <Button sx={{ mr: 1 }} color='primary' onClick={() => {
+                                    }}>Download</Button>
+                                </PDFDownloadLink>
                             </>
                         }
                     })} defaultRowsPerPage={10} />
                 </Grid>
             </Container>
+            <PDFViewer width='100%' height='1000px'>
+                <CreatePDF />
+            </PDFViewer>
         </Box>
     </>)
 }

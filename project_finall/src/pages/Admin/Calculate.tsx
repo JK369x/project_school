@@ -4,7 +4,7 @@ import Sidebar from "../../components/componentsAdmin/sidebar/Side-bar"
 import { useForm } from "react-hook-form"
 import { ControllerTextField } from "../../framework/control"
 import { useMemo } from "react"
-
+import PersonIcon from '@mui/icons-material/Person';
 interface CalculateType {
     Lecturer: number
     Assistant_Lecturer: number
@@ -21,6 +21,14 @@ interface CalculateType {
     Assistant_How_day: number
     Assistant_per_hours: number
     Assistant_How_hours: number
+    Food_day: number
+    Food_person: number
+    Price_Course: number
+    Person_Into_Course: number
+    Tax_PerSen: number
+    Tax_Number: number
+    Lecturer_total_hours: number
+    Assistant_total_hours: number
 }
 
 const Calculate = () => {
@@ -40,33 +48,76 @@ const Calculate = () => {
     })
 
     const { getValues, setValue, watch } = myForm
-    const watch_Lec_Per_Day = watch('lecturer_per_day')
-    const watch_How_Day = watch('lecturer_How_day')
-    const perDay = useMemo(() => {
-        let number_count = Number(watch_Lec_Per_Day) * Number(watch_How_Day)
-        return number_count
-    }, [watch_Lec_Per_Day, watch_How_Day])
+    //?Lecturer
+    const Lecturer_total_hours = watch('Lecturer_total_hours')
     const watch_Lec_Per_hours = watch('lecturer_per_hours')
     const watch_How_hours = watch('lecturer_How_hours')
     const perHours = useMemo(() => {
-        let number_count = Number(watch_Lec_Per_hours) * Number(watch_How_hours)
+        let number_count = Number(watch_Lec_Per_hours) * Number(Lecturer_total_hours)
         return number_count
-    }, [watch_Lec_Per_hours, watch_How_hours])
+    }, [watch_Lec_Per_hours, Lecturer_total_hours])
+    const totalHours = useMemo(() => {
+        let result = Lecturer_total_hours / watch_How_hours
+        return Math.ceil(result)
+    }, [Lecturer_total_hours, watch_How_hours])
 
 
 
-    const AssistantDay = watch('Assistant_per_day')
-    const AssistantHowDay = watch('Assistant_How_day')
-    const AssistantPerDay = useMemo(() => {
-        let number_count = Number(AssistantDay) * Number(AssistantHowDay)
-        return number_count
-    }, [AssistantDay, AssistantHowDay])
+
+    //!Assistant
     const AssistantHours = watch('Assistant_per_hours')
     const AssistantHowHours = watch('Assistant_How_hours')
+    const Total_Assistant = watch('Assistant_total_hours')
     const AssistantPerHours = useMemo(() => {
-        let number_count = Number(AssistantHours) * Number(AssistantHowHours)
+        let number_count = Number(AssistantHours) * Number(Total_Assistant)
         return number_count
-    }, [AssistantHours, AssistantHowHours])
+    }, [AssistantHours, Total_Assistant])
+
+    const totalHour_Assistant = useMemo(() => {
+        let result = Total_Assistant / AssistantHowHours
+        return Math.ceil(result)
+    }, [AssistantHowHours, Total_Assistant])
+
+
+
+    //?Food
+    const FoodPerDay = watch('Food_day')
+    const Food_Persons = watch('Food_person')
+    const Calculate_Food = useMemo(() => {
+        let food_now = Number(Food_Persons) * Number(FoodPerDay)
+        return food_now * totalHours
+    }, [FoodPerDay, Food_Persons])
+
+    //*Course
+    const CoursePrice = watch('Price_Course')
+    const PersonIntoCourse = watch('Person_Into_Course')
+    const Tax_Universal = watch('Tax_PerSen')
+    const Tax_Number = watch('Tax_Number')
+    const Calculate_Into_Course_Now = useMemo(() => {
+        let result = Number(CoursePrice) * Number(Food_Persons)
+        if (Tax_Universal) {
+            let result_new = (Number(result) / 100) * Number(Tax_Universal)
+            let total_result = result - result_new
+            return total_result
+        }
+        if (Tax_Number) {
+            let result_new = Number(result) - Number(Tax_Number)
+            return result_new
+        }
+        return result
+    }, [CoursePrice, PersonIntoCourse, Tax_Universal, Tax_Number])
+
+    //!total cost 
+    const total_cost = useMemo(() => {
+        let result = perHours + AssistantPerHours + Calculate_Food
+        return result
+    }, [perHours, AssistantPerHours, Calculate_Food])
+
+    //!answer
+    const answer_result = useMemo(() => {
+        let result = Calculate_Into_Course_Now - Calculate_Food - perHours - AssistantPerHours
+        return result
+    }, [Calculate_Into_Course_Now, Calculate_Food, AssistantPerHours, perHours])
     return (<>
         <div className='home'>
             <Sidebar />
@@ -81,33 +132,36 @@ const Calculate = () => {
                         <Typography variant="h6">
                             Cost Course
                         </Typography>
-                        <Box>
+                        <Box sx={{ width: '100%' }}>
+                            <Typography variant="h6">
+                                People In Course
+                            </Typography>
+                            <Grid container justifyContent={'flex-start'} alignItems={'center'}>
+                                <PersonIcon fontSize="large" sx={{ mt: 2, mr: 1 }} color="primary" />
+                                <ControllerTextField sx={{ width: 90 }} formprop={myForm} name={"Food_person"} label={'How many people'} />
+
+
+
+                            </Grid>
                             <Typography variant="h6">
                                 Lecturer
                             </Typography>
                             <Grid container justifyContent={'flex-start'} alignItems={'center'} spacing={1}>
-                                <Grid item xs={1}>
-                                    <ControllerTextField formprop={myForm} name={"lecturer_per_day"} label={'Price per day'} />
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <ControllerTextField formprop={myForm} name={"lecturer_How_day"} label={'How many days'} />
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <Typography variant="h6">
-                                        out put : {perDay ? perDay : ''}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container justifyContent={'flex-start'} alignItems={'center'} spacing={1}>
-                                <Grid item xs={1}>
+                                <Grid item xs={3}>
                                     <ControllerTextField formprop={myForm} name={"lecturer_per_hours"} label={'Price per Hours'} />
                                 </Grid>
-                                <Grid item xs={1}>
+                                <Grid item xs={3}>
                                     <ControllerTextField formprop={myForm} name={"lecturer_How_hours"} label={'How many Hours'} />
                                 </Grid>
-                                <Grid item xs={1}>
+                                <Grid item xs={3}>
+                                    <ControllerTextField formprop={myForm} name={"Lecturer_total_hours"} label={'Total Hours'} />
+                                </Grid>
+                                <Grid item xs={3}>
                                     <Typography variant="h6">
-                                        out put : {perHours ? perHours : ''}
+                                        Price Lecturer : {perHours ? perHours : ''}
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        Day: {totalHours ? totalHours : ''}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -117,45 +171,71 @@ const Calculate = () => {
                                 Assistant Lecturer
                             </Typography>
                             <Grid container justifyContent={'flex-start'} alignItems={'center'} spacing={1}>
-                                <Grid item xs={1}>
-                                    <ControllerTextField formprop={myForm} name={"Assistant_per_day"} label={'Price per day'} />
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <ControllerTextField formprop={myForm} name={"Assistant_How_day"} label={'How many days'} />
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <Typography variant="h6">
-                                        out put : {AssistantPerDay ? AssistantPerDay : ''}
-                                    </Typography>
-                                </Grid>
+
                             </Grid>
                             <Grid container justifyContent={'flex-start'} alignItems={'center'} spacing={1}>
-                                <Grid item xs={1}>
+                                <Grid item xs={3}>
                                     <ControllerTextField formprop={myForm} name={"Assistant_per_hours"} label={'Price per Hours'} />
                                 </Grid>
-                                <Grid item xs={1}>
+                                <Grid item xs={3}>
                                     <ControllerTextField formprop={myForm} name={"Assistant_How_hours"} label={'How many Hours'} />
                                 </Grid>
-                                <Grid item xs={1}>
+                                <Grid item xs={3}>
+                                    <ControllerTextField formprop={myForm} name={"Assistant_total_hours"} label={'Total Hours'} />
+                                </Grid>
+                                <Grid item xs={3}>
                                     <Typography variant="h6">
-                                        out put : {AssistantPerHours ? AssistantPerHours : ''}
+                                        Price Lecturer : {AssistantPerHours ? AssistantPerHours : ''}
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        Day: {totalHour_Assistant ? totalHour_Assistant : ''}
                                     </Typography>
                                 </Grid>
                             </Grid>
                         </Box>
+                        <Typography variant="h6">
+                            Food meal/day
+                        </Typography>
+                        <Grid container justifyContent={'flex-start'} alignItems={'center'}>
+                            <Grid item xs={3}>
+                                <ControllerTextField formprop={myForm} name={"Food_day"} label={'Food Per Day'} />
+                            </Grid>
+
+                            <Grid item xs={3}>
+                                <Typography variant="h6" mt={2}>
+                                    Price Food Total : {Calculate_Food ? Calculate_Food : ''}
+                                </Typography>
+                            </Grid>
+                        </Grid>
 
                         <Typography variant="h6">
                             University Payment
                         </Typography>
                         <Typography variant="h6">
-                            Other Fees
+                            Course Price
                         </Typography>
+
+                        <Grid container justifyContent={'flex-start'}>
+                            <Grid item xs={3}>
+                                <ControllerTextField formprop={myForm} name={"Price_Course"} label={'Price Course'} />
+                            </Grid>
+
+                        </Grid>
+                        <Grid container justifyContent={'flex-start'}>
+                            <Grid item xs={3}>
+                                <ControllerTextField formprop={myForm} name={"Tax_PerSen"} disabled={Tax_Number ? true : false} label={'University Tax %'} />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <ControllerTextField formprop={myForm} name={"Tax_Number"} disabled={Tax_Universal ? true : false} label={'University Tax '} />
+                            </Grid>
+                        </Grid>
                         <Typography variant="h6">
-                            Meals per meal/day
+                            Price Profit : {Calculate_Into_Course_Now ? Calculate_Into_Course_Now : ''} Price Cost :{total_cost ? total_cost : ''}
                         </Typography>
-                        <Typography variant="h6">
-                            Snacks and Breaks per snack/break/day
+                        <Typography variant="h6" color={answer_result < 0 ? 'error' : '#18bc25'}>
+                            Result: {answer_result ? answer_result : ''}
                         </Typography>
+
                     </div>
 
                 </div>
