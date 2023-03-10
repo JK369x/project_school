@@ -45,7 +45,7 @@ const EditUser: FC = () => {
             agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท')
             ,
             id_verify: yup.string().required('กรุณากรอกรหัสบัตรประชาชน').min(13, ('รหัสบัตรประชาชนต้องไม่ต่ำกว่า 13 ตัวอักษร')).max(13, ('รหัสบัตรประชาชนต้องมีความยาวไม่เกิน 13 ตัวอักษร'))
-            ,
+            // ,
         })
     })
     const myForm = useForm<{ data: UserListsType }>({
@@ -101,7 +101,7 @@ const EditUser: FC = () => {
     const onSubmit = async () => {
         setValue('data.birthday', birthday === "" ? newdate : birthday)
         setValue('data.image_rul', uploadState.downloadURL ? uploadState.downloadURL : state.image_rul)
-
+        console.log('test')
         if (getValues()) {
             console.log("🚀 ~ file: EditUser.tsx:84 ~ onSubmit ~ getValues", getValues().data)
             const id = myForm.getValues().data.id_document
@@ -244,34 +244,44 @@ const EditUser: FC = () => {
                                             <ControllerTextField fullWidth formprop={myForm} name={"data.status.label"} label={'Status'} />
                                         </Grid>
                                     </Grid>
-                                    <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2} >
-                                        <Grid item xs={3}>
-                                            <Stack component="form" spacing={3}>
-                                                <TextField
-                                                    id="date"
-                                                    label="Birthday"
-                                                    type="date"
-                                                    value={birthday}
-                                                    defaultValue={newdate}
-                                                    sx={{ width: '100%' }}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    onChange={(event) => setBirthday(event.target.value)}
-                                                />
-                                            </Stack>
-                                            {state.status?.id != 1 ? <ControllerTextField fullWidth multiline minRows={4} maxRows={2} formprop={myForm} name={"data.about"} label={'About'} /> : ""}
+                                    {state.status?.id != 4 && (<>
+                                        <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2} >
+                                            <Grid item xs={3} sx={{ mt: 2 }}>
+                                                <Stack component="form" spacing={3}>
+                                                    <TextField
+                                                        id="date"
+                                                        label="Birthday"
+                                                        type="date"
+                                                        value={birthday}
+                                                        defaultValue={newdate}
+                                                        sx={{ width: '100%' }}
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
+                                                        onChange={(event) => setBirthday(event.target.value)}
+                                                    />
+                                                </Stack>
+                                            </Grid>
+                                            <Grid item xs={3} >
+                                                <ControllerTextField fullWidth formprop={myForm} name={"data.id_verify"} label={'ID CARD'} />
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={3} sx={{ mb: 2 }}>
-                                            <ControllerTextField fullWidth formprop={myForm} name={"data.id_verify"} label={'ID CARD'} />
-                                        </Grid>
-                                    </Grid>
+                                    </>)}
+                                    {state.status?.id != 1 ?
+                                        (
+                                            <>
+                                                <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
+                                                    <Grid item xs={6}>
+                                                        <ControllerTextField fullWidth multiline minRows={4} maxRows={2} formprop={myForm} name={"data.about"} label={'About'} />
+                                                    </Grid>
+                                                </Grid>
+                                            </>
+                                        )
+                                        : ""}
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mt: 2 }}>
                                         <Button label='Submit' type='submit' />
                                     </Grid>
                                 </Grid>
-
-
                             </form>
                         </Box>
                     </div>

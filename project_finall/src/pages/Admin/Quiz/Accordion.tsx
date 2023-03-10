@@ -21,7 +21,6 @@ export default function SimpleAccordion(props: any) {
         navigate(`/showquiz/${newId}/${quizall}`)
     }
     const timedate = moment()
-    console.log("🚀 ~ file: Accordion.tsx:24 ~ SimpleAccordion ~ timedate:", moment(moment(timedate).format('hh:mm')))
     return (
         <>
             {quiz.map((item: any, index: number) => {

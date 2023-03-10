@@ -15,31 +15,30 @@ import { useAppSelector } from '../store/useHooksStore'
 import { UserOutCourse } from './Admin/Courses/Hook/useOutcourse'
 import { useDispatch } from 'react-redux'
 import { setCourseStore } from '../store/slices/courseSlice'
-import { CourseListsType } from './Admin/Courses/Hook/useGetCourse'
 import { joinCourseUser } from './Admin/joinCourse/useJoinCourse'
 import CheckIcon from '@mui/icons-material/Check';
 import CheckName from './Admin/Checkname/CheckName'
-import { useStatusButtonCheckName } from './Admin/Courses/Hook/useStatusButtonCheckName'
 import { useGetAllJoinCourse } from './Admin/Courses/Hook/useGetAllJoinCourse'
 import BoyIcon from '@mui/icons-material/Boy';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useUploadFile } from '../file/useUploadFile'
-import { UploadButton } from '../framework/control'
-import { useGetFavorite } from './Admin/favorite/useGetFavorite'
+
 import { setAuthStore } from '../store/slices/authSlice'
 import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
 import SimpleAccordion from './Admin/Quiz/Accordion'
 import UploadReceipt from './UploadReceipt'
-import { stat } from 'fs'
 import CommentCourse from './Admin/Comment/CommentCourse'
 import moment from 'moment'
 import SchoolIcon from '@mui/icons-material/School';
 import { Footer } from '../components/Footer'
+import { useGetApprovalUserInCourse } from './Admin/Users/Hook/useGetApprovalUserInCourse'
 const DetailCourseHomePage = () => {
+  const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
   const { state } = useGetCourseDetail()
+  const { approvalUser } = useGetApprovalUserInCourse(uid ?? '')
+
 
   const { JoinCourse } = useGetAllJoinCourse()
-  console.log("🚀 ~ file: DetailCourseHomePage.tsx:44 ~ JoinCourse:", state)
   // const newdata = JoinCourse.map((item) => {
   //   return item.count_number
   // })
@@ -85,8 +84,8 @@ const DetailCourseHomePage = () => {
     hour12: false,
     timeZone: 'Asia/Bangkok'
   })
-  const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
-  const { FavoriteList } = useGetFavorite()
+
+  // const { FavoriteList } = useGetFavorite()
   const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
   const { addFavorite } = useCreateFavorite()
   const Clickfavorite = (item: string) => {
@@ -115,14 +114,6 @@ const DetailCourseHomePage = () => {
       console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
     }
   }
-
-
-
-
-  const navigate = useNavigate()
-
-
-
 
   useEffect(() => {
     setCountJoin(newjoin)
@@ -172,19 +163,22 @@ const DetailCourseHomePage = () => {
     <>
       <Navbar />
       <Box sx={{ width: '100%' }}>
-        <Typography variant="h2" sx={{ ml: 4, mt: 2 }} color={'#0F0F0F'} >
-          👨🏻‍💻เรียนรู้ทักษะใหม่ให้ทันเทรนโลกปัจจุบัน
-        </Typography>
+        <Grid container justifyContent={'space-evenly'} alignItems={'center'} alignContent={'center'}>
+          <Grid item xs={6}>
+            <Typography variant="h2" color={'#0F0F0F'} ml={3} mt={2}>
+              👨🏻‍💻เรียนรู้ทักษะใหม่ให้ทันเทรนโลกปัจจุบัน
+            </Typography>
+          </Grid>
+          <Grid container justifyContent={'flex-end'} item xs={6}>
+            <Typography variant="h6" mr={3}  >
+              {/* {`อัพเดทล่าสุด ${new Date(state.updateDate._seconds ? state.updateDate._seconds * 1000 : '').toLocaleString()}`} */}
+              {`อัพเดทล่าสุด ${moment(new Date(state.updateDate._seconds ? state.updateDate._seconds * 1000 : '')).format('D MMM YYYY H:mm')}`}
+            </Typography>
+          </Grid>
+        </Grid>
         <Grid container spacing={3} sx={{ mt: 0.1, pl: 1, mb: 3 }}>
-          <Grid item container justifyContent={'center'} xs={4} >
-            <Grid>
-              <Image src={state.image} width={400} height={350} />
-              <Typography variant="h6"  >
-                {/* {`อัพเดทล่าสุด ${new Date(state.updateDate._seconds ? state.updateDate._seconds * 1000 : '').toLocaleString()}`} */}
-                {`อัพเดทล่าสุด ${moment(new Date(state.updateDate._seconds ? state.updateDate._seconds * 1000 : '')).format('D MMM YYYY H:mm')}`}
-              </Typography>
-
-            </Grid>
+          <Grid item container justifyContent={'center'} xs={4} sx={{ maxHeight: 350, maxWidth: 400 }} >
+            <img src={state.image} width={400} height={350} />
           </Grid>
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }}>
@@ -421,18 +415,30 @@ const DetailCourseHomePage = () => {
               {state.teaching_assistant}
             </Typography>
           </Grid>
-
-          <Grid item xs={6} >
-            <Grid container>
-              <Typography variant="h3" mb={1} mr={1} color={'#FFFFFF'} >
-                ทำแบบทดสอบ
-              </Typography>
-              <Typography variant="h3" color={'primary'} >
-                Quiz
-              </Typography>
+          {approvalUser[0]?.approval === true ? (<>
+            <Grid item xs={6} >
+              <Grid container>
+                <Typography variant="h3" mb={1} mr={1} color={'#FFFFFF'} >
+                  ทำแบบทดสอบ
+                </Typography>
+                <Typography variant="h3" color={'primary'} >
+                  Quiz
+                </Typography>
+              </Grid>
+              <SimpleAccordion id={state.id} />
             </Grid>
-            <SimpleAccordion id={state.id} />
-          </Grid>
+          </>) : (<>
+            <Grid item xs={6} >
+              <Grid container>
+                <Typography variant="h3" mb={1} mr={1} color={'#FFFFFF'} >
+                  เข้าร่วมคอร์สเพื่อทำแบบทดสอบ
+                </Typography>
+                <Typography variant="h3" color={'primary'} >
+                  Quiz
+                </Typography>
+              </Grid>
+            </Grid>
+          </>)}
         </Grid>
       </Box>
       <Footer />

@@ -108,6 +108,7 @@ const ProFileUserFontEnd = () => {
                                 <Typography variant="h4" color='#555454'>
                                     Job: {state.job}
                                 </Typography>
+
                                 <Typography variant="h4" ml={2} color='#555454'>
                                     Birthday: {moment(state.birthday).format('DD/MM/YYYY')}
                                 </Typography>

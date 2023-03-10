@@ -46,7 +46,6 @@ const Calculate = () => {
             // lecturer_output: 0
         }
     })
-
     const { getValues, setValue, watch } = myForm
     //?Lecturer
     const Lecturer_total_hours = watch('Lecturer_total_hours')
@@ -60,10 +59,6 @@ const Calculate = () => {
         let result = Lecturer_total_hours / watch_How_hours
         return Math.ceil(result)
     }, [Lecturer_total_hours, watch_How_hours])
-
-
-
-
     //!Assistant
     const AssistantHours = watch('Assistant_per_hours')
     const AssistantHowHours = watch('Assistant_How_hours')
@@ -72,14 +67,10 @@ const Calculate = () => {
         let number_count = Number(AssistantHours) * Number(Total_Assistant)
         return number_count
     }, [AssistantHours, Total_Assistant])
-
     const totalHour_Assistant = useMemo(() => {
         let result = Total_Assistant / AssistantHowHours
         return Math.ceil(result)
     }, [AssistantHowHours, Total_Assistant])
-
-
-
     //?Food
     const FoodPerDay = watch('Food_day')
     const Food_Persons = watch('Food_person')
@@ -87,7 +78,6 @@ const Calculate = () => {
         let food_now = Number(Food_Persons) * Number(FoodPerDay)
         return food_now * totalHours
     }, [FoodPerDay, Food_Persons])
-
     //*Course
     const CoursePrice = watch('Price_Course')
     const PersonIntoCourse = watch('Person_Into_Course')
@@ -105,19 +95,19 @@ const Calculate = () => {
             return result_new
         }
         return result
-    }, [CoursePrice, PersonIntoCourse, Tax_Universal, Tax_Number])
+    }, [CoursePrice, PersonIntoCourse, Tax_Universal, Tax_Number, Food_Persons])
 
     //!total cost 
     const total_cost = useMemo(() => {
         let result = perHours + AssistantPerHours + Calculate_Food
         return result
-    }, [perHours, AssistantPerHours, Calculate_Food])
+    }, [perHours, AssistantPerHours, Calculate_Food, Food_Persons, Tax_Number])
 
     //!answer
     const answer_result = useMemo(() => {
         let result = Calculate_Into_Course_Now - Calculate_Food - perHours - AssistantPerHours
         return result
-    }, [Calculate_Into_Course_Now, Calculate_Food, AssistantPerHours, perHours])
+    }, [Calculate_Into_Course_Now, Calculate_Food, AssistantPerHours, perHours, Food_Persons])
     return (<>
         <div className='home'>
             <Sidebar />
