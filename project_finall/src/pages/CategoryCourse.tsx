@@ -133,10 +133,12 @@ const CategoryCourse = () => {
   }
   const handleBefore = (date: any) => {
     const date_time = new Date(date).toDateString()
+    console.log("🚀 ~ file: CategoryCourse.tsx:136 ~ handleBefore ~ date_time:", date_time)
     setDateBefore(moment(date_time))
   };
   const handleAfter = (date: any) => {
     const date_time = new Date(date).toDateString()
+    console.log("🚀 ~ file: CategoryCourse.tsx:141 ~ handleAfter ~ date_time:", date_time)
     setDateAfter(moment(date_time))
   };
   const CancelResearch = () => {
@@ -145,7 +147,7 @@ const CategoryCourse = () => {
   const onclickSearch = () => {
     console.log(`before ${moment(datebefore)} after ${moment(dateafter)}`)
     const coursedata = newdata.filter((item) => {
-      let create_date = new Date(item.createDate._seconds * 1000)
+      let create_date = new Date(item.createDate._seconds * 1000).toDateString()
       console.log("create date", create_date)
       console.log("create Date moment", moment(create_date))
       if (moment(create_date) >= moment(datebefore) && moment(create_date) <= moment(dateafter)) {

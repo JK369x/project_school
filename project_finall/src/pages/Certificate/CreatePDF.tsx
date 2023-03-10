@@ -3,10 +3,7 @@ import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Fon
 import logo from '../../assets/logo-rmutt/Logo-RMUTT-A4-stork-5-01.png'
 import alienfont from './aileron.heavy.otf'
 import moment from 'moment';
-import { useParams } from 'react-router-dom';
-import { useGetAllReceiptByIdUser } from '../Receipt/Hook/useGetAllReceiptByIdUser';
-import { useGetDetailTransaction } from '../Receipt/Hook/useGetDetailTransaction';
-import { useAppSelector } from '../../store/useHooksStore';
+
 import certificate from '../../assets/cerfificate/certificateNow.png'
 import { relative } from 'path';
 // Register font
@@ -77,5 +74,6 @@ const CreatePDF = (props: any) => {
         </Document>
     );
 };
+// export default CreatePDF
 export default CreatePDF
 

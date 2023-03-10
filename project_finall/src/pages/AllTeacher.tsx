@@ -61,7 +61,7 @@ const AllTeacher = () => {
     const onclickSearch = () => {
         console.log(`before ${moment(datebefore)} after ${moment(dateafter)}`)
         const newdata = teacherLists.filter((item) => {
-            let create_date = new Date(item.createDate._seconds * 1000)
+            let create_date = new Date(item.createDate._seconds * 1000).toDateString()
             console.log("create date", create_date)
             console.log("create Date moment", moment(create_date))
             if (moment(create_date) >= moment(datebefore) && moment(create_date) <= moment(dateafter)) {

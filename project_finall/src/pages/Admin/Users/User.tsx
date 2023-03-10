@@ -116,10 +116,11 @@ const User: FC = () => {
   const onclickSearch = () => {
     console.log(`before ${moment(datebefore)} after ${moment(dateafter)}`)
     const coursedata = datalist.filter((item) => {
-
-      let create_date = moment(item.createDate?._seconds * 1000)
-      console.log("🚀 ~ file: Couse.tsx:121 ~ coursedata ~ create_date", create_date)
-      if (moment(create_date).isBetween(datebefore, dateafter)) {
+      let create_date = new Date(item.createDate._seconds * 1000).toDateString()
+      console.log("create date", create_date)
+      console.log('testtttttt')
+      console.log("create Date moment", moment(create_date))
+      if (moment(create_date) >= moment(datebefore) && moment(create_date) <= moment(dateafter)) {
         console.log('true')
         return item
       } else {
@@ -128,7 +129,6 @@ const User: FC = () => {
       }
     })
     if (coursedata.length > 0) {
-      console.log("🚀 ~ file: Couse.tsx:130 ~ coursedata ~ coursedata", coursedata)
       setDataList(coursedata)
 
     } else {

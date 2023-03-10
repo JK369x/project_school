@@ -6,15 +6,35 @@ import { useGetScoreUserAll } from "./Hook/useGetScoreUserAll"
 import { Table } from "../../framework/control"
 import { TableColumnOptions } from "../../framework/control/Table/Table"
 import { useNavigate } from "react-router-dom"
-import { ScoreType } from './Hook/useGetScoreUserAll'
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer"
+import { PDFDownloadLink, PDFViewer, pdf } from "@react-pdf/renderer"
 import CreatePDF from "./CreatePDF"
 import { useGetDetailUser } from "../Admin/Users/Hook/useGetDetailUser"
+import { saveAs } from 'file-saver';
+
+import axios from "axios"
+import { Document, Page } from '@react-pdf/renderer';
+
+import { useState } from "react"
+const MyDocument = () => (
+    <Document>
+        <Page>
+            {/* PDF content goes here */}
+        </Page>
+    </Document>
+);
+
 const Certificate = () => {
     const { certificateLists } = useGetScoreUserAll()
-    console.log("🚀 ~ file: Certifacate.tsx:8 ~ Certificate ~ certificateLists:", certificateLists)
     const { state } = useGetDetailUser()
-    console.log("🚀 ~ file: Certifacate.tsx:16 ~ Certificate ~ state:", state)
+    const [selectedCertificate, setSelectedCertificate] = useState(null);
+    const handleDownload = async (certificate: any) => {
+        setSelectedCertificate(certificate); // set the selected certificate to the state
+        const pdfBlob = await pdf(<CreatePDF createby={certificate.create_by} title={certificate.title} course_end={certificate.end_learn} detail={state} />).toBlob();
+        console.log("🚀 ~ file: Certifacate.tsx:33 ~ handleDownload ~ pdfBlob:", pdfBlob)
+
+    };
+
+
     const columnOptions: TableColumnOptions[] = [
 
         {
@@ -51,11 +71,7 @@ const Certificate = () => {
 
     ]
     const navigate = useNavigate()
-    const viewDetailUser = (data: ScoreType) => {
-        console.log("🚀 ~ file: User.tsx:40 ~ viewDetailUser ~ data", data)
-        navigate(`/detailuser/${data}`)
 
-    }
     return (<>
         <Navbar />
         <Box sx={{ backgroundColor: '#1e1f1f', minHeight: '100vh', p: 4 }}>
@@ -74,7 +90,10 @@ const Certificate = () => {
                             </Grid>,
                             delitem: <>
                                 <PDFDownloadLink document={<CreatePDF createby={e.create_by} title={e.title} course_end={e.end_learn} detail={state} />} fileName={'testPDF'}>
+                                    {/* <Button sx={{ mr: 1 }} color='primary' onClick={() => {
+                                    }}>Download</Button> */}
                                     <Button sx={{ mr: 1 }} color='primary' onClick={() => {
+                                        handleDownload(e); // call handleDownload function when button is clicked
                                     }}>Download</Button>
                                 </PDFDownloadLink>
                             </>
@@ -82,9 +101,14 @@ const Certificate = () => {
                     })} defaultRowsPerPage={10} />
                 </Grid>
             </Container>
-            <PDFViewer width='100%' height='1000px'>
-                <CreatePDF />
-            </PDFViewer>
+            {/* <PDFViewer width='100%' height='1000px'>
+                            <CreatePDF />
+            </PDFViewer> */}
+            {selectedCertificate && (
+                <PDFViewer width='100%' height='1000px'>
+                    <CreatePDF />
+                </PDFViewer>
+            )}
         </Box>
     </>)
 }

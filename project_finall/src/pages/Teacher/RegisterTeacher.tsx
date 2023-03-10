@@ -75,11 +75,7 @@ const AddTeacher = () => {
         ,
         agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท')
         ,
-        province: yup.array().required('กรุณาเลือก จังหวัด'),
-        amphure: yup.array().required('กรุณาเลือก อำเภอ'),
-        tambon: yup.array().required('กรุณาเลือก ตำบล'),
-        zipCode: yup.array().required('กรุณาเลือก รหัสไปรษณีย์'),
-        status: yup.array().required('กรุณาเลือก สถานะ'),
+
         address: yup.string().required('กรุณากรอกชื่อ'),
 
     })
