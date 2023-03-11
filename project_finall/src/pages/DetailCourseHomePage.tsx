@@ -22,7 +22,7 @@ import { useGetAllJoinCourse } from './Admin/Courses/Hook/useGetAllJoinCourse'
 import BoyIcon from '@mui/icons-material/Boy';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useUploadFile } from '../file/useUploadFile'
-
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { setAuthStore } from '../store/slices/authSlice'
 import { useCreateFavorite } from './Admin/favorite/useCreateFavorite'
 import SimpleAccordion from './Admin/Quiz/Accordion'
@@ -32,11 +32,13 @@ import moment from 'moment'
 import SchoolIcon from '@mui/icons-material/School';
 import { Footer } from '../components/Footer'
 import { useGetApprovalUserInCourse } from './Admin/Users/Hook/useGetApprovalUserInCourse'
+import { useDialog } from '../Hook/dialog/useDialog'
 const DetailCourseHomePage = () => {
   const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
+  const auth_uid = uid !== undefined && uid !== null
   const { state } = useGetCourseDetail()
   const { approvalUser } = useGetApprovalUserInCourse(uid ?? '')
-
+  const navigate = useNavigate()
 
   const { JoinCourse } = useGetAllJoinCourse()
   // const newdata = JoinCourse.map((item) => {
@@ -89,32 +91,41 @@ const DetailCourseHomePage = () => {
   const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
   const { addFavorite } = useCreateFavorite()
   const Clickfavorite = (item: string) => {
-    try {
-      let favorite: string[] = [...favorite_user ?? []]
-      if (favorite.some((params) => params === item)) {
-        favorite = favorite.filter((params) => params !== item)
-        addFavorite(favorite, uid_login.uid!)
-      } else {
-        //! เอาออก
-        favorite.push(item)
-        addFavorite(favorite, uid_login.uid!)
+    if (auth_uid) {
+      try {
+        let favorite: string[] = [...favorite_user ?? []]
+        if (favorite.some((params) => params === item)) {
+          favorite = favorite.filter((params) => params !== item)
+          addFavorite(favorite, uid_login.uid!)
+        } else {
+          //! เอาออก
+          favorite.push(item)
+          addFavorite(favorite, uid_login.uid!)
+        }
+        dispatch(setAuthStore({
+          //* ชื่อเหมือนกันไม่ต้อง :
+          uid,
+          email,
+          displayName,
+          status,
+          favorite,
+          photoURL,
+          about,
+        }),
+        )
+      } catch (err) {
+        console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
       }
-      dispatch(setAuthStore({
-        //* ชื่อเหมือนกันไม่ต้อง :
-        uid,
-        email,
-        displayName,
-        status,
-        favorite,
-        photoURL,
-        about,
-      }),
-      )
-    } catch (err) {
-      console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
+    } else {
+      openConfirmDialog({
+        textContent: 'คุณต้องลงทะเบียนก่อนกดถูกใจ',
+        onConfirm: async () => {
+          navigate(`/login`)
+        },
+      })
     }
   }
-
+  const { openConfirmDialog } = useDialog()
   useEffect(() => {
     setCountJoin(newjoin)
   }, [newjoin])
@@ -128,31 +139,40 @@ const DetailCourseHomePage = () => {
   const dispatch = useDispatch()
   const [countJoin, setCountJoin] = useState(newjoin)
   const ClickDeleteCourseJoin = (datacourse: string) => {
-    let course: string[] = [...course_id ?? []]
-    try {
-      console.log("course ", course)
-      if (course.some((prams) => prams === datacourse)) {
-        //! เอาออก
-        console.log('out')
-        setCountJoin(countJoin - 1)
-        course = course.filter((params) => params !== datacourse)
-        console.log("filter", course)
-        outCourse(datacourse)
-        addJoinCourse(course, uid_login.uid!)
-      } else {
-        //* เอาเข้า
-        console.log('join')
-        setCountJoin(countJoin + 1)
-        course.push(datacourse)
-        joinCourse(datacourse)
-        addJoinCourse(course, uid_login.uid!)
+    if (auth_uid) {
+      let course: string[] = [...course_id ?? []]
+      try {
+        console.log("course ", course)
+        if (course.some((prams) => prams === datacourse)) {
+          //! เอาออก
+          console.log('out')
+          setCountJoin(countJoin - 1)
+          course = course.filter((params) => params !== datacourse)
+          console.log("filter", course)
+          outCourse(datacourse)
+          addJoinCourse(course, uid_login.uid!)
+        } else {
+          //* เอาเข้า
+          console.log('join')
+          setCountJoin(countJoin + 1)
+          course.push(datacourse)
+          joinCourse(datacourse)
+          addJoinCourse(course, uid_login.uid!)
+        }
+        dispatch(setCourseStore({
+          uid_course: course,
+        }),
+        )
+      } catch (err) {
+        console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
       }
-      dispatch(setCourseStore({
-        uid_course: course,
-      }),
-      )
-    } catch (err) {
-      console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
+    } else {
+      openConfirmDialog({
+        textContent: 'คุณต้องลงทะเบียนก่อนเข้าคิว',
+        onConfirm: async () => {
+          navigate(`/login`)
+        },
+      })
     }
   }
 
@@ -171,7 +191,7 @@ const DetailCourseHomePage = () => {
           </Grid>
           <Grid container justifyContent={'flex-end'} item xs={6}>
             <Typography variant="h6" mr={3}  >
-              {/* {`อัพเดทล่าสุด ${new Date(state.updateDate._seconds ? state.updateDate._seconds * 1000 : '').toLocaleString()}`} */}
+
               {`อัพเดทล่าสุด ${moment(new Date(state.updateDate._seconds ? state.updateDate._seconds * 1000 : '')).format('D MMM YYYY H:mm')}`}
             </Typography>
           </Grid>
@@ -183,7 +203,6 @@ const DetailCourseHomePage = () => {
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }}>
               <Grid container xs={12} alignItems={'center'} >
-                {/* {new Date(state.End_register) <= new Date() ? */}
                 {moment().isBetween(moment(state.start_register), moment(state.End_register)) ?
                   <>
                     {uid_course?.some((params: any) => params === state.id) ?
@@ -201,14 +220,18 @@ const DetailCourseHomePage = () => {
                       {moment().isAfter(state.end_learn) ? (<>
                         <Button variant="contained" sx={{ mr: 1 }} disabled startIcon={<SchoolIcon />}>หลักสูตรนี้จบการเรียนแล้ว</Button>
                       </>) : (<>
-                        <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
+                        {approvalUser[0] ? (<>
+                          <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
+                        </>) : (<>
+                          <Button variant="contained" sx={{ mr: 1 }} disabled startIcon={<ReceiptLongIcon />}>หมดระยะเวลาการเข้าคิวอยู่ระหว่างการโอน</Button>
+                        </>)}
                       </>)}
                     </>)}
                   </>)}
-                {state.btn_comment == "true" && <>
+                {state.btn_comment == "true" && auth_uid && <>
                   <CommentCourse id={state.id} />
                 </>}
-                {state.btn_check_name == "true" && <>
+                {state.btn_check_name == "true" && auth_uid && <>
                   <CheckName id={state.id} />
                 </>}
 
@@ -414,10 +437,11 @@ const DetailCourseHomePage = () => {
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
               {state.teaching_assistant}
             </Typography>
+
           </Grid>
           {approvalUser[0]?.approval === true ? (<>
             <Grid item xs={6} >
-              <Grid container>
+              <Grid container justifyContent={'center'}>
                 <Typography variant="h3" mb={1} mr={1} color={'#FFFFFF'} >
                   ทำแบบทดสอบ
                 </Typography>
@@ -425,11 +449,15 @@ const DetailCourseHomePage = () => {
                   Quiz
                 </Typography>
               </Grid>
-              <SimpleAccordion id={state.id} />
+              <Grid container justifyContent={'center'}>
+                <Grid>
+                  <SimpleAccordion id={state.id} />
+                </Grid>
+              </Grid>
             </Grid>
           </>) : (<>
             <Grid item xs={6} >
-              <Grid container>
+              <Grid container justifyContent={'center'}>
                 <Typography variant="h3" mb={1} mr={1} color={'#FFFFFF'} >
                   เข้าร่วมคอร์สเพื่อทำแบบทดสอบ
                 </Typography>

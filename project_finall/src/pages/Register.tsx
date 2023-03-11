@@ -125,8 +125,12 @@ const Register = (props: Props) => {
     ,
     job: yup.string().required('กรุณากรอกอาชีพของคุณ')
     ,
-
+    status: yup.mixed().required('กรุณาเลือกสถานะ'),
     address: yup.string().required('กรุณากรอกชื่อ'),
+    province: yup.mixed().required('กรุณาเลือกจังหวัด'),
+    amphure: yup.mixed().required('กรุณาเลือกอำเภอ'),
+    tambon: yup.mixed().required('กรุณาเลือกตำบล'),
+    zipCode: yup.mixed().required('กรุณาเลือกรหัสไปรษณีย์'),
 
   })
   const myForm = useForm<IFormInput>({
@@ -201,7 +205,6 @@ const Register = (props: Props) => {
               ลงทะเบียน
             </Typography>
             <Box sx={{ width: '100%' }}>
-
               <Stepper nonLinear activeStep={activeStep}>
                 {steps.map((label, index) => (
                   <Step key={label} completed={completed[index]}>
@@ -211,10 +214,7 @@ const Register = (props: Props) => {
                   </Step>
                 ))}
               </Stepper>
-
-
               <div>
-
                 {allStepsCompleted() ? (
                   <React.Fragment>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -242,14 +242,11 @@ const Register = (props: Props) => {
                       <Typography variant={'body2'} sx={{ mt: 2, mb: 1, py: 1 }}>
 
                         {activeStep === 0 && (
-
                           <RegisterStep1 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
                         )
-
                         }{activeStep === 1 && (
                           <RegisterStep2 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
                         )
-
                         }{activeStep === 2 && (
                           <RegisterStep3 handleNext={handleNext} myForm={myForm} handleComplete={handleComplete} handleBack={handleBack} activeStep={activeStep} />
                         )}

@@ -61,7 +61,7 @@ const Certificate = () => {
         },
 
         {
-            width: '200',
+            width: '250',
             alignHeader: 'center',
             alignValue: 'center',
             label: 'Action',
@@ -89,13 +89,21 @@ const Certificate = () => {
                                 <img src={e.image_course} width={90} height={60} />
                             </Grid>,
                             delitem: <>
-                                <PDFDownloadLink document={<CreatePDF createby={e.create_by} title={e.title} course_end={e.end_learn} detail={state} />} fileName={'testPDF'}>
-                                    {/* <Button sx={{ mr: 1 }} color='primary' onClick={() => {
+                                <Grid container justifyContent={'center'}  >
+                                    <Grid item xs={6}>
+                                        <Button color="success">Verify</Button>
+                                    </Grid>
+                                    <Grid item xs={6} >
+                                        <PDFDownloadLink document={<CreatePDF createby={e.create_by} title={e.title} course_end={e.end_learn} detail={state} />} fileName={'testPDF'}>
+                                            {/* <Button sx={{ mr: 1 }} color='primary' onClick={() => {
                                     }}>Download</Button> */}
-                                    <Button sx={{ mr: 1 }} color='primary' onClick={() => {
-                                        handleDownload(e); // call handleDownload function when button is clicked
-                                    }}>Download</Button>
-                                </PDFDownloadLink>
+                                            <Button sx={{ mr: 1 }} color='primary' onClick={() => {
+                                                handleDownload(e); // call handleDownload function when button is clicked
+                                            }}>Download</Button>
+                                        </PDFDownloadLink>
+
+                                    </Grid>
+                                </Grid>
                             </>
                         }
                     })} defaultRowsPerPage={10} />
@@ -109,7 +117,7 @@ const Certificate = () => {
                     <CreatePDF />
                 </PDFViewer>
             )}
-        </Box>
+        </Box >
     </>)
 }
 

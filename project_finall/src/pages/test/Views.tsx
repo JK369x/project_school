@@ -117,7 +117,7 @@ const PDFFile = (props: any) => {
                             <Text >จังหวัด: {data?.province.label} อำเภอ: {data?.amphure.label} </Text>
                             <Text >ตำบล: {data?.tambon.label} Zipcode: {data?.zipCode.label}</Text>
                             <Text >หน่วยงาน: {data?.agency}</Text>
-                            <Text >เลขประจำตัวผู้เสียภาษี: 1160100569302</Text>
+                            <Text >เลขประจำตัวผู้เสียภาษี: {data?.id_verify}</Text>
                             <Text >อีเมล: {data?.email} </Text>
                         </View>
                         <View style={[styles.textstyle, { fontSize: '14', fontWeight: 'bold' }]}>

@@ -144,6 +144,12 @@ const ProFileUserFontEnd = () => {
                                     Status: {state.status?.label}
                                 </Typography>
                             </Grid>
+                            <Grid container justifyContent={'center'} item xs={12}>
+                                <Typography variant="h4" color='#555454'>
+                                    ID Card: {state.id_verify}
+                                </Typography>
+
+                            </Grid>
                             <Button sx={{ mt: 2, width: 150, height: 50 }} onClick={EditUser}>Edit</Button>
                         </Grid>
                     </Grid>

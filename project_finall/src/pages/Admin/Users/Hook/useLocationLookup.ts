@@ -43,6 +43,7 @@ export const useLocationLookup = () => {
 			const result = await axios.get(url)
 			console.log("🚀 ~ file: useLocationLookup.ts:44 ~ getData ~ result", result)
 			setData(result.data)
+			console.log(province)
 			setProvince(result.data.map((e: LocationDatatype) => ({ id: e.id, label: e.name_th })))
 		} catch (error) {
 			console.log(error)
@@ -56,7 +57,6 @@ export const useLocationLookup = () => {
 			const newdata = data.filter((e) => e.id === id)[0]
 			setAmphure(newdata.amphure.map((e: any) => ({ id: e.id, label: e.name_th })))
 		} else {
-			alert('wait data')
 			const newdata = data.filter((e) => e.id === id)[0]
 			setAmphure(newdata.amphure.map((e: any) => ({ id: e.id, label: e.name_th })))
 		}

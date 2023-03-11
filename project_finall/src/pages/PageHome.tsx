@@ -35,7 +35,9 @@ import BodyCenterPage from './BodycenterPage';
 import GoogleButton from 'react-google-button';
 import { Footer } from '../components/Footer';
 import { useGetBanner } from './Admin/Banner/useGetBanner';
+import { useDialog } from '../Hook/dialog/useDialog';
 const PageHome = () => {
+    const { openConfirmDialog } = useDialog()
     const { CourseLists } = useGetCourseLists()
     const data = CourseLists
     const { addFavorite } = useCreateFavorite()
@@ -129,36 +131,45 @@ const PageHome = () => {
     };
 
     const { email, uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
+    const auth_uid = uid !== undefined && uid !== null
     const dispatch = useAppDispatch()
     const uid_login = useAppSelector(({ auth: uid }) => uid)
     const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
     const Clickfavorite = (item: string) => {
         //! ?? ถ้าไม่ใช่่ undefine and false
-        try {
+        if (auth_uid) {
+            try {
+                let favorite: string[] = [...favorite_user ?? []]
+                if (favorite.some((params) => params === item)) {
+                    //! เอาออก
+                    favorite = favorite.filter((params) => params !== item)
+                    addFavorite(favorite, uid_login.uid!)
+                } else {
+                    favorite.push(item)
+                    addFavorite(favorite, uid_login.uid!)
+                }
 
-            let favorite: string[] = [...favorite_user ?? []]
-            if (favorite.some((params) => params === item)) {
-                //! เอาออก
-                favorite = favorite.filter((params) => params !== item)
-                addFavorite(favorite, uid_login.uid!)
-            } else {
-                favorite.push(item)
-                addFavorite(favorite, uid_login.uid!)
+
+                dispatch(setAuthStore({
+                    //* ชื่อเหมือนกันไม่ต้อง :
+                    uid: uid,
+                    email,
+                    displayName,
+                    status: status,
+                    favorite,
+                    photoURL
+                }),
+                )
+            } catch (err) {
+                console.log("🚀 ~ file: PageHome.aatsx:140 ss~ Clickfavorite ~ err", err)
             }
-
-
-            dispatch(setAuthStore({
-                //* ชื่อเหมือนกันไม่ต้อง :
-                uid: uid,
-                email,
-                displayName,
-                status: status,
-                favorite,
-                photoURL
-            }),
-            )
-        } catch (err) {
-            console.log("🚀 ~ file: PageHome.aatsx:140 ss~ Clickfavorite ~ err", err)
+        } else {
+            openConfirmDialog({
+                textContent: 'คุณต้องลงทะเบียนก่อนกดถูกใจ',
+                onConfirm: async () => {
+                    navigate(`/login`)
+                },
+            })
         }
     }
 

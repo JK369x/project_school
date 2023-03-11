@@ -6,12 +6,19 @@ import logo from '../assets/user.png'
 import { useGetcourseById } from "./Admin/Teacher/Hook/useGetcourseById"
 import React from "react"
 import { Footer } from "../components/Footer"
+import { useNavigate } from "react-router-dom"
 const DetailTeacher = () => {
     const { state } = useGetDetailUser()
     const { CourseLists } = useGetcourseById()
     const data = CourseLists
     console.log("🚀 ~ file: DetailTeacher.tsx:12 ~ DetailTeacher ~ data", data)
     const lengthdata = data.length
+    const navigate = useNavigate()
+    const onClickLearn = (item: any) => {
+        console.log("🚀 ~ file: DetailTeacher.tsx:18 ~ onClickLearn ~ item:", item)
+        navigate(`/detailcoursehomepage/${item.id_document}`)
+
+    }
     return (<>
         <Navbar />
 
@@ -97,7 +104,7 @@ const DetailTeacher = () => {
                                                 </Button>
                                             </> : <>
 
-                                                <Button sx={{ mt: 2 }}>Learn more</Button>
+                                                <Button sx={{ mt: 2 }} onClick={() => onClickLearn(item)}>Learn more</Button>
                                             </>}
                                             <Typography variant="h6" color='#000000' mt={2} sx={{ mr: 3 }}  >
                                                 {`${item.pricing.toLocaleString()} THB`}
