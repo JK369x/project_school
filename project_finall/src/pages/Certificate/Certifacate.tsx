@@ -28,9 +28,9 @@ const Certificate = () => {
     const { state } = useGetDetailUser()
     const [selectedCertificate, setSelectedCertificate] = useState(null);
     const handleDownload = async (certificate: any) => {
-        setSelectedCertificate(certificate); // set the selected certificate to the state
-        const pdfBlob = await pdf(<CreatePDF createby={certificate.create_by} title={certificate.title} course_end={certificate.end_learn} detail={state} />).toBlob();
-        console.log("🚀 ~ file: Certifacate.tsx:33 ~ handleDownload ~ pdfBlob:", pdfBlob)
+        // setSelectedCertificate(certificate); // set the selected certificate to the state
+        // const pdfBlob = await pdf(<CreatePDF createby={certificate.create_by} title={certificate.title} course_end={certificate.end_learn} detail={state} />).toBlob();
+        // console.log("🚀 ~ file: Certifacate.tsx:33 ~ handleDownload ~ pdfBlob:", pdfBlob)
 
     };
 

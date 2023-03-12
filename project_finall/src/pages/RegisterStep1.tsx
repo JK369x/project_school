@@ -120,6 +120,7 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
 
     const changeProvince = watch('province')
+    console.log("🚀 ~ file: RegisterStep1.tsx:123 ~ changeProvince:", changeProvince)
     const changeAmphure = watch('amphure')
     const changeTambon = watch('tambon')
 
@@ -169,7 +170,6 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     options={tambon} // load options
                     fullWidth
                 />
-
                 <ControllerAutocomplete
                     formprop={myForm}
                     name={'zipCode'}
@@ -177,12 +177,7 @@ export const RegisterStep3: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     options={zipcode} // load options
                     fullWidth
                 />
-
-
             </Grid>
-
-
-
             <Grid container justifyContent={'right'}>
                 <Button type="button"
                     color="inherit"

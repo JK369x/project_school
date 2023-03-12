@@ -59,6 +59,8 @@ import HomeView from "../pages/test/Views";
 import ReceiptUser from "../pages/ReceiptUser";
 import LoginSuccess from "../pages/LoginSuccess";
 import Certificate from "../pages/Certificate/Certifacate";
+import EditTeacher from "../pages/Admin/Users/EditTeacher";
+import EditAdmin from "../pages/Admin/Users/EditAdmin";
 
 
 
@@ -142,6 +144,7 @@ const RouteAllPage: FC = () => {
                 (<>
                     {status?.id === '4' && (<>
                         <Route path="/registerteacher" element={<RegisterTeacher />} />
+                        <Route path="/editTeacher/:id" element={<EditTeacher />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/users" element={<User />} />
                         <Route path="/teacher" element={<Teacher />} />
@@ -165,6 +168,7 @@ const RouteAllPage: FC = () => {
                     </>)}
                     {status?.id === '10' && (<>
                         <Route path="/registerteacher" element={<RegisterTeacher />} />
+                        <Route path="/editAdmin/:id" element={<EditAdmin />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/users" element={<User />} />
                         <Route path="/teacher" element={<Teacher />} />
@@ -197,6 +201,7 @@ const RouteAllPage: FC = () => {
                     <Route path="/detailuser/:id" element={<DetailUser />} />
                     <Route path="/profiledetailuser_user/:id" element={<ProFileUserFontEnd />} />
                     <Route path="/editUser/:id" element={<EditUser />} />
+                    <Route path="/editTeacher/:id" element={<EditTeacher />} />
                     <Route path="/detailcourse/:id" element={<DetailCourse />} />
                     <Route path="/showquiz/:id/:id_quiz" element={<ShowQuiz />} />
                     <Route path="/category_course" element={<CategoryCourse />} />

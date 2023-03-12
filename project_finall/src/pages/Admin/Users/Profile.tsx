@@ -20,11 +20,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useGetDetailUser } from './Hook/useGetDetailUser'
 import { Typography, Avatar } from '@mui/material'
 import { useAppSelector } from '../../../store/useHooksStore'
+import moment from 'moment'
 
 const Profile: FC = () => {
 
     const { userLists, getUserLists } = useGetUserLists()
-    const { photoURL } = useAppSelector(({ auth }) => auth)
+    const { photoURL, status } = useAppSelector(({ auth }) => auth)
     const { id } = useParams<{ id: string }>()
     const navigate = useNavigate()
 
@@ -32,7 +33,20 @@ const Profile: FC = () => {
     console.log("🚀 ~ file: DetailUser.tsx:29 ~ state", state)
 
     const onClickEdit = () => {
-        navigate(`/editUser/${id}`)
+        switch (status?.id) {
+            case '4':
+                console.log(status?.id)
+                navigate(`/editTeacher/${id}`)
+                break;
+            case '10':
+                console.log(status?.id)
+                navigate(`/editAdmin/${id}`)
+                break;
+            default:
+                console.log("No such day exists!");
+                break;
+        }
+
     }
 
 
@@ -65,7 +79,19 @@ const Profile: FC = () => {
                                                 Email: {state.email}
                                             </Typography>
                                         </Grid>
-
+                                        <Grid container justifyContent={'center'}>
+                                            <Link
+                                                sx={{ mr: 2 }}
+                                                component="button"
+                                                variant="body2"
+                                                onClick={() => {
+                                                    navigate(`/resetpassword/${id}`)
+                                                }}
+                                            >
+                                                Reset Password
+                                            </Link>
+                                            <Button label='Edit' onClick={() => onClickEdit()} />
+                                        </Grid>
                                     </> : <>
                                         <Grid container justifyContent={'center'} sx={{ mt: 5 }}>
                                             <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 250, height: 250, }} />
@@ -80,7 +106,7 @@ const Profile: FC = () => {
                                                 Email: {state.email}
                                             </Typography>
                                             <Typography variant="h4" ml={5} color='#555454'>
-                                                Birthday: {state.birthday}
+                                                Birthday: {moment(state.birthday).format('DD/MM/YYYY')}
                                             </Typography>
                                         </Grid>
                                         <Grid container justifyContent={'center'}>
@@ -134,8 +160,6 @@ const Profile: FC = () => {
                                                 Reset Password
                                             </Link>
                                             <Button label='Edit' onClick={() => onClickEdit()} />
-
-
                                         </Grid>
                                     </>}
                             </Grid>

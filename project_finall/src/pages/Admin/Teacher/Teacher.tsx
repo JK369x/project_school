@@ -20,6 +20,7 @@ import SearchBar from '@mkyy/mui-search-bar'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import moment from 'moment'
+import { useAppSelector } from '../../../store/useHooksStore'
 const Teacher: FC = () => {
   const { userLists, getUserLists } = useGetUserLists()
   const data = userLists
@@ -45,8 +46,15 @@ const Teacher: FC = () => {
     navigate(`/detailuser/${data.id_document}`)
 
   }
-
-  let newdata = data.filter((item: any) => item.status.id === "4")
+  const { displayName, uid, photoURL, favorite, about, status } = useAppSelector(({ auth }) => auth)
+  let newdata = data.filter((item: any) => {
+    if (status?.id === '4') {
+      return item.status.id === "4"
+    }
+    if (status?.id === '10') {
+      return item.status.id === "10" || item.status.id === "4"
+    }
+  })
   console.log("🚀 ~ file: Teacher.tsx:49 ~ newdata", newdata)
 
 

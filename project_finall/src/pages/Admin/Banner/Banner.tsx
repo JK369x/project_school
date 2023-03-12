@@ -3,7 +3,7 @@ import Navbar from '../../../components/componentsAdmin/navbar/Navbar'
 import '../Dashboard/Dashboard.scss'
 import { UploadButton } from '../../../framework/control'
 import { useUploadFile } from '../../../file/useUploadFile'
-import { useAppSelector } from '../../../store/useHooksStore'
+import { useAppDispatch, useAppSelector } from '../../../store/useHooksStore'
 import { useForm } from 'react-hook-form'
 import { Button, Grid, Typography } from '@mui/material'
 import imagebg from '../../../assets/logo-rmutt/Slide1.jpeg'
@@ -12,6 +12,7 @@ import { useUploadFile1 } from '../../../file/useUploadFile1'
 import { useUploadImage } from './useUploadImage'
 import { usePutDefaultBanner } from './usePutDefaultBanner'
 import { useGetBanner } from './useGetBanner'
+import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
 const Banner = () => {
     const { displayName, uid, photoURL, favorite, about } = useAppSelector(({ auth }) => auth)
     const { banner, uploadBanner } = useGetBanner()
@@ -22,7 +23,7 @@ const Banner = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [urlfile, setUrlFile] = useState('');
 
-
+    const dispatch = useAppDispatch()
     const [selectedFile1, setSelectedFile1] = useState<File | null>(null);
     const [urlfile1, setUrlFile1] = useState('');
 
@@ -46,10 +47,18 @@ const Banner = () => {
 
     const onUploadImage = async (files: FileList | null) => {
         if (files) {
-            const file = files[0]
-            await uploadFile(files[0], `myImages/banner1/${uid}/${new Date}`)
-            const img = new Image();
-            setSelectedFile(file)
+            try {
+                dispatch(isShowLoading())
+                const file = files[0]
+                await uploadFile(files[0], `myImages/banner1/${uid}/${new Date}`)
+                const img = new Image();
+                setSelectedFile(file)
+            } catch (err) {
+                console.log("🚀 ~ file: Banner.tsx:57 ~ onUploadImage ~ err:", err)
+
+            } finally {
+                dispatch(isCloseLoading())
+            }
             // img.onload = () => {
             //     if (img.height >= 1500) { // check if image height is at least 1500 pixels
             //     } else {

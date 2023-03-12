@@ -25,7 +25,7 @@ import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSli
 import { setAuthStore } from '../../../store/slices/authSlice'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-const EditUser: FC = () => {
+const EditTeacher: FC = () => {
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode, data, getData } = useLocationLookup()
     const { state } = useGetDetailUser()
 
@@ -44,14 +44,13 @@ const EditUser: FC = () => {
             ,
             agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท')
             ,
-            id_verify: yup.string().required('กรุณากรอกรหัสบัตรประชาชน').min(13, ('รหัสบัตรประชาชนต้องไม่ต่ำกว่า 13 ตัวอักษร')).max(13, ('รหัสบัตรประชาชนต้องมีความยาวไม่เกิน 13 ตัวอักษร')),
-            job: yup.string().required('กรุณากรอกอาชีพของคุณ'),
             status: yup.mixed().required('กรุณาเลือกสถานะ'),
             address: yup.string().required('กรุณากรอกชื่อ'),
             province: yup.mixed().required('กรุณาเลือกจังหวัด'),
             amphure: yup.mixed().required('กรุณาเลือกอำเภอ'),
             tambon: yup.mixed().required('กรุณาเลือกตำบล'),
             zipCode: yup.mixed().required('กรุณาเลือกรหัสไปรษณีย์'),
+
         })
     })
     const myForm = useForm<{ data: UserListsType }>({
@@ -182,12 +181,10 @@ const EditUser: FC = () => {
                                     </Grid>
 
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
-                                        <Grid item xs={3} >
+                                        <Grid item xs={6} >
                                             <ControllerTextField formprop={myForm} fullWidth name={"data.email"} label={'Email'} />
                                         </Grid>
-                                        <Grid item xs={3}>
-                                            <ControllerTextField formprop={myForm} fullWidth name={"data.job"} label={'Job'} />
-                                        </Grid>
+
                                     </Grid>
 
                                     <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
@@ -297,5 +294,5 @@ const EditUser: FC = () => {
     )
 }
 
-export default EditUser
+export default EditTeacher
 
