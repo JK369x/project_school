@@ -60,7 +60,10 @@ const Teacher: FC = () => {
 
   const CreateTeacher = () => {
     navigate(`/createteacher`)
+  }
 
+  const CreateAdmin = () => {
+    navigate(`/createadmin`)
   }
   const columnOptions: TableColumnOptions[] = [
 
@@ -173,9 +176,14 @@ const Teacher: FC = () => {
                 <Typography variant="h1" component="h1" ml={3}>
                   Teacher
                 </Typography>
-                <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={CreateTeacher}>
-                  + ADD Teacher
-                </Button>
+                <Grid>
+                  <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={CreateTeacher}>
+                    + ADD Teacher
+                  </Button>
+                  <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={CreateAdmin}>
+                    + ADD Admin
+                  </Button>
+                </Grid>
               </Grid>
               <Grid container justifyContent={'flex-end'} alignContent={'center'} alignItems={'center'} sx={{ pr: 3 }} >
                 {btncalendar && <>

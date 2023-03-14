@@ -105,14 +105,12 @@ const CategoryCourse = () => {
   }
 
   const [textFieldValue, setTextFieldValue] = useState<any>('')
-  console.log("🚀======e", textFieldValue)
   const handleSearch = async (labelOptionValue: any) => {
     const newdata: any = data.filter((item: any) => item.title == labelOptionValue)
     console.log("newdata", newdata)
     console.log('+++++++', labelOptionValue);
     if (newdata.length > 0) {
       const id_doc = await newdata.filter((item: any) => item.title === labelOptionValue)
-      console.log("🚀 ~ file: CategoryCourse.tsx:111 ~ handleSearch ~ id_doc", id_doc)
       setCourseData(id_doc)
     } else {
       console.log("click again")

@@ -61,6 +61,7 @@ import LoginSuccess from "../pages/LoginSuccess";
 import Certificate from "../pages/Certificate/Certifacate";
 import EditTeacher from "../pages/Admin/Users/EditTeacher";
 import EditAdmin from "../pages/Admin/Users/EditAdmin";
+import RegisterAdmin from "../pages/Admin/RegisterAdmin";
 
 
 
@@ -184,6 +185,7 @@ const RouteAllPage: FC = () => {
                         <Route path="/viewuserjoincourse/:id" element={<ViewUserJoinCourse />} />
                         <Route path="/replycomment/:id_course/:id_comment" element={<ReplyComment />} />
                         <Route path="/createteacher" element={<AddTeacher />} />
+                        <Route path="/createadmin" element={<RegisterAdmin />} />
                         <Route path="/quiz/:id" element={<Quiz />} />
                         <Route path="/detailquiz/:id/:id_quiz" element={<DetailQuiz />} />
                         <Route path="/viewallcomment/:id" element={<ViewAllComment />} />

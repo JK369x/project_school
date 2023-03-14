@@ -17,23 +17,18 @@ import { isCloseLoading, isShowLoading } from "../../store/slices/loadingSlice";
 //redux
 import * as yup from 'yup'
 import Sidebar from "../../components/componentsAdmin/sidebar/Side-bar";
-import { TeacherType, useCreateTeacher } from "./Hook/CreateTeacher";
 import { ControllerAutocomplete, ControllerTextField, UploadButton } from "../../framework/control";
 import { useLocationLookup } from "../Admin/Users/Hook/useLocationLookup";
 import { Avatar, Stack, TextField } from "@mui/material";
 import { useUploadFile } from "../../file/useUploadFile";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-
-
+import { useCreateTeacher } from "../Teacher/Hook/CreateTeacher";
+import { TypeAdmin, useCreateAdmin } from "../Teacher/Hook/CreateAdmin";
 
 
 
 export const role: Lookup[] = [{
-    id: '4',
-    label: 'อาจารย์',
-}, {
     id: '10',
     label: 'แอดมิน',
 }
@@ -41,7 +36,7 @@ export const role: Lookup[] = [{
 
 
 
-const AddTeacher = () => {
+const RegisterAdmin = () => {
     const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     const { uploadFile, uploadState } = useUploadFile()
     const onUploadImage = (files: FileList | null) => {
@@ -49,8 +44,7 @@ const AddTeacher = () => {
             uploadFile(files[0], `myImages/${uid}/`)
         }
     }
-    const { addTeacher } = useCreateTeacher()
-    const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode } = useLocationLookup()
+    const { addAdmin } = useCreateAdmin()
     const schema = yup.object({
         email: yup.string()
             .required(('กรุณากรอกอีเมล') as string)
@@ -73,13 +67,9 @@ const AddTeacher = () => {
         ,
         lastName: yup.string().required('กรุณากรอกนามสกุล').trim().lowercase().max(20, ('นามสกุลมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
         ,
-        agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท')
-        ,
-
-        address: yup.string().required('กรุณากรอกชื่อ'),
 
     })
-    const myForm = useForm<TeacherType>({
+    const myForm = useForm<TypeAdmin>({
         //! can useDefault onChange
         mode: 'onChange',
         resolver: yupResolver(schema),
@@ -89,16 +79,7 @@ const AddTeacher = () => {
             confirmPassword: '',
             firstName: '',
             lastName: '',
-            birthday: new Date,
-            province: null,
-            amphure: null,
-            tambon: null,
-            zipCode: null,
-            agency: '',
-            status: null,
-            about: '',
             image_rul: '',
-            address: '',
         }
 
     })
@@ -113,41 +94,19 @@ const AddTeacher = () => {
         }
     }, [password])
 
-    const changeProvince = watch('province')
-    const changeAmphure = watch('amphure')
-    const changeTambon = watch('tambon')
 
-    useEffect(() => {
-        if (changeProvince) {
-            getAmphure(parseInt(`${changeProvince.id}`))
-        }
-    }, [changeProvince])
-
-    useEffect(() => {
-        if (changeProvince && changeAmphure) {
-            getTambon(parseInt(`${changeProvince.id}`), parseInt(`${changeAmphure.id}`))
-        }
-    }, [changeAmphure])
-
-    useEffect(() => {
-        if (changeTambon) {
-            getZipcode(parseInt(`${changeTambon.id}`))
-        }
-    }, [changeTambon])
 
 
     //redux
     const dispatch = useAppDispatch()
 
-    const [birthday, setBirthday] = useState<any>(new Date());
     const navigate = useNavigate()
     const onSubmit = async () => {
-        setValue('birthday', birthday)
         console.log('getvaluse!!!!', getValues())
         if (getValues()) {
             try {
                 dispatch(isShowLoading());
-                const data = await addTeacher(getValues())
+                const data = await addAdmin(getValues())
                 if (data === true) {
                     navigate(`/teacher`)
                 } else {
@@ -216,74 +175,11 @@ const AddTeacher = () => {
                                             fullWidth
                                         />
                                     </Grid>
-                                    <Grid item xs={3} sx={{ mt: 1.6 }}>
-                                        <Stack component="form" noValidate spacing={3}>
-                                            <TextField
-                                                id="date"
-                                                label="Birthday"
-                                                type="date"
-                                                value={birthday}
-                                                defaultValue="2017-05-24"
-                                                sx={{ width: '100%' }}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                onChange={(event) => setBirthday(event.target.value)}
-                                            />
-                                        </Stack>
-                                    </Grid>
-                                </Grid>
-                                <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
-                                    <Grid item xs={3} >
-                                        <ControllerAutocomplete
 
-                                            formprop={myForm}
-                                            name={'province'}
-                                            label={'Province'}
-                                            options={province} // load options
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <ControllerAutocomplete
+                                </Grid>
 
-                                            formprop={myForm}
-                                            name={'amphure'}
-                                            label={'Amphure'}
-                                            options={amphure} // load options
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}>
-                                    <Grid item xs={3} >
-                                        <ControllerAutocomplete
 
-                                            formprop={myForm}
-                                            name={'tambon'}
-                                            label={'Tambon'}
-                                            options={tambon} // load options
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <ControllerAutocomplete
-                                            formprop={myForm}
-                                            name={'zipCode'}
-                                            label={'Zip'}
-                                            options={zipcode} // load options
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} spacing={2}  >
-                                    <Grid item xs={3} >
-                                        <ControllerTextField fullWidth formprop={myForm} name={"address"} label={'Address'} />
-                                    </Grid>
-                                    <Grid item xs={3} >
-                                        <ControllerTextField fullWidth formprop={myForm} name={"agency"} label={'Agency'} />
-                                    </Grid>
-                                </Grid>
+
                                 <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mt: 2 }}>
                                     <Button label='Submit' type='submit' />
                                 </Grid>
@@ -296,4 +192,4 @@ const AddTeacher = () => {
     )
 }
 
-export default AddTeacher
+export default RegisterAdmin

@@ -55,7 +55,6 @@ const Banner = () => {
                 setSelectedFile(file)
             } catch (err) {
                 console.log("🚀 ~ file: Banner.tsx:57 ~ onUploadImage ~ err:", err)
-
             } finally {
                 dispatch(isCloseLoading())
             }

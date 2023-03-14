@@ -33,6 +33,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import { Footer } from '../components/Footer'
 import { useGetApprovalUserInCourse } from './Admin/Users/Hook/useGetApprovalUserInCourse'
 import { useDialog } from '../Hook/dialog/useDialog'
+import { openAlertError, openAlertSuccess, openAlertWarning } from '../store/slices/alertSlice'
 const DetailCourseHomePage = () => {
   const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
   const auth_uid = uid !== undefined && uid !== null
@@ -87,7 +88,6 @@ const DetailCourseHomePage = () => {
     timeZone: 'Asia/Bangkok'
   })
 
-  // const { FavoriteList } = useGetFavorite()
   const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)
   const { addFavorite } = useCreateFavorite()
   const Clickfavorite = (item: string) => {
@@ -138,31 +138,43 @@ const DetailCourseHomePage = () => {
   const course_id = useAppSelector(({ course: { uid_course } }) => uid_course)
   const dispatch = useDispatch()
   const [countJoin, setCountJoin] = useState(newjoin)
-  const ClickDeleteCourseJoin = (datacourse: string) => {
+  const ClickDeleteCourseJoin = async (datacourse: string) => {
     if (auth_uid) {
       let course: string[] = [...course_id ?? []]
       try {
-        console.log("course ", course)
         if (course.some((prams) => prams === datacourse)) {
           //! เอาออก
-          console.log('out')
           setCountJoin(countJoin - 1)
           course = course.filter((params) => params !== datacourse)
-          console.log("filter", course)
           outCourse(datacourse)
           addJoinCourse(course, uid_login.uid!)
+          dispatch(setCourseStore({
+            uid_course: course,
+          }),
+          )
+          dispatch(openAlertWarning(`ออกคิวเรียบร้อย`))
         } else {
           //* เอาเข้า
-          console.log('join')
-          setCountJoin(countJoin + 1)
-          course.push(datacourse)
-          joinCourse(datacourse)
-          addJoinCourse(course, uid_login.uid!)
+          const data = await joinCourse(datacourse)
+          console.log("🚀 ~ file: DetailCourseHomePage.tsx:157 ~ ClickDeleteCourseJoin ~ data:", data)
+          if (data === true) {
+            setCountJoin(countJoin + 1)
+            course.push(datacourse)
+            addJoinCourse(course, uid_login.uid!)
+            dispatch(setCourseStore({
+              uid_course: course,
+            }),
+            )
+            dispatch(openAlertSuccess(`เข้าคิวเรียบร้อย`))
+          } else {
+            console.log("🚀 ~ file: DetailCourseHomePage.tsx:157 ~ ClickDeleteCourseJoin ~ data:", data)
+            dispatch(openAlertError(`${data}`))
+          }
         }
-        dispatch(setCourseStore({
-          uid_course: course,
-        }),
-        )
+        // dispatch(setCourseStore({
+        //   uid_course: course,
+        // }),
+        // )
       } catch (err) {
         console.log("🚀 ~ file: PageHome.tsx:140 ~ Clickfavorite ~ err", err)
       }
@@ -196,9 +208,9 @@ const DetailCourseHomePage = () => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid container spacing={3} sx={{ mt: 0.1, pl: 1, mb: 3 }}>
-          <Grid item container justifyContent={'center'} xs={4} sx={{ maxHeight: 350, maxWidth: 400 }} >
-            <img src={state.image} width={400} height={350} />
+        <Grid container spacing={3} sx={{ mt: 0.1, pl: 3, mb: 3, pr: 1 }}>
+          <Grid item container justifyContent={'center'} xs={4} sx={{ maxHeight: 400, maxWidth: 360, }} >
+            <img src={state.image} width={'100%'} height={'100%'} />
           </Grid>
           <Grid item container xs={8} >
             <Grid item container xs={12} sx={{ mb: 1 }}>

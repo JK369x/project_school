@@ -151,9 +151,10 @@ const Register = (props: Props) => {
       zipCode: null,
       agency: '',
       status: null,
-      about: '',
+      // about: '',
       image_rul: '',
       id_verify: '',
+      address: '',
     }
   })
   //redux

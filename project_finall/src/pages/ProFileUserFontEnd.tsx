@@ -18,12 +18,12 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import moment from 'moment'
 const ProFileUserFontEnd = () => {
     const { state } = useGetDetailUser()
-    console.log("🚀 ~ file: ProFileUserFontEnd.tsx:18 ~ ProFileUserFontEnd ~ state", state)
+    console.log(state)
 
     const { uid, status, displayName, photoURL, favorite, email } = useAppSelector(({ auth }) => auth)
     const { ReceiptUser, getReceiptUser } = useGetAllReceiptByIdUser()
     const tracsaction_true = ReceiptUser.filter((item: any) => item.transaction === true)
-    console.log("🚀 ~ file: ProFileUserFontEnd.tsx:25 ~ ProFileUserFontEnd ~ tracsaction_true:", tracsaction_true)
+    console.log(tracsaction_true)
 
     const navigate = useNavigate()
     const EditUser = () => {
