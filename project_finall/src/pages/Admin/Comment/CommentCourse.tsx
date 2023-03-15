@@ -15,6 +15,8 @@ import { useAppSelector } from '../../../store/useHooksStore';
 import { ControllerTextField } from '../../../framework/control';
 import { TypeComment, usePostComment } from './Hook/usePostComment';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -67,6 +69,7 @@ export default function CommentCourse(id_course: any) {
     const handleClickOpen = () => {
         setValue('name_user', displayName ? displayName : '')
         setValue('date_comment', moment(date_now))
+        setValue('image_user', photoURL ?? '')
         setOpen(true);
     };
     const handleClose = () => {
@@ -76,15 +79,19 @@ export default function CommentCourse(id_course: any) {
     let date_now = new Date()
     const myForm = useForm<TypeComment>()
     const { register, handleSubmit, getValues, setValue } = myForm
-
+    const dispatch = useDispatch()
     const onSubmit = async () => {
         setValue('ratting', valueComment)
         if (getValues()) {
             try {
-                addComment(getValues(), id_course)
+                const data = await addComment(getValues(), id_course)
+                if (data === true) {
+                    dispatch(openAlertSuccess(`แสดงความคิดเห็นเรียบร้อย`))
+                } else {
+                    dispatch(openAlertError(`แสดงความคิดเห็นได้เพียงครั้งเดียว`))
+                }
             } catch (err) {
                 console.log("🚀 ~ file: CheckName.tsx:85 ~ onSubmit ~ err", err)
-
             }
         }
     }

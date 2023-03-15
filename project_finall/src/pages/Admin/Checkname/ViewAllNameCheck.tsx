@@ -26,7 +26,7 @@ const ViewAllNameCheck = () => {
     const delItem = (data: any) => {
         const new_id = data.id_document !== undefined ? data.id_document : ''
         openConfirmDialog({
-            textContent: 'deleteQuiz',
+            textContent: 'deleteNameCheck',
             onConfirm: async () => {
                 await deleteCheckName(id_course, new_id)
                 getAllNameCheck()
@@ -168,7 +168,7 @@ const ViewAllNameCheck = () => {
                                     return {
                                         ...e,
                                         countID: index + 1,
-                                        Status: moment(e.date_check_name).format('DD MM YYYY H:mm'),
+                                        Status: moment(e.date_check_name._seconds * 1000).format('DD/MM/YYYY H:mm'),
                                         delitem: <>
                                             <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                                 viewDetailUser(e)

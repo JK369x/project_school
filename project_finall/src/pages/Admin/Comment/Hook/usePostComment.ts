@@ -15,28 +15,23 @@ export interface TypeComment {
     date_comment?: any
     reply?: string
     status_reply?: string
+    image_user?: string
 }
 
 export const usePostComment = () => {
     const dispatch = useAppDispatch()
     const addComment = async (params: TypeComment, id_course: any) => {
         const id = id_course.id
-
         try {
             dispatch(isShowLoading())
-            dispatch(openAlertSuccess('Add Comment !!'))
             console.log('addcourse !! ')
             const url = `${import.meta.env.VITE_REACT_APP_API}course/commentcourse/${id}`
-            try {
-                axios.defaults.withCredentials = true
-                await axios.post<TypeComment>(url, params)
-                return true
-            } catch (err) {
-                return false
-            }
+            axios.defaults.withCredentials = true
+            await axios.post<TypeComment>(url, params)
+            return true
         } catch (err) {
             console.log(err)
-            dispatch(openAlertError('Add Comment Error !! '))
+            return false
         } finally {
             dispatch(isCloseLoading())
         }

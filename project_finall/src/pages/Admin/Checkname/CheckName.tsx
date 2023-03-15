@@ -15,6 +15,8 @@ import { setButtonStatus } from './statueButton';
 import { useState } from 'react';
 import { useAppSelector } from '../../../store/useHooksStore';
 import { useCheckNamedb } from './useCheckNamedb';
+import { openAlertError, openAlertSuccess } from '../../../store/slices/alertSlice';
+import { useDispatch } from 'react-redux';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -66,7 +68,6 @@ export default function CheckName(id_course: any) {
     const [radioValue, setRadioValue] = useState("");
     const handleClickOpen = () => {
         setValue('check_day', moment())
-        // setValue('email', email ?? '')
         setOpen(true);
     };
     const handleClose = () => {
@@ -76,16 +77,17 @@ export default function CheckName(id_course: any) {
 
     const myForm = useForm<CheckNameType>()
     const { register, handleSubmit, getValues, setValue } = myForm
-
+    const dispatch = useDispatch()
     const onSubmit = async (data: CheckNameType) => {
         if (data) {
-            try {
-                clickCheckName(id_course.id)
-            } catch (err) {
-                console.log("🚀 ~ file: CheckName.tsx:85 ~ onSubmit ~ err", err)
+            const log_data = await clickCheckName(id_course.id)
+            if (log_data === true) {
+                dispatch(openAlertSuccess(`เช็คชื่อเรียบร้อยแล้ว`))
+            } else {
+                dispatch(openAlertError(`${log_data}`))
             }
+
         }
-        console.log("🚀 ~ file: CheckName.tsx:71 ~ onSubmit ~ data", data)
     }
 
     const checkRadio = (event: any) => {

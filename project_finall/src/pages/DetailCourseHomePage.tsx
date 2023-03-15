@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Navbar } from '../components/Navbar'
 import { useGetCourseDetail } from './Admin/Courses/Hook/useGetCourseDtail'
 import { timecourse } from '../types/timecourse'
-import { useNavigate } from 'react-router-dom'
-import { Box, Typography, Avatar, IconButton, Button, Chip } from '@mui/material'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Box, Typography, Avatar, IconButton, Button, Chip, Card, CardContent, Rating } from '@mui/material'
 import Grid from '@mui/material/Grid/Grid'
 import Image from '../components/Image/Image'
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -34,17 +34,15 @@ import { Footer } from '../components/Footer'
 import { useGetApprovalUserInCourse } from './Admin/Users/Hook/useGetApprovalUserInCourse'
 import { useDialog } from '../Hook/dialog/useDialog'
 import { openAlertError, openAlertSuccess, openAlertWarning } from '../store/slices/alertSlice'
+import { useGetAllComment } from './Admin/Comment/Hook/useGetAllComment'
 const DetailCourseHomePage = () => {
   const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
   const auth_uid = uid !== undefined && uid !== null
   const { state } = useGetCourseDetail()
   const { approvalUser } = useGetApprovalUserInCourse(uid ?? '')
   const navigate = useNavigate()
-
   const { JoinCourse } = useGetAllJoinCourse()
-  // const newdata = JoinCourse.map((item) => {
-  //   return item.count_number
-  // })
+
   const newjoin = JoinCourse.length
 
   //*start register course
@@ -156,7 +154,6 @@ const DetailCourseHomePage = () => {
         } else {
           //* เอาเข้า
           const data = await joinCourse(datacourse)
-          console.log("🚀 ~ file: DetailCourseHomePage.tsx:157 ~ ClickDeleteCourseJoin ~ data:", data)
           if (data === true) {
             setCountJoin(countJoin + 1)
             course.push(datacourse)
@@ -167,7 +164,6 @@ const DetailCourseHomePage = () => {
             )
             dispatch(openAlertSuccess(`เข้าคิวเรียบร้อย`))
           } else {
-            console.log("🚀 ~ file: DetailCourseHomePage.tsx:157 ~ ClickDeleteCourseJoin ~ data:", data)
             dispatch(openAlertError(`${data}`))
           }
         }
@@ -187,9 +183,12 @@ const DetailCourseHomePage = () => {
       })
     }
   }
+  const { id } = useParams<{ id: string }>()
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:193 ~ DetailCourseHomePage ~ id:", id)
 
-
-
+  const { viewcomment, getAllComment } = useGetAllComment(id!)
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:194 ~ DetailCourseHomePage ~ viewcomment:", viewcomment)
+  const [numComments, setNumComments] = useState(5);
 
   return (
     <>
@@ -481,12 +480,57 @@ const DetailCourseHomePage = () => {
           </>)}
         </Grid>
       </Box>
+      {moment().isAfter(state.end_learn) && (<>
+        <Box sx={{ width: '100%', backgroundColor: '#1C1D1F', paddingLeft: 5, paddingRight: 5 }}>
+          <Grid container justifyContent={'center'}>
+            <Typography variant="h3" color={'#FFFFFF'} >
+              ความคิดเห็นหลังจบคอร์ส
+            </Typography>
+          </Grid>
+          <Grid container justifyContent={'center'} >
+            {viewcomment.slice(0, numComments).map((item: any, index: number) => {
+              return (
+                <React.Fragment key={index}>
+                  <Card sx={{ minWidth: 400, minHeight: 250, mr: 2, mt: 2 }}>
+                    <CardContent>
+                      <Grid container justifyContent={'center'}>
+                        <Avatar src={item.image_user} sx={{ border: '3px solid #aebfd0', width: 90, height: 90, m: 'auto', mb: 3 }} />
+                      </Grid>
+                      <Grid container justifyContent={'space-between'} spacing={1}>
+                        <Grid item>
+                          <Typography>
+                            {item.name_user}
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography>
+                            {moment(item.date_comment).format('DD/MM/YYYY H:mm')}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Rating name="read-only" value={item.ratting} readOnly />
+                      <Grid container >
+                        <Typography color={'primary'} mr={1}>
+                          ความคิดเห็น
+                        </Typography>
+                        <Typography >
+                          {item.comment_user}
+                        </Typography>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                </React.Fragment>
+              )
+            })}
+          </Grid>
+          <Grid container justifyContent={'center'} >
+            {viewcomment.length > 5 && (<>
+              <Button sx={{ mt: 2, mb: 2 }} onClick={() => setNumComments(numComments + 5)}>Load more comments</Button>
+            </>)}
+          </Grid>
+        </Box>
+      </>)}
       <Footer />
-
-
-
-
-
     </>
   )
 }
