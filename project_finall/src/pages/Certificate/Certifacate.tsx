@@ -15,23 +15,19 @@ import axios from "axios"
 import { Document, Page } from '@react-pdf/renderer';
 
 import { useState } from "react"
-const MyDocument = () => (
-    <Document>
-        <Page>
-            {/* PDF content goes here */}
-        </Page>
-    </Document>
-);
+
 
 const Certificate = () => {
     const { certificateLists } = useGetScoreUserAll()
+    console.log("🚀 ~ file: Certifacate.tsx:22 ~ Certificate ~ certificateLists:", certificateLists)
     const { state } = useGetDetailUser()
     const [selectedCertificate, setSelectedCertificate] = useState(null);
-    const handleDownload = async (certificate: any) => {
-        // setSelectedCertificate(certificate); // set the selected certificate to the state
-        // const pdfBlob = await pdf(<CreatePDF createby={certificate.create_by} title={certificate.title} course_end={certificate.end_learn} detail={state} />).toBlob();
-        // console.log("🚀 ~ file: Certifacate.tsx:33 ~ handleDownload ~ pdfBlob:", pdfBlob)
 
+    const navigate = useNavigate()
+
+    const handleDownload = async (certificate: any) => {
+        console.log("🚀 ~ file: Certifacate.tsx:29 ~ handleDownload ~ certificate:", certificate)
+        navigate(`/createcertificate/${certificate}`)
     };
 
 
@@ -70,7 +66,6 @@ const Certificate = () => {
 
 
     ]
-    const navigate = useNavigate()
 
     return (<>
         <Navbar />
@@ -94,14 +89,11 @@ const Certificate = () => {
                                         <Button color="success">Verify</Button>
                                     </Grid>
                                     <Grid item xs={6} >
-                                        <PDFDownloadLink document={<CreatePDF createby={e.create_by} title={e.title} course_end={e.end_learn} detail={state} />} fileName={'testPDF'}>
-                                            {/* <Button sx={{ mr: 1 }} color='primary' onClick={() => {
-                                    }}>Download</Button> */}
-                                            <Button sx={{ mr: 1 }} color='primary' onClick={() => {
-                                                handleDownload(e); // call handleDownload function when button is clicked
-                                            }}>Download</Button>
-                                        </PDFDownloadLink>
-
+                                        {/* <PDFDownloadLink document={<CreatePDF createby={e.create_by} title={e.title} course_end={e.end_learn} detail={state} />} fileName={'testPDF'}> */}
+                                        <Button sx={{ mr: 1 }} color='primary' onClick={() => {
+                                            handleDownload(e); // call handleDownload function when button is clicked
+                                        }}>Generate</Button>
+                                        {/* </PDFDownloadLink> */}
                                     </Grid>
                                 </Grid>
                             </>
@@ -112,11 +104,11 @@ const Certificate = () => {
             {/* <PDFViewer width='100%' height='1000px'>
                             <CreatePDF />
             </PDFViewer> */}
-            {selectedCertificate && (
+            {/* {selectedCertificate && (
                 <PDFViewer width='100%' height='1000px'>
                     <CreatePDF />
                 </PDFViewer>
-            )}
+            )} */}
         </Box >
     </>)
 }

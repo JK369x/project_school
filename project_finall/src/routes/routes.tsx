@@ -197,6 +197,7 @@ const RouteAllPage: FC = () => {
                     //*user
                     <Route path="/" element={<PageHome />} />
                     <Route path="/favorite" element={<Favorite />} />
+                    <Route path="/createcertificate" element={<Favorite />} />
                     <Route path="/editcategory/:id" element={<EditCategory />} />
                     <Route path="/detailcategory/:id" element={<DetailCategory />} />
                     <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />

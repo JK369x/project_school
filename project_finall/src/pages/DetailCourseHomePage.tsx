@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Navbar } from '../components/Navbar'
 import { useGetCourseDetail } from './Admin/Courses/Hook/useGetCourseDtail'
 import { timecourse } from '../types/timecourse'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Box, Typography, Avatar, IconButton, Button, Chip, Card, CardContent, Rating } from '@mui/material'
+import { Box, Typography, Avatar, IconButton, Button, Chip, Card, CardContent, Rating, Link } from '@mui/material'
 import Grid from '@mui/material/Grid/Grid'
 import Image from '../components/Image/Image'
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -189,7 +189,26 @@ const DetailCourseHomePage = () => {
   const { viewcomment, getAllComment } = useGetAllComment(id!)
   console.log("🚀 ~ file: DetailCourseHomePage.tsx:194 ~ DetailCourseHomePage ~ viewcomment:", viewcomment)
   const [numComments, setNumComments] = useState(5);
-
+  const [mouseover, setMouseOver] = useState(false)
+  const [reply, setReply] = useState({
+    reply: '',
+    id: ''
+  })
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:196 ~ DetailCourseHomePage ~ reply:", reply)
+  // const meMoMouse = useMemo(()=>{
+  //   return true
+  // },[mouseover])
+  const testfucntion = (z: any) => {
+    console.log("🚀 ~ file: DetailCourseHomePage.tsx:197 ~ testfucntion ~ z:", z)
+    setReply({
+      id: z.id_document,
+      reply: z.reply,
+    })
+    setMouseOver(true)
+  }
+  const testfucntionout = () => {
+    setMouseOver(false)
+  }
   return (
     <>
       <Navbar />
@@ -359,11 +378,8 @@ const DetailCourseHomePage = () => {
                   {state.create_byName}
                 </Typography>
               </Grid>
-
-
             </Grid>
             <Grid container justifyContent={'flex-start'} alignItems={'center'}>
-
               <Grid item>
                 <Typography variant="body2"   >
                   เกี่ยวกับผู้สอน
@@ -423,7 +439,7 @@ const DetailCourseHomePage = () => {
               </React.Fragment>)
             })}
             <Typography variant="body2" mb={1} mr={8} color={'#FFFFFF'} >
-              Location
+              สถานที่เรียน
             </Typography>
             <Typography marginLeft={2} variant="body2" mb={1} mr={8} color={'#FFFFFF'}>
               {state.location}
@@ -448,7 +464,13 @@ const DetailCourseHomePage = () => {
             <Typography marginLeft={2} variant="body2" mb={2} color={'#FFFFFF'} >
               {state.teaching_assistant}
             </Typography>
-
+            <Typography variant="h6" mb={1} mr={8} color={'#FFFFFF'} >
+              สถานที่เรียน
+            </Typography>
+            <Typography variant="body2" mb={1} mr={8} color={'#FFFFFF'} >
+              ลิ้งเข้าเรียนออนไลน์
+            </Typography>
+            <Link href={state.linkteammeeting} variant="body2" marginLeft={2} >เข้าร่วม</Link>
           </Grid>
           {approvalUser[0]?.approval === true ? (<>
             <Grid item xs={6} >
@@ -481,7 +503,7 @@ const DetailCourseHomePage = () => {
         </Grid>
       </Box>
       {moment().isAfter(state.end_learn) && (<>
-        <Box sx={{ width: '100%', backgroundColor: '#1C1D1F', paddingLeft: 5, paddingRight: 5 }}>
+        <Box sx={{ width: '100%', backgroundColor: '#1C1D1F', paddingLeft: 5, paddingRight: 5, paddingBottom: 5 }}>
           <Grid container justifyContent={'center'}>
             <Typography variant="h3" color={'#FFFFFF'} >
               ความคิดเห็นหลังจบคอร์ส
@@ -491,8 +513,8 @@ const DetailCourseHomePage = () => {
             {viewcomment.slice(0, numComments).map((item: any, index: number) => {
               return (
                 <React.Fragment key={index}>
-                  <Card sx={{ minWidth: 400, minHeight: 250, mr: 2, mt: 2 }}>
-                    <CardContent>
+                  <Card sx={{ minWidth: 400, minHeight: 250, mr: 2, mt: 2 }} onMouseOver={() => testfucntion(item)} onMouseOut={() => testfucntionout()}>
+                    <CardContent >
                       <Grid container justifyContent={'center'}>
                         <Avatar src={item.image_user} sx={{ border: '3px solid #aebfd0', width: 90, height: 90, m: 'auto', mb: 3 }} />
                       </Grid>
@@ -517,6 +539,16 @@ const DetailCourseHomePage = () => {
                           {item.comment_user}
                         </Typography>
                       </Grid>
+                      {mouseover === true && item.id_document === reply.id && (<>
+                        <Grid container >
+                          <Typography color={'primary'} mr={1}>
+                            วิทยากรตอบกลับ
+                          </Typography>
+                          <Typography>
+                            {reply.reply}
+                          </Typography>
+                        </Grid>
+                      </>)}
                     </CardContent>
                   </Card>
                 </React.Fragment>

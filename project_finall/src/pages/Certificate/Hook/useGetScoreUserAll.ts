@@ -36,6 +36,7 @@ export const useGetScoreUserAll = () => {
                 result.map((e: any) => {
                     return {
                         ...e,
+                        id: id
 
                     }
                 }) as ScoreType[]
