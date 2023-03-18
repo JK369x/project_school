@@ -47,6 +47,7 @@ const Login = (props: Props) => {
     try {
       dispatch(isShowLoading())
       axios.defaults.withCredentials = true
+      console.log('test')
       const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API}auth/signin`, { email, password })
       const user = res.data.user
       console.table(user)

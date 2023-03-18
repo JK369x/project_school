@@ -20,6 +20,7 @@ const ReceiptUser: FC = () => {
     // }, [Category])
     useEffect(() => {
         setCategory(transaction_approval)
+        setNewColor('primary')
     }, [getJoin])
     const queryCategory = (category: StatusCheckType) => {
         if (category === 'owner') {

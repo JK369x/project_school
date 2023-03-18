@@ -62,6 +62,7 @@ import Certificate from "../pages/Certificate/Certifacate";
 import EditTeacher from "../pages/Admin/Users/EditTeacher";
 import EditAdmin from "../pages/Admin/Users/EditAdmin";
 import RegisterAdmin from "../pages/Admin/RegisterAdmin";
+import CertificateCreate from "../pages/Certificate/CertificateCreate";
 
 
 
@@ -197,7 +198,7 @@ const RouteAllPage: FC = () => {
                     //*user
                     <Route path="/" element={<PageHome />} />
                     <Route path="/favorite" element={<Favorite />} />
-                    <Route path="/createcertificate" element={<Favorite />} />
+                    <Route path="/createcertificate" element={<CertificateCreate />} />
                     <Route path="/editcategory/:id" element={<EditCategory />} />
                     <Route path="/detailcategory/:id" element={<DetailCategory />} />
                     <Route path="/detailcoursehomepage/:id" element={<DetailCourseHomePage />} />

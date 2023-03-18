@@ -17,7 +17,7 @@ const Favorite = () => {
     const favorite_data = FavoriteList
 
     const { uid, status, displayName, photoURL, favorite, email } = useAppSelector(({ auth }) => auth)
-    console.log("🚀 ~ file: Favorite.tsx:21 ~ Favorite ~ uid", uid)
+    console.log("🚀 ~ file: Favorite.tsx:20 ~ Favorite ~ favorite:", favorite)
     const dispatch = useAppDispatch()
     const uid_login = useAppSelector(({ auth: uid }) => uid)
     const favorite_user = useAppSelector(({ auth: { favorite } }) => favorite)

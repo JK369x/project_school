@@ -27,7 +27,8 @@ const Certificate = () => {
 
     const handleDownload = async (certificate: any) => {
         console.log("🚀 ~ file: Certifacate.tsx:29 ~ handleDownload ~ certificate:", certificate)
-        navigate(`/createcertificate/${certificate}`)
+        const query = encodeURIComponent(JSON.stringify(certificate));
+        navigate(`/createcertificate/?certificate=${query}`);
     };
 
 
@@ -85,9 +86,7 @@ const Certificate = () => {
                             </Grid>,
                             delitem: <>
                                 <Grid container justifyContent={'center'}  >
-                                    <Grid item xs={6}>
-                                        <Button color="success">Verify</Button>
-                                    </Grid>
+
                                     <Grid item xs={6} >
                                         {/* <PDFDownloadLink document={<CreatePDF createby={e.create_by} title={e.title} course_end={e.end_learn} detail={state} />} fileName={'testPDF'}> */}
                                         <Button sx={{ mr: 1 }} color='primary' onClick={() => {

@@ -103,7 +103,6 @@ const AddCourse = () => {
             const uploadTask = uploadBytesResumable(imageRef, image)
             uploadTask.on('state_changed',
                 (snapshot: UploadTaskSnapshot) => {
-
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
                     switch (snapshot.state) {
@@ -119,7 +118,6 @@ const AddCourse = () => {
                     console.log("🚀 ~ file: AddCourse.tsx:157 ~ onSubmit ~ error", error)
                 },
                 () => {
-
                     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                         //! can use url don't have useSate 
                         console.log('File available at', url);

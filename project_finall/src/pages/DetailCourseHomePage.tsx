@@ -40,6 +40,7 @@ const DetailCourseHomePage = () => {
   const auth_uid = uid !== undefined && uid !== null
   const { state } = useGetCourseDetail()
   const { approvalUser } = useGetApprovalUserInCourse(uid ?? '')
+  console.log("🚀 ~ file: DetailCourseHomePage.tsx:43 ~ DetailCourseHomePage ~ approvalUser:", approvalUser)
   const navigate = useNavigate()
   const { JoinCourse } = useGetAllJoinCourse()
 
@@ -195,9 +196,7 @@ const DetailCourseHomePage = () => {
     id: ''
   })
   console.log("🚀 ~ file: DetailCourseHomePage.tsx:196 ~ DetailCourseHomePage ~ reply:", reply)
-  // const meMoMouse = useMemo(()=>{
-  //   return true
-  // },[mouseover])
+
   const testfucntion = (z: any) => {
     console.log("🚀 ~ file: DetailCourseHomePage.tsx:197 ~ testfucntion ~ z:", z)
     setReply({

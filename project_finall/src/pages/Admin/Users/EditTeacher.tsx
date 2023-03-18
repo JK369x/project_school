@@ -34,9 +34,9 @@ const EditTeacher: FC = () => {
     const schema = yup.object({
         data: yup.object({
             email: yup.string()
-                .required(('กรุณากรอกอีเมล'))
+                .required(('กรุณากรอกอีเมล')).lowercase().trim()
                 .min(3, 'ความยาวอีเมลต้องมากกว่า 3 ตัวอักษร')
-                .email('รูปแบบอีเมลย์ไม่ถูกต้อง')
+                .email('รูปแบบอีเมลไม่ถูกต้อง')
             ,
             firstName: yup.string().required('กรุณากรอกชื่อ').trim().lowercase().max(20, ('ชื่อมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
             ,

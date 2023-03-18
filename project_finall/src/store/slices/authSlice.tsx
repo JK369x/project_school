@@ -31,7 +31,6 @@ export const authSlice = createSlice({
 			state.status = status
 			state.favorite = favorite
 			state.about = about
-
 		},
 
 		clearAuthStore: (state) => {

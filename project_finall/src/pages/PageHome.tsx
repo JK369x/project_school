@@ -148,8 +148,6 @@ const PageHome = () => {
                     favorite.push(item)
                     addFavorite(favorite, uid_login.uid!)
                 }
-
-
                 dispatch(setAuthStore({
                     //* ชื่อเหมือนกันไม่ต้อง :
                     uid: uid,
