@@ -16,6 +16,7 @@ interface scoretype {
     full_score: string | number
     id_user: string | number
     title_quiz: string
+    id_create: string
 }
 
 export default function Result(props: any) {

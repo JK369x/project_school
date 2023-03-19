@@ -100,14 +100,7 @@ const Certificate = () => {
                     })} defaultRowsPerPage={10} />
                 </Grid>
             </Container>
-            {/* <PDFViewer width='100%' height='1000px'>
-                            <CreatePDF />
-            </PDFViewer> */}
-            {/* {selectedCertificate && (
-                <PDFViewer width='100%' height='1000px'>
-                    <CreatePDF />
-                </PDFViewer>
-            )} */}
+
         </Box >
     </>)
 }

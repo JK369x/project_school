@@ -50,7 +50,7 @@ const Quiz: FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const { addQuiz } = useCreateQuiz()
-
+    const { uid } = useAppSelector(({ auth }) => auth)
 
     //? waiting set Default value form
     const myForm = useForm<{ data: QuizType[] }>({
@@ -98,14 +98,10 @@ const Quiz: FC = () => {
     console.log("🚀 ~ file: Quiz.tsx:80 ~ data", data)
 
     const setAnswer = (value: string, id: number) => {
-        // setValue(`answer${id}`, value);
         setData([...data, value]);
     }
     const ClickSetAnswer = (value: any, i: number) => {
-        console.log("🚀 ~ file: Quiz.tsx:87 ~ ClickSetAnswer ~ value", value)
-        console.log("🚀 ~ file: Quiz.tsx:87 ~ ClickSetAnswer ~ i", i)
-        console.log("🚀 ~ file: Quiz.tsx:80 ~ data", data)
-        console.log("length", data.length + 1)
+
 
         if (data.length + 1 === i) {
 

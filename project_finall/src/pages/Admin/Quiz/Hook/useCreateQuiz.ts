@@ -24,7 +24,7 @@ export const useCreateQuiz = () => {
             const url = `${import.meta.env.VITE_REACT_APP_API}course/createquiz/${id}`
             try {
                 axios.defaults.withCredentials = true
-                await axios.post<any>(url, { params, start_quiz, end_quiz, newdata })
+                await axios.post<any>(url, { params, start_quiz, end_quiz, newdata, uid })
                 return true
             } catch (err) {
                 return false

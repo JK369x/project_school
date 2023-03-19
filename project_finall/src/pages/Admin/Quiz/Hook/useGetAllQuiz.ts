@@ -49,12 +49,11 @@ export const useGetAllQuiz = () => {
                             status_quiz: e.status_quiz,
                             quizall: e.quiz.params,
                             title: e.quiz.newdata,
-                            end_quiz: e.quiz.end_quiz.toLocaleString('en-US'
-
-                            ),
+                            end_quiz: e.quiz.end_quiz.toLocaleString('en-US'),
                             start_quiz: e.quiz.start_quiz,
                             id_document: e.id_document,
-                            createDateTime: e.createDateTime
+                            createDateTime: e.createDateTime,
+                            id_create: e.quiz.uid
                         }
                     }) as QuizGet[]
                 )

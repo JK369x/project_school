@@ -8,8 +8,8 @@ import certificate_full from '../../assets/cerfificate/certificateNow.png'
 import { useGetScoreUserAll } from './Hook/useGetScoreUserAll';
 import { Navbar } from '../../components/Navbar';
 import { Box, Container } from '@mui/system';
-import { useLocation, useParams } from 'react-router-dom';
-import { Grid, Typography } from '@mui/material';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Button, Grid, Link, Typography } from '@mui/material';
 import { useAppSelector } from '../../store/useHooksStore';
 // Register font
 Font.register({ family: 'certificatefont', src: fontthai });
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         fontFamily: 'thaifont',
     }
 });
-function MyPdf({ certificate, name }: any) {
+export function MyPdf({ certificate, name }: any) {
     console.log("🚀 ~ file: CertificateCreate.tsx:60 ~ MyPdf ~ name:", name)
     console.log("🚀 ~ file: CertificateCreate.tsx:59 ~ MyPdf ~ certificate:", certificate)
 
@@ -84,8 +84,11 @@ const CertificateCreate = () => {
     const certificate = JSON.parse(decodeURIComponent(searchParams.get('certificate') ?? ''));
     console.table(certificate)
     const { displayName } = useAppSelector(({ auth }) => auth)
+    const navigate = useNavigate()
+    const ClickIssueBy = () => {
+        navigate(`/detailtecher/${certificate.id_create}`)
+    }
     return (
-
         <>
             <Navbar />
             <Box sx={{ backgroundColor: '#1e1f1f', minHeight: '100vh', p: 4 }}>
@@ -97,9 +100,36 @@ const CertificateCreate = () => {
                             </PDFViewer>
                         </Grid>
                         <Grid item xs={5}>
-                            <Typography variant='h1'>
-                                ขอแสดงความยินดีกับคุณ
+                            <Grid container justifyContent={'flex-start'} >
+                                <Typography variant='h1' color={'#E74C0B'}>
+                                    Congratulations
+                                </Typography>
+                            </Grid>
+                            <Button sx={{ mr: 1, width: 100, mt: 1 }} color='success' variant="outlined" onClick={() => {
+                            }}>verify</Button>
+                            <Grid container justifyContent={'flex-start'} alignContent={'center'} alignItems={'center'} mt={1}>
+                                <Typography variant='h6' mr={2}>
+                                    Issue by
+                                </Typography>
+                                <Link sx={{ mt: 0.5 }} onClick={() => ClickIssueBy()}>{certificate.create_by}</Link>
+                            </Grid>
+                            <Grid container justifyContent={'flex-start'} mt={2}>
+                                <Typography variant='h6' mr={1}>
+                                    Category:
+                                </Typography>
+                                <Typography variant='h6'>
+                                    {certificate.course_category.label}
+                                </Typography>
+                            </Grid>
+                            <Typography variant='h6' mt={2}>
+                                เอกสารนี้เป็นการยืนยันว่าคุณ  {displayName} ได้เรียนคอร์สนี้จนสำเร็จแล้ว และประสบความสำเร็จในการเรียนรู้และทดสอบที่มีในคอร์ส {certificate.title}
                             </Typography>
+                            <Grid container justifyContent={'center'} mt={8} >
+                                <PDFDownloadLink document={<MyPdf certificate={certificate} name={displayName} />}>
+                                    <Button sx={{ mr: 1 }} color='primary' onClick={() => {
+                                    }}>Download</Button>
+                                </PDFDownloadLink>
+                            </Grid>
                         </Grid>
                     </Grid>
 
