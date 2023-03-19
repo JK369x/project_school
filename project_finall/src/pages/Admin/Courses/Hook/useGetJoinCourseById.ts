@@ -29,12 +29,12 @@ export const useGetJoinCourseById = () => {
             //! edit form before post 
             const getAllCourse = await axios.get(url)
             const result = getAllCourse.data
+            console.log("🚀 ~ file: useGetJoinCourseById.ts:32 ~ JoinCourseUser ~ result:", result)
             console.log("course all get list :", result)
             setGetJoin(
                 result.map((e: any) => {
                     return {
                         ...e,
-
                     }
                 })
             )

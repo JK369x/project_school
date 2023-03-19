@@ -45,6 +45,7 @@ const ViewUserJoinCourse: FC = () => {
 
 
     const delItem = (data: CourseJoinType) => {
+        console.log('asdasdasd', data.id_document)
         openConfirmDialog({
             textContent: 'Delete User in Course ?',
             onConfirm: async () => {

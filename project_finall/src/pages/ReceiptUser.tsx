@@ -10,8 +10,10 @@ import { useNavigate } from "react-router-dom"
 export type StatusCheckType = 'owner' | 'join'
 const ReceiptUser: FC = () => {
     const { getJoin } = useGetJoinCourseById()
+    console.log("🚀 :", getJoin)
     const transaction_approval = getJoin.filter((item: any) => item.approval === true)
     const transaction_false = getJoin.filter((item: any) => item.approval === false)
+    console.log("🚀 ~ file: ReceiptUser.tsx:16 ~ transaction_false:", transaction_false)
     const navigate = useNavigate()
     const [Category, setCategory] = useState<any>(transaction_approval)
     const [colornew, setNewColor] = useState('')

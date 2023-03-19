@@ -11,6 +11,8 @@ import { Box, Container } from '@mui/system';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Button, Grid, Link, Typography } from '@mui/material';
 import { useAppSelector } from '../../store/useHooksStore';
+import CircularProgress from '@mui/material/CircularProgress';
+
 // Register font
 Font.register({ family: 'certificatefont', src: fontthai });
 Font.register({ family: 'thaifont', src: THsarabun });
@@ -88,6 +90,15 @@ const CertificateCreate = () => {
     const ClickIssueBy = () => {
         navigate(`/detailtecher/${certificate.id_create}`)
     }
+    const [loading, setLoading] = useState<any>(false);
+
+    const handleClick = () => {
+        setLoading(true);
+        // perform verification logic here
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000); // simulate 2-second delay
+    };
     return (
         <>
             <Navbar />
@@ -105,8 +116,10 @@ const CertificateCreate = () => {
                                     Congratulations
                                 </Typography>
                             </Grid>
-                            <Button sx={{ mr: 1, width: 100, mt: 1 }} color='success' variant="outlined" onClick={() => {
-                            }}>verify</Button>
+                            <Button sx={{ mr: 1, minWidth: 100, mt: 1 }} color='success' variant='outlined' onClick={handleClick} disabled={loading} endIcon={loading && <CircularProgress size={20} />}>
+                                {loading ? 'Verifying...' : 'Verify'}
+                            </Button>
+
                             <Grid container justifyContent={'flex-start'} alignContent={'center'} alignItems={'center'} mt={1}>
                                 <Typography variant='h6' mr={2}>
                                     Issue by

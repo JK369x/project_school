@@ -62,8 +62,8 @@ const ResetPassword = () => {
     const { updatePassword } = useUpdatePassWord()
     const onClickNext = async () => {
         const password = getValues().password_input
-        const password_salt = state.password
         const salt = state.salt
+        const password_salt = state.password
         const hash = bcrypt.hashSync(password, salt);
         console.log("🚀B", password_salt)
         console.log("🚀A", hash)

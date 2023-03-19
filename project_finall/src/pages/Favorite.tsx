@@ -31,7 +31,7 @@ const Favorite = () => {
                 addFavorite(favorite, uid_login.uid!)
                 getFavoriteLists()
             } else {
-                //! เอาออก
+                //!เอาเข้า
                 favorite.push(item)
                 addFavorite(favorite, uid_login.uid!)
                 getFavoriteLists()
