@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const useCreateFavorite = () => {
-    // const uid_login = useAppSelector(({ auth: { uid } }) => uid)
     const addFavorite = async (params: string[], id: string) => {
         console.log("🚀 ~ file: useCreateFavorite.ts:15 ~ addFavorite ~ id", id)
         console.log("favorite 💙", params)

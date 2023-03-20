@@ -5,25 +5,22 @@ import { useAppDispatch } from '../../../store/useHooksStore';
 import { useEffect, useState } from 'react';
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice';
 
-//! & เพิ่ม id form input
 
-//! uid คืออะไรที่เกี่ยวข้องกับตัวเอง
 
-export const useCreateTokenCertificate = () => {
+export const verifyCertificate = () => {
     const dispatch = useAppDispatch();
-    const { id } = useParams<{ id: string }>()
-    // const [genToken, setGenToken] = useState()
+    const [verify_Cer, setVerify_Cer] = useState()
 
 
-    const getTokenCertificate = async (certificate: any) => {
+    const verifyCer = async (id_user: string, token: any, id_course: string) => {
         try {
             dispatch(isShowLoading());
-            const url = `${import.meta.env.VITE_REACT_APP_API}user/gentokencertificate/${id}`
+            const url = `${import.meta.env.VITE_REACT_APP_API}user/verifycertificateuser/${id_user}/${id_course}/${token}`
             axios.defaults.withCredentials = true
-            const getDetailUser = await axios.post(url, certificate)
+            const getDetailUser = await axios.get(url)
             const result = getDetailUser.data
             return result
-            // setGenToken(
+            // setVerify_Cer(
             //     result
             // )
         } catch (error) {
@@ -32,6 +29,6 @@ export const useCreateTokenCertificate = () => {
             dispatch(isCloseLoading())
         }
     }
-    return { getTokenCertificate }
+    return { verify_Cer, verifyCer }
 }
 

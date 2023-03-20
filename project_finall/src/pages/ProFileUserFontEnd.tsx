@@ -165,7 +165,7 @@ const ProFileUserFontEnd = () => {
                             ...e,
                             countID: index + 1,
                             delitem: <>
-                                <PDFDownloadLink document={<PDFFile pricing_course={e.pricing} title_course={e.courseName} date_transaction={e.date_transaction} detail_user={state} />} fileName={'testPDF'}>
+                                <PDFDownloadLink document={<PDFFile pricing_course={e.pricing} title_course={e.courseName} date_transaction={e.date_transaction} detail_user={state} />} fileName={`Receipt ${e.courseName}`}>
                                     <Button sx={{ mr: 1 }} color='primary' onClick={() => {
                                     }}>Download</Button>
                                 </PDFDownloadLink>

@@ -12,7 +12,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Button, Grid, Link, Typography } from '@mui/material';
 import { useAppSelector } from '../../store/useHooksStore';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import { verifyCertificate } from './Hook/verifyCertificate';
+import CheckIcon from '@mui/icons-material/Check';
 // Register font
 Font.register({ family: 'certificatefont', src: fontthai });
 Font.register({ family: 'thaifont', src: THsarabun });
@@ -84,19 +85,28 @@ const CertificateCreate = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const certificate = JSON.parse(decodeURIComponent(searchParams.get('certificate') ?? ''));
-    console.table(certificate)
-    const { displayName } = useAppSelector(({ auth }) => auth)
+    const token_certificate = searchParams.get('token_certificate');
+    console.log('token_certificate:', token_certificate);
+
+
+    const { displayName, uid } = useAppSelector(({ auth }) => auth)
     const navigate = useNavigate()
     const ClickIssueBy = () => {
         navigate(`/detailtecher/${certificate.id_create}`)
     }
     const [loading, setLoading] = useState<any>(false);
-
-    const handleClick = () => {
+    const [verify, setVerify] = useState()
+    console.log("🚀 ~ file: CertificateCreate.tsx:99 ~ CertificateCreate ~ verify:", verify)
+    const { verifyCer } = verifyCertificate()
+    const handleClick = async () => {
         setLoading(true);
+        const data = await verifyCer(uid ?? '', token_certificate, certificate.id_course)
+        console.log("🚀 ~ file: CertificateCreate.tsx:102 ~ handleClick ~ data:", data)
+        const verify_data = data.verify ? data.verify : data
         // perform verification logic here
         setTimeout(() => {
             setLoading(false);
+            setVerify(verify_data)
         }, 2000); // simulate 2-second delay
     };
     return (
@@ -116,10 +126,23 @@ const CertificateCreate = () => {
                                     Congratulations
                                 </Typography>
                             </Grid>
-                            <Button sx={{ mr: 1, minWidth: 100, mt: 1 }} color='success' variant='outlined' onClick={handleClick} disabled={loading} endIcon={loading && <CircularProgress size={20} />}>
-                                {loading ? 'Verifying...' : 'Verify'}
-                            </Button>
-
+                            <Grid container justifyContent={'flex-start'} alignContent={'center'} alignItems={'center'} >
+                                <Button sx={{ mr: 1, minWidth: 100, mt: 1 }} color='success' variant='outlined' onClick={() => handleClick()} disabled={loading} endIcon={loading && <CircularProgress size={20} />}>
+                                    {loading ? 'Verifying...' : 'Verify'}
+                                </Button>
+                                {verify === true ? (<>
+                                    <Typography variant='h6' color={'#3B843E'} mt={1} ml={1}>
+                                        VERIFIED
+                                    </Typography>
+                                    <CheckIcon sx={{ mt: 1, ml: 1 }} color='success' />
+                                </>) : (<>
+                                    {verify === false && (<>
+                                        <Typography variant='h6' color={'#892c23'} mt={1} ml={1}>
+                                            VERIFIED FAIL !!
+                                        </Typography>
+                                    </>)}
+                                </>)}
+                            </Grid>
                             <Grid container justifyContent={'flex-start'} alignContent={'center'} alignItems={'center'} mt={1}>
                                 <Typography variant='h6' mr={2}>
                                     Issue by
@@ -138,7 +161,7 @@ const CertificateCreate = () => {
                                 เอกสารนี้เป็นการยืนยันว่าคุณ  {displayName} ได้เรียนคอร์สนี้จนสำเร็จแล้ว และประสบความสำเร็จในการเรียนรู้และทดสอบที่มีในคอร์ส {certificate.title}
                             </Typography>
                             <Grid container justifyContent={'center'} mt={8} >
-                                <PDFDownloadLink document={<MyPdf certificate={certificate} name={displayName} />}>
+                                <PDFDownloadLink document={<MyPdf certificate={certificate} name={displayName} />} fileName={`Certificate ${certificate.title}`}>
                                     <Button sx={{ mr: 1 }} color='primary' onClick={() => {
                                     }}>Download</Button>
                                 </PDFDownloadLink>

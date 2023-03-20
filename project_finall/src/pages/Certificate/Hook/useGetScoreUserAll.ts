@@ -14,6 +14,7 @@ export type ScoreType = {
     image_course?: string
     id_create?: string
     course_category?: any
+    id_course?: string
 }
 //! & เพิ่ม id form input
 

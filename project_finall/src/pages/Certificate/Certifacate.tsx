@@ -15,21 +15,47 @@ import axios from "axios"
 import { Document, Page } from '@react-pdf/renderer';
 
 import { useState } from "react"
+import { useCreateTokenCertificate } from "./Hook/useCreateTokenCertificate"
+import { useDispatch } from "react-redux"
+import { openAlertError } from "../../store/slices/alertSlice"
+import moment from "moment"
 
 
 const Certificate = () => {
     const { certificateLists } = useGetScoreUserAll()
     console.log("🚀 ~ file: Certifacate.tsx:22 ~ Certificate ~ certificateLists:", certificateLists)
-    const { state } = useGetDetailUser()
-    const [selectedCertificate, setSelectedCertificate] = useState(null);
-
+    const data = certificateLists.filter((item, index) => {
+        const x = item.score_user ?? 0
+        const y = item.score_quiz ?? 0
+        let result = (x / y) * 100
+        if (result >= 80) {
+            console.log('ผ่านได้รับใบ cer')
+            if (moment().isAfter(item.end_learn)) {
+                console.log('หลักสูตรจบ')
+                return { ...item }
+            }
+        } else {
+            console.log('คะแนนไม่ถึง')
+        }
+    })
+    // const { state } = useGetDetailUser()
+    // const [selectedCertificate, setSelectedCertificate] = useState(null);
+    const { getTokenCertificate } = useCreateTokenCertificate()
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
     const handleDownload = async (certificate: any) => {
-        console.log("🚀 ~ file: Certifacate.tsx:29 ~ handleDownload ~ certificate:", certificate)
+        const data = certificate
+        delete data.image_course
+        const token_certificate = await getTokenCertificate(data)
+        console.log("🚀 ~ file: Certifacate.tsx:34 ~ handleDownload ~ token_certificate:", token_certificate)
+        if (token_certificate) {
+            const query = encodeURIComponent(JSON.stringify(certificate));
+            const url = `/createcertificate/?certificate=${query}&token_certificate=${token_certificate}`;
+            navigate(url);
 
-        // const query = encodeURIComponent(JSON.stringify(certificate));
-        // navigate(`/createcertificate/?certificate=${query}`);
+        } else {
+            dispatch(openAlertError('เกิดความขัดข้องในการออกใบประกาศ'))
+        }
     };
 
 
@@ -78,7 +104,8 @@ const Certificate = () => {
                     <Typography ml={2} gutterBottom color='#dc6002' variant="h1">
                         Certificate
                     </Typography>
-                    <Table columnOptions={columnOptions} dataSource={certificateLists.map((e, index) => {
+                    <Table columnOptions={columnOptions} dataSource={data.map((e, index) => {
+
                         return {
                             ...e,
                             countID: index + 1,

@@ -471,8 +471,10 @@ const DetailCourseHomePage = () => {
             </Typography>
             <Link href={state.linkteammeeting} variant="body2" marginLeft={2} >เข้าร่วม</Link>
           </Grid>
+
           {approvalUser[0]?.approval === true ? (<>
             <Grid item xs={6} >
+
               <Grid container justifyContent={'center'}>
                 <Typography variant="h3" mb={1} mr={1} color={'#FFFFFF'} >
                   ทำแบบทดสอบ
@@ -482,9 +484,13 @@ const DetailCourseHomePage = () => {
                 </Typography>
               </Grid>
               <Grid container justifyContent={'center'}>
+                <Typography variant="body2" mb={1} color={'#FFFFFF'} >
+                  เพื่อรับใบ Certificate จากการทำ Quiz ของเรา คุณต้องทำคะแนนรวมได้ไม่ต่ำกว่า 80% ของคะแนนเต็มของ Quiz เพื่อแสดงว่าคุณมีความรู้และเข้าใจเนื้อหาอย่างเพียงพอ โปรดทำคะแนนเพียงพอเพื่อรับใบ Certificate ของคุณ
+                </Typography>
                 <Grid>
                   <SimpleAccordion id={state.id} />
                 </Grid>
+
               </Grid>
             </Grid>
           </>) : (<>
@@ -497,6 +503,9 @@ const DetailCourseHomePage = () => {
                   Quiz
                 </Typography>
               </Grid>
+              <Typography variant="body2" mb={1} color={'#FFFFFF'} >
+                เพื่อรับใบ Certificate จากการทำ Quiz ของเรา คุณต้องทำคะแนนรวมได้ไม่ต่ำกว่า 80% ของคะแนนเต็มของ Quiz เพื่อแสดงว่าคุณมีความรู้และเข้าใจเนื้อหาอย่างเพียงพอ โปรดทำคะแนนเพียงพอเพื่อรับใบ Certificate ของคุณ
+              </Typography>
             </Grid>
           </>)}
         </Grid>
