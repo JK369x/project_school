@@ -24,6 +24,7 @@ import { Avatar, Stack, TextField } from "@mui/material";
 import { useUploadFile } from "../../file/useUploadFile";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { openAlertError, openAlertSuccess } from "../../store/slices/alertSlice";
 
 
 
@@ -33,10 +34,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 export const role: Lookup[] = [{
     id: '4',
     label: 'อาจารย์',
-}, {
-    id: '10',
-    label: 'แอดมิน',
-}
+},
 ]
 
 
@@ -44,9 +42,17 @@ export const role: Lookup[] = [{
 const AddTeacher = () => {
     const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     const { uploadFile, uploadState } = useUploadFile()
-    const onUploadImage = (files: FileList | null) => {
+    const onUploadImage = async (files: FileList | null) => {
         if (files) {
-            uploadFile(files[0], `myImages/${uid}/`)
+            const file = files[0]
+            if (file.type === "image/jpeg" && file.size <= 5000000) {
+                dispatch(openAlertSuccess('อัปโหลดรูปภาพเสร็จเรียบร้อย'))
+                await uploadFile(file, `myImages/Teacher/${uid}/`)
+                setValue('image_rul', uploadState.downloadURL ?? uploadState.downloadURL)
+            } else {
+                console.log("Please select a JPG file with size less than or equal to 5MB.")
+                dispatch(openAlertError('ตรวจสอบว่า File ขนาดไม่เกิน 5MB และเป็น JPG'))
+            }
         }
     }
     const { addTeacher } = useCreateTeacher()

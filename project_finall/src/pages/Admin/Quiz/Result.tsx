@@ -56,7 +56,7 @@ export default function Result(props: any) {
             if (getValues()) {
                 console.log("🚀 ~ file: Result.tsx:47 ~ onSubmit ~ getValues()", getValues())
                 await addScore(getValues())
-                // navigate(`/detailcoursehomepage/${id}`)
+                navigate(`/detailcoursehomepage/${id}`)
             } else {
                 console.log(' not Values ')
             }

@@ -63,6 +63,8 @@ import EditTeacher from "../pages/Admin/Users/EditTeacher";
 import EditAdmin from "../pages/Admin/Users/EditAdmin";
 import RegisterAdmin from "../pages/Admin/RegisterAdmin";
 import CertificateCreate from "../pages/Certificate/CertificateCreate";
+import ResetPasswordUser from "../pages/Admin/Users/ResetPasswordUser";
+import EditQuiz from "../pages/Admin/Quiz/EditQuiz";
 
 
 
@@ -167,6 +169,7 @@ const RouteAllPage: FC = () => {
                         <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
                         <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
                         <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
+                        <Route path="/editquiz/:id/:id_quiz" element={<EditQuiz />} />
                     </>)}
                     {status?.id === '10' && (<>
                         <Route path="/registerteacher" element={<RegisterTeacher />} />
@@ -189,6 +192,7 @@ const RouteAllPage: FC = () => {
                         <Route path="/createadmin" element={<RegisterAdmin />} />
                         <Route path="/quiz/:id" element={<Quiz />} />
                         <Route path="/detailquiz/:id/:id_quiz" element={<DetailQuiz />} />
+                        <Route path="/editquiz/:id/:id_quiz" element={<EditQuiz />} />
                         <Route path="/viewallcomment/:id" element={<ViewAllComment />} />
                         <Route path="/viewnamecheck/:id" element={<ViewAllNameCheck />} />
                         <Route path="/viewdetailuserincourse/:id_user/:id_course" element={<ViewDetailUserInCourse />} />
@@ -218,6 +222,7 @@ const RouteAllPage: FC = () => {
                     <Route path="/viewpdf/:id_user/:id_document" element={<HomeView />} />
                     <Route path="/requestreceipt/:id" element={<ReceiptUser />} />
                     <Route path="/certificate/:id" element={<Certificate />} />
+                    <Route path="/resetpassworduser/:id" element={<ResetPasswordUser />} />
                     {/* <Route path="/checkname" element={<CheckName />} />
                     <Route path="/comment" element={<CommentCourse />} /> */}
                     {/* <Route path="/accordion" element={<SimpleAccordion />} /> */}

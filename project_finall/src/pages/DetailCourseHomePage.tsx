@@ -35,6 +35,7 @@ import { useGetApprovalUserInCourse } from './Admin/Users/Hook/useGetApprovalUse
 import { useDialog } from '../Hook/dialog/useDialog'
 import { openAlertError, openAlertSuccess, openAlertWarning } from '../store/slices/alertSlice'
 import { useGetAllComment } from './Admin/Comment/Hook/useGetAllComment'
+import quizImage from '../assets/Customer Survey-rafiki.png'
 const DetailCourseHomePage = () => {
   const { uid, status, displayName, photoURL, favorite, email, about } = useAppSelector(({ auth }) => auth)
   const auth_uid = uid !== undefined && uid !== null
@@ -250,7 +251,17 @@ const DetailCourseHomePage = () => {
                         <Button variant="contained" sx={{ mr: 1 }} disabled startIcon={<SchoolIcon />}>หลักสูตรนี้จบการเรียนแล้ว</Button>
                       </>) : (<>
                         {approvalUser[0] ? (<>
-                          <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
+                          {approvalUser[0].transaction ? (<>
+                            {approvalUser[0].approval === true ? (<>
+                              <Button variant="contained" sx={{ mr: 1 }} disabled startIcon={<SchoolIcon />}>คุณเป็นเจ้าของหลักสูตรแล้ว</Button>
+                            </>) : (<>
+                              <Button variant="contained" sx={{ mr: 1 }} disabled startIcon={<ReceiptLongIcon />}>รอการตรวจสอบใบเสร็จ</Button>
+                            </>)}
+                          </>) : (<>
+                            {uid && (<>
+                              <UploadReceipt title_props={state.title} price_props={state.pricing.toLocaleString()} start_props={Start_Course_Time} end_props={End_Course_Time} id_course={state.id} />
+                            </>)}
+                          </>)}
                         </>) : (<>
                           <Button variant="contained" sx={{ mr: 1 }} disabled startIcon={<ReceiptLongIcon />}>หมดระยะเวลาการเข้าคิวอยู่ระหว่างการโอน</Button>
                         </>)}
@@ -474,7 +485,6 @@ const DetailCourseHomePage = () => {
 
           {approvalUser[0]?.approval === true ? (<>
             <Grid item xs={6} >
-
               <Grid container justifyContent={'center'}>
                 <Typography variant="h3" mb={1} mr={1} color={'#FFFFFF'} >
                   ทำแบบทดสอบ
@@ -490,7 +500,6 @@ const DetailCourseHomePage = () => {
                 <Grid>
                   <SimpleAccordion id={state.id} />
                 </Grid>
-
               </Grid>
             </Grid>
           </>) : (<>
@@ -503,9 +512,12 @@ const DetailCourseHomePage = () => {
                   Quiz
                 </Typography>
               </Grid>
-              <Typography variant="body2" mb={1} color={'#FFFFFF'} >
+              <Typography variant="body2" color={'#FFFFFF'} >
                 เพื่อรับใบ Certificate จากการทำ Quiz ของเรา คุณต้องทำคะแนนรวมได้ไม่ต่ำกว่า 80% ของคะแนนเต็มของ Quiz เพื่อแสดงว่าคุณมีความรู้และเข้าใจเนื้อหาอย่างเพียงพอ โปรดทำคะแนนเพียงพอเพื่อรับใบ Certificate ของคุณ
               </Typography>
+              <Grid>
+                <img src={quizImage} width={'100%'} height={'100%'} />
+              </Grid>
             </Grid>
           </>)}
         </Grid>

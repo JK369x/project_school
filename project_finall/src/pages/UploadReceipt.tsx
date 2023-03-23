@@ -59,6 +59,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 }
 
 export default function UploadReceipt(props: any) {
+    console.log("🚀 ~ file: UploadReceipt.tsx:62 ~ UploadReceipt ~ props:", props)
     const dispatch = useAppDispatch()
     const { email, uid, status, displayName, photoURL } = useAppSelector(({ auth }) => auth)
     const [open, setOpen] = React.useState(false);
@@ -76,10 +77,15 @@ export default function UploadReceipt(props: any) {
 
     const onUploadImage = (files: FileList | null) => {
         if (files) {
-            uploadFile(files[0], `myImages/receipt/${uid}/`)
+            const file = files[0]
+            if (file.type === "image/jpeg" && file.size <= 5000000) {
+                dispatch(openAlertSuccess('อัปโหลดรูปภาพเสร็จเรียบร้อย'))
+                uploadFile(file, `myImages/receipt/${uid}/`)
+            } else {
+                console.log("Please select a JPG file with size less than or equal to 5MB.")
+                dispatch(openAlertError('ตรวจสอบว่า File ขนาดไม่เกิน 5MB และเป็น JPG'))
+            }
         }
-        const get_url = uploadState.downloadURL
-        console.log("🚀 ~ file: DetailCourseHomePage.tsx:147 ~ onUploadImage ~ get_url", get_url)
     }
 
     const handleClose = () => {
@@ -142,10 +148,10 @@ export default function UploadReceipt(props: any) {
                                     Price {props.price_props}
                                 </Typography>
                                 <Typography sx={{ mb: 1 }} >
-                                    Start Course {moment(props.start_props).format('DD/MM/YYYY')}
+                                    Start Course {props.start_props}
                                 </Typography>
                                 <Typography sx={{ mb: 1 }} >
-                                    End Corse {moment(props.end_props).format('DD/MM/YYYY')}
+                                    End Corse {props.end_props}
                                 </Typography>
 
                                 <UploadButton label={'แนบสลีป'} onUploadChange={onUploadImage} />

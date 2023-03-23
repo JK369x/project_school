@@ -91,7 +91,7 @@ export const Sidebar = () => {
           </li>
           <li>
             <SchoolIcon className='icon' />
-            <span onClick={onClickTeacher}>Teacher</span>
+            <span onClick={onClickTeacher}>                  {status?.id === '10' ? 'Employee' : 'Teacher'}</span>
           </li>
           <li>
             <MenuBookIcon className='icon' />

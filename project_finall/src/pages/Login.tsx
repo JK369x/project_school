@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 //MUI
 import Grid from '@mui/material/Grid';
 import { ControllerTextField } from '../framework/control/TextField/Controller';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Card, Container, Typography } from '@mui/material';
 //firebase
 
 import { isCloseLoading, isShowLoading } from '../store/slices/loadingSlice';
@@ -17,6 +17,7 @@ import { setAuthStore } from '../store/slices/authSlice';
 
 //google
 
+import imagelogin from '../assets/Privacy policy-rafiki.png'
 import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -91,29 +92,36 @@ const Login = (props: Props) => {
   return (
     <>
       <Navbar />
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
-          <Grid item xs={6}>
-            <Typography variant="h1" align="center" >
-              เข้าสู่ระบบ
-            </Typography>
-            <Grid item xs={12}>
-              <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
+      <Box sx={{ backgroundColor: '#1e1f1f', minHeight: '100vh', pt: 3 }}>
+        <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, borderRadius: '5px', maxHeight: 600, mt: 5, }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} >
+              <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} >
+                <Grid item container justifyContent={'center'} alignItems={'center'} alignContent={'center'} xs={6}>
+                  <img src={imagelogin} width={'100%'} height={'100%'} />
+                </Grid>
+                <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} xs={6}>
+                  <Grid container justifyContent={'center'}>
+                    <Typography variant="h1" align="center" >
+                      เข้าสู่ระบบ
+                    </Typography>
+                  </Grid>
+                  <Grid container justifyContent={'center'} item sx={{ maxWidth: 400 }}>
+                    <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
+                  </Grid>
+                  <Grid container justifyContent={'center'} item sx={{ maxWidth: 400 }}>
+                    <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
+                  </Grid>
+                  <Grid container justifyContent={'center'} sx={{ ml: 29 }}>
+                    <Button type="button" onClick={onClickRegistor} sx={{ mr: 1, m: 1, }}>Registor</Button>
+                    <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
-            </Grid>
-
-            <Grid container justifyContent={'Right'}>
-              <Button type="button" onClick={onClickRegistor} sx={{ mr: 1, m: 1, }}>Registor</Button>
-              <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </form>
-
-
+          </form>
+        </Container>
+      </Box>
     </>
   )
 }

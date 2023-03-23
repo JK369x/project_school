@@ -31,13 +31,13 @@ import { useGetStatusBtnComment } from '../Comment/Hook/useGetStatusBtnComment'
 import { useUpdateBtnComment } from '../Comment/Hook/useUpdateBtnComment'
 import moment from 'moment'
 const DetailCourse: FC = () => {
+    const { status } = useAppSelector(({ auth }) => auth)
+    console.log("🚀 ~ file: DetailCourse.tsx:35 ~ status:", status)
     const { state } = useGetCourseDetail()
-    console.log("🚀 ~ file: DetailCourse.tsx:34 ~ state", state)
     const { BtnstatusCheckName } = useStatusButtonCheckName()
     const { btnStatus } = useGetStatusBtnCheckName(state.id)
     const { BtnstatusComment } = useUpdateBtnComment()
     const { btnComment } = useGetStatusBtnComment(state.id)
-    console.log("from hook =", btnStatus)
 
 
 
@@ -106,7 +106,6 @@ const DetailCourse: FC = () => {
         setIsButtonEnabled(btnStatus)
         setIsButtonEnabled1(btnComment)
     }, [btnStatus, btnComment])
-    console.log("isButtonEnabled =", isButtonEnabled)
 
     const onClickEdit = () => {
         navigate(`/editcourse/${state.id}`)
@@ -177,43 +176,52 @@ const DetailCourse: FC = () => {
                                         </Grid>
                                     </> :
                                     <>
-                                        <Grid container spacing={3} sx={{ mb: 2 }} >
-                                            <Grid item>
-                                                <Typography variant="h4" mb={2}  >
-                                                    Action Button on/of
-                                                </Typography>
-                                                <Button sx={{ mr: 1 }} color={isButtonEnabled1 === true ? 'success' : 'error'} onClick={() => {
-                                                    Comment()
-                                                }}>Comment</Button>
-                                                <Button sx={{ mr: 1 }} color={isButtonEnabled === true ? 'success' : 'error'} onClick={() => {
-                                                    checkName()
-                                                }}>Check Name</Button>
-                                            </Grid>
-                                            <Grid item>
-                                                <Typography variant="h4" mb={2}  >
-                                                    Manage Course
-                                                </Typography>
-                                                <Button sx={{ mr: 1 }} color='success' onClick={() => {
-                                                    viewDetailUser()
-                                                }}>View User</Button>
-                                                {/* <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                        {status?.id === "4" ? (<>
+                                            <Grid container spacing={3} sx={{ mb: 2 }} >
+                                                <Grid item>
+                                                    <Typography variant="h4" mb={2}  >
+                                                        Action Button on/of
+                                                    </Typography>
+                                                    <Button sx={{ mr: 1 }} color={isButtonEnabled1 === true ? 'success' : 'error'} onClick={() => {
+                                                        Comment()
+                                                    }}>Comment {isButtonEnabled1 === true ? 'on' : 'off'}</Button>
+                                                    <Button sx={{ mr: 1 }} color={isButtonEnabled === true ? 'success' : 'error'} onClick={() => {
+                                                        checkName()
+                                                    }}>Check Name {isButtonEnabled === true ? 'on' : 'off'}</Button>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography variant="h4" mb={2}  >
+                                                        Manage Course
+                                                    </Typography>
+                                                    <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                                        viewDetailUser()
+                                                    }}>View User</Button>
+                                                    {/* <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                                     viewNameCheck()
                                                 }}>View Name Check</Button> */}
+                                                    <Button sx={{ mr: 1 }} color='success' onClick={() => {
+                                                        ViewComment(state.id)
+                                                    }}>View Comment</Button>
+                                                    <Button sx={{ mr: 1 }} color='info' onClick={() => {
+                                                        Quiz()
+                                                    }}>Create Quiz</Button>
+                                                    <Button sx={{ mr: 1 }} color='warning' onClick={() => {
+                                                        onClickEdit()
+                                                    }}>Edit</Button>
+                                                </Grid>
+                                            </Grid>
+                                        </>) : (<>
+                                            <Grid container justifyContent={'flex-start'} sx={{ mb: 1 }}>
+                                                <Button sx={{ mr: 1, }} color='success' onClick={() => {
+                                                    viewDetailUser()
+                                                }}>View User</Button>
                                                 <Button sx={{ mr: 1 }} color='success' onClick={() => {
                                                     ViewComment(state.id)
                                                 }}>View Comment</Button>
-                                                <Button sx={{ mr: 1 }} color='warning' onClick={() => {
-                                                    onClickEdit()
-                                                }}>Edit</Button>
-                                                <Button sx={{ mr: 1 }} color='info' onClick={() => {
-                                                    Quiz()
-                                                }}>Create Quiz</Button>
                                             </Grid>
-                                        </Grid>
+
+                                        </>)}
                                     </>}
-
-
-
                             </Grid>
                             <Grid container spacing={1}>
                                 <Grid item xs={4}>
@@ -431,7 +439,9 @@ const DetailCourse: FC = () => {
                         </Box>
                     </div>
                 </div>
-                <TableQuiz id_course={state.id} />
+                {status?.id === '4' && (<>
+                    <TableQuiz id_course={state.id} />
+                </>)}
             </div>
         </div >
 

@@ -25,12 +25,13 @@ import moment from 'moment'
 const DetailUser: FC = () => {
 
   const { userLists, getUserLists } = useGetUserLists()
-  const { photoURL } = useAppSelector(({ auth }) => auth)
+  const { photoURL, uid } = useAppSelector(({ auth }) => auth)
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
   const { state } = useGetDetailUser()
-  console.log("🚀 ~ file: DetailUser.tsx:29 ~ state", state)
+  console.log("🚀 ~ file: DetailUser.tsx:33 ~ state:", state)
+
 
   const onClickEdit = () => {
 
@@ -53,7 +54,6 @@ const DetailUser: FC = () => {
     }
   }
 
-
   return (
     <div className='home'>
       <Sidebar />
@@ -66,66 +66,155 @@ const DetailUser: FC = () => {
                 INFORMATION
               </Typography>
               <Grid container justifyContent={'center'}>
-                <Grid container justifyContent={'center'} item xs={12}>
-                  <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, }} />
-                </Grid>
-                <Grid container justifyContent={'center'} item xs={12}>
-                  <Typography variant="h3" mr={1} color='#555454'>
-                    {state.firstName}
-                  </Typography>
-                  <Typography variant="h3" color='#555454'>
-                    {state.lastName}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent={'center'} item xs={12}>
-                  <Typography variant="h4" color='#555454'>
-                    Email: {state.email}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent={'center'} item xs={12}>
-                  <Typography variant="h4" mr={2} color='#555454'>
-                    Job: {state.job}
-                  </Typography>
-                  <Typography variant="h4" color='#555454'>
-                    Birthday: {moment(state.birthday).format('DD/MM/YYYY')}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent={'center'} item xs={12}>
-                  <Typography variant="h4" mr={2} color='#555454'>
-                    Province: {state.province?.label ?? '-'}
-                    {/* //! ?? if province false = '-' */}
-                  </Typography>
+                {state.status?.id === '10' ? (<>
+                  <Grid container justifyContent={'center'} item xs={12}>
+                    <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, }} />
+                  </Grid>
+                  <Grid container justifyContent={'center'} item xs={12}>
+                    <Typography variant="h3" mr={1} color='#555454'>
+                      {state.firstName}
+                    </Typography>
+                    <Typography variant="h3" color='#555454'>
+                      {state.lastName}
+                    </Typography>
+                  </Grid>
+                  <Grid container justifyContent={'center'} item xs={12}>
+                    <Typography variant="h4" color='#555454'>
+                      Email: {state.email}
+                    </Typography>
+                  </Grid>
+                  <Grid container justifyContent={'center'} mt={2} item xs={12}>
+                    <Button label='Edit' onClick={() => onClickEdit()} />
+                  </Grid>
+                </>) : (<>
+                  {state.status?.id === '4' ? (<>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, }} />
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h3" mr={1} color='#555454'>
+                        {state.firstName}
+                      </Typography>
+                      <Typography variant="h3" color='#555454'>
+                        {state.lastName}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" color='#555454'>
+                        Email: {state.email}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
 
-                  <Typography variant="h4" color='#555454'>
-                    Tumbon: {state.tambon?.label}
-                    {/* //! tambon? มีค่าอยู่หรือป่าว */}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent={'center'} item xs={12}>
-                  <Typography variant="h4" mr={2} color='#555454'>
-                    Aumphure: {state.amphure?.label}
-                  </Typography>
+                      <Typography variant="h4" color='#555454'>
+                        Birthday: {moment(state.birthday).format('DD/MM/YYYY')}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" mr={2} color='#555454'>
+                        Province: {state.province?.label ?? '-'}
+                        {/* //! ?? if province false = '-' */}
+                      </Typography>
 
-                  <Typography variant="h4" color='#555454'>
-                    ZipCode: {state.zipCode?.label}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent={'center'} item xs={12}>
-                  <Typography variant="h4" mr={2} color='#555454'>
-                    Agency: {state.agency}
-                  </Typography>
-                  <Typography variant="h4" color='#555454'>
-                    Status: {state.status?.label}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent={'center'} item xs={12}>
-                  <Typography variant="h4" color='#555454'>
-                    Address: {state.address}
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent={'center'} mt={2} item xs={12}>
-                  <Button label='Edit' onClick={() => onClickEdit()} />
-                </Grid>
+                      <Typography variant="h4" color='#555454'>
+                        Tumbon: {state.tambon?.label}
+                        {/* //! tambon? มีค่าอยู่หรือป่าว */}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" mr={2} color='#555454'>
+                        Aumphure: {state.amphure?.label}
+                      </Typography>
+
+                      <Typography variant="h4" color='#555454'>
+                        ZipCode: {state.zipCode?.label}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" mr={2} color='#555454'>
+                        Agency: {state.agency}
+                      </Typography>
+                      <Typography variant="h4" color='#555454'>
+                        Status: {state.status?.label}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" color='#555454'>
+                        Address: {state.address}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" color='#555454'>
+                        About: {state.about}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} mt={2} item xs={12}>
+                      <Button label='Edit' onClick={() => onClickEdit()} />
+                    </Grid>
+                  </>) : (<>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Avatar alt="Remy Sharp" src={state.image_rul ? state.image_rul : ''} sx={{ width: 120, height: 120, }} />
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h3" mr={1} color='#555454'>
+                        {state.firstName}
+                      </Typography>
+                      <Typography variant="h3" color='#555454'>
+                        {state.lastName}
+                      </Typography>
+                    </Grid>
+
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" color='#555454'>
+                        Email: {state.email}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" mr={2} color='#555454'>
+                        Job: {state.job}
+                      </Typography>
+                      <Typography variant="h4" color='#555454'>
+                        Birthday: {moment(state.birthday).format('DD/MM/YYYY')}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" mr={2} color='#555454'>
+                        Province: {state.province?.label ?? '-'}
+                        {/* //! ?? if province false = '-' */}
+                      </Typography>
+
+                      <Typography variant="h4" color='#555454'>
+                        Tumbon: {state.tambon?.label}
+                        {/* //! tambon? มีค่าอยู่หรือป่าว */}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" mr={2} color='#555454'>
+                        Aumphure: {state.amphure?.label}
+                      </Typography>
+
+                      <Typography variant="h4" color='#555454'>
+                        ZipCode: {state.zipCode?.label}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" mr={2} color='#555454'>
+                        Agency: {state.agency}
+                      </Typography>
+                      <Typography variant="h4" color='#555454'>
+                        Status: {state.status?.label}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} item xs={12}>
+                      <Typography variant="h4" color='#555454'>
+                        Address: {state.address}
+                      </Typography>
+                    </Grid>
+                    <Grid container justifyContent={'center'} mt={2} item xs={12}>
+                      <Button label='Edit' onClick={() => onClickEdit()} />
+                    </Grid>
+                  </>)}
+                </>)}
               </Grid>
             </Box>
           </div>

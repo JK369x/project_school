@@ -66,9 +66,17 @@ const EditTeacher: FC = () => {
     const { displayName, uid, photoURL, favorite, about } = useAppSelector(({ auth }) => auth)
 
 
-    const onUploadImage = (files: FileList | null) => {
+    const onUploadImage = async (files: FileList | null) => {
         if (files) {
-            uploadFile(files[0], `myImages/${uid}/`)
+            const file = files[0]
+            if (file.type === "image/jpeg" && file.size <= 5000000) {
+                dispatch(openAlertSuccess('อัปโหลดรูปภาพเสร็จเรียบร้อย'))
+                await uploadFile(file, `myImages/Teacher/${uid}/`)
+
+            } else {
+                console.log("Please select a JPG file with size less than or equal to 5MB.")
+                dispatch(openAlertError('ตรวจสอบว่า File ขนาดไม่เกิน 5MB และเป็น JPG'))
+            }
         }
     }
 

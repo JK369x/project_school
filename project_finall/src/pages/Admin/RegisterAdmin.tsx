@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreateTeacher } from "../Teacher/Hook/CreateTeacher";
 import { TypeAdmin, useCreateAdmin } from "../Teacher/Hook/CreateAdmin";
+import { openAlertError, openAlertSuccess } from "../../store/slices/alertSlice";
 
 
 
@@ -39,9 +40,17 @@ export const role: Lookup[] = [{
 const RegisterAdmin = () => {
     const { displayName, uid, photoURL, favorite } = useAppSelector(({ auth }) => auth)
     const { uploadFile, uploadState } = useUploadFile()
-    const onUploadImage = (files: FileList | null) => {
+    const onUploadImage = async (files: FileList | null) => {
         if (files) {
-            uploadFile(files[0], `myImages/${uid}/`)
+            const file = files[0]
+            if (file.type === "image/jpeg" && file.size <= 5000000) {
+                dispatch(openAlertSuccess('อัปโหลดรูปภาพเสร็จเรียบร้อย'))
+                await uploadFile(file, `myImages/admin/${uid}/`)
+                setValue('image_rul', uploadState.downloadURL ?? uploadState.downloadURL)
+            } else {
+                console.log("Please select a JPG file with size less than or equal to 5MB.")
+                dispatch(openAlertError('ตรวจสอบว่า File ขนาดไม่เกิน 5MB และเป็น JPG'))
+            }
         }
     }
     const { addAdmin } = useCreateAdmin()
@@ -103,12 +112,13 @@ const RegisterAdmin = () => {
     const navigate = useNavigate()
     const onSubmit = async () => {
         console.log('getvaluse!!!!', getValues())
+
         if (getValues()) {
             try {
                 dispatch(isShowLoading());
                 const data = await addAdmin(getValues())
                 if (data === true) {
-                    navigate(`/teacher`)
+                    // navigate(`/teacher`)
                 } else {
                     console.log("🚀 ~ file: Register.tsx:180 ~ onSubmit ~ data:", data)
                     setError('email', { message: (`${data}`) })
@@ -131,7 +141,7 @@ const RegisterAdmin = () => {
 
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <Typography variant="h1" component="h1" ml={3}>
-                                    Add Teacher
+                                    Add Admin
                                 </Typography>
 
                                 <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'} sx={{ mb: 2 }}>

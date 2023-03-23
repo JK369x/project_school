@@ -17,13 +17,16 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Typography, Avatar } from '@mui/material'
 import { useAppSelector } from '../../../store/useHooksStore'
 import { useGetDetailQuiz } from './Hook/useDetailQuiz'
+import moment from 'moment'
 
 const DetailQuiz: FC = () => {
-    const { id } = useParams<{ id: string }>()
+    const { id, id_quiz } = useParams<{ id: string, id_quiz: string }>()
     console.log("🚀 ~ file: DetailQuiz.tsx:23 ~ id", id)
     const { stateQuiz } = useGetDetailQuiz(id)
     const navigate = useNavigate()
-
+    const ClickEditQuiz = () => {
+        navigate(`/editquiz/${id}/${id_quiz}`)
+    }
 
     return (
         <div className='home'>
@@ -38,6 +41,7 @@ const DetailQuiz: FC = () => {
                                     <Typography variant="h2" mb={2}  >
                                         Detail Quiz
                                     </Typography>
+                                    <Button onClick={() => ClickEditQuiz()} label='Edit Quiz'></Button>
                                 </Grid>
                                 <Grid container justifyContent={'center'}>
                                     <Grid container justifyContent={'space-between'} sx={{ mt: 3 }}>
@@ -54,7 +58,7 @@ const DetailQuiz: FC = () => {
                                                 Create Quiz :
                                             </Typography>
                                             <Typography variant="h5" mb={2}  >
-                                                {stateQuiz.createDateTime}
+                                                {moment(stateQuiz.createDateTime).format('DD/MM/YYYY')}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -64,7 +68,7 @@ const DetailQuiz: FC = () => {
                                                 Start Quiz :
                                             </Typography>
                                             <Typography variant="h5" mb={2}  >
-                                                {stateQuiz.quiz?.start_quiz}
+                                                {moment(stateQuiz.quiz?.start_quiz).format('H:mm')}
                                             </Typography>
 
                                         </Grid>
@@ -73,12 +77,9 @@ const DetailQuiz: FC = () => {
                                                 End Quiz :
                                             </Typography>
                                             <Typography variant="h5" mb={2}  >
-                                                {stateQuiz.quiz?.end_quiz}
+                                                {moment(stateQuiz.quiz?.end_quiz).format('H:mm')}
                                             </Typography>
                                         </Grid>
-
-
-
                                     </Grid>
                                     {stateQuiz.quiz?.params?.map((item: any, index: number) => {
                                         return (<React.Fragment key={index}>

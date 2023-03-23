@@ -57,25 +57,14 @@ const ViewAllComment = () => {
             label: 'User Name',
             value: 'name_user',
         },
-        {
-            alignValue: 'left',
-            alignHeader: 'left',
-            label: 'Date',
-            value: 'Status',
-        },
+
         {
             alignValue: 'center',
             alignHeader: 'center',
             label: 'Ratting',
             value: 'ratting',
         },
-        {
-            width: '300',
-            alignValue: 'left',
-            alignHeader: 'left',
-            label: 'Comment',
-            value: 'comment_user',
-        },
+
         {
 
             alignHeader: 'center',
@@ -92,7 +81,7 @@ const ViewAllComment = () => {
             <div className="homeContainer">
                 <Navbar />
                 <Grid container sx={{ mt: 2 }}>
-                    <Grid item xs={6} >
+                    <Grid item xs={5} >
                         <div className="listContainer">
                             <div className="listTitle">
                                 <Typography variant="h1" component="h1" ml={3}>
@@ -102,7 +91,7 @@ const ViewAllComment = () => {
                             </div>
                         </div>
                     </Grid>
-                    <Grid item xs={6} sx={{ height: 800 }}>
+                    <Grid item xs={7} sx={{ height: 800 }}>
                         <div className="listContainer">
                             <div className="listTitle">
                                 <Typography variant="h1" component="h1" ml={3}>

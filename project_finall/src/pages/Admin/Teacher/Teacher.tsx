@@ -173,16 +173,19 @@ const Teacher: FC = () => {
           <div className="listTitle">
             <Grid container spacing={2} sx={{ mt: 2 }}>
               <Grid container justifyContent={'space-between'} alignItems={'center'} >
+
                 <Typography variant="h1" component="h1" ml={3}>
-                  Teacher
+                  {status?.id === '10' ? 'Employee' : 'Teacher'}
                 </Typography>
                 <Grid>
                   <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={CreateTeacher}>
                     + ADD Teacher
                   </Button>
-                  <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={CreateAdmin}>
-                    + ADD Admin
-                  </Button>
+                  {status?.id === '10' && (<>
+                    <Button sx={{ width: '140px', height: '40px', mr: 3 }} color='success' onClick={CreateAdmin}>
+                      + ADD Admin
+                    </Button>
+                  </>)}
                 </Grid>
               </Grid>
               <Grid container justifyContent={'flex-end'} alignContent={'center'} alignItems={'center'} sx={{ pr: 3 }} >

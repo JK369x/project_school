@@ -13,6 +13,7 @@ import { useUploadImage } from './useUploadImage'
 import { usePutDefaultBanner } from './usePutDefaultBanner'
 import { useGetBanner } from './useGetBanner'
 import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlice'
+import { openAlertSuccess } from '../../../store/slices/alertSlice'
 const Banner = () => {
     const { displayName, uid, photoURL, favorite, about } = useAppSelector(({ auth }) => auth)
     const { banner, uploadBanner } = useGetBanner()
@@ -26,6 +27,7 @@ const Banner = () => {
     const dispatch = useAppDispatch()
     const [selectedFile1, setSelectedFile1] = useState<File | null>(null);
     const [urlfile1, setUrlFile1] = useState('');
+
 
     useEffect(() => {
         if (selectedFile != null) {
@@ -81,8 +83,11 @@ const Banner = () => {
         }
     }
     const statusAPI = banner[0]?.default_banner
+    const image_banner1 = banner[0]?.banner1
+    const image_banner2 = banner[0]?.banner2
     const connvertAPI = statusAPI === 'true' ? true : false
     const [defaultBanner, setDefaultBanner] = useState(connvertAPI)
+    console.log("🚀 ~ file: Banner.tsx:87 ~ Banner ~ defaultBanner:", defaultBanner)
 
     useEffect(() => {
         setDefaultBanner(connvertAPI)
@@ -100,8 +105,9 @@ const Banner = () => {
     const onSubmit = async () => {
         if (getValues()) {
             try {
-                uploadBannerAPI(getValues())
+                await uploadBannerAPI(getValues())
                 console.log("🚀 ~ file: Banner.tsx:72 ~ onSubmit ~ getValues", getValues())
+                dispatch(openAlertSuccess('อัพโหลดข่าวสาร'))
             } catch (err) {
                 console.log(err)
             }
@@ -129,7 +135,15 @@ const Banner = () => {
                                     <Typography variant="body1" >
                                         Select an image that is at least 1500 pixels tall
                                     </Typography>
-                                    <img src={urlfile === '' ? imagebg : urlfile} alt="" width={500} height={500} />
+                                    {defaultBanner === false ? (<>
+                                        <img src={image_banner1 ? image_banner1 : urlfile} alt="" width={500} height={500} />
+                                    </>) : (<>
+                                        <img src={urlfile === '' ? imagebg : urlfile} alt="" width={500} height={500} />
+
+                                    </>)}
+                                </Grid>
+                                <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                                    {uploadState.status !== 'none' ? `${uploadState.progress}%` : uploadState.fileName}
                                 </Grid>
                                 <Grid container justifyContent={'center'} item xs={12} mt={2}>
                                     <UploadButton label={'Upload'} onUploadChange={onUploadImage} />
@@ -144,7 +158,15 @@ const Banner = () => {
                                     <Typography variant="body1" >
                                         Select an image that is at least 1500 pixels tall
                                     </Typography>
-                                    <img src={urlfile1 === '' ? imagebg : urlfile1} alt="" width={500} height={500} />
+                                    {defaultBanner === false ? (<>
+                                        <img src={image_banner2 ? image_banner2 : urlfile} alt="" width={500} height={500} />
+                                    </>) : (<>
+                                        <img src={urlfile === '' ? imagebg : urlfile} alt="" width={500} height={500} />
+
+                                    </>)}
+                                </Grid>
+                                <Grid container justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                                    {uploadState.status !== 'none' ? `${uploadState.progress}%` : uploadState.fileName}
                                 </Grid>
                                 <Grid container justifyContent={'center'} item xs={12} mt={2}>
                                     <UploadButton label={'Upload'} onUploadChange={onUploadImage1} />

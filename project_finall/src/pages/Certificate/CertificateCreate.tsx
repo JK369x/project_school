@@ -116,7 +116,7 @@ const CertificateCreate = () => {
                 <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, borderRadius: '5px', pb: 4, pt: 4 }}>
                     <Grid container justifyContent={'center'}  >
                         <Grid item xs={7}>
-                            <PDFViewer width="600" height='425' showToolbar={false}>
+                            <PDFViewer width="90%" height='100%' showToolbar={false}>
                                 <MyPdf certificate={certificate} name={displayName} />
                             </PDFViewer>
                         </Grid>

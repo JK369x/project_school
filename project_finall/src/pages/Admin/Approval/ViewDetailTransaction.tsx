@@ -11,6 +11,7 @@ import { Grid } from '@mui/material';
 import logo from '../../../assets/360_F_246677065_FY7a89FprqE1iKgPpEVSKDVOWMBTS2MX.jpg'
 
 import { useAppSelector } from '../../../store/useHooksStore';
+import moment from 'moment';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -97,7 +98,7 @@ export default function ViewDetailTransaction(props: any) {
                     </Grid>
                     <Grid sx={{ ml: 13 }} >
                         <Typography sx={{ mb: 1 }} >
-                            Date : {new Date(date)?.toLocaleString() ? new Date(date).toLocaleString() : ''}
+                            Date : {moment(date).format('DD-MM-YYYY H:mm') ? moment(date).format('DD-MM-YYYY H:mm') : ''}
                         </Typography>
                         <Typography sx={{ mb: 1 }} >
                             Title : {course_name}

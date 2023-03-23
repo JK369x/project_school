@@ -1,9 +1,7 @@
-import Sidebar from "../../../components/componentsAdmin/sidebar/Side-bar"
-import Navbar from "../../../components/componentsAdmin/navbar/Navbar"
-import { Box } from "@mui/system"
+import { FC } from "react"
+import { Box, Container } from "@mui/system"
 import { Button, Grid, Typography } from "@mui/material"
 import { useParams } from "react-router-dom"
-import { ControllerTextField } from "../../../framework/control"
 import { useForm } from "react-hook-form"
 import { useGetDetailUser } from "./Hook/useGetDetailUser"
 import bcrypt from "bcryptjs";
@@ -11,16 +9,11 @@ import { useEffect, useState } from "react"
 import { useUpdatePassWord } from "./Hook/useUpdatePassword"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from 'yup'
-export interface ResetpasswordType {
-    password_input: string
-    password_firebase: string
-    password_new: string
-    password_confirm: string
-    salt: string
-    password_salt: string
-}
-
-const ResetPassword = () => {
+import { ResetpasswordType } from "./ResetPassword"
+import { Navbar } from "../../../components/Navbar"
+import { ControllerTextField } from "../../../framework/control"
+import { Footer } from "../../../components/Footer"
+const ResetPasswordUser: FC = () => {
     const { id } = useParams<{ id: string }>()
     const { state } = useGetDetailUser()
     const [btnNext, setBtnNext] = useState(false)
@@ -97,54 +90,49 @@ const ResetPassword = () => {
         }
     }
     return (<>
-        <div className='home'>
-            <Sidebar />
-            <div className="homeContainer">
-                <Navbar />
-                <div className="listContainer">
-                    <div className="listTitle">
-                        <Box sx={{ width: '100%' }}>
-
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <Grid container justifyContent={'center'} >
-                                    <Grid container justifyContent={'center'} >
-                                        <Typography variant="h2" mb={2}  >
-                                            Reset Password
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container justifyContent={'center'} >
-                                        <Typography variant="h6" mb={2}  >
-                                            หากต้องการดำเนินการต่อ โปรดยืนยันก่อนว่าเป็นคุณ
-                                        </Typography>
-                                    </Grid>
-                                    <Grid container justifyContent={'center'} >
-                                        <ControllerTextField sx={{ mr: 1, width: 400 }} formprop={myForm} name={"password_input"} type="password" label={'Password'} />
-                                    </Grid>
-                                    <Grid container justifyContent={'center'} >
-                                        <Button onClick={() => onClickNext()} sx={{ mt: 2, mb: 1, ml: 36, width: 100 }} >Next</Button>
-                                    </Grid>
-                                    {btnNext === true ? <>
-                                        <Grid container justifyContent={'center'} >
-                                            <ControllerTextField sx={{ mr: 1, width: 400 }} type="password" formprop={myForm} name={"password_new"} label={'New password'} />
-                                        </Grid>
-                                        <Grid container justifyContent={'center'} >
-                                            <ControllerTextField sx={{ mr: 1, width: 400 }} type="password" formprop={myForm} name={"password_confirm"} label={'Confirm Password'} />
-                                        </Grid>
-                                        <Grid container justifyContent={'center'} >
-                                            <Button type="submit" sx={{ mt: 2, mb: 1, ml: 36, width: 100 }} >Submit</Button>
-                                        </Grid>
-                                    </> : <>
+        <Navbar />
+        <Box sx={{ backgroundColor: '#1e1f1f', minHeight: '100vh', p: 4 }}>
+            <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, borderRadius: '5px', pb: 4 }}>
 
 
-                                    </>}
-                                </Grid>
-                            </form>
-                        </Box>
-                    </div>
-                </div>
-            </div>
-        </div >
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Grid container justifyContent={'center'} >
+                        <Grid container justifyContent={'center'} >
+                            <Typography variant="h2" mb={2}  >
+                                Reset Password
+                            </Typography>
+                        </Grid>
+                        <Grid container justifyContent={'center'} >
+                            <Typography variant="h6" mb={2}  >
+                                หากต้องการดำเนินการต่อ โปรดยืนยันก่อนว่าเป็นคุณ
+                            </Typography>
+                        </Grid>
+                        <Grid container justifyContent={'center'} >
+                            <ControllerTextField sx={{ mr: 1, width: 400 }} formprop={myForm} name={"password_input"} type="password" label={'Password'} />
+                        </Grid>
+                        <Grid container justifyContent={'center'} >
+                            <Button onClick={() => onClickNext()} sx={{ mt: 2, mb: 1, ml: 36, width: 100 }} >Next</Button>
+                        </Grid>
+                        {btnNext === true ? <>
+                            <Grid container justifyContent={'center'} >
+                                <ControllerTextField sx={{ mr: 1, width: 400 }} type="password" formprop={myForm} name={"password_new"} label={'New password'} />
+                            </Grid>
+                            <Grid container justifyContent={'center'} >
+                                <ControllerTextField sx={{ mr: 1, width: 400 }} type="password" formprop={myForm} name={"password_confirm"} label={'Confirm Password'} />
+                            </Grid>
+                            <Grid container justifyContent={'center'} >
+                                <Button type="submit" sx={{ mt: 2, mb: 1, ml: 36, width: 100 }} >Submit</Button>
+                            </Grid>
+                        </> : <>
+
+
+                        </>}
+                    </Grid>
+                </form>
+            </Container>
+        </Box>
+        <Footer />
     </>)
 }
 
-export default ResetPassword
+export default ResetPasswordUser

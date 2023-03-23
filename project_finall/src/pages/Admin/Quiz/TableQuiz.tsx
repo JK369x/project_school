@@ -21,6 +21,7 @@ import { useGetDetailQuiz } from './Hook/useDetailQuiz'
 import { useDeleteQuiz } from './Hook/useDeleteQuiz'
 import { useUpdateStatusQuiz } from './Hook/useUpdateStatusQuiz'
 import { useGetQuizStatus } from './Hook/useGetQuizStatus'
+import moment from 'moment'
 
 
 const TableQuiz: FC<{ id_course: any }> = (props: any) => {
@@ -90,13 +91,13 @@ const TableQuiz: FC<{ id_course: any }> = (props: any) => {
         },
         {
             label: 'Start Quiz',
-            value: 'start_quiz',
+            value: 'startQuiz',
         },
         {
             alignValue: 'left',
             alignHeader: 'left',
             label: 'End Quiz',
-            value: 'end_quiz',
+            value: 'startEnd',
         },
         {
             width: '300',
@@ -126,6 +127,8 @@ const TableQuiz: FC<{ id_course: any }> = (props: any) => {
                             return {
                                 ...e,
                                 countID: index + 1,
+                                startQuiz: moment(e.start_quiz).format('H:mm'),
+                                startEnd: moment(e.end_quiz).format('H:mm'),
                                 Status: <Chip label={e.status_quiz === "true" ? 'open quiz' : 'closs quiz'} color={e.status_quiz === 'true' ? 'primary' : 'error'} />,
                                 delitem: <>
                                     <Button sx={{ mr: 1 }} color={e.status_quiz === 'true' ? 'primary' : 'error'} onClick={() => {

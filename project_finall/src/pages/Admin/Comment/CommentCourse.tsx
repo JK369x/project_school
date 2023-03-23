@@ -94,6 +94,7 @@ export default function CommentCourse(id_course: any) {
                 console.log("🚀 ~ file: CheckName.tsx:85 ~ onSubmit ~ err", err)
             }
         }
+        setOpen(false);
     }
 
 

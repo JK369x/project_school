@@ -19,6 +19,7 @@ import { openAlertError, openAlertSuccess } from '../store/slices/alertSlice'
 import { ControllerAutocomplete, ControllerTextField, UploadButton } from '../framework/control'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { role } from './Register'
 const EditProfileUser = () => {
     const { province, amphure, getAmphure, tambon, getTambon, zipcode, getZipcode, data, getData } = useLocationLookup()
     const { state } = useGetDetailUser()
@@ -54,11 +55,13 @@ const EditProfileUser = () => {
     const { watch, handleSubmit, getValues, setValue } = myForm
     const onUploadImage = (files: FileList | null) => {
         if (files) {
-            const file = files[0];
-            if (file.size <= 5 * 1024 * 1024) { // check if file is less than 5MB
-                uploadFile(file, `myImages/${uid}/`);
+            const file = files[0]
+            if (file.type === "image/jpeg" && file.size <= 5000000) {
+                dispatch(openAlertSuccess('อัปโหลดรูปภาพเสร็จเรียบร้อย'))
+                uploadFile(file, `myImages/receipt/${uid}/`)
             } else {
-                dispatch(openAlertError('check your file is less than 5MB'))
+                console.log("Please select a JPG file with size less than or equal to 5MB.")
+                dispatch(openAlertError('ตรวจสอบว่า File ขนาดไม่เกิน 5MB และเป็น JPG'))
             }
         }
     }
@@ -116,6 +119,7 @@ const EditProfileUser = () => {
                         photoURL: ImageUrl,
                         about
                     }),)
+                navigate(`/profiledetailuser_user/${id}`)
             } else {
                 dispatch(openAlertError('changeProfileError'))
             }
@@ -192,8 +196,22 @@ const EditProfileUser = () => {
                                     <ControllerTextField sx={{ width: 440 }} formprop={myForm} name={"data.address"} label={'Address'} />
                                 </Grid>
                                 <Grid container justifyContent={'center'} item xs={12}>
-                                    <ControllerTextField sx={{ mr: 2 }} formprop={myForm} name={"data.agency"} label={'Agency'} />
-                                    <ControllerTextField formprop={myForm} name={"data.status.label"} label={'Status'} />
+                                    <Grid item xs={2.35}>
+                                        <ControllerTextField sx={{ mr: 2 }} formprop={myForm} name={"data.agency"} label={'Agency'} />
+
+                                    </Grid>
+                                    <Grid item xs={2.35}>
+                                        <ControllerAutocomplete
+
+                                            formprop={myForm}
+                                            name={'data.status'}
+                                            label={'Status'}
+                                            options={role} // load options
+
+                                        />
+
+                                    </Grid>
+                                    {/* <ControllerTextField formprop={myForm} name={"data.status.label"} label={'Status'} /> */}
                                 </Grid>
                                 <Grid container justifyContent={'center'} item xs={12}>
                                     <ControllerTextField sx={{ width: 440, mb: 1 }} formprop={myForm} name={"data.id_verify"} label={'ID CARD'} />

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { Navbar } from '../components/Navbar'
 import { Box, Container } from '@mui/system'
-import { Avatar, Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, Rating, Typography } from '@mui/material'
+import { Avatar, Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, Link, Rating, Typography } from '@mui/material'
 import { useGetFavorite } from './Admin/favorite/useGetFavorite'
 import { CourseListsType, useGetCourseLists } from './Admin/Courses/Hook/useGetCourse'
 import { useAppDispatch, useAppSelector } from '../store/useHooksStore'
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import PDFFile from '../pages/test/Views'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetDetailUser } from './Admin/Users/Hook/useGetDetailUser'
 import { Footer } from '../components/Footer'
 import { Table } from '../framework/control'
@@ -19,7 +19,7 @@ import moment from 'moment'
 const ProFileUserFontEnd = () => {
     const { state } = useGetDetailUser()
     console.log(state)
-
+    const { id } = useParams<{ id: string }>()
     const { uid, status, displayName, photoURL, favorite, email } = useAppSelector(({ auth }) => auth)
     const { ReceiptUser, getReceiptUser } = useGetAllReceiptByIdUser()
     const tracsaction_true = ReceiptUser.filter((item: any) => item.transaction === true)
@@ -150,7 +150,19 @@ const ProFileUserFontEnd = () => {
                                 </Typography>
 
                             </Grid>
-                            <Button sx={{ mt: 2, width: 150, height: 50 }} onClick={EditUser}>Edit</Button>
+                            <Grid container justifyContent={'center'}>
+                                <Link
+                                    sx={{ mr: 2 }}
+                                    component="button"
+                                    variant="body2"
+                                    onClick={() => {
+                                        navigate(`/resetpassworduser/${id}`)
+                                    }}
+                                >
+                                    Reset Password
+                                </Link>
+                                <Button sx={{ mt: 2, width: 150, height: 50 }} onClick={EditUser}>Edit</Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Container>

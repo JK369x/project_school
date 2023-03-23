@@ -82,7 +82,7 @@ const ViewDetailUserInCourse = () => {
         },
 
         {
-            width: '200',
+            width: '300',
             alignHeader: 'left',
             alignValue: 'left',
             label: 'Delete',
@@ -93,7 +93,7 @@ const ViewDetailUserInCourse = () => {
     const quizTable: TableColumnOptions[] = [
 
         {
-            width: '100',
+
             alignHeader: 'left',
             alignValue: 'left',
             label: 'ID',
@@ -122,7 +122,7 @@ const ViewDetailUserInCourse = () => {
         },
 
         {
-            width: '200',
+            width: '300',
             alignHeader: 'left',
             alignValue: 'left',
             label: 'Delete',

@@ -10,6 +10,7 @@ import axios from "axios";
 interface TypeUserApproval {
     approval: any
     id_document: string
+    transaction: any
 }
 
 export const useGetApprovalUserInCourse = (id_user: string) => {
@@ -21,6 +22,7 @@ export const useGetApprovalUserInCourse = (id_user: string) => {
     const [approvalUser, setApprovalUser] = useState<TypeUserApproval[]>([{
         approval: false,
         id_document: "",
+        transaction: "",
     }])
 
 

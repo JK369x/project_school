@@ -1,18 +1,16 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { auth } from '../../firebase/config_firebase';
-import { AccountCollection } from '../../firebase/createCollection';
+
 import { setAuthStore } from '../../store/slices/authSlice';
 import { isCloseLoading, isShowLoading } from '../../store/slices/loadingSlice';
 import { useAppDispatch, useAppSelector } from '../../store/useHooksStore';
 import { useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
-import { Button, Link, Typography } from '@mui/material';
+import { Box, Button, Container, Link, Typography } from '@mui/material';
 import { ControllerTextField } from '../../framework/control/TextField/Controller';
 import axios from 'axios';
-
+import imagelogin from '../../assets/Privacy policy-rafiki.png'
 interface IFormInput {
     email: string;
     password: string
@@ -58,26 +56,36 @@ const LoginAdmin = () => {
     }
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container justifyContent={'center'} sx={{ mt: 15 }}>
-                    <Grid item xs={6}>
-                        <Typography variant="h1" align="center" >
-                            เข้าสู่ระบบ Admins
-                        </Typography>
-                        <Grid item xs={12}>
-                            <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
-                        </Grid>
-                        <Grid container justifyContent={'Right'}>
+            <Box sx={{ backgroundColor: '#1e1f1f', minHeight: '100vh', pt: 3 }}>
+                <Container sx={{ backgroundColor: '#fff', maxWidth: 1500, borderRadius: '5px', maxHeight: 600, mt: 5, }}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} >
+                            <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} >
+                                <Grid item container justifyContent={'center'} alignItems={'center'} alignContent={'center'} xs={6}>
+                                    <img src={imagelogin} width={'100%'} height={'100%'} />
+                                </Grid>
+                                <Grid container justifyContent={'center'} alignItems={'center'} alignContent={'center'} xs={6}>
+                                    <Grid container justifyContent={'center'}>
+                                        <Typography variant="h1" align="center" >
+                                            เข้าสู่ระบบ
+                                        </Typography>
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} item sx={{ maxWidth: 400 }}>
+                                        <ControllerTextField fullWidth formprop={myForm} name={"email"} label={'Email'} />
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} item sx={{ maxWidth: 400 }}>
+                                        <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} sx={{ ml: 38 }}>
 
-                            {/* <Button type="button" sx={{ mr: 1, m: 1, }} onClick={RegisterTeacher}>Register</Button> */}
-                            <Button type="submit" sx={{ mr: 1, m: 1, }}>Login</Button>
+                                        <Button type="submit" sx={{ mr: 1, m: 1, width: 100 }}>Login</Button>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Grid>
-            </form>
+                    </form>
+                </Container>
+            </Box>
 
         </>
     )

@@ -5,7 +5,7 @@ import { isCloseLoading, isShowLoading } from '../../../store/slices/loadingSlic
 
 export const useGetAllJoinCourseCategory = () => {
     const dispatch = useAppDispatch();
-    const [getJoinCategory, setGetJoinCategory] = useState([])
+    const [getJoinCategory, setGetJoinCategory] = useState<any>([])
 
     useEffect(() => {
         getJoinCategoryCourse()
@@ -14,7 +14,7 @@ export const useGetAllJoinCourseCategory = () => {
     const getJoinCategoryCourse = async () => {
         dispatch(isShowLoading());
         try {
-            const url = `${import.meta.env.VITE_REACT_APP_API}course/userjoincoursebycategory`
+            const url = `${import.meta.env.VITE_REACT_APP_API}user/getalljoincourseallcourse`
             axios.defaults.withCredentials = true
             //! edit form before post 
             const getAllCourse = await axios.get(url)

@@ -121,9 +121,9 @@ const Register = (props: Props) => {
     ,
     lastName: yup.string().required('กรุณากรอกนามสกุล').trim().lowercase().max(20, ('นามสกุลมีความยาวได้ไม่เกิน 20 ตัวอักษร'))
     ,
-    agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท')
+    agency: yup.string().required('กรุณากรอกหน่วยงาน หรือ ชื่อบริษัท').max(30, ('หน่วยงานมีความยาวได้ไม่เกิน 30 ตัวอักษร'))
     ,
-    job: yup.string().required('กรุณากรอกอาชีพของคุณ')
+    job: yup.string().required('กรุณากรอกอาชีพของคุณ').max(30, ('อาชีพมีความยาวได้ไม่เกิน 30 ตัวอักษร'))
     ,
     status: yup.mixed().required('กรุณาเลือกสถานะ'),
     address: yup.string().required('กรุณากรอกชื่อ'),
