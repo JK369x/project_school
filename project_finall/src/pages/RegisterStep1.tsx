@@ -37,7 +37,7 @@ export const RegisterStep1: FC<Props> = ({ handleNext, myForm, handleComplete, h
                     <ControllerTextField fullWidth formprop={myForm} type='password' name={"password"} label={'Password'} />
                 </Grid>
                 <Grid item xs={12}>
-                    <ControllerTextField fullWidth formprop={myForm} type='password' name={"confirmPassword"} label={'ConfirmPassowrd'} />
+                    <ControllerTextField fullWidth formprop={myForm} type='password' name={"confirmPassword"} label={'Confirm Password'} />
                 </Grid>
             </Grid>
             <Grid container justifyContent={'Right'} >

@@ -144,7 +144,7 @@ const Register = (props: Props) => {
       firstName: '',
       lastName: '',
       job: '',
-      birthday: new Date,
+      birthday: "",
       province: null,
       amphure: null,
       tambon: null,

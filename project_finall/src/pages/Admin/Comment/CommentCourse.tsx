@@ -110,7 +110,7 @@ export default function CommentCourse(id_course: any) {
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        ฟอร์มการคอมเม้นต์
+                        ฟอร์มแสดงความคิดเห็น
                     </BootstrapDialogTitle>
                     <DialogContent dividers>
                         <Typography variant='h3' sx={{ width: 500 }} gutterBottom>

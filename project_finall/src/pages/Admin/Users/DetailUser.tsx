@@ -44,12 +44,9 @@ const DetailUser: FC = () => {
         console.log(state.status?.id)
         navigate(`/editAdmin/${id}`)
         break
-      case '1':
+      default:
         console.log(state.status?.id)
         navigate(`/editUser/${id}`)
-        break;
-      default:
-        console.log("No such day exists!");
         break;
     }
   }

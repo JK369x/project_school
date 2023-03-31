@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 
 import { Lookup } from "../../../../types/type";
 import axios from 'axios';
@@ -11,7 +12,7 @@ export interface IFormInput {
     firstName: string
     lastName: string
     job: string
-    birthday: Date | null
+    birthday: string
     address: string
     province: Lookup | null
     amphure: Lookup | null

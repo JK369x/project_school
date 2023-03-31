@@ -22,7 +22,7 @@ export const useGetDetailUser = () => {
         firstName: "",
         lastName: "",
         job: "",
-        birthday: null,
+        birthday: "",
         address: "",
         province: null,
         amphure: null,
@@ -35,8 +35,8 @@ export const useGetDetailUser = () => {
         image_rul: null,
         id_document: "",
         salt: "",
+        id_verify: '',
         createDate: "",
-        id_verify: "",
     })
 
 

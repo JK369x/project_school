@@ -5,6 +5,7 @@ import axios from "axios";
 import { useAppDispatch } from "../../../store/useHooksStore";
 import { UserListsType } from "../Users/Hook/useGetUserLists";
 import { isCloseLoading, isShowLoading } from "../../../store/slices/loadingSlice";
+import moment from "moment";
 
 export const useGetDetailuserById = () => {
 
@@ -31,6 +32,8 @@ export const useGetDetailuserById = () => {
         image_rul: null,
         id_document: "",
         salt: "",
+        id_verify: '',
+        createDate: "",
     })
 
 

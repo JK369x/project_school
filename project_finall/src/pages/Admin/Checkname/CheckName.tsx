@@ -82,7 +82,7 @@ export default function CheckName(id_course: any) {
         if (data) {
             const log_data = await clickCheckName(id_course.id)
             if (log_data === true) {
-                dispatch(openAlertSuccess(`เช็คชื่อเรียบร้อยแล้ว`))
+                dispatch(openAlertSuccess(`เช็กชื่อเรียบร้อยแล้ว`))
             } else {
                 dispatch(openAlertError(`${log_data}`))
             }
@@ -102,7 +102,7 @@ export default function CheckName(id_course: any) {
     return (
         <div>
             <Button onClick={handleClickOpen} sx={{ mr: 1, ml: 1 }}>
-                เช็คชื่อ
+                เช็กชื่อ
             </Button>
             <BootstrapDialog
                 onClose={handleClose}
@@ -111,7 +111,7 @@ export default function CheckName(id_course: any) {
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        ฟอร์มการเช็คชื่อ
+                        ฟอร์มการเช็กชื่อ
                     </BootstrapDialogTitle>
                     <DialogContent dividers>
                         <Typography variant='h3' sx={{ width: 500 }} gutterBottom>
